@@ -690,7 +690,7 @@ class RadarPage extends PureComponent {
                    onRequestClose={this.handleEditPhenomenonFormClose}
                    ariaHideApp={false}>
                 {editPhenomenaVisible && (
-                    <PhenomenonLoader uuid={editPhenomenaVisible.uuid} group={editPhenomenaVisible.group}>
+                    <PhenomenonLoader uuid={editPhenomenaVisible.id} group={editPhenomenaVisible.group}>
                         {({ loading, error, phenomenon }) => {
                             if (loading) {
                                 return <div className="py-5 text-center">Loading...</div>
