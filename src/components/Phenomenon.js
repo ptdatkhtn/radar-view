@@ -51,6 +51,18 @@ export default class Phenomenon extends PureComponent {
         return alias
     }
 
+    includesTag = (tags, filter) => {
+        let includes = false
+
+        _.map(tags, tag => {
+            if (_.includes(filter, tag)) {
+                includes = true
+            }
+        })
+
+        return includes
+    }
+
     getFilterClassName = () => {
         const { alias } = this.getPhenomenonType()
         const { filter, tagFilter, phenomenon: { tags } } = this.props
@@ -66,7 +78,7 @@ export default class Phenomenon extends PureComponent {
         if (
             tagFilter
             && tagFilter.length
-            && !(_.includes(tagFilter, tags))
+            && !this.includesTag(tags, tagFilter)
         ) {
             return 'phenomenon-disabled'
         }
