@@ -67,7 +67,7 @@ class SignalList extends PureComponent {
 
     renderSignal(signal, index) {
         const { content: { title, body, media: { image: image_url } = {} } = {}, created_at: created, username } = signal
-          const date = created ? created.slice(0, 10) : new Date().toJSON().slice(0, 10)
+        const date = created ? created.slice(0, 10) : new Date().toJSON().slice(0, 10)
 
         return (
             <SignalItem

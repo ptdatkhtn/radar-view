@@ -1,9 +1,11 @@
+import _ from 'lodash'
 import { getNetworkMethods } from './network'
 import { getSignals } from '@sangre-fp/connectors/search-api'
 import { requestTranslation } from '@sangre-fp/i18n'
 import { getImageUrl, uploadFile } from '@sangre-fp/connectors/media-api'
 import { TYPE_SIGNAL, upsertDocument } from '@sangre-fp/connectors/content-service-api'
 import * as actionTypes from '@sangre-fp/reducers/actionTypes'
+import drupalApi from '@sangre-fp/connectors/drupal-api'
 
 export const changeSignalListVisibility = () => dispatch => dispatch({ type: actionTypes.HANDLE_SIGNAL_LIST_VISIBILITY })
 export const changeSignalCreateVisibility = () => dispatch => dispatch({ type: actionTypes.HANDLE_SIGNAL_CREATE_VISIBILITY })
@@ -18,9 +20,20 @@ export const fetchRadarSignals = (searchInput = '', page = 0, size = 10) => (dis
 
   dispatch(loading())
 
-  return getSignals(searchInput, [group.id], page, size, uuid)
-    .then((data) => dispatch(success({ ...data })))
-    .catch(err => dispatch(error(err)))
+
+  const membershipRequest = drupalApi.getMemberships()
+  const signalRequest = getSignals(searchInput, [group.id], page, size, uuid)
+
+  return Promise.all([ signalRequest, membershipRequest ]).then(([ signalData, membershipData ]) => {
+    signalData.result = _.map(signalData.result, signal => {
+      const username = _.find(membershipData, (({ id }) => Number(id) === Number(signal.created_by))).name
+
+      return { ...signal, username }
+    })
+
+    dispatch(success({ ...signalData }))
+  })
+  .catch(err => dispatch(error(err)))
 }
 
 export const createSignal = (signal, callback) => async (dispatch, getState) => {
