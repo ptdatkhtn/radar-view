@@ -103,7 +103,7 @@ const localTranslations = {
     },
     filterPhenomena: {
         en: 'Filter phenomena',
-        fi: 'Filter phenomena'
+        fi: 'Suodata sisältöä'
     },
     goToHub: {
         en: 'Open the hub',
@@ -131,11 +131,11 @@ const localTranslations = {
     },
     filterByType: {
         en: `BY TYPE`,
-        fi: `BY TYPE`
+        fi: `TYYPIT`
     },
     filterByTag: {
         en: `BY TAG`,
-        fi: `BY TAG`
+        fi: `TAGIT`
     }
 }
 
