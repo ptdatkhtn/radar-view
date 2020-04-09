@@ -102,8 +102,8 @@ const localTranslations = {
         fi: 'Vuosileimat kehien nimien taustalla ovat peräkkäiset. Palauta aikajana vuosi-formaattiin ja tee tilaa ennen kuin jatkat.'
     },
     filterPhenomena: {
-        en: 'Filter phenomena',
-        fi: 'Suodata sisältöä'
+        en: `Filter content`,
+        fi: `Suodata sisältö`
     },
     goToHub: {
         en: 'Open the hub',
