@@ -747,9 +747,9 @@ class RadarPage extends PureComponent {
     }
 
     renderBottomLeftNav() {
-        const { isVisitor, radarSettings: { editSectorsPageOpen } } = this.props
+        const { radarSettings: { editSectorsPageOpen } } = this.props
 
-        return !editSectorsPageOpen && !isVisitor && <Filters />
+        return !editSectorsPageOpen && <Filters />
     }
 
     renderTitle() {
