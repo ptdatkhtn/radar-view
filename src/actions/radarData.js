@@ -34,13 +34,14 @@ export const fetchRadar = () => async (dispatch, getState) => {
         const radarData = await drupalApi.getRadar(id)
         const phenomenaData = await getRadarPhenomena(id, radarData.group.id)
 
-        const result = { ...radarData, ...phenomenaData }
-
-        if (radarData.allowIssueRating) {
-            Object.values(phenomenaData.searchApiResults).forEach(res => {
+        if (radarData.ratingsOn) {
+            Object.values(phenomenaData.phenomena).forEach(res => {
                 res.halo = _.get(radarData.phenomena[res.id], 'halo', false)
+                res.speech_bubble = _.get(radarData.phenomena[res.id], 'speech_bubble', false)
             })
         }
+
+        const result = { ...radarData, ...phenomenaData }
 
         dispatch(success(result))
     } catch (err) {
