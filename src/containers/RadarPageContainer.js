@@ -25,7 +25,6 @@ import {
     refetchRadarData,
     storePhenomenon
 } from '../actions/radarData'
-import { getPhenomenaTypes } from '../actions/phenomenaTypes'
 
 const getCreateTimeRanges = (thisRadius, centerRadius = thisRadius * centerRadiusPercentage) => timeRanges => {
     let previousRadius = centerRadius
@@ -227,7 +226,6 @@ const mapDispatchToProps = dispatch => ({
         changeEditPhenomenaVisibility,
         deleteRadarPhenomenon,
         storePhenomenon,
-        getPhenomenaTypes,
         getUserGroups,
         refetchRadarData,
         toggleEditMenuVisiblity
