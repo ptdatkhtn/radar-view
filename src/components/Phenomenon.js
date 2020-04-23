@@ -40,9 +40,11 @@ export default class Phenomenon extends PureComponent {
     }
 
     getPhenomenonType = () => {
-        const { phenomenaTypesById, phenomenon: { content: { type: id } } } = this.props
+        const {groupType, phenomenaTypesById, phenomenon: { content: { type: id } } } = this.props
 
-        return phenomenaTypesById[id] || { alias: 'undefined' }
+        const defaultValue =  groupType ? {groupType} : {alias: 'undefined'}
+
+        return phenomenaTypesById[id] || { defaultValue }
     }
 
     getClassNameState = () => {
