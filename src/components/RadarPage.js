@@ -72,7 +72,6 @@ class RadarPage extends PureComponent {
         const {
             getAuth,
             fetchRadar,
-            getPhenomenaTypes,
             getUserGroups,
             radarSettings: {
                 existingRadarPage
@@ -82,10 +81,11 @@ class RadarPage extends PureComponent {
         getAuth()
             .then(() => {
                 getUserGroups()
-                getPhenomenaTypes()
-                if (existingRadarPage) {
-                    fetchRadar()
-                }
+                .then(() => {
+                    if (existingRadarPage) {
+                        fetchRadar()
+                    }
+                })
             })
 
         this.attachEvents()

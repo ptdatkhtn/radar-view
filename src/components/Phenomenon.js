@@ -40,9 +40,11 @@ export default class Phenomenon extends PureComponent {
     }
 
     getPhenomenonType = () => {
-        const { phenomenaTypesById, phenomenon: { content: { type: id } } } = this.props
+        const {groupType, phenomenaTypesById, phenomenon: { content: { type: id } } } = this.props
 
-        return phenomenaTypesById[id] || { alias: 'undefined' }
+        const defaultValue =  groupType ? {groupType} : {alias: 'undefined'}
+
+        return phenomenaTypesById[id] || { defaultValue }
     }
 
     getClassNameState = () => {
@@ -125,6 +127,8 @@ export default class Phenomenon extends PureComponent {
             } else {
                fill = 'rgba(43, 201, 143, 0.3)'
             }
+        } else if (this.getPhenomenonType().style) {
+            fill = this.getPhenomenonType().style.color
         } else {
             fill = 'rgba(43, 201, 143, 1)'
         }
@@ -157,7 +161,7 @@ export default class Phenomenon extends PureComponent {
                                 x={cx}
                                 halo={halo}
                                 y={cy}
-                                fill={fill}/>
+                                fill={fill} />
                 { group === 0 && !deleting &&
                     <image
                         x={cx - radius}

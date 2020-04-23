@@ -1,109 +1,114 @@
 import _ from 'lodash'
 import React from 'react'
 import styled from 'styled-components'
-import { requestTranslation } from '@sangre-fp/i18n'
-import { Checkbox, PhenomenonType, Tag } from '@sangre-fp/ui'
-import { useTags } from '@sangre-fp/tags'
+import {requestTranslation} from '@sangre-fp/i18n'
+import {Checkbox, PhenomenonType, Tag} from '@sangre-fp/ui'
+import {useTags} from '@sangre-fp/tags'
+
+
 
 export const Filters = props => {
-  const renderPhenomenaType = phenomenaType => {
-      const { id, alias } = phenomenaType
-      const { activeFilter, setActiveFilter } = props
+    const renderPhenomenaType = phenomenaType => {
+        const {groupType, id, alias, title, style} = phenomenaType
+        const {activeFilter, setActiveFilter} = props
 
-      return (
-          <StateContainer key={id}>
-              <PhenomenaState>
-                  <PhenomenonType type={alias} size={16} />
-              </PhenomenaState>
-              <Checkbox
-                  label={requestTranslation(alias)}
-                  value={id}
-                  checked={_.find(activeFilter, filter => filter.alias === alias)}
-                  onChange={() => setActiveFilter(phenomenaType)}
-                  className='phenomena-checkbox'
-              />
-          </StateContainer>
-      )
-  }
+        return (
+            <StateContainer key={id}>
+                <PhenomenaState>
+                    <PhenomenonType type={alias} size={15} fill = {style ? style.color : null} />
+                </PhenomenaState>
+                <Checkbox
+                    label={groupType ? title : requestTranslation(alias)}
+                    value={id}
+                    checked={_.find(activeFilter, filter => filter.alias === alias)}
+                    onChange={() => setActiveFilter(phenomenaType)}
+                    className='phenomena-checkbox'
+                />
+            </StateContainer>
+        )
+    }
 
-  const renderTags = tags => {
-    const { language, activeTagFilter, setActiveTagFilter } = props
+    const renderTags = tags => {
+        const {language, activeTagFilter, setActiveTagFilter} = props
+
+        return (
+            <div>
+                {!!(_.isArray(tags) && tags.length) && (
+                    <div>
+                        <div className='d-flex flex-row flex-wrap'>
+                            {tags.map((tag, index) => {
+                                return (
+                                    <OptionsListItem key={index} style={{padding: '0 5px'}}>
+                                        <Tag
+                                            label={tag.label[language] || tag.label}
+                                            active={_.find(activeTagFilter, filter => filter === tag.uri)}
+                                            onClick={() => setActiveTagFilter(tag.uri)}
+                                        />
+                                    </OptionsListItem>
+                                )
+                            })}
+                        </div>
+                    </div>
+                )}
+            </div>
+        )
+    }
+
+    const renderLoading = () => <div>{requestTranslation('loading')}</div>
+
+    const {
+        filtersVisible,
+        phenomenaTypes,
+        toggleFilter,
+        resetFilters,
+        activeFilter,
+        activeTagFilter,
+        group
+    } = props
+
+    const {tags} = useTags(group && group.id)
+    let [fpTags, groupTags] = tags
 
     return (
-      <div>
-        {!!(_.isArray(tags) && tags.length) && (
-          <div>
-            <div className='d-flex flex-row flex-wrap'>
-              {tags.map((tag, index) => {
-                return (
-                  <OptionsListItem key={index} style={{ padding: '0 5px' }}>
-                      <Tag
-                          label={tag.label[language] || tag.label}
-                          active={_.find(activeTagFilter, filter => filter === tag.uri)}
-                          onClick={() => setActiveTagFilter(tag.uri)}
-                      />
-                  </OptionsListItem>
-                )
-              })}
+        <div>
+            <div className='radar-nav' id='radar-nav-bottomleft' style={{zIndex: 1}}>
+                <HubLink className='btn-round btn-lg d-flex align-items-center justify-content-center' target='_blank'
+                         rel='noopener noreferrer' href={requestTranslation('infoUrl')}>
+                    <span className='af-custom-info'/>
+                    <span className='sr-only'>Info</span>
+                </HubLink>
             </div>
-          </div>
-        )}
-      </div>
+            <FiltersButton className='btn-round btn-lg d-flex align-items-center justify-content-center'
+                           onClick={toggleFilter}>
+                <i className='material-icons' style={{transform: 'rotate(-90deg)', fontWeight: 'bold'}}>tune</i>
+                <ActiveFiltersIndicator
+                    className='d-flex justify-content-center align-items-center'>{[...activeFilter, ...activeTagFilter].length}</ActiveFiltersIndicator>
+            </FiltersButton>
+            {filtersVisible && (
+                <LegendContainer className='pb-4'>
+                    <button className={'btn-close-modal'} onClick={toggleFilter}>
+                        <i className='material-icons'>close</i>
+                    </button>
+                    <Container>
+                        <h3 className='mb-0'>{requestTranslation('filterPhenomena')}</h3>
+                    </Container>
+                    <Container style={{padding: '15px 10px'}}>
+                        <h5 className='mb-2 mt-1 ml-2'>{requestTranslation('filterByTag')}</h5>
+                        {renderTags([...groupTags, ...fpTags])}
+                    </Container>
+                    <Container>
+                        <h5 className='mb-3 mt-1'>{requestTranslation('filterByType')}</h5>
+                        {phenomenaTypes && phenomenaTypes.length ? _.map(phenomenaTypes, renderPhenomenaType) : renderLoading}
+                    </Container>
+                    <Container style={{borderBottom: 'none'}}>
+                        <button className='btn btn-outline-secondary w-100' onClick={resetFilters}>
+                            {requestTranslation('resetFilters')}
+                        </button>
+                    </Container>
+                </LegendContainer>
+            )}
+        </div>
     )
-  }
-
-  const renderLoading = () => <div>{requestTranslation('loading')}</div>
-
-  const {
-    filtersVisible,
-    phenomenaTypes,
-    toggleFilter,
-    resetFilters,
-    activeFilter,
-    activeTagFilter,
-    group
-  } = props
-
-  const { tags } = useTags(group && group.id)
-  let [ fpTags, groupTags ] = tags
-
-  return (
-    <div>
-      <div className='radar-nav' id='radar-nav-bottomleft' style={{ zIndex: 1 }}>
-          <HubLink className='btn-round btn-lg d-flex align-items-center justify-content-center' target='_blank' rel='noopener noreferrer' href={requestTranslation('infoUrl')}>
-              <span className='af-custom-info'/>
-              <span className='sr-only'>Info</span>
-          </HubLink>
-      </div>
-      <FiltersButton className='btn-round btn-lg d-flex align-items-center justify-content-center' onClick={toggleFilter}>
-        <i className='material-icons' style={{ transform: 'rotate(-90deg)', fontWeight: 'bold' }} >tune</i>
-        <ActiveFiltersIndicator className='d-flex justify-content-center align-items-center'>{[...activeFilter, ...activeTagFilter].length}</ActiveFiltersIndicator>
-      </FiltersButton>
-      {filtersVisible && (
-        <LegendContainer className='pb-4'>
-          <button className={'btn-close-modal'} onClick={toggleFilter}>
-              <i className='material-icons'>close</i>
-          </button>
-          <Container>
-            <h3 className='mb-0'>{requestTranslation('filterPhenomena')}</h3>
-          </Container>
-          <Container style={{ padding: '15px 10px' }}>
-            <h5 className='mb-2 mt-1 ml-2'>{requestTranslation('filterByTag')}</h5>
-            {renderTags([...groupTags, ...fpTags])}
-          </Container>
-          <Container>
-            <h5 className='mb-3 mt-1'>{requestTranslation('filterByType')}</h5>
-            {phenomenaTypes && phenomenaTypes.length ? _.map(phenomenaTypes, renderPhenomenaType) : renderLoading}
-          </Container>
-          <Container style={{ borderBottom: 'none' }}>
-            <button className='btn btn-outline-secondary w-100' onClick={resetFilters}>
-              {requestTranslation('resetFilters')}
-            </button>
-          </Container>
-        </LegendContainer>
-      )}
-    </div>
-  )
 }
 
 const OptionsListItem = styled.div`

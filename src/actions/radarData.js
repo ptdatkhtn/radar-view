@@ -13,6 +13,7 @@ import {
     storePhenomenonWithNewsFeeds
 } from '@sangre-fp/connectors/phenomena-api'
 import { handleImageUploadIfNeeded } from '@sangre-fp/connectors/media-api'
+import { getPhenomenaTypes } from './phenomenaTypes'
 
 export const updateRadarVersion = version => ({
     type: actionTypes.UPDATE_RADAR_VERSION,
@@ -43,9 +44,8 @@ export const fetchRadar = () => async (dispatch, getState) => {
 
         const result = { ...radarData, ...phenomenaData }
 
-        dispatch(success(result))
+        dispatch(getPhenomenaTypes(radarData.group.id)).then(() => dispatch(success(result)))
     } catch (err) {
-        console.log(err)
         dispatch(error(err))
     }
 }
@@ -67,7 +67,6 @@ export const refetchRadarData = () => async (dispatch, getState) => {
 
         dispatch(success(result))
     } catch (err) {
-        console.log(err)
         dispatch(error(err))
     }
 }
