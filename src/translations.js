@@ -14,8 +14,8 @@ const localTranslations = {
         fi: year => `Poista ${year}?`
     },
     timelineDeleteSubtitle: {
-        en: `You're about to permanently delete this timerange and all of it's data. Are you sure you want to continue ?`,
-        fi: `Olet poistamassa aikakehää ja sen kuvausta. Ilmiöt jakautuvat kartalle uuden jaon mukaisesti. Oletko varma, että haluat jatkaa?`
+        en: `You're about to remove this time range. The content on the radar will not be removed, it will be re-organised according to the remaining ranges. Do you want to continue??`,
+        fi: `Olet poistamassa aikakehää. Sen sisältöä ei poisteta, vaan se järjestetään uudelleen jäljelle jäävien kehien mukaisesti. Haluatko jatkaa?`
     },
     addTimelineButton: {
         en: `+ ADD NEW RANGE`,
