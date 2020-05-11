@@ -871,12 +871,13 @@ class RadarPage extends PureComponent {
                     <div className={'confirmation-modal-actions'}>
                         <button className='btn btn-lg btn-plain-gray'
                                 onClick={() => {
+                                    // is already on radar
                                     if (deleteRadarPhenomenonOpen.time) {
                                         this.setState({ deleteRadarPhenomenonOpen: false })
+                                    // need to add it to radar again and set it as dragged
                                     } else {
-                                        deleteRadarPhenomenon(
-                                            deleteRadarPhenomenonOpen, () => this.setState({ deleteRadarPhenomenonOpen: false })
-                                        )
+                                        this.onPhenomenaDrag(false, deleteRadarPhenomenonOpen, true)
+                                        this.setState({ deleteRadarPhenomenonOpen: false })
                                     }
                                 }}>
                             {requestTranslation('cancel')}
