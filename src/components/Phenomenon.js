@@ -114,7 +114,7 @@ export default class Phenomenon extends PureComponent {
             phenomenon
         } = this.props
 
-        const { content: { title, short_title }, group, halo, speech_bubble } = phenomenon
+        const { content: { title, short_title }, group, halo } = phenomenon
 
         // todo change to use project URL
         // eslint-disable-next-line
