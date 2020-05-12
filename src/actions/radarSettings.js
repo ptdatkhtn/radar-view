@@ -209,6 +209,8 @@ export const changeEditPhenomenaVisibility = phenomenonUuid => (dispatch, getSta
         console.error('Invalid phenomenonUuid', phenomenonUuid)
     }
 
+    console.log(phenomenon, 'phenomenon from changeEditPhenomenaVisibility')
+
     return dispatch({
         type: actionTypes.HANDLE_EDIT_PHENOMENA_VISIBILITY,
         payload: phenomenon
