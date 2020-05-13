@@ -5,7 +5,6 @@ import { requestTranslation } from '@sangre-fp/i18n'
 import drupalApi from '@sangre-fp/connectors/drupal-api'
 import radarDataApi from '../radarDataApiProxy'
 import { PUBLIC_URL } from '../env'
-import { getUserId } from '../session'
 import * as actionTypes from '@sangre-fp/reducers/actionTypes'
 import {
     getRadarPhenomena, NEWSFEED_ERROR,
@@ -135,10 +134,13 @@ const phenomenaApiErrorHandler = (error, errorFunc, dispatch) => {
 }
 
 export const storePhenomenon = (phenomenon, newsFeedChanges, callback, archived = false) => async (dispatch) => {
-    const {
-        imageUrl,
-        imageFile,
+    let {
         group,
+        _upload: {
+          imageFile,
+          imageUrl,
+          // image // Contains image data url
+        } = {},
         ...rest
     } = phenomenon
 
@@ -157,11 +159,12 @@ export const storePhenomenon = (phenomenon, newsFeedChanges, callback, archived 
 
     const phenomenonInput = {
         ...rest,
+        archived,
         group,
-        userId: getUserId(),
-        imageUrl: await handleImageUploadIfNeeded(imageFile || imageUrl, group),
-        archived
     }
+
+    phenomenonInput.content.media.image = await handleImageUploadIfNeeded(imageFile || imageUrl, group) || ''
+
 
     try {
         const { storedPhenomenon, status, failedNewsFeedTitles } = await storePhenomenonWithNewsFeeds(phenomenonInput, newsFeedChanges)
