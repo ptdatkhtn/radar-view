@@ -1,13 +1,8 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import AddPhenomenaSandbox from '../components/AddPhenomenaSandbox'
-import {
-    changeAddPhenomenaVisibility
-} from '../actions/radarSettings'
-import {
-    storePhenomenon,
-    addPublicPhenomenaToRadar
-} from '../actions/radarData'
+import { changeAddPhenomenaVisibility } from '../actions/radarSettings'
+import { storePhenomenon, addPublicPhenomenaToRadar } from '../actions/radarData'
 
 export default connect(
     (state) => {
