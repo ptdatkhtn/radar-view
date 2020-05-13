@@ -8,7 +8,8 @@ export default connect(
         const {
             radarSettings: {
                 id,
-                canEditRadar
+                canEditRadar,
+                votingOn
             },
             filters: {
                 activeFilter,
@@ -19,8 +20,9 @@ export default connect(
         return {
             radarId: id,
             canEdit: canEditRadar,
-            activeFilter,
-            activeTagFilter
+            filter: activeFilter,
+            tagFilter: activeTagFilter,
+            votingOn
         }
     },
     dispatch => bindActionCreators({

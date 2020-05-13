@@ -111,7 +111,8 @@ export default class Phenomenon extends PureComponent {
             dragged,
             hidden,
             radarId,
-            phenomenon
+            phenomenon,
+            votingOn
         } = this.props
 
         const { content: { title, short_title }, group, halo } = phenomenon
@@ -159,7 +160,7 @@ export default class Phenomenon extends PureComponent {
                                 type={this.getPhenomenonType().alias}
                                 size={phenomenaSize}
                                 x={cx}
-                                halo={halo}
+                                halo={votingOn && halo}
                                 y={cy}
                                 fill={fill} />
                 { group === 0 && !deleting &&

@@ -105,41 +105,22 @@ export default class Phenomena extends PureComponent {
     }
 
     render() {
-        const {
-            radius,
-            scaled,
-            phenomena,
-            draggedPhenomenon,
-            onPhenomenaDrag,
-            phenomenaDisplayProps,
-            canEdit,
-            radarId,
-            filter,
-            tagFilter
-        } = this.props
+        const { phenomena, draggedPhenomenon, phenomenaDisplayProps } = this.props
 
         return (
             <g>
                 {phenomena.map((phenomenon, index) => {
                     const { id } = phenomenon
-                    const { cx, cy } = this.getNodeCoordinates(index)
                     const dragged = draggedPhenomenon
                         && draggedPhenomenon.id === id
 
                     return (
                         <Phenomenon
-                            radarId={radarId}
-                            canEdit={canEdit}
-                            filter={filter}
-                            tagFilter={tagFilter}
-                            radius={radius}
+                            {...this.props}
+                            {...this.getNodeCoordinates(index)}
                             key={index}
                             hidden={dragged}
                             phenomenon={phenomenon}
-                            scaled={scaled}
-                            cx={cx}
-                            cy={cy}
-                            onPhenomenaDrag={onPhenomenaDrag}
                             {...phenomenaDisplayProps}
                         />
                     )

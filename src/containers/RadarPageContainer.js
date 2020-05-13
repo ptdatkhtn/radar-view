@@ -132,7 +132,7 @@ const Timelines = WrappedComponent => {
 const getTimelines = ({ timelines }) => timelines
 const getSectors = ({ sectors }) => sectors
 const getPhenomena = ({ phenomena }) => phenomena
-const getDraggedPhenomenonId = ({ radarData: { draggedPhenomenonId } }) => draggedPhenomenonId
+const getDraggedPhenomenonId = ({ radarSettings: { draggedPhenomenonId } }) => draggedPhenomenonId
 
 const getPropsCreateTimeRanges = (state, props) => props.createTimeRanges
 
@@ -197,7 +197,6 @@ const getDraggedPhenomenon = createSelector(
 const mapStateToProps = (state, props) => {
     const {
         radarSettings,
-        radarData,
         loading,
         phenomenaTypesById,
         timelines
@@ -205,7 +204,6 @@ const mapStateToProps = (state, props) => {
 
     return {
         loading,
-        radarData,
         radarSettings,
         phenomenaTypesById,
         timeRanges: getRadarData(state, props),

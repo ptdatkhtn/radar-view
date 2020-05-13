@@ -34,6 +34,7 @@ import {
     UPDATE_RADAR_VERSION,
     TOGGLE_EDIT_MENU_VISIBILITY,
     TOGGLE_LABEL_MODE,
+    SET_DRAGGED_PHENOMENON
 } from '@sangre-fp/reducers/actionTypes'
 
 // polyfill fix for edge
@@ -73,10 +74,16 @@ const initialState = {
     isRadarTemplate: false,
     radarTitleImage: false,
     timelineLabelFormat: false,
+    draggedPhenomenonId: false
 }
 
 export default (state = initialState, { type, payload }) => {
     switch (type) {
+        case SET_DRAGGED_PHENOMENON:
+            return {
+                ...state,
+                draggedPhenomenonId: payload
+            }
         case TOGGLE_LABEL_MODE:
             return {
                 ...state,

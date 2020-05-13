@@ -3,18 +3,7 @@ import Phenomena from './Phenomena'
 
 export default class AllPhenomena extends PureComponent {
     render() {
-        const {
-            radius,
-            timeRanges,
-            scaled,
-            onPhenomenaDrag,
-            draggedPhenomenon,
-            getPhenomenaDisplayProps,
-            canEdit,
-            radarId,
-            activeFilter,
-            activeTagFilter
-        } = this.props
+        const { timeRanges, getPhenomenaDisplayProps } = this.props
         const phenomenaDisplayProps = getPhenomenaDisplayProps()
 
         return (
@@ -22,18 +11,11 @@ export default class AllPhenomena extends PureComponent {
                 {timeRanges.map((({ value, sectors }) =>
                     sectors.filter(({ phenomena }) => !!phenomena.length).map(sector => (
                         <Phenomena
-                            radarId={radarId}
-                            canEdit={canEdit}
+                            {...this.props}
                             key={`${sector.id}-${value}`}
-                            phenomena={sector.phenomena}
-                            draggedPhenomenon={draggedPhenomenon}
-                            radius={radius}
                             sector={sector}
-                            scaled={scaled}
+                            phenomena={sector.phenomena}
                             phenomenaDisplayProps={phenomenaDisplayProps}
-                            onPhenomenaDrag={onPhenomenaDrag}
-                            filter={activeFilter}
-                            tagFilter={activeTagFilter}
                         />
                     )))
                 )}
