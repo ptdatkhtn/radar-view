@@ -30,7 +30,7 @@ export const RadarStyles = createGlobalStyle`
   }
 `
 
-const renderApp = () => (
+const renderApp = (returnUri) => (
   <Provider store={store}>
     <GlobalStyles />
     <RadarStyles />
@@ -39,11 +39,12 @@ const renderApp = () => (
       position='top-left'
       progressClassName='toast-progress'
     />
-    <RadarPage />
+    <RadarPage returnUri={returnUri} />
   </Provider>
 )
 
-ReactDOM.render(renderApp(), document.getElementById('fp-radar-page'))
+const appElement = document.getElementById('fp-radar-page')
+ReactDOM.render(renderApp(appElement.getAttribute('data-return-uri')), appElement)
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

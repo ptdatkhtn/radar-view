@@ -897,14 +897,14 @@ class RadarPage extends PureComponent {
     }
 
     render() {
-        const { loading } = this.props
+        const { loading, returnUri } = this.props
 
         return (
             <Container style={{ pointerEvents: loading.length ? 'none' : 'all' }}>
                 <Loading shown={loading.length} color={'white'}/>
                 {this.renderTitle()}
                 {this.renderBottomLeftNav()}
-                <SideNav />
+                <SideNav returnUri={returnUri} />
                 {this.renderEditSectorMenu()}
                 {this.renderRadar()}
                 {this.renderSectorEditor()}
