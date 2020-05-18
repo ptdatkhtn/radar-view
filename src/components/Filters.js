@@ -20,7 +20,7 @@ export const Filters = props => {
                 <Checkbox
                     label={groupType ? title : requestTranslation(alias)}
                     value={id}
-                    checked={_.find(activeFilter, filter => filter.alias === alias)}
+                    checked={_.find(activeFilter, filter => filter.id === id)}
                     onChange={() => setActiveFilter(phenomenaType)}
                     className='phenomena-checkbox'
                 />

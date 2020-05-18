@@ -40,11 +40,11 @@ export default class Phenomenon extends PureComponent {
     }
 
     getPhenomenonType = () => {
-        const {groupType, phenomenaTypesById, phenomenon: { content: { type: id } } } = this.props
+        const { phenomenaTypesById, phenomenon: { content: { type: id } } } = this.props
 
-        const defaultValue =  groupType ? {groupType} : {alias: 'undefined'}
+        const defaultValue =  _.find(phenomenaTypesById, type => type.alias === 'undefined')
 
-        return phenomenaTypesById[id] || { defaultValue }
+        return phenomenaTypesById[id] || defaultValue
     }
 
     getClassNameState = () => {
@@ -66,13 +66,13 @@ export default class Phenomenon extends PureComponent {
     }
 
     getFilterClassName = () => {
-        const { alias } = this.getPhenomenonType()
+        const { id } = this.getPhenomenonType()
         const { filter, tagFilter, phenomenon: { tags } } = this.props
 
         if (
             filter
             && filter.length
-            && !(_.find(filter, setFilter => setFilter.alias === alias))
+            && !(_.find(filter, setFilter => setFilter.id === id))
         ) {
             return 'phenomenon-disabled'
         }
