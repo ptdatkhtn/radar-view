@@ -1,37 +1,38 @@
 import React, { PureComponent } from 'react'
-import { Modal } from '@sangre-fp/ui'
+import * as d3 from 'd3'
 import PhenomenaSelector from '../containers/SandboxPhenomenaSelectorContainer'
 import { requestTranslation } from '@sangre-fp/i18n'
-import { ListBackground, ListContainer, modalStyles, ListClose, CloseIcon, ButtonsContainer } from '@sangre-fp/ui'
+import { ListContainer, modalStyles, ListClose, CloseIcon, BorderTitleContainer as Container, Modal } from '@sangre-fp/ui'
 import { PhenomenonEditForm } from "@sangre-fp/content-editor"
 
 export default class AddPhenomenaSandbox extends PureComponent {
-    constructor(props) {
-        super(props)
+    state = {
+        createModalShown: false
+    }
 
-        this.state = {
-            createModalShown: false
-        }
+    componentDidMount() {
+        const { updateMouseCoords } = this.props
+        const sandbox = d3.select('.add-phenomena-to-radar')
+
+        sandbox
+            .on('mousemove', updateMouseCoords)
+            .on('touchstart', updateMouseCoords)
+            .on('touchmove', updateMouseCoords)
     }
 
     successfullyCreatedCallback = phenomenon => {
-        const { changeAddPhenomenaVisibility, onPhenomenaDrag } = this.props
+        const { onPhenomenaDrag } = this.props
 
-        changeAddPhenomenaVisibility()
         onPhenomenaDrag(false, phenomenon, true)
     }
 
     handlePhenomenaSelection = selectedPhenomena => this.setState({ selectedPhenomena })
     handleCreateNew = () => this.setState({ createModalShown: true })
 
-    handleAdd = () => {
+    handleAdd = phenomenon => {
         const { addPublicPhenomenaToRadar } = this.props
-        const { selectedPhenomena } = this.state
 
-        addPublicPhenomenaToRadar(
-            selectedPhenomena,
-            this.successfullyCreatedCallback
-        )
+        addPublicPhenomenaToRadar(phenomenon, this.successfullyCreatedCallback)
     }
 
     hideAddForm = () => this.setState({ createModalShown: false })
@@ -74,49 +75,53 @@ export default class AddPhenomenaSandbox extends PureComponent {
             changeAddPhenomenaVisibility,
             radarId,
             language,
-            addPhenomenaVisible
+            placing
         } = this.props
         const { selectedPhenomena } = this.state
 
-        if (!addPhenomenaVisible) {
-            return null
-        }
-
         return (
-            <ListBackground>
-                <ListContainer className={'add-phenomena-to-radar'} >
-                    <h2>
+            <ListContainer
+                className={'add-phenomena-to-radar'}
+                style={{
+                    zIndex: placing ? 0 : 1,
+                    opacity: placing ? 0.8 : 1
+                }}
+            >
+                <Container className='flex-shrink-0'>
+                    <h3 className='mb-0'>
                         {requestTranslation('sandboxTitle')}
-                    </h2>
-                    <ListClose onClick={changeAddPhenomenaVisibility}>
-                        <CloseIcon className='material-icons'>close</CloseIcon>
-                    </ListClose>
-                    <div className={'phenomena-list-container'}>
-                        <PhenomenaSelector
-                            radarId={radarId}
-                            language={language}
-                            onSelect={this.handlePhenomenaSelection}
-                            onCreate={this.handleCreateNew}
-                            selectedPhenomena={selectedPhenomena}
-                            onGroupChange={this.handleGroupChange}
-                            filter
-                            small
-                        />
-                    </div>
-                    <ButtonsContainer>
-                        <button className='btn btn-lg btn-plain-gray'
-                                onClick={changeAddPhenomenaVisibility}>
-                            {requestTranslation('cancel')}
-                        </button>
-                        <button className='btn btn-lg btn-primary'
-                                disabled={!selectedPhenomena}
-                                onClick={this.handleAdd}>
-                            {requestTranslation('addToRadar')}
-                        </button>
-                    </ButtonsContainer>
-                    {this.renderCreateModal()}
-                </ListContainer>
-            </ListBackground>
+                    </h3>
+                </Container>
+                <ListClose onClick={changeAddPhenomenaVisibility}>
+                    <CloseIcon className='material-icons'>close</CloseIcon>
+                </ListClose>
+                <Container className={'phenomena-list-container'}>
+                    <PhenomenaSelector
+                        radarId={radarId}
+                        language={language}
+                        onSelect={this.handlePhenomenaSelection}
+                        onCreate={this.handleCreateNew}
+                        selectedPhenomena={selectedPhenomena}
+                        onGroupChange={this.handleGroupChange}
+                        onAddToRadarClick={this.handleAdd}
+                        sandbox
+                        filter
+                    />
+                </Container>
+                <Container className='d-flex flex-shrink-0'>
+                    <button
+                      onClick={this.handleCreateNew}
+                      className='btn btn-outline-secondary'
+                    >
+                      {requestTranslation("addNewPhenomena")}
+                    </button>
+                    <button className='btn btn-primary ml-auto'
+                            onClick={changeAddPhenomenaVisibility}>
+                        {requestTranslation('done')}
+                    </button>
+                </Container>
+                {this.renderCreateModal()}
+            </ListContainer>
         )
     }
 }

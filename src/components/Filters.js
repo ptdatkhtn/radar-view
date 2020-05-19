@@ -70,7 +70,7 @@ export const Filters = props => {
     let [fpTags, groupTags] = tags
 
     return (
-        <div>
+        <div style={{ zIndex: 2 }}>
             <div className='radar-nav' id='radar-nav-bottomleft' style={{zIndex: 1}}>
                 <HubLink className='btn-round btn-lg d-flex align-items-center justify-content-center' target='_blank'
                          rel='noopener noreferrer' href={requestTranslation('infoUrl')}>

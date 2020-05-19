@@ -10,7 +10,8 @@ import {
     MaterialIcon,
     Modal,
     paddingModalStyles,
-    ModalContainer
+    ModalContainer,
+    BorderTitleContainer as Container
 } from '@sangre-fp/ui'
 import { createGlobalStyle } from 'styled-components'
 import ReactQuill from 'react-quill'
@@ -498,11 +499,6 @@ const TimeRangeEditorContainer = styled.div`
     width: 300px;
     max-height: 900px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-`
-
-const Container = styled.div`
-    padding: 15px 17px;
-    border-bottom: 1px solid #e9e9ea;
 `
 
 const DragIconContainer = styled.div`

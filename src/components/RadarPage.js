@@ -107,8 +107,8 @@ class RadarPage extends PureComponent {
 
     attachEvents() {
         const { zoomTransform: { k } } = this.state
-
         const svg = d3.select(this.svg)
+
         svg
             .on('touchstart', this.handleMouseAction)
             .on('touchmove', this.handleMouseAction)
@@ -391,7 +391,7 @@ class RadarPage extends PureComponent {
 
     renderRadar = () => {
         const { containerWidth, containerHeight } = this.props
-        const { zoomTransform: { x, y, k } } = this.state
+        const { zoomTransform: { x, y, k }, phenomenaDragged } = this.state
         const classes = classNames({
             'zoomed-out': k < 0.25,
             'zoomed-out-far': k < 0.15
@@ -401,7 +401,8 @@ class RadarPage extends PureComponent {
             <svg ref={this.svgRef}
                  height={containerHeight}
                  width={containerWidth}
-                 className={classes}>
+                 className={classes}
+                 style={{ zIndex: phenomenaDragged ? 1 : 0 }}>
                 <g className='zoom-control' transform={`translate(${x}, ${y}) scale(${k})`}>
                     <g ref={this.radarRef}
                        transform={`translate(${containerWidth / 2}, ${containerHeight / 2})`}>
@@ -513,15 +514,9 @@ class RadarPage extends PureComponent {
             e.stopPropagation()
         }
 
-        if (
-            newlyCreated
-            || (detectLeftButton(e) && e)
-            || ('ontouchstart' in document.documentElement)
-            || ('ontouchstart' in window)
+        if (newlyCreated || (detectLeftButton(e) && e) || ('ontouchstart' in document.documentElement) || ('ontouchstart' in window)
         ) {
-            this.setState({
-                updatingPhenomena: phenomenon
-            })
+            this.setState({ updatingPhenomena: phenomenon })
 
             this.longpressTimeout = setTimeout(() => {
                 if (canEditRadar) {
@@ -541,6 +536,7 @@ class RadarPage extends PureComponent {
 
     handleMouseAction = () => {
         const { timeRanges, radius: radarRadius } = this.props
+
         d3.event.preventDefault()
 
         if (!this.isEditorPageOpen()) {
@@ -637,18 +633,6 @@ class RadarPage extends PureComponent {
         return { labelWidth, labelHeight, phenomenaSize, iconSize, fontSize, phenomenaTypesById }
     }
 
-    getDragCoords() {
-        const {
-            mouseCoords: { sector, x, y, outerSector = {}, boundaryRadius }
-        } = this.state
-        const { endAngle, startAngle } = outerSector
-
-        return !sector ? getCoordsFromAngleAndRadius(
-            startAngle + ((endAngle - startAngle) / 2),
-            boundaryRadius
-        ) : [x, y]
-    }
-
     renderDragMarker() {
         const { draggedPhenomenon } = this.props
 
@@ -657,13 +641,12 @@ class RadarPage extends PureComponent {
                 this.phenomenaDisplayProps = this.getPhenomenaDisplayProps()
             }
 
-            const { mouseCoords: { sector } } = this.state
-            const [cx, cy] = this.getDragCoords()
+            const { mouseCoords: { sector, x, y } } = this.state
 
             return (
                 <Phenomenon
-                    cx={cx}
-                    cy={cy}
+                    cx={x}
+                    cy={y}
                     phenomenon={draggedPhenomenon}
                     deleting={!sector}
                     dragged={true}
@@ -896,6 +879,27 @@ class RadarPage extends PureComponent {
         )
     }
 
+    renderSandbox() {
+        const { setDraggedPhenomenon, radarSettings: { addPhenomenaVisible } } = this.props
+        const { phenomenaDragged } = this.state
+
+        if (addPhenomenaVisible) {
+            return (
+                <AddPhenomenaSandbox
+                    onPhenomenaDrag={(...args) => {
+                        this.setState({ phenomenaDragged: true })
+                        this.onPhenomenaDrag(...args)
+                        setDraggedPhenomenon(args[1])
+                    }}
+                    updateMouseCoords={this.handleMouseAction}
+                    placing={!!phenomenaDragged}
+                />
+            )
+        }
+
+        return null
+    }
+
     render() {
         const { loading, returnUri } = this.props
 
@@ -909,7 +913,7 @@ class RadarPage extends PureComponent {
                 {this.renderRadar()}
                 {this.renderSectorEditor()}
                 <SignalList />
-                <AddPhenomenaSandbox onPhenomenaDrag={this.onPhenomenaDrag} />
+                {this.renderSandbox()}
                 <TimeRangeEditorForm radarWidth={this.svg && this.svg.width.baseVal.value} />
                 {this.renderEditPhenomenonForm()}
                 {this.renderSockJsClient()}
