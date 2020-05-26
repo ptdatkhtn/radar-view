@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import * as d3 from 'd3'
+import Draggable from 'react-draggable'
 import PhenomenaSelector from '../containers/SandboxPhenomenaSelectorContainer'
 import { requestTranslation } from '@sangre-fp/i18n'
 import { ListContainer, modalStyles, ListClose, CloseIcon, BorderTitleContainer as Container, Modal } from '@sangre-fp/ui'
@@ -80,47 +81,49 @@ export default class AddPhenomenaSandbox extends PureComponent {
         const { selectedPhenomena } = this.state
 
         return (
-            <ListContainer
-                className={'add-phenomena-to-radar'}
-                style={{
-                    zIndex: placing ? 0 : 1,
-                    opacity: placing ? 0.8 : 1
-                }}
-            >
-                <Container className='flex-shrink-0'>
-                    <h3 className='mb-0'>
-                        {requestTranslation('sandboxTitle')}
-                    </h3>
-                </Container>
-                <ListClose onClick={changeAddPhenomenaVisibility}>
-                    <CloseIcon className='material-icons'>close</CloseIcon>
-                </ListClose>
-                <Container className={'phenomena-list-container'}>
-                    <PhenomenaSelector
-                        radarId={radarId}
-                        language={language}
-                        onSelect={this.handlePhenomenaSelection}
-                        onCreate={this.handleCreateNew}
-                        selectedPhenomena={selectedPhenomena}
-                        onAddToRadarClick={this.handleAdd}
-                        sandbox
-                        filter
-                    />
-                </Container>
-                <Container className='d-flex flex-shrink-0'>
-                    <button
-                      onClick={this.handleCreateNew}
-                      className='btn btn-outline-secondary'
-                    >
-                      {requestTranslation("addNewPhenomena")}
-                    </button>
-                    <button className='btn btn-primary ml-auto'
-                            onClick={changeAddPhenomenaVisibility}>
-                        {requestTranslation('done')}
-                    </button>
-                </Container>
-                {this.renderCreateModal()}
-            </ListContainer>
+            <Draggable handle=".handle">
+                <ListContainer
+                    className={'add-phenomena-to-radar'}
+                    style={{
+                        zIndex: placing ? 0 : 1,
+                        opacity: placing ? 0.8 : 1
+                    }}
+                >
+                    <Container className='flex-shrink-0 handle' style={{ cursor: 'move' }}>
+                        <h3 className='mb-0'>
+                            {requestTranslation('sandboxTitle')}
+                        </h3>
+                    </Container>
+                    <ListClose onClick={changeAddPhenomenaVisibility}>
+                        <CloseIcon className='material-icons'>close</CloseIcon>
+                    </ListClose>
+                    <Container className={'phenomena-list-container'}>
+                        <PhenomenaSelector
+                            radarId={radarId}
+                            language={language}
+                            onSelect={this.handlePhenomenaSelection}
+                            onCreate={this.handleCreateNew}
+                            selectedPhenomena={selectedPhenomena}
+                            onAddToRadarClick={this.handleAdd}
+                            sandbox
+                            filter
+                        />
+                    </Container>
+                    <Container className='d-flex flex-shrink-0'>
+                        <button
+                          onClick={this.handleCreateNew}
+                          className='btn btn-outline-secondary'
+                        >
+                          {requestTranslation("addNewPhenomena")}
+                        </button>
+                        <button className='btn btn-primary ml-auto'
+                                onClick={changeAddPhenomenaVisibility}>
+                            {requestTranslation('done')}
+                        </button>
+                    </Container>
+                    {this.renderCreateModal()}
+                </ListContainer>
+            </Draggable>
         )
     }
 }

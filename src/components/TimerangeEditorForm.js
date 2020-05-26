@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 import { Range, Handle } from 'rc-slider'
 import Select from 'react-select'
+import Draggable from 'react-draggable'
 import { requestTranslation } from '@sangre-fp/i18n'
 import {
     Z_INDEX_MODAL,
@@ -416,75 +417,77 @@ export default class SectorEditorForm extends PureComponent {
         }
 
         return (
-            <TimeRangeEditorContainer
-                left={this.calculateModalDisplacement}
-                className='d-flex flex-column'
-                style={{ height: this.isMobileDevice() ? '40vh' : '75vh'}}
-            >
-                <RangeStyles />
-                <button className={'btn-close-modal'} onClick={timerangePageHandler}>
-                    <i className='material-icons'>close</i>
-                </button>
-                <Container className='flex-shrink-0'>
-                    <h3 className='mb-0'>{requestTranslation('timelineEditor')}</h3>
-                </Container>
-                <Container className='pt-5 h-100 d-flex flex-column' style={{ paddingBottom: '50px' }}>
-                    <Range
-                        key={timelines.length}
-                        min={RANGE_MIN}
-                        max={RANGE_MAX}
-                        value={timelines.map(({ position }) => position )}
-                        handle={this.renderHandles}
-                        onBeforeChange={this.savePreviousPosition}
-                        onChange={updateTimelinePositions}
-                        // https://github.com/ant-design/ant-design/issues/13628
-                        onAfterChange={newPositions => {
-                            this.setState({ updateTimerangeBlock: !updateTimerangeBlock }, () => {
-                                updateTimerangePosition(newPositions, oldPositions)
-                                this.blurHandles()
-                            })
-                        }}
-                        vertical={true}
-                        allowCross={false}
-                        pushable={RANGE_BOUNDARY}
-                        step={RANGE_MAX / 100}
-                        reverse
-                    />
-                    <button
-                        className='btn btn-outline-secondary w-100 flex-shrink-0 position-relative'
-                        style={{ top: '25px' }}
-                        onClick={() => this.setState({ timerangeEditModal: TIMELINE_TEMPLATE })}
-                    >
-                        {requestTranslation('addTimelineButton')}
+            <Draggable handle=".handle">
+                <TimeRangeEditorContainer
+                    left={this.calculateModalDisplacement}
+                    className='d-flex flex-column'
+                    style={{ height: this.isMobileDevice() ? '40vh' : '75vh'}}
+                >
+                    <RangeStyles />
+                    <button className={'btn-close-modal'} onClick={timerangePageHandler}>
+                        <i className='material-icons'>close</i>
                     </button>
-                </Container>
-                <Container className='flex-shrink-0'>
-                    <Checkbox
-                        label={requestTranslation('toggleTimelineMode')}
-                        className='mb-0'
-                        checked={!!timelineLabelFormat}
-                        onChange={() =>
-                            toggleConfirmationDialog({
-                                text: requestTranslation('timelineModeSubtitle'),
-                                title: requestTranslation('timelineModeTitle'),
-                                callback: () => {
-                                    toggleLabelMode()
-                                    updateRadar(false)
-                                }
-                            })
-                        }
-                    />
-                </Container>
-                <Container className='d-flex flex-shrink-0'>
-                    <button
-                        className='btn btn-primary ml-auto'
-                        onClick={timerangePageHandler}
-                    >
-                        {requestTranslation('done')}
-                    </button>
-                </Container>
-                {this.renderTimeRangeModal()}
-            </TimeRangeEditorContainer>
+                    <Container className='flex-shrink-0 handle' style={{ cursor: 'move' }}>
+                        <h3 className='mb-0'>{requestTranslation('timelineEditor')}</h3>
+                    </Container>
+                    <Container className='pt-5 h-100 d-flex flex-column' style={{ paddingBottom: '50px' }}>
+                        <Range
+                            key={timelines.length}
+                            min={RANGE_MIN}
+                            max={RANGE_MAX}
+                            value={timelines.map(({ position }) => position )}
+                            handle={this.renderHandles}
+                            onBeforeChange={this.savePreviousPosition}
+                            onChange={updateTimelinePositions}
+                            // https://github.com/ant-design/ant-design/issues/13628
+                            onAfterChange={newPositions => {
+                                this.setState({ updateTimerangeBlock: !updateTimerangeBlock }, () => {
+                                    updateTimerangePosition(newPositions, oldPositions)
+                                    this.blurHandles()
+                                })
+                            }}
+                            vertical={true}
+                            allowCross={false}
+                            pushable={RANGE_BOUNDARY}
+                            step={RANGE_MAX / 100}
+                            reverse
+                        />
+                        <button
+                            className='btn btn-outline-secondary w-100 flex-shrink-0 position-relative'
+                            style={{ top: '25px' }}
+                            onClick={() => this.setState({ timerangeEditModal: TIMELINE_TEMPLATE })}
+                        >
+                            {requestTranslation('addTimelineButton')}
+                        </button>
+                    </Container>
+                    <Container className='flex-shrink-0'>
+                        <Checkbox
+                            label={requestTranslation('toggleTimelineMode')}
+                            className='mb-0'
+                            checked={!!timelineLabelFormat}
+                            onChange={() =>
+                                toggleConfirmationDialog({
+                                    text: requestTranslation('timelineModeSubtitle'),
+                                    title: requestTranslation('timelineModeTitle'),
+                                    callback: () => {
+                                        toggleLabelMode()
+                                        updateRadar(false)
+                                    }
+                                })
+                            }
+                        />
+                    </Container>
+                    <Container className='d-flex flex-shrink-0'>
+                        <button
+                            className='btn btn-primary ml-auto'
+                            onClick={timerangePageHandler}
+                        >
+                            {requestTranslation('done')}
+                        </button>
+                    </Container>
+                    {this.renderTimeRangeModal()}
+                </TimeRangeEditorContainer>
+            </Draggable>
         )
     }
 }
@@ -493,9 +496,8 @@ const TimeRangeEditorContainer = styled.div`
     z-index: ${Z_INDEX_MODAL};
     background-color: #F2F4F4;
     position: absolute;
-    top: 50%;
+    top: 100px;
     left: ${({ left }) => left};
-    transform: translateY(-50%);
     width: 300px;
     max-height: 900px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
