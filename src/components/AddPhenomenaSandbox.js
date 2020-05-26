@@ -102,7 +102,6 @@ export default class AddPhenomenaSandbox extends PureComponent {
                         onSelect={this.handlePhenomenaSelection}
                         onCreate={this.handleCreateNew}
                         selectedPhenomena={selectedPhenomena}
-                        onGroupChange={this.handleGroupChange}
                         onAddToRadarClick={this.handleAdd}
                         sandbox
                         filter

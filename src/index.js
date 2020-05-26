@@ -8,10 +8,12 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import store from './configureStore'
 import { RadarPage } from './containers'
+import CreationWizard from '@sangre-fp/creation-wizard'
 import * as serviceWorker from './serviceWorker'
 import { GlobalStyles } from '@sangre-fp/ui'
 import { createGlobalStyle } from 'styled-components'
 import { ToastContainer } from 'react-toastify'
+import { PUBLIC_URL } from './env'
 
 import './session'
 import './translations'
@@ -30,16 +32,26 @@ export const RadarStyles = createGlobalStyle`
   }
 `
 
+const paramsString = document.location.search
+const searchParams = new URLSearchParams(paramsString)
+const id = Number(searchParams.get('node'))
+
 const renderApp = (returnUri) => (
   <Provider store={store}>
     <GlobalStyles />
-    <RadarStyles />
-    <ToastContainer
-      toastClassName='fp-toast'
-      position='top-left'
-      progressClassName='toast-progress'
-    />
-    <RadarPage returnUri={returnUri} />
+    {id ? (
+      <>
+        <RadarStyles />
+        <ToastContainer
+          toastClassName='fp-toast'
+          position='top-left'
+          progressClassName='toast-progress'
+        />
+        <RadarPage returnUri={returnUri} />
+      </>
+    ) : (
+      <CreationWizard PUBLIC_URL={PUBLIC_URL} />
+    )}
   </Provider>
 )
 
