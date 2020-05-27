@@ -56,7 +56,7 @@ export const createSignal = (signal, callback) => async (dispatch, getState) => 
 
   try {
     if (file) {
-      doc.media.image = getImageUrl(await uploadFile(file, groupId))
+      doc.content.media.image = getImageUrl(await uploadFile(file, groupId))
     }
     dispatch(success(await upsertDocument(doc)))
     callback()
