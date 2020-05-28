@@ -3,9 +3,8 @@ import { getNetworkMethods } from './network'
 import { getSignals } from '@sangre-fp/connectors/search-api'
 import { requestTranslation } from '@sangre-fp/i18n'
 import { getImageUrl, uploadFile } from '@sangre-fp/connectors/media-api'
-import { TYPE_SIGNAL, upsertDocument } from '@sangre-fp/connectors/content-service-api'
+import { archiveDocument, TYPE_SIGNAL, upsertDocument } from '@sangre-fp/connectors/content-service-api'
 import * as actionTypes from '@sangre-fp/reducers/actionTypes'
-import drupalApi from '@sangre-fp/connectors/drupal-api'
 
 export const changeSignalListVisibility = () => dispatch => dispatch({ type: actionTypes.HANDLE_SIGNAL_LIST_VISIBILITY })
 export const changeSignalCreateVisibility = () => dispatch => dispatch({ type: actionTypes.HANDLE_SIGNAL_CREATE_VISIBILITY })
@@ -20,6 +19,21 @@ export const fetchRadarSignals = (searchInput = '', page = 0, size = 10) => asyn
 
   dispatch(loading())
   dispatch(success(await getSignals(searchInput, [group.id], page, size, uuid)))
+}
+
+export const archiveSignal = (groupId, signalId, callback) => async (dispatch, getState) => {
+  const { loading, success, error } = getNetworkMethods(
+    actionTypes.ARCHIVE_SIGNAL,
+    actionTypes.ARCHIVE_SIGNAL_SUCCESS,
+    requestTranslation('archiveSignalError')
+  )
+  dispatch(loading())
+  try {
+    dispatch(success(await archiveDocument({group: groupId, type: TYPE_SIGNAL, id: signalId})))
+    callback()
+  } catch (err) {
+    dispatch(error(err))
+  }
 }
 
 export const createSignal = (signal, callback) => async (dispatch, getState) => {

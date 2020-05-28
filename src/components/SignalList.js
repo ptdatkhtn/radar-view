@@ -46,6 +46,13 @@ class SignalList extends PureComponent {
         }
     }
 
+    handleArchiveSignal = signalId => {
+        const { groupId, archiveSignal, fetchRadarSignals } = this.props
+        archiveSignal(groupId, signalId, () => {
+            fetchRadarSignals()
+        })
+    }
+
     handleScroll = e => {
         const { loading, signalData: { totalRadarSignals } } = this.props
         const { page } = this.state
@@ -66,7 +73,8 @@ class SignalList extends PureComponent {
     }
 
     renderSignal(signal, index) {
-        const { content: { title, body, media: { image: image_url } = {} } = {}, created_at: created, created_by_name: username } = signal
+        const { canArchiveSignals } = this.props
+        const { id, content: { title, body, media: { image: image_url } = {} } = {}, created_at: created, created_by_name: username } = signal
         const date = created ? created.slice(0, 10) : new Date().toJSON().slice(0, 10)
 
         return (
@@ -96,6 +104,16 @@ class SignalList extends PureComponent {
                         {username}
                     </div>)
                 : ''}
+                {canArchiveSignals && (
+                  <ButtonsContainer>
+                      <button
+                        className="btn btn-lg btn-primary"
+                        onClick={() => this.handleArchiveSignal(id)}
+                      >
+                          {requestTranslation('delete')}
+                      </button>
+                  </ButtonsContainer>
+                )}
             </SignalItem>
         )
     }
@@ -106,7 +124,7 @@ class SignalList extends PureComponent {
         if (signals.length) {
             return (
                 <SearchResultsList small className='d-flex h-100 flex-column mt-5'>
-                    {_.map(signals, this.renderSignal)}
+                    {_.map(signals, this.renderSignal.bind(this))}
                 </SearchResultsList>
             )
         }
