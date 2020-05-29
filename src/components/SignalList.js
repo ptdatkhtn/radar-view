@@ -107,8 +107,8 @@ class SignalList extends PureComponent {
                 {canArchiveSignals && (
                   <ButtonsContainer>
                       <button
-                        className="btn btn-lg btn-primary"
-                        onClick={() => this.handleArchiveSignal(id)}
+                        className="btn btn-lg btn-plain-red"
+                        onClick={() => window.confirm(requestTranslation('deleteSignalConfirmation')) && this.handleArchiveSignal(id)}
                       >
                           {requestTranslation('delete')}
                       </button>

@@ -21,6 +21,10 @@ const localTranslations = {
         en: `+ ADD NEW RANGE`,
         fi: `+ LISÄÄ UUSI KEHÄ`
     },
+    deleteSignalConfirmation: {
+        en: 'Are you sure?',
+        fi: 'Oletko varma?'
+    },
     description: {
         en: `Description`,
         fi: `Kuvaus`
