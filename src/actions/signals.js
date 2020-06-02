@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import { getNetworkMethods } from './network'
 import { getSignals } from '@sangre-fp/connectors/search-api'
 import { requestTranslation } from '@sangre-fp/i18n'
@@ -11,7 +10,7 @@ export const changeSignalCreateVisibility = () => dispatch => dispatch({ type: a
 
 export const fetchRadarSignals = (searchInput = '', page = 0, size = 10) => async (dispatch, getState) => {
   const { uuid, group } = getState().radarSettings
-  const { loading, success, error } = getNetworkMethods(
+  const { loading, success } = getNetworkMethods(
     actionTypes.FETCH_SIGNALS,
     page === 0 ? actionTypes.FETCH_SIGNALS_SUCCESS : actionTypes.FETCH_MORE_SIGNALS_SUCCESS,
     requestTranslation('fetchingSignalsError')
