@@ -258,12 +258,15 @@ const CreationWizard = ({ PUBLIC_URL }) => {
     switch(step) {
       case STEP_ONE:
         window.location.href = PUBLIC_URL
+        break
       case STEP_TWO:
         setStep(step - 1)
         handleSearchClear()
+        break
       case STEP_THREE:
         setStep(step - 1)
         setTitleValue('')
+        break
       default:
         return
     }
