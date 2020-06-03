@@ -8,12 +8,12 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import store from './configureStore'
 import { RadarPage } from './containers'
-// import CreationWizard from '@sangre-fp/creation-wizard'
+import CreationWizard from './components/CreationWizard'
 import * as serviceWorker from './serviceWorker'
 import { GlobalStyles } from '@sangre-fp/ui'
 import { createGlobalStyle } from 'styled-components'
 import { ToastContainer } from 'react-toastify'
-// import { PUBLIC_URL } from './env'
+import { PUBLIC_URL } from './env'
 
 import './session'
 import './translations'
@@ -50,8 +50,7 @@ const renderApp = (returnUri) => (
         <RadarPage returnUri={returnUri} />
       </>
     ) : (
-      // <CreationWizard PUBLIC_URL={PUBLIC_URL} />
-      null
+      <CreationWizard PUBLIC_URL={PUBLIC_URL} />
     )}
   </Provider>
 )
