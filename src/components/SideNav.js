@@ -69,7 +69,6 @@ class SideNav extends PureComponent {
             editSectorsPageOpen,
             id,
             addRadarFormOpen,
-            addPhenomenaVisible,
             editPhenomenaVisible,
             editMenuOpen,
             toggleEditMenuVisiblity,
@@ -81,11 +80,10 @@ class SideNav extends PureComponent {
             signalToolEnabled,
             isVisitor,
             canShareRadar,
-            collaborationToolsAllowed,
-            editTimeRangesPageOpen
+            collaborationToolsAllowed
         } = this.props
 
-        const renderRadarEditor = !editSectorsPageOpen && !addRadarFormOpen && !editPhenomenaVisible && !addPhenomenaVisible && !signalListVisible && !isVisitor && !editTimeRangesPageOpen
+        const renderRadarEditor = !editSectorsPageOpen && !addRadarFormOpen && !editPhenomenaVisible && !signalListVisible && !isVisitor
 
         return (
             <PopupContainer onClose={toggleEditMenuVisiblity}>
