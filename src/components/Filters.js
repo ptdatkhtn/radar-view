@@ -90,7 +90,7 @@ export const Filters = props => {
                         <i className='material-icons'>close</i>
                     </button>
                     <Container>
-                        <h3 className='mb-0'>{requestTranslation('filterPhenomena')}</h3>
+                        <h3 className='radar-widget-title mb-0'>{requestTranslation('filterPhenomena')}</h3>
                     </Container>
                     <Container style={{padding: '15px 10px'}}>
                         <h5 className='mb-2 mt-1 ml-2'>{requestTranslation('filterByTag')}</h5>

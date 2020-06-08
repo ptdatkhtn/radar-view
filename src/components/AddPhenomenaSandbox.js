@@ -90,7 +90,7 @@ export default class AddPhenomenaSandbox extends PureComponent {
                     }}
                 >
                     <Container className='flex-shrink-0 handle' style={{ cursor: 'move' }}>
-                        <h3 className='mb-0'>
+                        <h3 className='radar-widget-title mb-0'>
                             {requestTranslation('sandboxTitle')}
                         </h3>
                     </Container>

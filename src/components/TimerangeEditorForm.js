@@ -428,7 +428,7 @@ export default class SectorEditorForm extends PureComponent {
                         <i className='material-icons'>close</i>
                     </button>
                     <Container className='flex-shrink-0 handle' style={{ cursor: 'move' }}>
-                        <h3 className='mb-0'>{requestTranslation('timelineEditor')}</h3>
+                        <h3 className='radar-widget-title mb-0'>{requestTranslation('timelineEditor')}</h3>
                     </Container>
                     <Container className='pt-5 h-100 d-flex flex-column' style={{ paddingBottom: '50px' }}>
                         <Range

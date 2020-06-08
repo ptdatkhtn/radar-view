@@ -11,7 +11,7 @@ import { RadarPage } from './containers'
 import CreationWizard from './components/CreationWizard'
 import * as serviceWorker from './serviceWorker'
 import { GlobalStyles } from '@sangre-fp/ui'
-import { createGlobalStyle } from 'styled-components'
+import { RadarStyles } from './styles'
 import { ToastContainer } from 'react-toastify'
 import { PUBLIC_URL } from './env'
 
@@ -26,11 +26,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import 'rc-slider/dist/rc-slider.css'
 import 'rc-tooltip/assets/bootstrap.css'
 
-export const RadarStyles = createGlobalStyle`
-  html, body {
-      overflow: hidden !important;
-  }
-`
+
 
 const paramsString = document.location.search
 const searchParams = new URLSearchParams(paramsString)
