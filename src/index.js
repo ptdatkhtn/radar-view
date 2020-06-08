@@ -26,8 +26,6 @@ import 'react-toastify/dist/ReactToastify.css'
 import 'rc-slider/dist/rc-slider.css'
 import 'rc-tooltip/assets/bootstrap.css'
 
-
-
 const paramsString = document.location.search
 const searchParams = new URLSearchParams(paramsString)
 const id = Number(searchParams.get('node'))

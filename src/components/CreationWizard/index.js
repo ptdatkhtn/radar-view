@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { isEqual } from 'lodash-es'
+import { isEqual, find } from 'lodash-es'
+import Select from 'react-select'
 import { requestTranslation } from '@sangre-fp/i18n'
 import { Search, Loading, Modal } from '@sangre-fp/ui'
+import drupalApi from '@sangre-fp/connectors/drupal-api'
+import { useEditableGroups } from '@sangre-fp/content-editor'
 import { useDebounce } from 'use-debounce'
 import { useTemplateSearch } from './hooks'
 import { WizardStyles, previewModalStyles } from './styles'
+import { radarLanguages } from '../../config'
 
+const paramsString = document.location.search
+const searchParams = new URLSearchParams(paramsString)
+const gid = Number(searchParams.get('gid'))
+
+const STEP_ZERO = 0
 const STEP_ONE = 1
 const STEP_TWO = 2
 const STEP_THREE = 3
@@ -14,25 +23,36 @@ const SEARCH_DEBOUNCE_MS = 300
 
 const navigationSteps = [
   {
+    step: STEP_ZERO,
+    label: requestTranslation('group'),
+    text: (completed = false) => completed || `1. ${requestTranslation('wizardGroupLabelText')}`
+  },
+  {
     step: STEP_ONE,
     label: requestTranslation('keywords'),
-    text: (completed = false) => completed || `1. ${requestTranslation('wizardKeywordsLabelText')}`
+    text: (completed = false) => completed || `2. ${requestTranslation('wizardKeywordsLabelText')}`
   },
   {
     step: STEP_TWO,
     label: requestTranslation('concept'),
-    text: (completed = false) => completed || `2. ${requestTranslation('wizardConceptLabelText')}`
+    text: (completed = false) => completed || `3. ${requestTranslation('wizardConceptLabelText')}`
   },
   {
     step: STEP_THREE,
     label: requestTranslation('title'),
-    text: (completed = false) => completed || `3. ${requestTranslation('wizardTitleLabelText')}`
+    text: (completed = false) => completed || `4. ${requestTranslation('wizardTitleLabelText')}`
   }
 ]
 
 const CreationWizard = ({ PUBLIC_URL }) => {
   const getCompletedTextStep = stepToRender => {
     switch(stepToRender) {
+      case STEP_ZERO:
+        const languageLabel = language.value || language
+        const groupFind = find(groups, ({ value }) => value === group)
+        const groupLabel = group.label || (groupFind && groupFind.label)
+
+        return language && group && `${groupLabel} (${languageLabel})`
       case STEP_ONE:
         return templateList.length && searchValue
       case STEP_TWO:
@@ -44,15 +64,15 @@ const CreationWizard = ({ PUBLIC_URL }) => {
 
   const renderNavStep = ({step: navStep, label, text}, index) => {
     return (
-      <div key={navStep} className={`wizard__navigation__item ${(index === 0 || index + 1 <= step) && 'active'}`}>
+      <div key={navStep} className={`wizard__navigation__item ${(index === 0 || index <= step) && 'active'}`}>
         <label className='wizard__navigation__item__label'>
           {label}
         </label>
-        <div className='wizard__navigation__item__text d-flex align-items-center'>
-          {!!getCompletedTextStep(index + 1) && <i className='material-icons mr-1'>check_circle</i>}
-          {text(getCompletedTextStep(index + 1))}
+        <div className='wizard__navigation__item__text'>
+          {!!getCompletedTextStep(index) && <i className='material-icons mr-1'>check_circle</i>}
+          {text(getCompletedTextStep(index))}
         </div>
-        <div className={`wizard__navigation__item__status ${index + 1 === step && 'active'}`} />
+        <div className={`wizard__navigation__item__status ${index === step && 'active'}`} />
       </div>
     )
   }
@@ -133,7 +153,7 @@ const CreationWizard = ({ PUBLIC_URL }) => {
             {requestTranslation('back')}
           </button>
           <button
-            disabled={(step < STEP_TWO || !selectedTemplate) || (step === STEP_THREE && !titleValue)}
+            disabled={(step === STEP_ZERO && (!language || !group)) || (step > STEP_ZERO && !selectedTemplate) || (step === STEP_THREE && !titleValue)}
             className='btn btn-lg btn-primary wizard__footer__button'
             onClick={handleContinueClick}
           >
@@ -173,6 +193,62 @@ const CreationWizard = ({ PUBLIC_URL }) => {
 
   const renderSteps = () => {
     switch(step) {
+      case STEP_ZERO:
+        return (
+          <div className='d-flex flex-column align-items-center'>
+            <h4 className='mb-3 wizard__content__naming-title'>{requestTranslation('groupAndLanguageSelectionTitle')}</h4>
+            <div className='d-flex align-items-center mt-1'>
+              <div>
+                <b className='wizard__select__label'>{requestTranslation('group')}</b>
+                <Select
+                  searchable={false}
+                  name='group'
+                  className='fp-radar-select wizard__select'
+                  value={group}
+                  onChange={value => setGroup(value)}
+                  options={groups}
+                  clearable={false}
+                />
+              </div>
+              <div>
+                <b className='wizard__select__label'>{requestTranslation('language')}</b>
+                <Select
+                  searchable={false}
+                  name='language'
+                  className='fp-radar-select wizard__select'
+                  value={language}
+                  onChange={value => setLanguage(value)}
+                  options={radarLanguages()}
+                  clearable={false}
+                  placeholder={requestTranslation('select').toLowerCase() + '...'}
+                />
+              </div>
+            </div>
+          </div>
+        )
+      case STEP_ONE:
+        return (
+          <div className='d-flex flex-column align-items-center'>
+            <Search
+              className='wizard__content__search'
+              placeholder={requestTranslation('creationWizardSearchPlaceholder')}
+              searchIcon={false}
+              value={searchValue}
+              onChange={e => setSearchValue(e.target.value)}
+              onClear={handleSearchClear}
+            />
+            {loading && <Loading shown />}
+            {error && <div>Error: {error.message}</div>}
+            {!!(templateList && templateList.length) && (
+              <>
+                <h4>{requestTranslation('wizardReccomendationsTitle')}</h4>
+                <div className='wizard__content__list d-flex justify-content-center'>
+                  {templateList.map(temp => renderTemplate(temp))}
+                </div>
+              </>
+            )}
+          </div>
+        )
       case STEP_THREE:
         return (
           <div className='d-flex flex-column align-items-center'>
@@ -217,54 +293,55 @@ const CreationWizard = ({ PUBLIC_URL }) => {
           </div>
         )
       default:
-        return (
-          <div className='d-flex flex-column align-items-center'>
-            <Search
-              className='wizard__content__search'
-              placeholder={requestTranslation('creationWizardSearchPlaceholder')}
-              searchIcon={false}
-              value={searchValue}
-              onChange={e => setSearchValue(e.target.value)}
-              onClear={handleSearchClear}
-            />
-            {loading && <Loading shown />}
-            {error && <div>Error: {error.message}</div>}
-            {!!(templateList && templateList.length) && (
-              <>
-                <h4>{requestTranslation('wizardReccomendationsTitle')}</h4>
-                <div className='wizard__content__list d-flex justify-content-center'>
-                  {templateList.map(temp => renderTemplate(temp))}
-                </div>
-              </>
-            )}
-          </div>
-        )
+        return null
     }
   }
 
-  const handleContinueClick = () => {
-    // TODO: make this a switch statement in cleanup for consistency
-    if (step === STEP_TWO) {
-      setStep(STEP_THREE)
-    } else if (step === STEP_THREE) {
-      // await radar creation here and show completed dialog
-      setStep(STEP_FOUR)
-    } else {
-      console.log('handle submit here -> step four -> redirect to radar')
+  const handleContinueClick = async () => {
+    switch (step) {
+      case STEP_ZERO:
+        return setStep(STEP_ONE)
+      case STEP_TWO:
+        return setStep(STEP_THREE)
+      case STEP_THREE:
+        return setStep(STEP_FOUR)
+      case STEP_FOUR:
+        loading = true
+
+        const data = await drupalApi.createRadar({
+          group: group.value ? group : find(groups, ({ value }) => value === gid),
+          radarName: titleValue,
+          radarLanguage: language.value || language,
+          phenomenaSet: selectedTemplate.id,
+        })
+
+        loading = templatesLoading || loadingGroups
+
+        console.log(data, 'created radar succ')
+
+        return
+      default:
+        return
     }
   }
 
   const handleBackClick = () => {
     switch(step) {
-      case STEP_ONE:
+      case STEP_ZERO:
         window.location.href = PUBLIC_URL
         break
-      case STEP_TWO:
-        setStep(step - 1)
+      case STEP_ONE:
+        setStep(STEP_ZERO)
         handleSearchClear()
+        setTitleValue('')
+        break
+      case STEP_TWO:
+        setStep(STEP_ONE)
+        handleSearchClear()
+        setTitleValue('')
         break
       case STEP_THREE:
-        setStep(step - 1)
+        setStep(STEP_TWO)
         setTitleValue('')
         break
       default:
@@ -279,29 +356,31 @@ const CreationWizard = ({ PUBLIC_URL }) => {
   }
 
   const handleResetSteps = () => {
-    setStep(STEP_ONE)
+    setStep(STEP_ZERO)
     setSelectedTemplate(null)
     setSearchValue('')
     setTitleValue('')
     setRadarId(null)
   }
 
-  const [step, setStep] = useState(STEP_ONE)
+  const [step, setStep] = useState(STEP_ZERO)
   const [selectedTemplate, setSelectedTemplate] = useState(null)
   const [searchValue, setSearchValue] = useState('')
   const [titleValue, setTitleValue] = useState('')
+  const [group, setGroup] = useState(gid)
+  const [language, setLanguage] = useState(document.querySelector('html').getAttribute('lang') || 'en')
   const [previewModal, setPreviewModal] = useState(null)
   const [debouncedValue, clearTimeout] = useDebounce(searchValue, SEARCH_DEBOUNCE_MS)
   const [radarId, setRadarId] = useState(null)
-  const { results: templateList, loading, error } = useTemplateSearch(debouncedValue, [])
+  const { results: templateList, loading: templatesLoading, error } = useTemplateSearch(debouncedValue, [])
+  const { groups, loading: loadingGroups } = useEditableGroups()
+  let loading = templatesLoading || loadingGroups
 
   useEffect(() => {
     if (templateList.length && step === STEP_ONE) {
       setStep(STEP_TWO)
-    } else {
-      setStep(STEP_ONE)
     }
-  }, [templateList])
+  }, [templateList, step])
 
   return (
     <div className='wizard'>

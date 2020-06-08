@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import {getRadars} from '@sangre-fp/connectors/search-api'
 

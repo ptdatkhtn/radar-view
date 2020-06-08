@@ -182,7 +182,10 @@ export const WizardStyles = createGlobalStyle`
         flex-direction: column;
         padding-left: 2px;
         padding-right: 2px;
-        width: 33.33%;
+        width: 25%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
         &__label {
           text-transform: uppercase;
           margin-bottom: 0;
@@ -193,9 +196,16 @@ export const WizardStyles = createGlobalStyle`
         &__text {
           font-weight: bold;
           font-size: 16px;
+          width: 100%;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+
           i {
             color: #6fbf40;
             font-size: 17px;
+            position: relative;
+            top: 2px;
           }
         }
         &__status {
@@ -209,6 +219,58 @@ export const WizardStyles = createGlobalStyle`
         }
         &.active {
           opacity: 1;
+        }
+      }
+    }
+
+    &__select {
+      width: 220px;
+      margin: 0 15px;
+      height: 55px;
+      border-radius: 35px;
+
+      &__label {
+        margin-left: 35px;
+      }
+
+      .Select-control {
+        height: 100%;
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05), 0 1px 3px 0 rgba(0,0,0,0.05);
+        border: none;
+        border-radius: 30px;
+        margin-top: 8px;
+      }
+
+      .Select-placeholder {
+        padding: 10px 20px !important;
+      }
+
+      .Select-arrow-zone {
+        padding-right: 20px !important;
+      }
+
+      .Select-value {
+        padding: 10px 20px !important;
+      }
+
+      .Select-menu-outer {
+        border: none !important;
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05), 0 1px 3px 0 rgba(0,0,0,0.05);
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+
+        ::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: #ECECEC;
+          border-radius: 20px;
+        }
+
+        ::-webkit-scrollbar-track {
+          background: white;
+          border-radius: 20px;
         }
       }
     }
