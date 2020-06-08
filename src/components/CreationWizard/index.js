@@ -9,6 +9,7 @@ import { useDebounce } from 'use-debounce'
 import { useTemplateSearch } from './hooks'
 import { WizardStyles, previewModalStyles } from './styles'
 import { radarLanguages } from '../../config'
+import { startSession } from '../../session'
 
 const paramsString = document.location.search
 const searchParams = new URLSearchParams(paramsString)
@@ -56,7 +57,10 @@ const CreationWizard = ({ PUBLIC_URL }) => {
       case STEP_ONE:
         return templateList.length && searchValue
       case STEP_TWO:
-        return selectedTemplate && selectedTemplate.title
+        return selectedTemplate && selectedTemplate.content.title
+      case STEP_THREE:
+        return
+        // return selectedTemplate && selectedTemplate.content.title
       default:
         return false
     }
@@ -226,29 +230,6 @@ const CreationWizard = ({ PUBLIC_URL }) => {
             </div>
           </div>
         )
-      case STEP_ONE:
-        return (
-          <div className='d-flex flex-column align-items-center'>
-            <Search
-              className='wizard__content__search'
-              placeholder={requestTranslation('creationWizardSearchPlaceholder')}
-              searchIcon={false}
-              value={searchValue}
-              onChange={e => setSearchValue(e.target.value)}
-              onClear={handleSearchClear}
-            />
-            {loading && <Loading shown />}
-            {error && <div>Error: {error.message}</div>}
-            {!!(templateList && templateList.length) && (
-              <>
-                <h4>{requestTranslation('wizardReccomendationsTitle')}</h4>
-                <div className='wizard__content__list d-flex justify-content-center'>
-                  {templateList.map(temp => renderTemplate(temp))}
-                </div>
-              </>
-            )}
-          </div>
-        )
       case STEP_THREE:
         return (
           <div className='d-flex flex-column align-items-center'>
@@ -293,7 +274,30 @@ const CreationWizard = ({ PUBLIC_URL }) => {
           </div>
         )
       default:
-        return null
+        return (
+          <div className='d-flex flex-column align-items-center'>
+            <Search
+              className='wizard__content__search'
+              placeholder={requestTranslation('creationWizardSearchPlaceholder')}
+              searchIcon={false}
+              value={searchValue}
+              onChange={e => setSearchValue(e.target.value)}
+              onClear={handleSearchClear}
+            />
+            {error && <div>Error: {error.message}</div>}
+            {!!(debouncedValue.length && !templateList.length && !loading) && (
+              <div className='w-100 text-center'>{requestTranslation('noResults')}</div>
+            )}
+            {!!(templateList && templateList.length) && (
+              <>
+                <h4>{requestTranslation('wizardReccomendationsTitle')}</h4>
+                <div className='wizard__content__list d-flex justify-content-center'>
+                  {templateList.map(temp => renderTemplate(temp))}
+                </div>
+              </>
+            )}
+          </div>
+        )
     }
   }
 
@@ -304,21 +308,21 @@ const CreationWizard = ({ PUBLIC_URL }) => {
       case STEP_TWO:
         return setStep(STEP_THREE)
       case STEP_THREE:
-        return setStep(STEP_FOUR)
-      case STEP_FOUR:
-        loading = true
+        setShowLoading(true)
 
         const data = await drupalApi.createRadar({
           group: group.value ? group : find(groups, ({ value }) => value === gid),
           radarName: titleValue,
           radarLanguage: language.value || language,
           phenomenaSet: selectedTemplate.id,
+          radarTemplate: true
         })
 
-        loading = templatesLoading || loadingGroups
+        setShowLoading(false)
+        setRadarId(data.id)
 
-        console.log(data, 'created radar succ')
-
+        return setStep(STEP_FOUR)
+      case STEP_FOUR:
         return
       default:
         return
@@ -333,11 +337,11 @@ const CreationWizard = ({ PUBLIC_URL }) => {
       case STEP_ONE:
         setStep(STEP_ZERO)
         handleSearchClear()
-        setTitleValue('')
         break
       case STEP_TWO:
         setStep(STEP_ONE)
         handleSearchClear()
+        setSelectedTemplate(null)
         setTitleValue('')
         break
       case STEP_THREE:
@@ -374,19 +378,27 @@ const CreationWizard = ({ PUBLIC_URL }) => {
   const [radarId, setRadarId] = useState(null)
   const { results: templateList, loading: templatesLoading, error } = useTemplateSearch(debouncedValue, [])
   const { groups, loading: loadingGroups } = useEditableGroups()
-  let loading = templatesLoading || loadingGroups
+  const [showLoading, setShowLoading] = useState(false)
+  const loading = templatesLoading || loadingGroups
+
+  useEffect(() => {
+   (async () => {
+      await startSession()
+    })()
+  }, [])
 
   useEffect(() => {
     if (templateList.length && step === STEP_ONE) {
       setStep(STEP_TWO)
     }
-  }, [templateList, step])
+  }, [templateList])
 
   return (
     <div className='wizard'>
       <WizardStyles />
       {renderNav()}
       {renderStepNavigation()}
+      {(loading || showLoading) && <Loading shown />}
       <div className={`wizard__content w-100 ${step === STEP_FOUR && 'wizard__content--large'}`}>
         {renderSteps()}
       </div>
