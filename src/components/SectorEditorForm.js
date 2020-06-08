@@ -46,17 +46,17 @@ export default class SectorEditorForm extends PureComponent {
                     formats={formats}
                 />
                 <ButtonsContainer>
-                    <CancelButton className='btn btn-lg btn-plain-gray' onClick={onClose}>
+                    <button className='btn btn-lg btn-plain-gray' onClick={onClose}>
                         {requestTranslation('cancel')}
-                    </CancelButton>
-                    <NextButton
+                    </button>
+                    <button
                         className='btn btn-lg btn-primary'
                         onClick={() =>
                             updateSector(sector, titleInput, descriptionInput, onClose)
                         }
                     >
                         {requestTranslation('save')}
-                    </NextButton>
+                    </button>
                 </ButtonsContainer>
             </Container>
         )
@@ -65,6 +65,7 @@ export default class SectorEditorForm extends PureComponent {
 
 const Container = styled.div`
     padding: 30px 50px;
+    z-index: 1000;
 `
 
 const Title = styled.h2`
@@ -96,10 +97,3 @@ const ButtonsContainer = styled.div`
     margin-top: 30px;
 `
 
-const NextButton = styled.a`
-
-`
-
-const CancelButton = styled.a`
-
-`
