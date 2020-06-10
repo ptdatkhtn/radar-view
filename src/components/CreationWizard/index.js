@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { isEqual, find } from 'lodash-es'
+import { isEqual, find, capitalize } from 'lodash-es'
 import Select from 'react-select'
 import { requestTranslation } from '@sangre-fp/i18n'
 import { Search, Loading, Modal } from '@sangre-fp/ui'
@@ -10,6 +10,12 @@ import { useTemplateSearch } from './hooks'
 import { WizardStyles, previewModalStyles } from './styles'
 import { radarLanguages } from '../../config'
 import { startSession } from '../../session'
+
+/* eslint-disable */
+Array.prototype.insert = function (index, item) {
+    this.splice(index, 0, item)
+}
+/* eslint-enable */
 
 const paramsString = document.location.search
 const searchParams = new URLSearchParams(paramsString)
@@ -22,30 +28,48 @@ const STEP_THREE = 3
 const STEP_FOUR = 4
 const SEARCH_DEBOUNCE_MS = 300
 
-const navigationSteps = [
+const templateOptions = [
   {
-    step: STEP_ZERO,
-    label: requestTranslation('group'),
-    text: (completed = false) => completed || `1. ${requestTranslation('wizardGroupLabelText')}`
+    value: true,
+    label: requestTranslation('prefilled')
   },
   {
-    step: STEP_ONE,
-    label: requestTranslation('keywords'),
-    text: (completed = false) => completed || `2. ${requestTranslation('wizardKeywordsLabelText')}`
-  },
-  {
-    step: STEP_TWO,
-    label: requestTranslation('concept'),
-    text: (completed = false) => completed || `3. ${requestTranslation('wizardConceptLabelText')}`
-  },
-  {
-    step: STEP_THREE,
-    label: requestTranslation('title'),
-    text: (completed = false) => completed || `4. ${requestTranslation('wizardTitleLabelText')}`
+    value: false,
+    label: requestTranslation('empty')
   }
 ]
 
 const CreationWizard = ({ PUBLIC_URL }) => {
+  const getNavigationSteps = () => {
+    const navigationSteps = [
+      {
+        step: STEP_ZERO,
+        label: requestTranslation('setup'),
+        text: (completed = false) => completed || `1. ${requestTranslation('wizardSetupLabelText')}`
+      },
+      {
+        step: useTemplate.value ? STEP_TWO : STEP_ONE,
+        label: requestTranslation('concept'),
+        text: (completed = false) => completed || `${!useTemplate.value ? '2.' : '3.'} ${requestTranslation('wizardConceptLabelText')}`
+      },
+      {
+        step: useTemplate.value ? STEP_THREE : STEP_TWO,
+        label: requestTranslation('title'),
+        text: (completed = false) => completed || `${!useTemplate.value ? '3.' : '4.'} ${requestTranslation('wizardTitleLabelText')}`
+      }
+    ]
+
+    if (useTemplate.value) {
+      navigationSteps.insert(1, {
+        step: STEP_ONE,
+        label: requestTranslation('keywords'),
+        text: (completed = false) => completed || `2. ${requestTranslation('wizardKeywordsLabelText')}`
+      })
+    }
+
+    return navigationSteps
+  }
+
   const getCompletedTextStep = stepToRender => {
     switch(stepToRender) {
       case STEP_ZERO:
@@ -55,8 +79,19 @@ const CreationWizard = ({ PUBLIC_URL }) => {
 
         return language && group && `${groupLabel} (${languageLabel})`
       case STEP_ONE:
+        if (!useTemplate.value) {
+          if (selectedTemplate && selectedTemplate.content.title) {
+            return selectedTemplate.content.title
+          }
+
+          return requestTranslation('wizardConceptLabelText')
+        }
+
         return templateList.length && searchValue
       case STEP_TWO:
+        if (!useTemplate.value) {
+          return requestTranslation('wizardTitleLabelText')
+        }
         return selectedTemplate && selectedTemplate.content.title
       case STEP_THREE:
         return
@@ -66,17 +101,37 @@ const CreationWizard = ({ PUBLIC_URL }) => {
     }
   }
 
+  const getEmptyTemplateCompletedCheckMark = stepToCheck => {
+    switch(stepToCheck) {
+      case STEP_ZERO:
+        const languageLabel = language.value || language
+        const groupFind = find(groups, ({ value }) => value === group)
+        const groupLabel = group.label || (groupFind && groupFind.label)
+
+        return language && group && `${groupLabel} (${languageLabel})`
+
+      case STEP_ONE:
+        return selectedTemplate && selectedTemplate.content.title
+      case STEP_TWO:
+        return false
+      default:
+        return false
+    }
+  }
+
   const renderNavStep = ({step: navStep, label, text}, index) => {
+    const activeOverride = !useTemplate.value && index === STEP_TWO && step === STEP_THREE
+
     return (
-      <div key={navStep} className={`wizard__navigation__item ${(index === 0 || index <= step) && 'active'}`}>
+      <div key={navStep} className={`wizard__navigation__item ${(index === 0 || index <= step) && 'active'} ${step === STEP_ZERO && index !== 0 && 'hidden'}`}>
         <label className='wizard__navigation__item__label'>
           {label}
         </label>
         <div className='wizard__navigation__item__text'>
-          {!!getCompletedTextStep(index) && <i className='material-icons mr-1'>check_circle</i>}
+          {useTemplate.value ? !!getCompletedTextStep(index) : !!getEmptyTemplateCompletedCheckMark(index) && <i className='material-icons mr-1'>check_circle</i>}
           {text(getCompletedTextStep(index))}
         </div>
-        <div className={`wizard__navigation__item__status ${index === step && 'active'}`} />
+        <div className={`wizard__navigation__item__status ${(index === step || activeOverride) && 'active'}`} />
       </div>
     )
   }
@@ -121,6 +176,8 @@ const CreationWizard = ({ PUBLIC_URL }) => {
   }
 
   const renderStepNavigation = () => {
+    const navigationSteps = getNavigationSteps()
+
     if (step !== STEP_FOUR) {
       return (
         <div className='wizard__navigation container-fullwidth'>
@@ -212,6 +269,7 @@ const CreationWizard = ({ PUBLIC_URL }) => {
                   onChange={value => setGroup(value)}
                   options={groups}
                   clearable={false}
+                  placeholder={capitalize(requestTranslation('select')) + '...'}
                 />
               </div>
               <div>
@@ -224,7 +282,20 @@ const CreationWizard = ({ PUBLIC_URL }) => {
                   onChange={value => setLanguage(value)}
                   options={radarLanguages()}
                   clearable={false}
-                  placeholder={requestTranslation('select').toLowerCase() + '...'}
+                  placeholder={capitalize(requestTranslation('select')) + '...'}
+                />
+              </div>
+              <div>
+                <b className='wizard__select__label'>{requestTranslation('prefilledContent')}</b>
+                <Select
+                  searchable={false}
+                  name='prefilled'
+                  className='fp-radar-select wizard__select'
+                  value={useTemplate}
+                  onChange={value => setUseTemplate(value)}
+                  options={templateOptions}
+                  clearable={false}
+                  placeholder={capitalize(requestTranslation('select')) + '...'}
                 />
               </div>
             </div>
@@ -274,27 +345,33 @@ const CreationWizard = ({ PUBLIC_URL }) => {
           </div>
         )
       default:
+        const emptyTemplateClassName = `${!useTemplate.value ? 'wizard__content__naming-title' : ''}`
+
         return (
           <div className='d-flex flex-column align-items-center'>
-            <Search
-              className='wizard__content__search'
-              placeholder={requestTranslation('creationWizardSearchPlaceholder')}
-              searchIcon={false}
-              value={searchValue}
-              onChange={e => setSearchValue(e.target.value)}
-              onClear={handleSearchClear}
-            />
-            {error && <div>Error: {error.message}</div>}
-            {!!(debouncedValue.length && !templateList.length && !loading) && (
-              <div className='w-100 text-center'>{requestTranslation('noResults')}</div>
+            {useTemplate.value && (
+              <Search
+                className='wizard__content__search'
+                placeholder={requestTranslation('creationWizardSearchPlaceholder')}
+                searchIcon={false}
+                value={searchValue}
+                onChange={e => setSearchValue(e.target.value)}
+                onClear={handleSearchClear}
+              />
             )}
             {!!(templateList && templateList.length) && (
-              <>
-                <h4>{requestTranslation('wizardReccomendationsTitle')}</h4>
+              <div className={emptyTemplateClassName}>
+                {useTemplate.value && (
+                  <h4>{requestTranslation('wizardReccomendationsTitle')}</h4>
+                )}
                 <div className='wizard__content__list d-flex justify-content-center'>
                   {templateList.map(temp => renderTemplate(temp))}
                 </div>
-              </>
+              </div>
+            )}
+            {error && <div>Error: {error.message}</div>}
+            {!!(debouncedValue.length && !templateList.length && !loading) && (
+              <div className={`w-100 text-center ${emptyTemplateClassName}`}>{requestTranslation('noResults')}</div>
             )}
           </div>
         )
@@ -304,7 +381,20 @@ const CreationWizard = ({ PUBLIC_URL }) => {
   const handleContinueClick = async () => {
     switch (step) {
       case STEP_ZERO:
+        if (!useTemplate.value) {
+          setShowLoading(true)
+
+          // perhaps do translation here ?
+          setSearchValue('empty')
+
+          setTimeout(() => {
+            setShowLoading(false)
+          }, SEARCH_DEBOUNCE_MS * 3)
+        }
+
         return setStep(STEP_ONE)
+      case STEP_ONE:
+        return setStep(STEP_THREE)
       case STEP_TWO:
         return setStep(STEP_THREE)
       case STEP_THREE:
@@ -340,12 +430,18 @@ const CreationWizard = ({ PUBLIC_URL }) => {
         break
       case STEP_TWO:
         setStep(STEP_ONE)
-        handleSearchClear()
+        if (useTemplate.value) {
+          handleSearchClear()
+        }
         setSelectedTemplate(null)
         setTitleValue('')
         break
       case STEP_THREE:
-        setStep(STEP_TWO)
+        if (useTemplate.value) {
+          setStep(STEP_TWO)
+        } else {
+          setStep(STEP_ONE)
+        }
         setTitleValue('')
         break
       default:
@@ -367,6 +463,7 @@ const CreationWizard = ({ PUBLIC_URL }) => {
     setRadarId(null)
   }
 
+  const [useTemplate, setUseTemplate] = useState(templateOptions[0])
   const [step, setStep] = useState(STEP_ZERO)
   const [selectedTemplate, setSelectedTemplate] = useState(null)
   const [searchValue, setSearchValue] = useState('')
@@ -387,11 +484,13 @@ const CreationWizard = ({ PUBLIC_URL }) => {
     })()
   }, [])
 
+  /* eslint-disable */
   useEffect(() => {
-    if (templateList.length && step === STEP_ONE) {
+    if (templateList.length && step === STEP_ONE && useTemplate.value) {
       setStep(STEP_TWO)
     }
   }, [templateList])
+  /* eslint-enable */
 
   return (
     <div className='wizard'>

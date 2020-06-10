@@ -186,6 +186,9 @@ export const WizardStyles = createGlobalStyle`
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+        &.hidden {
+          opacity: 0;
+        }
         &__label {
           text-transform: uppercase;
           margin-bottom: 0;
