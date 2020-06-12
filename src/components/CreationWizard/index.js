@@ -73,10 +73,9 @@ const CreationWizard = ({ PUBLIC_URL }) => {
   const getCompletedTextStep = stepToRender => {
     switch(stepToRender) {
       case STEP_ZERO:
-        const languageLabel = language.value || language
         const groupLabel = selectedGroup && selectedGroup.label
 
-        return language && selectedGroup && `${groupLabel} (${languageLabel})`
+        return language && selectedGroup && `${groupLabel} (${language})`
       case STEP_ONE:
         if (!useTemplate.value) {
           if (selectedTemplate && selectedTemplate.content.title) {
@@ -103,10 +102,8 @@ const CreationWizard = ({ PUBLIC_URL }) => {
   const getEmptyTemplateCompletedCheckMark = stepToCheck => {
     switch(stepToCheck) {
       case STEP_ZERO:
-        const languageLabel = language.value || language
         const groupLabel = selectedGroup && selectedGroup.label
-
-        return language && selectedGroup && `${groupLabel} (${languageLabel})`
+        return language && selectedGroup && `${groupLabel} (${language})`
 
       case STEP_ONE:
         return selectedTemplate && selectedTemplate.content.title
@@ -277,7 +274,7 @@ const CreationWizard = ({ PUBLIC_URL }) => {
                   name='language'
                   className='fp-radar-select wizard__select'
                   value={language}
-                  onChange={value => setLanguage(value)}
+                  onChange={({ value }) => setLanguage(value)}
                   options={radarLanguages()}
                   clearable={false}
                   placeholder={capitalize(requestTranslation('select')) + '...'}
@@ -472,7 +469,7 @@ const CreationWizard = ({ PUBLIC_URL }) => {
   const [previewModal, setPreviewModal] = useState(null)
   const [debouncedValue, clearTimeout] = useDebounce(searchValue, SEARCH_DEBOUNCE_MS)
   const [radarId, setRadarId] = useState(null)
-  const { results: templateList, loading: templatesLoading, error } = useTemplateSearch(debouncedValue, [])
+  const { results: templateList, loading: templatesLoading, error } = useTemplateSearch(debouncedValue, language)
   const { groups, loading: loadingGroups } = useEditableGroups()
   const [showLoading, setShowLoading] = useState(false)
   const loading = templatesLoading || loadingGroups
