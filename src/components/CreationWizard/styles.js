@@ -26,8 +26,13 @@ export const WizardStyles = createGlobalStyle`
     height: 100%;
   }
   .wizard {
-    min-height: 100vh;
     position: relative;
+    height: 100%;
+    
+    &__main {
+      height: calc(100vh - 112px);
+      overflow: auto;
+    }
 
     &__preview {
       width: 100%;
@@ -50,16 +55,19 @@ export const WizardStyles = createGlobalStyle`
         height: 100%;
         background: black;
         background: url('https://i.imgur.com/ohmGkwT.png') no-repeat center;
-        background-size: cover;
+        background-size: contain;
+        background-color: #000;
       }
     }
 
     &__content {
-      height: calc(100vh - 112px - 112px - 58px - 10px);
+      height: auto;
+      min-height: calc(100vh - 112px - 112px - 58px - 10px);
       background-image: url('https://i.imgur.com/ddJN3Qp.jpg');
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
+      padding-bottom: 112px;
 
       &--large {
         height: calc(100vh - 112px)
@@ -80,7 +88,7 @@ export const WizardStyles = createGlobalStyle`
       }
 
       h4 {
-        font-size: 1.25rem;
+        font-size: 1.429rem;
       }
 
       &__list {
@@ -114,6 +122,7 @@ export const WizardStyles = createGlobalStyle`
           &__preview {
             color: #006998;
             font-size: 12px;
+            font-weight: 500;
             i {
               font-size: 17px;
             }
@@ -279,7 +288,7 @@ export const WizardStyles = createGlobalStyle`
     }
 
     &__footer {
-      position: absolute;
+      position: fixed;
       bottom: 0;
       left: 0;
       height: 112px;

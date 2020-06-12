@@ -362,7 +362,7 @@ const CreationWizard = ({ PUBLIC_URL }) => {
             {!!(templateList && templateList.length) && (
               <div className={emptyTemplateClassName}>
                 {useTemplate.value && (
-                  <h4>{requestTranslation('wizardReccomendationsTitle')}</h4>
+                  <h4 className={'text-center'}>{requestTranslation('wizardReccomendationsTitle')}</h4>
                 )}
                 <div className='wizard__content__list d-flex justify-content-center'>
                   {templateList.map(temp => renderTemplate(temp))}
@@ -495,11 +495,13 @@ const CreationWizard = ({ PUBLIC_URL }) => {
   return (
     <div className='wizard'>
       <WizardStyles />
-      {renderNav()}
-      {renderStepNavigation()}
-      {(loading || showLoading) && <Loading shown />}
-      <div className={`wizard__content w-100 ${step === STEP_FOUR && 'wizard__content--large'}`}>
-        {renderSteps()}
+      <div className={'wizard__main'}>
+        {renderNav()}
+        {renderStepNavigation()}
+        {(loading || showLoading) && <Loading shown />}
+        <div className={`wizard__content w-100 ${step === STEP_FOUR && 'wizard__content--large'}`}>
+          {renderSteps()}
+        </div>
       </div>
       {renderFooter()}
       <Modal
