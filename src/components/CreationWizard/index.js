@@ -73,11 +73,9 @@ const CreationWizard = ({ PUBLIC_URL }) => {
   const getCompletedTextStep = stepToRender => {
     switch(stepToRender) {
       case STEP_ZERO:
-        const languageLabel = language.value || language
-        const groupFind = find(groups, ({ value }) => value === group)
-        const groupLabel = group.label || (groupFind && groupFind.label)
+        const groupLabel = selectedGroup && selectedGroup.label
 
-        return language && group && `${groupLabel} (${languageLabel})`
+        return language && selectedGroup && `${groupLabel} (${language})`
       case STEP_ONE:
         if (!useTemplate.value) {
           if (selectedTemplate && selectedTemplate.content.title) {
@@ -104,11 +102,8 @@ const CreationWizard = ({ PUBLIC_URL }) => {
   const getEmptyTemplateCompletedCheckMark = stepToCheck => {
     switch(stepToCheck) {
       case STEP_ZERO:
-        const languageLabel = language.value || language
-        const groupFind = find(groups, ({ value }) => value === group)
-        const groupLabel = group.label || (groupFind && groupFind.label)
-
-        return language && group && `${groupLabel} (${languageLabel})`
+        const groupLabel = selectedGroup && selectedGroup.label
+        return language && selectedGroup && `${groupLabel} (${language})`
 
       case STEP_ONE:
         return selectedTemplate && selectedTemplate.content.title
@@ -214,7 +209,7 @@ const CreationWizard = ({ PUBLIC_URL }) => {
             {requestTranslation('back')}
           </button>
           <button
-            disabled={(step === STEP_ZERO && (!language || !group)) || (step > STEP_ZERO && !selectedTemplate) || (step === STEP_THREE && !titleValue)}
+            disabled={(step === STEP_ZERO && (!language || groupId === null)) || (step > STEP_ZERO && !selectedTemplate) || (step === STEP_THREE && !titleValue)}
             className='btn btn-lg btn-primary wizard__footer__button'
             onClick={handleContinueClick}
           >
@@ -265,9 +260,9 @@ const CreationWizard = ({ PUBLIC_URL }) => {
                   searchable={false}
                   name='group'
                   className='fp-radar-select wizard__select'
-                  value={group}
-                  onChange={value => setGroup(value)}
-                  options={groups}
+                  value={groupId}
+                  onChange={({ value }) => setGroupId(value)}
+                  options={groups.map(({ id, label }) => ({ value: id, label }))}
                   clearable={false}
                   placeholder={capitalize(requestTranslation('select')) + '...'}
                 />
@@ -279,7 +274,7 @@ const CreationWizard = ({ PUBLIC_URL }) => {
                   name='language'
                   className='fp-radar-select wizard__select'
                   value={language}
-                  onChange={value => setLanguage(value)}
+                  onChange={({ value }) => setLanguage(value)}
                   options={radarLanguages()}
                   clearable={false}
                   placeholder={capitalize(requestTranslation('select')) + '...'}
@@ -401,7 +396,7 @@ const CreationWizard = ({ PUBLIC_URL }) => {
         setShowLoading(true)
 
         const data = await drupalApi.createRadar({
-          group: group.value ? group : find(groups, ({ value }) => value === gid),
+          group: groupId,
           radarName: titleValue,
           radarLanguage: language.value || language,
           phenomenaSet: selectedTemplate.id,
@@ -468,12 +463,13 @@ const CreationWizard = ({ PUBLIC_URL }) => {
   const [selectedTemplate, setSelectedTemplate] = useState(null)
   const [searchValue, setSearchValue] = useState('')
   const [titleValue, setTitleValue] = useState('')
-  const [group, setGroup] = useState(gid)
+  const [groupId, setGroupId] = useState(gid || null)
+  const [selectedGroup, setSelectedGroup] = useState(null)
   const [language, setLanguage] = useState(document.querySelector('html').getAttribute('lang') || 'en')
   const [previewModal, setPreviewModal] = useState(null)
   const [debouncedValue, clearTimeout] = useDebounce(searchValue, SEARCH_DEBOUNCE_MS)
   const [radarId, setRadarId] = useState(null)
-  const { results: templateList, loading: templatesLoading, error } = useTemplateSearch(debouncedValue, [])
+  const { results: templateList, loading: templatesLoading, error } = useTemplateSearch(debouncedValue, language)
   const { groups, loading: loadingGroups } = useEditableGroups()
   const [showLoading, setShowLoading] = useState(false)
   const loading = templatesLoading || loadingGroups
@@ -484,6 +480,9 @@ const CreationWizard = ({ PUBLIC_URL }) => {
     })()
   }, [])
 
+  useEffect(() => {
+    setSelectedGroup(find(groups, ({ id }) => id === groupId) || null)
+  }, [groupId, loadingGroups])
   /* eslint-disable */
   useEffect(() => {
     if (templateList.length && step === STEP_ONE && useTemplate.value) {
@@ -491,7 +490,6 @@ const CreationWizard = ({ PUBLIC_URL }) => {
     }
   }, [templateList])
   /* eslint-enable */
-
   return (
     <div className='wizard'>
       <WizardStyles />
