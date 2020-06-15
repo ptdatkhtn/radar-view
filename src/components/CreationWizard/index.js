@@ -15,8 +15,6 @@ import { PUBLIC_URL } from '../../env'
 import { loadingError } from '../../actions/network'
 import { ErrorModal } from '../../containers'
 
-console.log(PUBLIC_URL, 'PUBLIC_URL')
-
 /* eslint-disable */
 Array.prototype.insert = function (index, item) {
     this.splice(index, 0, item)
@@ -196,7 +194,7 @@ const CreationWizard = ({ dispatch }) => {
   const renderNav = () => (
     <nav className="navbar-dashboard">
       <div className='container-fullwidth'>
-        <a className="navbar-brand" href={PUBLIC_URL}>
+        <a className="navbar-brand" href={PUBLIC_URL || window.location.origin}>
           <span className="sr-only">Futures Platform</span>
         </a>
       </div>
