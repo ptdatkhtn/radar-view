@@ -390,9 +390,7 @@ const CreationWizard = ({ dispatch }) => {
       case STEP_ZERO:
         if (!useTemplate.value) {
           setShowLoading(true)
-
-          // perhaps do translation here ?
-          setSearchValue('empty')
+          setSearchValue(language.value || language === 'en' ? 'empty' : 'tyhjä')
 
           setTimeout(() => {
             setShowLoading(false)
@@ -438,8 +436,8 @@ const CreationWizard = ({ dispatch }) => {
         window.history.back()
         break
       case STEP_ONE:
-        setStep(STEP_ZERO)
         handleSearchClear()
+        setStep(STEP_ZERO)
         break
       case STEP_TWO:
         setStep(STEP_ONE)
@@ -465,6 +463,7 @@ const CreationWizard = ({ dispatch }) => {
   const handleSearchClear = () => {
     setSearchValue('')
     setSelectedTemplate(null)
+    setStep(STEP_ONE)
     clearTimeout()
   }
 
