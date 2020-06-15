@@ -125,7 +125,7 @@ const phenomenaApiErrorHandler = (error, errorFunc, dispatch) => {
             dispatch(errorFunc(new Error('Already exists'), requestTranslation('phenomenaExists')))
             break
         case 'invalid-input':
-            dispatch(errorFunc(new Error('Inalid input'), requestTranslation('phenomenaInvalid')))
+            dispatch(errorFunc(new Error('Invalid input'), requestTranslation('phenomenaInvalid')))
             break
         default:
             dispatch(errorFunc(error))

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
 import { isEqual, find, capitalize } from 'lodash-es'
 import Select from 'react-select'
 import { requestTranslation } from '@sangre-fp/i18n'
@@ -11,6 +12,8 @@ import { WizardStyles, previewModalStyles } from './styles'
 import { radarLanguages } from '../../config'
 import { startSession } from '../../session'
 import { PUBLIC_URL } from '../../env'
+import { loadingError } from '../../actions/network'
+import { ErrorModal } from '../../containers'
 
 /* eslint-disable */
 Array.prototype.insert = function (index, item) {
@@ -40,7 +43,7 @@ const templateOptions = [
   }
 ]
 
-const CreationWizard = () => {
+const CreationWizard = ({ dispatch }) => {
   const getNavigationSteps = () => {
     const navigationSteps = [
       {
@@ -404,18 +407,24 @@ const CreationWizard = () => {
       case STEP_THREE:
         setShowLoading(true)
 
-        const data = await drupalApi.createRadar({
-          group: groupId,
-          radarName: titleValue,
-          radarLanguage: language.value || language,
-          phenomenaSet: selectedTemplate.id,
-          radarTemplate: true
-        })
+        try {
+          const data = await drupalApi.createRadar({
+            group: groupId,
+            radarName: titleValue,
+            radarLanguage: language.value || language,
+            phenomenaSet: selectedTemplate.id,
+            radarTemplate: true
+          })
 
-        setShowLoading(false)
-        setRadarId(data.id)
+          setShowLoading(false)
+          setRadarId(data.id)
 
-        return setStep(STEP_FOUR)
+          return setStep(STEP_FOUR)
+        } catch (err) {
+          setShowLoading(false)
+          dispatch(loadingError('CREATION_ERROR', new Error('Radar creation error'), requestTranslation('creatingRadarError')))
+          return
+        }
       case STEP_FOUR:
         return
       default:
@@ -521,8 +530,9 @@ const CreationWizard = () => {
       >
         {renderPreviewModal()}
       </Modal>
+      <ErrorModal />
     </div>
   )
 }
 
-export default CreationWizard
+export default connect(null, null)(CreationWizard)

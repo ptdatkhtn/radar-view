@@ -13,7 +13,6 @@ import * as serviceWorker from './serviceWorker'
 import { GlobalStyles } from '@sangre-fp/ui'
 import { RadarStyles } from './styles'
 import { ToastContainer } from 'react-toastify'
-import { PUBLIC_URL } from './env'
 
 import './session'
 import './translations'
@@ -30,7 +29,7 @@ const paramsString = document.location.search
 const searchParams = new URLSearchParams(paramsString)
 const id = Number(searchParams.get('node'))
 
-const renderApp = (returnUri) => (
+const renderApp = returnUri => (
   <Provider store={store}>
     <GlobalStyles />
     {id ? (
@@ -44,7 +43,7 @@ const renderApp = (returnUri) => (
         <RadarPage returnUri={returnUri} />
       </>
     ) : (
-      <CreationWizard PUBLIC_URL={PUBLIC_URL} />
+      <CreationWizard />
     )}
   </Provider>
 )
