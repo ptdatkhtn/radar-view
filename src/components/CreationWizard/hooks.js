@@ -3,14 +3,14 @@ import { useDebouncedCallback } from 'use-debounce'
 import {getRadars} from '@sangre-fp/connectors/search-api'
 
 
-export const useTemplateSearch = (search, language) => {
+export const useTemplateSearch = (search, language, isEmpty = false) => {
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [fetchRadars] = useDebouncedCallback(async (query, language) => {
     setLoading(true)
     try {
-      setResults((await getRadars(query, language).then(({ result }) => result)))
+      setResults((await getRadars(query, language, isEmpty).then(({ result }) => result)))
     } catch (err) {
       setError(err.message)
     }
@@ -18,12 +18,12 @@ export const useTemplateSearch = (search, language) => {
   }, 500)
 
     useEffect(() => {
-    if (search) {
+    if (search || isEmpty) {
       fetchRadars(search, language)
     } else {
       setResults([])
     }
-  }, [fetchRadars, search, language])
+  }, [fetchRadars, search, language, isEmpty])
 
   return {
     results,

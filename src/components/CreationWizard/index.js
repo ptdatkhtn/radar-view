@@ -390,7 +390,7 @@ const CreationWizard = ({ dispatch }) => {
       case STEP_ZERO:
         if (!useTemplate.value) {
           setShowLoading(true)
-          setSearchValue(language.value || language === 'en' ? 'empty' : 'tyhjä')
+          setIsEmpty(true)
 
           setTimeout(() => {
             setShowLoading(false)
@@ -479,6 +479,7 @@ const CreationWizard = ({ dispatch }) => {
   const [step, setStep] = useState(STEP_ZERO)
   const [selectedTemplate, setSelectedTemplate] = useState(null)
   const [searchValue, setSearchValue] = useState('')
+  const [isEmpty, setIsEmpty] = useState(false)
   const [titleValue, setTitleValue] = useState('')
   const [groupId, setGroupId] = useState(gid || null)
   const [selectedGroup, setSelectedGroup] = useState(null)
@@ -486,7 +487,7 @@ const CreationWizard = ({ dispatch }) => {
   const [previewModal, setPreviewModal] = useState(null)
   const [debouncedValue, clearTimeout] = useDebounce(searchValue, SEARCH_DEBOUNCE_MS)
   const [radarId, setRadarId] = useState(null)
-  const { results: templateList, loading: templatesLoading, error } = useTemplateSearch(debouncedValue, language)
+  const { results: templateList, loading: templatesLoading, error } = useTemplateSearch(debouncedValue, language, isEmpty)
   const { groups, loading: loadingGroups } = useEditableGroups()
   const [showLoading, setShowLoading] = useState(false)
   const loading = templatesLoading || loadingGroups
