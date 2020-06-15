@@ -10,6 +10,7 @@ import { useTemplateSearch } from './hooks'
 import { WizardStyles, previewModalStyles } from './styles'
 import { radarLanguages } from '../../config'
 import { startSession } from '../../session'
+import { PUBLIC_URL } from '../../env'
 
 /* eslint-disable */
 Array.prototype.insert = function (index, item) {
@@ -39,7 +40,7 @@ const templateOptions = [
   }
 ]
 
-const CreationWizard = ({ PUBLIC_URL }) => {
+const CreationWizard = () => {
   const getNavigationSteps = () => {
     const navigationSteps = [
       {
@@ -200,21 +201,29 @@ const CreationWizard = ({ PUBLIC_URL }) => {
   const renderFooter = () => {
     if (step !== STEP_FOUR) {
       return (
-        <footer className='wizard__footer container-fullwidth d-flex align-items-center justify-content-end'>
+        <footer className='wizard__footer container-fullwidth d-flex align-items-center justify-content-between'>
           <button
-            className='btn btn-lg btn-outline-secondary mr-2 wizard__footer__back'
-            onClick={handleBackClick}
+            className='btn btn-lg btn-outline-secondary wizard__footer__back'
+            onClick={() => window.history.back()}
           >
-            <i className='material-icons wizard__footer__back__arrow'>chevron_left</i>
-            {requestTranslation('back')}
+            {requestTranslation('cancel')}
           </button>
-          <button
-            disabled={(step === STEP_ZERO && (!language || groupId === null)) || (step > STEP_ZERO && !selectedTemplate) || (step === STEP_THREE && !titleValue)}
-            className='btn btn-lg btn-primary wizard__footer__button'
-            onClick={handleContinueClick}
-          >
-            {requestTranslation('continue')}
-          </button>
+          <div>
+            <button
+              className='btn btn-lg btn-outline-secondary mr-2 wizard__footer__back'
+              onClick={handleBackClick}
+            >
+              <i className='material-icons wizard__footer__back__arrow'>chevron_left</i>
+              {requestTranslation('back')}
+            </button>
+            <button
+              disabled={(step === STEP_ZERO && (!language || groupId === null)) || (step > STEP_ZERO && !selectedTemplate) || (step === STEP_THREE && !titleValue)}
+              className='btn btn-lg btn-primary wizard__footer__button'
+              onClick={handleContinueClick}
+            >
+              {requestTranslation('continue')}
+            </button>
+          </div>
         </footer>
       )
     }
@@ -417,7 +426,7 @@ const CreationWizard = ({ PUBLIC_URL }) => {
   const handleBackClick = () => {
     switch(step) {
       case STEP_ZERO:
-        window.location.href = PUBLIC_URL
+        window.history.back()
         break
       case STEP_ONE:
         setStep(STEP_ZERO)
@@ -480,10 +489,11 @@ const CreationWizard = ({ PUBLIC_URL }) => {
     })()
   }, [])
 
+  /* eslint-disable */
   useEffect(() => {
     setSelectedGroup(find(groups, ({ id }) => id === groupId) || null)
   }, [groupId, loadingGroups])
-  /* eslint-disable */
+
   useEffect(() => {
     if (templateList.length && step === STEP_ONE && useTemplate.value) {
       setStep(STEP_TWO)
