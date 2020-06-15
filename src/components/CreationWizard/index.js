@@ -15,6 +15,8 @@ import { PUBLIC_URL } from '../../env'
 import { loadingError } from '../../actions/network'
 import { ErrorModal } from '../../containers'
 
+console.log(PUBLIC_URL, 'PUBLIC_URL')
+
 /* eslint-disable */
 Array.prototype.insert = function (index, item) {
     this.splice(index, 0, item)
