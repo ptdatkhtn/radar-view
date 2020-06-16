@@ -1,13 +1,13 @@
 {
   "name": "radar",
-  "version": "2.1.0-alpha.2",
+  "version": "2.1.0-alpha.3",
   "private": true,
   "dependencies": {
-    "@sangre-fp/connectors": "^1.4.2",
-    "@sangre-fp/content-editor": "^2.0.20",
-    "@sangre-fp/i18n": "^2.0.8",
+    "@sangre-fp/connectors": "^1.4.3",
+    "@sangre-fp/content-editor": "^2.0.21",
+    "@sangre-fp/i18n": "^2.0.9",
     "@sangre-fp/reducers": "^1.1.2",
-    "@sangre-fp/ui": "^2.0.16",
+    "@sangre-fp/ui": "^2.0.17",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
