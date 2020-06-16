@@ -8,7 +8,9 @@ import { PhenomenonEditForm } from "@sangre-fp/content-editor"
 
 export default class AddPhenomenaSandbox extends PureComponent {
     state = {
-        createModalShown: false
+        createModalShown: false,
+        filtersShown: false,
+        resetFilters: 0
     }
 
     componentDidMount() {
@@ -78,7 +80,11 @@ export default class AddPhenomenaSandbox extends PureComponent {
             language,
             placing
         } = this.props
-        const { selectedPhenomena } = this.state
+        const {
+            selectedPhenomena,
+            filtersShown,
+            resetFilters
+        } = this.state
 
         return (
             <Draggable handle=".handle">
@@ -97,7 +103,7 @@ export default class AddPhenomenaSandbox extends PureComponent {
                     <ListClose onClick={changeAddPhenomenaVisibility}>
                         <CloseIcon className='material-icons'>close</CloseIcon>
                     </ListClose>
-                    <Container className={'phenomena-list-container'}>
+                    <Container className={'phenomena-list-container'} filtersShown={filtersShown}>
                         <PhenomenaSelector
                             radarId={radarId}
                             language={language}
@@ -107,20 +113,31 @@ export default class AddPhenomenaSandbox extends PureComponent {
                             onAddToRadarClick={this.handleAdd}
                             sandbox
                             filter
+                            filtersShown={filtersShown}
+                            handleFilterChange={() => this.setState({ filtersShown: !filtersShown })}
+                            resetFilters={resetFilters}
                         />
                     </Container>
-                    <Container className='d-flex flex-shrink-0'>
-                        <button
-                          onClick={this.handleCreateNew}
-                          className='btn btn-outline-secondary'
-                        >
-                          {requestTranslation("addNewPhenomena")}
-                        </button>
-                        <button className='btn btn-primary ml-auto'
-                                onClick={changeAddPhenomenaVisibility}>
-                            {requestTranslation('done')}
-                        </button>
-                    </Container>
+                    {filtersShown ? (
+                        <Container filtersShown={filtersShown}>
+                            <button className='btn btn-outline-secondary w-100' onClick={() => this.setState({ resetFilters: resetFilters + 1 })}>
+                                {requestTranslation('resetFilters')}
+                            </button>
+                        </Container>
+                    ) : (
+                        <Container className='d-flex flex-shrink-0'>
+                            <button
+                              onClick={this.handleCreateNew}
+                              className='btn btn-outline-secondary'
+                            >
+                              {requestTranslation("addNewPhenomena")}
+                            </button>
+                            <button className='btn btn-primary ml-auto'
+                                    onClick={changeAddPhenomenaVisibility}>
+                                {requestTranslation('done')}
+                            </button>
+                        </Container>
+                    )}
                     {this.renderCreateModal()}
                 </ListContainer>
             </Draggable>
