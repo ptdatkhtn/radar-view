@@ -28,7 +28,7 @@ export const WizardStyles = createGlobalStyle`
   .wizard {
     position: relative;
     height: 100%;
-    
+
     &__main {
       height: calc(100vh - 112px);
       overflow: auto;
@@ -54,9 +54,13 @@ export const WizardStyles = createGlobalStyle`
         width: 75%;
         height: 100%;
         background: black;
-        background: url('https://i.imgur.com/ohmGkwT.png') no-repeat center;
+        /*background: url('https://i.imgur.com/ohmGkwT.png') no-repeat center;*/
         background-size: contain;
         background-color: #000;
+
+        &__text {
+          color: white;
+        }
       }
     }
 
