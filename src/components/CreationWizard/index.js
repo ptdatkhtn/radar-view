@@ -256,7 +256,11 @@ const CreationWizard = ({ dispatch }) => {
         </div>
         <div
           className='wizard__preview__right d-flex align-items-center justify-content-center'
-          style={{ background: preview_image && preview_image.length ? `url('${preview_image}') no-repeat center` : 'black' }}
+          style={{
+            background: preview_image && preview_image.length ? `url('${preview_image}') no-repeat center` : 'black',
+            backgroundColor: 'black',
+            backgroundSize: 'contain'
+          }}
         >
           {(!preview_image || !preview_image.length) && (
             <div className='wizard__preview__right__text'>{requestTranslation('noPreviewAvailable')}</div>
