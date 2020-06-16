@@ -7,19 +7,29 @@ export const useTemplateSearch = (search, language, isEmpty = false) => {
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+
   const [fetchRadars] = useDebouncedCallback(async (query, language) => {
-    setLoading(true)
     try {
-      setResults((await getRadars(query, language, isEmpty).then(({ result }) => result)))
+      setResults((await getRadars(query, language, isEmpty)
+        .then(({ result }) => {
+          setLoading(false)
+          return result
+        })))
     } catch (err) {
+      setLoading(false)
       setError(err.message)
     }
-    setLoading(false)
   }, 500)
+
 
     useEffect(() => {
     if (search || isEmpty) {
+
+      setLoading(true)
+
       fetchRadars(search, language)
+
+
     } else {
       setResults([])
     }

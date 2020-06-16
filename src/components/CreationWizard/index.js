@@ -388,7 +388,7 @@ const CreationWizard = ({ dispatch }) => {
               </div>
             )}
             {error && <div>Error: {error.message}</div>}
-            {!!(debouncedValue.length && !templateList.length && !loading) && (
+            {!!(debouncedValue.length && !templateList.length && !templatesLoading) && (
               <div className={`w-100 text-center ${emptyTemplateClassName}`}>{requestTranslation('noResults')}</div>
             )}
           </div>
@@ -399,14 +399,7 @@ const CreationWizard = ({ dispatch }) => {
   const handleContinueClick = async () => {
     switch (step) {
       case STEP_ZERO:
-        if (!useTemplate.value) {
-          setShowLoading(true)
-          setIsEmpty(true)
-
-          setTimeout(() => {
-            setShowLoading(false)
-          }, SEARCH_DEBOUNCE_MS * 3)
-        }
+        handleSearchClear()
 
         return setStep(STEP_ONE)
       case STEP_ONE:
@@ -490,7 +483,6 @@ const CreationWizard = ({ dispatch }) => {
   const [step, setStep] = useState(STEP_ZERO)
   const [selectedTemplate, setSelectedTemplate] = useState(null)
   const [searchValue, setSearchValue] = useState('')
-  const [isEmpty, setIsEmpty] = useState(false)
   const [titleValue, setTitleValue] = useState('')
   const [groupId, setGroupId] = useState(gid || null)
   const [selectedGroup, setSelectedGroup] = useState(null)
@@ -498,10 +490,10 @@ const CreationWizard = ({ dispatch }) => {
   const [previewModal, setPreviewModal] = useState(null)
   const [debouncedValue, clearTimeout] = useDebounce(searchValue, SEARCH_DEBOUNCE_MS)
   const [radarId, setRadarId] = useState(null)
-  const { results: templateList, loading: templatesLoading, error } = useTemplateSearch(debouncedValue, language, isEmpty)
+  const { results: templateList, loading: templatesLoading, error } = useTemplateSearch(debouncedValue, language, !useTemplate.value)
   const { groups, loading: loadingGroups } = useEditableGroups()
   const [showLoading, setShowLoading] = useState(false)
-  const loading = templatesLoading || loadingGroups
+  const loading = loadingGroups || templatesLoading
 
   useEffect(() => {
    (async () => {
