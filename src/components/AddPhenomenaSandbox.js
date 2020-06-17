@@ -39,6 +39,7 @@ export default class AddPhenomenaSandbox extends PureComponent {
     }
 
     hideAddForm = () => this.setState({ createModalShown: false })
+    bumpResetFilters = () => this.setState({ resetFilters: this.state.resetFilters + 1 })
 
     renderCreateModal() {
         const {
@@ -116,11 +117,12 @@ export default class AddPhenomenaSandbox extends PureComponent {
                             filtersShown={filtersShown}
                             handleFilterChange={() => this.setState({ filtersShown: !filtersShown })}
                             resetFilters={resetFilters}
+                            bumpResetFilters={this.bumpResetFilters}
                         />
                     </Container>
                     {filtersShown ? (
                         <Container filtersShown={filtersShown}>
-                            <button className='btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center' onClick={() => this.setState({ resetFilters: resetFilters + 1 })}>
+                            <button className='btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center' onClick={this.bumpResetFilters}>
                                 <i className='material-icons mr-1' style={{ fontSize: '16px' }}>replay</i>
                                 {requestTranslation('resetFilters')}
                             </button>
