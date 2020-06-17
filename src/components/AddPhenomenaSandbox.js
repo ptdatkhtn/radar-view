@@ -120,7 +120,8 @@ export default class AddPhenomenaSandbox extends PureComponent {
                     </Container>
                     {filtersShown ? (
                         <Container filtersShown={filtersShown}>
-                            <button className='btn btn-outline-secondary w-100' onClick={() => this.setState({ resetFilters: resetFilters + 1 })}>
+                            <button className='btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center' onClick={() => this.setState({ resetFilters: resetFilters + 1 })}>
+                                <i className='material-icons mr-1' style={{ fontSize: '16px' }}>replay</i>
                                 {requestTranslation('resetFilters')}
                             </button>
                         </Container>

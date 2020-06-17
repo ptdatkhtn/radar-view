@@ -68,6 +68,7 @@ export const Filters = props => {
 
     const {tags} = useTags(group && group.id)
     let [fpTags, groupTags] = tags
+    const activeFilters = [...activeFilter, ...activeTagFilter].length
 
     return (
         <div style={{ zIndex: 2 }}>
@@ -78,11 +79,15 @@ export const Filters = props => {
                     <span className='sr-only'>Info</span>
                 </HubLink>
             </div>
-            <FiltersButton className='btn-round btn-lg d-flex align-items-center justify-content-center'
-                           onClick={toggleFilter}>
+            <FiltersButton
+              className={`btn-round btn-lg d-flex align-items-center justify-content-center ${activeFilters ? '' : 'inactive'}`}
+              onClick={toggleFilter}
+            >
                 <i className='material-icons' style={{transform: 'rotate(-90deg)', fontWeight: 'bold'}}>tune</i>
-                <ActiveFiltersIndicator
-                    className='d-flex justify-content-center align-items-center'>{[...activeFilter, ...activeTagFilter].length}</ActiveFiltersIndicator>
+                {!!activeFilters && (
+                  <ActiveFiltersIndicator
+                      className='d-flex justify-content-center align-items-center'>{activeFilters}</ActiveFiltersIndicator>
+                )}
             </FiltersButton>
             {filtersVisible && (
                 <LegendContainer className='pb-4'>
@@ -131,7 +136,16 @@ const FiltersButton = styled.button`
   position: absolute;
   bottom: 65px;
   left: 15px;
-  z-index: 1;
+  /*background-color: rgb(242,244,244) !important;*/
+
+  &.inactive {
+    background-color: transparent !important;
+    border: 2px solid white;
+
+    i {
+      color: white;
+    }
+  }
 `
 
 const Container = styled.div`
