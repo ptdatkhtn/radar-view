@@ -1,11 +1,9 @@
 import _ from 'lodash'
 import React from 'react'
 import styled from 'styled-components'
-import {requestTranslation} from '@sangre-fp/i18n'
-import {Checkbox, PhenomenonType, Tag} from '@sangre-fp/ui'
-import {useTags} from '@sangre-fp/tags'
-
-
+import { requestTranslation } from '@sangre-fp/i18n'
+import { Checkbox, PhenomenonType, Tag } from '@sangre-fp/ui'
+import { useTags } from '@sangre-fp/hooks'
 
 export const Filters = props => {
     const renderPhenomenaType = phenomenaType => {

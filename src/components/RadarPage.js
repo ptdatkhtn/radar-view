@@ -17,25 +17,17 @@ import {
     TimeRangeEditorForm,
     Filters
 } from '../containers'
-import {
-    Modal,
-    SVGIcon,
-    Loading
-} from '@sangre-fp/ui'
+import { Modal, SVGIcon, Loading } from '@sangre-fp/ui'
+import { getCoordsFromAngleAndRadius, detectLeftButton } from '../helpers'
+import { PUBLIC_URL, RADAR_DATA_WEBSOCKET_URL } from '../env'
+import { requestTranslation } from '@sangre-fp/i18n'
+import { PhenomenonEditForm } from '@sangre-fp/content-editor'
+import { PhenomenonLoader } from '@sangre-fp/hooks'
 import SectorEditorForm from './SectorEditorForm'
 import EditSectorMenu from './EditSectorMenu'
 import Phenomenon from './Phenomenon'
-import { getCoordsFromAngleAndRadius, detectLeftButton } from '../helpers'
 import { modalStyles, paddingModalStyles } from '@sangre-fp/ui'
-import {
-    centerRadiusPercentage,
-    getWebSocketHeaders,
-    timerangeColors,
-    radarBorderWidth
-} from '../config'
-import { PUBLIC_URL, RADAR_DATA_WEBSOCKET_URL } from '../env'
-import { requestTranslation } from '@sangre-fp/i18n'
-import { PhenomenonEditForm, PhenomenonLoader } from "@sangre-fp/content-editor";
+import { centerRadiusPercentage, getWebSocketHeaders, timerangeColors, radarBorderWidth } from '../config'
 
 class RadarPage extends PureComponent {
     constructor(props) {

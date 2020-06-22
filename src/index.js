@@ -8,7 +8,6 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import store from './configureStore'
 import { RadarPage } from './containers'
-import CreationWizard from './components/CreationWizard'
 import * as serviceWorker from './serviceWorker'
 import { GlobalStyles } from '@sangre-fp/ui'
 import { RadarStyles } from './styles'
@@ -25,26 +24,16 @@ import 'react-toastify/dist/ReactToastify.css'
 import 'rc-slider/dist/rc-slider.css'
 import 'rc-tooltip/assets/bootstrap.css'
 
-const paramsString = document.location.search
-const searchParams = new URLSearchParams(paramsString)
-const id = Number(searchParams.get('node'))
-
 const renderApp = returnUri => (
   <Provider store={store}>
     <GlobalStyles />
-    {id ? (
-      <>
-        <RadarStyles />
-        <ToastContainer
-          toastClassName='fp-toast'
-          position='top-left'
-          progressClassName='toast-progress'
-        />
-        <RadarPage returnUri={returnUri} />
-      </>
-    ) : (
-      <CreationWizard />
-    )}
+    <RadarStyles />
+    <ToastContainer
+      toastClassName='fp-toast'
+      position='top-left'
+      progressClassName='toast-progress'
+    />
+    <RadarPage returnUri={returnUri} />
   </Provider>
 )
 
