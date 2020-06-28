@@ -11,14 +11,17 @@ import {
     PAGE_USER_OPTIONS
 } from './CreateRadarForm'
 import ShareRadarModal from '../containers/ShareRadarModalContainer'
-
+import generatePPTX from '../pptx-generator'
 class SideNav extends PureComponent {
     state = {
         deletingModalOpen: false,
         sharingModalOpen: false,
         clonedModalOpen: false
     }
-
+    handleGeneratePPTX = async () => {
+        const { id, groupId } = this.props
+        await generatePPTX(id, groupId)
+    }
     toggleOpenEditMenu = () => {
         const { toggleEditMenuVisiblity, editMenuOpen } = this.props
 
@@ -158,6 +161,12 @@ class SideNav extends PureComponent {
                                                     onClick={() => changeAddRadarFormVisibility(PAGE_CONCLUSIONS)}
                                                 >
                                                     {requestTranslation('editConclusions')}
+                                                </EditMenuItem>
+                                                <EditMenuItem
+                                                  className='fp-dropdown-item'
+                                                  onClick={() => this.handleGeneratePPTX()}
+                                                >
+                                                    {requestTranslation('pptxGenerateReport')}
                                                 </EditMenuItem>
                                             </div>
                                             { collaborationToolsAllowed &&

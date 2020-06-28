@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
 import { requestTranslation } from '@sangre-fp/i18n'
-import { getSessionToken } from './session'
+import { getSessionToken } from '@sangre-fp/connectors/session'
 
 export const customQuillModules = {
     toolbar: [

@@ -247,7 +247,7 @@ export const createPhenomenonWithPosition = (phenomenon, positionData) => (dispa
         xOffset
     }
 
-    radarDataApi.createPhenomena(Number(radarId), data)
+    radarDataApi.createPhenomenon(Number(radarId), data)
         .then(resultData => dispatch(success(resultData.phenomenon)))
         .catch(err => {
             phenomenaApiErrorHandler(err, error, dispatch)

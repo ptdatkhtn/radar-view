@@ -13,7 +13,7 @@ import { GlobalStyles } from '@sangre-fp/ui'
 import { RadarStyles } from './styles'
 import { ToastContainer } from 'react-toastify'
 
-import './session'
+import '@sangre-fp/connectors/session'
 import './translations'
 
 // package styles

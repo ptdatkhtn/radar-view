@@ -1,6 +1,34 @@
 import { initTranslations } from '@sangre-fp/i18n'
 
 const localTranslations = {
+    pptxCrowdsourced: {
+      en: 'Crowdsourced',
+      fi: 'Joukkoistettu'
+    },
+    pptxGenerateReport: {
+      en: 'Generate PowerPoint Report',
+      fi: 'Luo PowerPoint-raportti'
+    },
+    pptxReportBy: {
+      en: 'by',
+      fi: '-'
+    },
+    pptxSectorListTitle: {
+      en: 'List of Sectors',
+      fi: 'Sektorit'
+    },
+    pptxReportTitle: {
+        en: 'Content Summary',
+        fi: 'Yhteenveto'
+    },
+    pptxSector: {
+        en: 'Sector',
+        fi: 'Sektori'
+    },
+    pptxSectorContent: {
+        en: 'Content in the Sector',
+        fi: 'Sektorin sisältö'
+    },
     timelineModeTitle: {
         en: `Please confirm you want to switch the label format`,
         fi: `Haluatko, että haluat muuttaa aikajanan formaattia`

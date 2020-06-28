@@ -51,6 +51,7 @@ export default connect(
             addPhenomenaVisible,
             editSectorsPageOpen,
             id,
+            groupId: group.id,
             collaborationToolsAllowed,
             canDeleteRadar,
             isVisitor,

@@ -3,7 +3,7 @@ import {
     PUBLIC_URL
 } from './env'
 import _ from 'lodash'
-import { getUserRoles } from './session'
+import { getUserRoles } from '@sangre-fp/connectors/session'
 
 export const getCoordsFromAngleAndRadius = (angle, radius) => d3.radialLine()([[angle, radius]])
     .match(/^M(.+),(.+)Z$/)
