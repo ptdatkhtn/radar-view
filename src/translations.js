@@ -9,6 +9,10 @@ const localTranslations = {
       en: 'Generate PowerPoint Report',
       fi: 'Luo PowerPoint-raportti'
     },
+    pptxNotVoted: {
+      en: 'Not voted',
+      fi: 'Ei ääniä'
+    },
     pptxReportBy: {
       en: 'by',
       fi: '-'
@@ -28,6 +32,10 @@ const localTranslations = {
     pptxSectorContent: {
         en: 'Content in the Sector',
         fi: 'Sektorin sisältö'
+    },
+    pptxTopVotedContent: {
+        en: 'Top-Voted Content',
+        fi: 'Äänestetyt ilmiöt'
     },
     timelineModeTitle: {
         en: `Please confirm you want to switch the label format`,

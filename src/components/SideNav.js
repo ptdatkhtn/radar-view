@@ -162,12 +162,6 @@ class SideNav extends PureComponent {
                                                 >
                                                     {requestTranslation('editConclusions')}
                                                 </EditMenuItem>
-                                                <EditMenuItem
-                                                  className='fp-dropdown-item'
-                                                  onClick={() => this.handleGeneratePPTX()}
-                                                >
-                                                    {requestTranslation('pptxGenerateReport')}
-                                                </EditMenuItem>
                                             </div>
                                             { collaborationToolsAllowed &&
                                                 <div>
@@ -214,6 +208,12 @@ class SideNav extends PureComponent {
                                                         {requestTranslation('deleteRadar')}
                                                     </EditMenuItem>
                                                 }
+                                                <EditMenuItem
+                                                  className='fp-dropdown-item'
+                                                  onClick={() => this.handleGeneratePPTX()}
+                                                >
+                                                    {requestTranslation('pptxGenerateReport')}
+                                                </EditMenuItem>
                                             </div>
                                         </EditMenu>
                                     }

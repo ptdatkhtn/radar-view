@@ -1,19 +1,23 @@
 import PptxGenJS from 'pptxgenjs'
 import { requestTranslation as tr } from '@sangre-fp/i18n'
 import radarDataApi from '@sangre-fp/connectors/radar-data-api'
-import { getRadar } from '@sangre-fp/connectors/drupal-api'
+import { getPhenomenaTypes, getRadar } from '@sangre-fp/connectors/drupal-api'
 import { getUsername } from '@sangre-fp/connectors/session'
 import htmlToText from 'html-to-text'
-import { getPhenomena } from '@sangre-fp/connectors/search-api'
 import { getRadarPhenomena } from '@sangre-fp/connectors/phenomena-api'
+
 export default async function generatePPTX(radarId, groupId) {
   const pptx = new PptxGenJS()
   const username = getUsername()
   const reportCreatedDate = new Date()
   const createdDate = reportCreatedDate.toLocaleDateString()
-  const { radarName } = await getRadar(radarId)
-  const { data: { sectors, time_ranges, phenomena: sectorPhenomena } } = await radarDataApi.getRadar(radarId)
-  const { phenomena } = await getRadarPhenomena(radarId, groupId)
+  const phenomenonTypes = await getPhenomenaTypes(groupId)
+  const phenomenonTypeTitlesById = phenomenonTypes.reduce((obj, { id, title }) => ({ ...obj, [id]: title }), {})
+  const { radarName, phenomena: radarPhenomenaDataById } = await getRadar(radarId)
+  const { data: { sectors } } = await radarDataApi.getRadar(radarId)
+  const { phenomena: radarPhenomena } = await getRadarPhenomena(radarId, groupId)
+  let phenomena = radarPhenomena.map(p => ({ ...radarPhenomenaDataById[p.id], ...p })).sort(({ time: aTime }, { time: bTime }) => aTime - bTime)
+  console.log(phenomena)
   pptx.defineLayout({ name: 'FP', width: 13.33, height: 7.5 });
   pptx.layout = 'FP';
   pptx.defineSlideMaster({
@@ -46,7 +50,7 @@ export default async function generatePPTX(radarId, groupId) {
   }
 
   function addCoverSlide() {
-    var slide = addSlide({
+    const slide = addSlide({
       masterName: undefined
     })
     // Radar Title
@@ -68,12 +72,12 @@ export default async function generatePPTX(radarId, groupId) {
   }
 
   function addPreviewSlide() {
-    var slide = addSlide()
+    const slide = addSlide()
     slide.addText('PLACE HOLDER FOR PREVIEW IMAGE', { x: 0.4, y: 0.4, fontSize: 25 })
   }
 
   function addSectorsSlide() {
-    var slide = addSlide()
+    const slide = addSlide()
     slide.addText(radarName, { x: 0.4, y: 0.4, fontSize: 18, w: 13, h: 0.35 })
     slide.addText(tr('pptxSectorListTitle'), { x: 0.4, y: 0.8, fontSize: 25, color: '44546a', w: 12, bold: true })
     slide.addText(sectors.map(({title}) => ({
@@ -82,61 +86,87 @@ export default async function generatePPTX(radarId, groupId) {
   }
 
   function addSectorSummarySlide({ title, notes }) {
-    var slide = addSlide()
+    const slide = addSlide()
     slide.addText(tr('pptxSector').toUpperCase(), { x: 0.4, y: 0.4, fontSize: 18, w: 13, h: 0.35 })
     slide.addText(title, { fontSize: 25, color: '44546a', bold: true, x: 0.4, y: 0.8, w: 11.5 })
     slide.addText(toText(notes), { x: 0.4, y: 1.2, w: 11.5, h: 6, fontSize: 12, isTextBox: true, shrinkText: true, valign: 'top' })
   }
 
   function addSectorContent(id, title, phenomena) {
-    var slide = addSlide()
+    const slide = addSlide()
     slide.addText(tr('pptxSectorContent').toUpperCase(), { x: 0.4, y: 0.4, fontSize: 18, w: 13, h: 0.35 })
     slide.addText(title, { fontSize: 25, color: '44546a', bold: true, x: 0.4, y: 0.8, w: 11.5 })
     let xOffset = 0
     // TODO: Replace time with crowdsourced
-    phenomena.forEach(({ content: { short_title, summary, time: crowdsourced, /*time_range: { min = '', max = '' } = {}*/ } }) => {
+    phenomena.forEach(({ content: { short_title, type, summary, time_range }, time: crowdsourced }) => {
+      const yearMin = time_range?.min
+      const yearMax = time_range?.max
+      let timeRangeStr = ''
+      if (yearMin || yearMax) {
+        timeRangeStr = `${yearMin}-${yearMax}`
+      }
       slide.addText(short_title, { x: 0.4 + xOffset, y: 1.2, w: 3.9, isTextBox: true, shrinkText: true, bold: true, fontSize: 15 })
-      slide.addText(`${'2020'}-${'2025'}`, { x: 0.4 + xOffset, y: 1.4, w: 3.9, shrinkText: true, fontSize: 0 })
-      slide.addText(`${tr('pptxCrowdsourced')}: ${crowdsourced || '2023.21'}`, { x: 0.4 + xOffset, y: 1.6, w: 3.9, shrinkText: true, fontSize: 0 })
-      slide.addText(toText(summary), { x: 0.4 + xOffset, y: 1.9, w: 3.9, h: 5, isTextBox: true, shrinkText: true, valign: 'top' })
+      slide.addText(`${phenomenonTypeTitlesById[type]} ${timeRangeStr}`, { x: 0.4 + xOffset, y: 1.4, w: 3.9, shrinkText: true, fontSize: 10 })
+      slide.addText(`${tr('pptxCrowdsourced')}: ${crowdsourced || '2023.21'}`, { x: 0.4 + xOffset, y: 1.6, w: 3.9, shrinkText: true, fontSize: 10 })
+      slide.addText(toText(summary), { x: 0.4 + xOffset, y: 1.9, w: 3.9, h: 5, isTextBox: true, shrinkText: true, valign: 'top', fontSize: 12 })
       xOffset += 4
     })
 
   }
 
-  function addTopVotedContentSlide() {
-    var slide = addSlide()
-    phenomena.sort(function (a, b) { return a['votes']-b['votes'] }).splice(0, 10).forEach(function (f) {
-
-    })
+  function addTopVotedContentSlide(phenomena, pageNum, totalCount) {
+    const slide = addSlide()
+    slide.addText(radarName, { x: 0.4, y: 0.4, fontSize: 18, w: 13, h: 0.35 })
+    slide.addText(tr('pptxTopVotedContent'), { fontSize: 25, color: '44546a', bold: true, x: 0.4, y: 0.8, w: 11.5 })
+    const rows = phenomena.map(({ content: { short_title, type }, vote_sum }) => (
+      [
+        { text: short_title, options: { bold: true } },
+        { text: `${phenomenonTypeTitlesById[type]}` },
+        { text: typeof vote_sum === 'number' ? vote_sum : tr('pptxNotVoted') }
+      ]
+    ))
+    slide.addTable(rows, { x: 0.5, y: 1.3, w: 12, h: 5, colW: [8, 1.5, 1.5], valign: 'top' })
   }
 
   function addRatedContentImageSlide() {
-    var slide = addSlide()
+    const slide = addSlide()
 
   }
 
   function addRatedContentAxisSlide() {
-    var slide = addSlide()
+    const slide = addSlide()
 
   }
-
 
   addCoverSlide()
   addPreviewSlide()
   addSectorsSlide()
   sectors.forEach(function (sector) {
     addSectorSummarySlide(sector)
-    var sectorPhenomena = phenomena.filter(function (phenomenon) { return phenomenon.sectorId === sector.id })
+    let sectorPhenomena = phenomena.filter(function (phenomenon) { return phenomenon.sectorId === sector.id })
     do {
       addSectorContent(sector.id, sector.title, sectorPhenomena.splice(0, 3))
     } while (sectorPhenomena.length > 0)
   })
-  addTopVotedContentSlide()
+
+  let sortedPhenomena = [...phenomena]
+  sortedPhenomena.sort(function ({ vote_sum: aVoteSum, time: aTimestamp }, { vote_sum: bVoteSum, time: bTimestamp }) {
+    aVoteSum = aVoteSum === null ? -1000000 : aVoteSum
+    bVoteSum = bVoteSum === null ? -1000000 : bVoteSum
+    if (aVoteSum === bVoteSum) {
+      return aTimestamp-bTimestamp
+    }
+    return bVoteSum-aVoteSum
+  })
+
+  const topVotedPageCount = Math.ceil(sortedPhenomena.length % 15)
+  let topVotedPageNum = 1
+  do {
+    addTopVotedContentSlide(sortedPhenomena.splice(0, 15), topVotedPageCount, topVotedPageNum++, topVotedPageCount)
+  } while (sortedPhenomena.length > 0)
   addRatedContentImageSlide()
   addRatedContentAxisSlide()
   pptx.writeFile(radarName.replace(/(\W+)/gi, '-'));
-
 }
 
 function toText(html) {
