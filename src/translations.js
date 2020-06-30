@@ -21,6 +21,10 @@ const localTranslations = {
       en: 'List of Sectors',
       fi: 'Sektorit'
     },
+    pptxRatedContent: {
+        en: 'Rated Content',
+        fi: 'Arvioitu sisältö'
+    },
     pptxReportTitle: {
         en: 'Content Summary',
         fi: 'Yhteenveto'

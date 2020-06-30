@@ -5,7 +5,7 @@ import { getPhenomenaTypes, getRadar } from '@sangre-fp/connectors/drupal-api'
 import { getUsername } from '@sangre-fp/connectors/session'
 import htmlToText from 'html-to-text'
 import { getRadarPhenomena } from '@sangre-fp/connectors/phenomena-api'
-
+import { get } from 'lodash'
 export default async function generatePPTX(radarId, groupId) {
   const pptx = new PptxGenJS()
   const username = getUsername()
@@ -13,11 +13,10 @@ export default async function generatePPTX(radarId, groupId) {
   const createdDate = reportCreatedDate.toLocaleDateString()
   const phenomenonTypes = await getPhenomenaTypes(groupId)
   const phenomenonTypeTitlesById = phenomenonTypes.reduce((obj, { id, title }) => ({ ...obj, [id]: title }), {})
-  const { radarName, phenomena: radarPhenomenaDataById } = await getRadar(radarId)
+  const { radarName, phenomena: radarPhenomenaDataById, axisXTitle, axisYTitle } = await getRadar(radarId)
   const { data: { sectors } } = await radarDataApi.getRadar(radarId)
   const { phenomena: radarPhenomena } = await getRadarPhenomena(radarId, groupId)
   let phenomena = radarPhenomena.map(p => ({ ...radarPhenomenaDataById[p.id], ...p })).sort(({ time: aTime }, { time: bTime }) => aTime - bTime)
-  console.log(phenomena)
   pptx.defineLayout({ name: 'FP', width: 13.33, height: 7.5 });
   pptx.layout = 'FP';
   pptx.defineSlideMaster({
@@ -122,7 +121,7 @@ export default async function generatePPTX(radarId, groupId) {
       [
         { text: short_title, options: { bold: true } },
         { text: `${phenomenonTypeTitlesById[type]}` },
-        { text: typeof vote_sum === 'number' ? vote_sum : tr('pptxNotVoted') }
+        { text: typeof vote_sum === 'number' ? vote_sum : '-' }
       ]
     ))
     slide.addTable(rows, { x: 0.5, y: 1.3, w: 12, h: 5, colW: [8, 1.5, 1.5], valign: 'top' })
@@ -130,27 +129,49 @@ export default async function generatePPTX(radarId, groupId) {
 
   function addRatedContentImageSlide() {
     const slide = addSlide()
-
+    slide.addText(radarName, { x: 0.4, y: 0.4, fontSize: 18, w: 13, h: 0.35 })
+   slide.addText('PLACE HOLDER FOR RATINGS IMAGE', { x: 0.4, y: 0.8, fontSize: 25 })
   }
 
-  function addRatedContentAxisSlide() {
+  function addRatedContentAxisSlide(xPhenomena, yPhenomena) {
     const slide = addSlide()
+    slide.addText(radarName, { x: 0.4, y: 0.4, fontSize: 18, w: 13, h: 0.35 })
+    slide.addText(tr('pptxRatedContent'), { fontSize: 25, color: '44546a', bold: true, x: 0.4, y: 0.8, w: 11.5 })
+    let xOffset = 0.4
+    console.log(xPhenomena);
+    [xPhenomena, yPhenomena].forEach(({ title, axis, phenomena }) => {
+      slide.addText(title, { x: xOffset, y: 1.4, fontSize: 18, w: 13, h: 0.35, bold: true })
+      const rows = phenomena.map(({ content: { short_title, type }, rating_avg }) => {
+        return [
+          { text: short_title, options: { bold: true } },
+          { text: `${phenomenonTypeTitlesById[type]}` },
+          { text: rating_avg && typeof rating_avg[axis] === 'number' ? (rating_avg[axis] / 100).toFixed(2) : '-' }
+        ]
 
+        }
+      )
+      if (rows.length > 0) {
+        slide.addTable(rows, { x: xOffset, y: 2, w: 5.5, h: 4.7, colW: [3.5, 1.5, 0.5], valign: 'top' })
+      }
+      xOffset += 6.8
+    })
   }
 
   addCoverSlide()
   addPreviewSlide()
+
+  // Sectors
   addSectorsSlide()
   sectors.forEach(function (sector) {
     addSectorSummarySlide(sector)
-    let sectorPhenomena = phenomena.filter(function (phenomenon) { return phenomenon.sectorId === sector.id })
+    let sectorPhenomena = phenomena.filter(({ sectorId }) => sectorId === sector.id)
     do {
       addSectorContent(sector.id, sector.title, sectorPhenomena.splice(0, 3))
     } while (sectorPhenomena.length > 0)
   })
 
-  let sortedPhenomena = [...phenomena]
-  sortedPhenomena.sort(function ({ vote_sum: aVoteSum, time: aTimestamp }, { vote_sum: bVoteSum, time: bTimestamp }) {
+  // Top Voted Phenomena
+  const sortedPhenomena = [...phenomena].sort(({ vote_sum: aVoteSum, time: aTimestamp }, { vote_sum: bVoteSum, time: bTimestamp }) => {
     aVoteSum = aVoteSum === null ? -1000000 : aVoteSum
     bVoteSum = bVoteSum === null ? -1000000 : bVoteSum
     if (aVoteSum === bVoteSum) {
@@ -164,8 +185,22 @@ export default async function generatePPTX(radarId, groupId) {
   do {
     addTopVotedContentSlide(sortedPhenomena.splice(0, 15), topVotedPageCount, topVotedPageNum++, topVotedPageCount)
   } while (sortedPhenomena.length > 0)
+
+  // Content Rating
   addRatedContentImageSlide()
-  addRatedContentAxisSlide()
+
+  const axisPhenomena = ['x', 'y'].map(axis => [...phenomena].sort(({ rating_avg: aRatingAvg }, { rating_avg: bRatingAvg }) => {
+      let aAvg = get(aRatingAvg, axis, -10000000)
+      let bAvg = get(bRatingAvg, axis, -10000000)
+      return bAvg-aAvg
+  }))
+  let xPhenomena = axisPhenomena[0] || []
+  let yPhenomena = axisPhenomena[1] || []
+  do {
+    addRatedContentAxisSlide({ title: axisXTitle, axis: 'x', phenomena: xPhenomena.length > 0 ? xPhenomena.splice(0, 14) : [] }, { title: axisYTitle, axis: 'y', phenomena: yPhenomena.length > 0 ? yPhenomena.splice(0, 14) : [] })
+  } while (xPhenomena.length > 0 || yPhenomena.length > 0)
+
+  // Comment Summary Slide
   pptx.writeFile(radarName.replace(/(\W+)/gi, '-'));
 }
 
