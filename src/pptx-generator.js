@@ -13,7 +13,7 @@ export default async function generatePPTX(radarId, groupId) {
   const createdDate = reportCreatedDate.toLocaleDateString()
   const phenomenonTypes = await getPhenomenaTypes(groupId)
   const phenomenonTypeTitlesById = phenomenonTypes.reduce((obj, { id, title }) => ({ ...obj, [id]: title }), {})
-  const { radarName, phenomena: radarPhenomenaDataById, axisXTitle, axisYTitle } = await getRadar(radarId)
+  const { radarName, url: radarUrl, phenomena: radarPhenomenaDataById, axisXTitle, axisYTitle, comment_count } = await getRadar(radarId)
   const { data: { sectors } } = await radarDataApi.getRadar(radarId)
   const { phenomena: radarPhenomena } = await getRadarPhenomena(radarId, groupId)
   let phenomena = radarPhenomena.map(p => ({ ...radarPhenomenaDataById[p.id], ...p })).sort(({ time: aTime }, { time: bTime }) => aTime - bTime)
@@ -157,6 +157,16 @@ export default async function generatePPTX(radarId, groupId) {
     })
   }
 
+  function addCommentSummarySlide() {
+    const slide = addSlide()
+    slide.addText(radarName, { x: 0.4, y: 0.4, fontSize: 18, w: 13, h: 0.35 })
+    slide.addText([{text: tr('pptxCommentsTitle')}], { fontSize: 25, color: '44546a', bold: true, x: 0.4, y: 0.8, w: 11.5 })
+    slide.addText([
+      {text: tr('pptxCommentsText', comment_count) , options: { breakLine: false }},
+      {text: radarUrl, options: { hyperlink: {url: radarUrl }}}
+    ], { x: 0.4, y: 2 })
+  }
+
   addCoverSlide()
   addPreviewSlide()
 
@@ -201,7 +211,8 @@ export default async function generatePPTX(radarId, groupId) {
   } while (xPhenomena.length > 0 || yPhenomena.length > 0)
 
   // Comment Summary Slide
-  pptx.writeFile(radarName.replace(/(\W+)/gi, '-'));
+  addCommentSummarySlide()
+  return pptx.writeFile(radarName.replace(/(\W+)/gi, '-'));
 }
 
 function toText(html) {

@@ -5,6 +5,14 @@ const localTranslations = {
       en: 'Crowdsourced',
       fi: 'Joukkoistettu'
     },
+    pptxCommentsTitle: {
+      en: 'Comments',
+      fi: 'Kommentit'
+    },
+    pptxCommentsText: {
+      en: count => `There are ${count} comment${count > 1 && 's'} on this radar. To review them, please log in to the platform and click this link: `,
+        fi: count => `Kartalla on yhteensä ${count} käyttäjien kommentti${count > 1 && 'a'}. Pääset katsomaan niitä kirjautumalla palveluun ja klikkaamalla tätä linkkiä: `
+    },
     pptxGenerateReport: {
       en: 'Generate PowerPoint Report',
       fi: 'Luo PowerPoint-raportti'
