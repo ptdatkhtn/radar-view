@@ -13,7 +13,7 @@ export default async function generatePPTX(radarId, groupId) {
   const createdDate = reportCreatedDate.toLocaleDateString()
   const phenomenonTypes = await getPhenomenaTypes(groupId)
   const phenomenonTypeTitlesById = phenomenonTypes.reduce((obj, { id, title }) => ({ ...obj, [id]: title }), {})
-  const { radarName, url: radarUrl, phenomena: radarPhenomenaDataById, axisXTitle, axisYTitle, comment_count } = await getRadar(radarId)
+  const { radarName, results_url: radarResultsUrl, phenomena: radarPhenomenaDataById, axisXTitle, axisYTitle, comment_count } = await getRadar(radarId)
   const { data: { sectors } } = await radarDataApi.getRadar(radarId)
   const { phenomena: radarPhenomena } = await getRadarPhenomena(radarId, groupId)
   let phenomena = radarPhenomena.map(p => ({ ...radarPhenomenaDataById[p.id], ...p })).sort(({ time: aTime }, { time: bTime }) => aTime - bTime)
@@ -163,7 +163,7 @@ export default async function generatePPTX(radarId, groupId) {
     slide.addText([{text: tr('pptxCommentsTitle')}], { fontSize: 25, color: '44546a', bold: true, x: 0.4, y: 0.8, w: 11.5 })
     slide.addText([
       {text: tr('pptxCommentsText', comment_count) , options: { breakLine: false }},
-      {text: radarUrl, options: { hyperlink: {url: radarUrl }}}
+      {text: `${radarResultsUrl}?tab=2`, options: { hyperlink: {url: `${radarResultsUrl}?tab=2` }}}
     ], { x: 0.4, y: 2 })
   }
 
