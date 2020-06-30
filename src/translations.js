@@ -1,9 +1,9 @@
 import { initTranslations } from '@sangre-fp/i18n'
 
 const localTranslations = {
-    pptxCrowdsourced: {
-      en: 'Crowdsourced',
-      fi: 'Joukkoistettu'
+    pptxTimestamp: {
+      en: 'Timestamp',
+      fi: 'Ajankohta'
     },
     pptxCommentsTitle: {
       en: 'Comments',

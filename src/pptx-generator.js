@@ -97,7 +97,7 @@ export default async function generatePPTX(radarId, groupId) {
     slide.addText(title, { fontSize: 25, color: '44546a', bold: true, x: 0.4, y: 0.8, w: 11.5 })
     let xOffset = 0
     // TODO: Replace time with crowdsourced
-    phenomena.forEach(({ content: { short_title, type, summary, time_range }, time: crowdsourced }) => {
+    phenomena.forEach(({ content: { short_title, type, summary, time_range }, time }) => {
       const yearMin = time_range?.min
       const yearMax = time_range?.max
       let timeRangeStr = ''
@@ -106,7 +106,7 @@ export default async function generatePPTX(radarId, groupId) {
       }
       slide.addText(short_title, { x: 0.4 + xOffset, y: 1.2, w: 3.9, isTextBox: true, shrinkText: true, bold: true, fontSize: 15 })
       slide.addText(`${phenomenonTypeTitlesById[type]} ${timeRangeStr}`, { x: 0.4 + xOffset, y: 1.4, w: 3.9, shrinkText: true, fontSize: 10 })
-      slide.addText(`${tr('pptxCrowdsourced')}: ${crowdsourced || '2023.21'}`, { x: 0.4 + xOffset, y: 1.6, w: 3.9, shrinkText: true, fontSize: 10 })
+      slide.addText(`${tr('pptxTimestamp')}: ${time || '-'}`, { x: 0.4 + xOffset, y: 1.6, w: 3.9, shrinkText: true, fontSize: 10 })
       slide.addText(toText(summary), { x: 0.4 + xOffset, y: 1.9, w: 3.9, h: 5, isTextBox: true, shrinkText: true, valign: 'top', fontSize: 12 })
       xOffset += 4
     })
