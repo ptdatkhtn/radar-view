@@ -6,6 +6,7 @@ import { getUsername } from '@sangre-fp/connectors/session'
 import htmlToText from 'html-to-text'
 import { getRadarPhenomena } from '@sangre-fp/connectors/phenomena-api'
 import { get } from 'lodash'
+import fullscreen from '@sangre-fp/connectors/screenshot-service-api'
 export default async function generatePPTX(radarId, groupId) {
   const pptx = new PptxGenJS()
   const username = getUsername()
@@ -13,7 +14,7 @@ export default async function generatePPTX(radarId, groupId) {
   const createdDate = reportCreatedDate.toLocaleDateString()
   const phenomenonTypes = await getPhenomenaTypes(groupId)
   const phenomenonTypeTitlesById = phenomenonTypes.reduce((obj, { id, title }) => ({ ...obj, [id]: title }), {})
-  const { radarName, results_url: radarResultsUrl, phenomena: radarPhenomenaDataById, axisXTitle, axisYTitle, comment_count } = await getRadar(radarId)
+  const { radarName, results_url: radarResultsUrl, url: radarUrl, phenomena: radarPhenomenaDataById, axisXTitle, axisYTitle, comment_count } = await getRadar(radarId)
   const { data: { sectors } } = await radarDataApi.getRadar(radarId)
   const { phenomena: radarPhenomena } = await getRadarPhenomena(radarId, groupId)
   let phenomena = radarPhenomena.map(p => ({ ...radarPhenomenaDataById[p.id], ...p })).sort(({ time: aTime }, { time: bTime }) => aTime - bTime)
@@ -70,9 +71,16 @@ export default async function generatePPTX(radarId, groupId) {
     })
   }
 
-  function addPreviewSlide() {
-    const slide = addSlide()
-    slide.addText('PLACE HOLDER FOR PREVIEW IMAGE', { x: 0.4, y: 0.4, fontSize: 25 })
+  async function addPreviewSlide() {
+    const slide = addSlide({ masterName: undefined })
+    const { data } = await fullscreen(radarUrl)
+    slide.addImage({
+      data: `image/png;base64,${data}`,
+      x: 0,
+      y: 0,
+      w: 13.33,
+      h: 7.5
+    })
   }
 
   function addSectorsSlide() {
@@ -168,7 +176,7 @@ export default async function generatePPTX(radarId, groupId) {
   }
 
   addCoverSlide()
-  addPreviewSlide()
+  await addPreviewSlide()
 
   // Sectors
   addSectorsSlide()
