@@ -15,19 +15,19 @@ const localTranslations = {
     },
     download: {
         en: 'Download',
-        fi: 'Download'
+        fi: 'Lataa'
     },
     downloadPPTXDescription: {
-        en: 'Download radar summary in PTT format',
-        fi: 'Download radar summary in PTT format'
+        en: 'Download radar summary in PowerPoint format',
+        fi: 'Lataa raportti in PowerPoint-muodossa'
     },
     pptxGenerateReport: {
       en: 'Generate PowerPoint Report',
       fi: 'Luo PowerPoint-raportti'
     },
     generatingPPTXError: {
-        en: `generating powerpoint`,
-        fi: `generating powerpoint`
+        en: `generating PowerPoint`,
+        fi: `raporttia luodaan`
     },
     pptxNotVoted: {
       en: 'Not voted',
