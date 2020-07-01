@@ -13,9 +13,21 @@ const localTranslations = {
       en: count => `There are ${count} comment${count > 1 && 's'} on this radar. To review them, please log in to the platform and click this link: `,
         fi: count => `Kartalla on yhteensä ${count} käyttäjien kommentti${count > 1 && 'a'}. Pääset katsomaan niitä kirjautumalla palveluun ja klikkaamalla tätä linkkiä: `
     },
+    download: {
+        en: 'Download',
+        fi: 'Download'
+    },
+    downloadPPTXDescription: {
+        en: 'Download radar summary in PTT format',
+        fi: 'Download radar summary in PTT format'
+    },
     pptxGenerateReport: {
       en: 'Generate PowerPoint Report',
       fi: 'Luo PowerPoint-raportti'
+    },
+    generatingPPTXError: {
+        en: `generating powerpoint`,
+        fi: `generating powerpoint`
     },
     pptxNotVoted: {
       en: 'Not voted',

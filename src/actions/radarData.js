@@ -13,6 +13,7 @@ import {
 } from '@sangre-fp/connectors/phenomena-api'
 import { handleImageUploadIfNeeded } from '@sangre-fp/connectors/media-api'
 import { getPhenomenaTypes } from './phenomenaTypes'
+import generatePPTX from '../pptx-generator'
 
 export const updateRadarVersion = version => ({
     type: actionTypes.UPDATE_RADAR_VERSION,
@@ -316,4 +317,18 @@ export const addPublicPhenomenaToRadar = (phenomenon, callback) => (dispatch, ge
     })
 
     callback(_.find(getState().phenomena, { id }))
+}
+
+export const generatePowerpoint = (id, groupId) => (dispatch, getState) => {
+    const { loading, success, error } = getNetworkMethods(
+        actionTypes.GENERATE_POWERPOINT,
+        actionTypes.GENERATE_POWERPOINT_SUCCESS,
+        requestTranslation('generatingPPTXError')
+    )
+
+    dispatch(loading())
+
+    return generatePPTX(id, groupId)
+        .then(() => dispatch(success()))
+        .catch(err => dispatch(error(err)))
 }

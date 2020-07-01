@@ -11,7 +11,8 @@ import {
 import { changeSignalListVisibility } from '../actions/signals'
 import {
     deleteRadar,
-    cloneRadar
+    cloneRadar,
+    generatePowerpoint
 } from '../actions/radarData'
 import { isCollaborationToolsAllowed } from '../selectors'
 import { PUBLIC_URL } from '../env'
@@ -70,6 +71,7 @@ export default connect(
         timerangePageHandler,
         changeAddPhenomenaVisibility,
         cloneRadar,
-        toggleEditMenuVisiblity
+        toggleEditMenuVisiblity,
+        generatePowerpoint
     }, dispatch)
 )(SideNav)

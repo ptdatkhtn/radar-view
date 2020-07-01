@@ -11,17 +11,15 @@ import {
     PAGE_USER_OPTIONS
 } from './CreateRadarForm'
 import ShareRadarModal from '../containers/ShareRadarModalContainer'
-import generatePPTX from '../pptx-generator'
+
 class SideNav extends PureComponent {
     state = {
         deletingModalOpen: false,
         sharingModalOpen: false,
-        clonedModalOpen: false
+        clonedModalOpen: false,
+        generatingModalOpen: false
     }
-    handleGeneratePPTX = async () => {
-        const { id, groupId } = this.props
-        await generatePPTX(id, groupId)
-    }
+
     toggleOpenEditMenu = () => {
         const { toggleEditMenuVisiblity, editMenuOpen } = this.props
 
@@ -62,7 +60,7 @@ class SideNav extends PureComponent {
         if (returnId) {
             returnId = returnId.replace(/[^a-f0-9-]/, '')
         }
-        const { deletingModalOpen, clonedModalOpen, sharingModalOpen } = this.state
+        const { deletingModalOpen, clonedModalOpen, sharingModalOpen, generatingModalOpen } = this.state
         const {
             changeAddRadarFormVisibility,
             sectorPageHandler,
@@ -71,6 +69,7 @@ class SideNav extends PureComponent {
             changeAddPhenomenaVisibility,
             editSectorsPageOpen,
             id,
+            groupId,
             addRadarFormOpen,
             editPhenomenaVisible,
             editMenuOpen,
@@ -83,7 +82,8 @@ class SideNav extends PureComponent {
             signalToolEnabled,
             isVisitor,
             canShareRadar,
-            collaborationToolsAllowed
+            collaborationToolsAllowed,
+            generatePowerpoint
         } = this.props
 
         const renderRadarEditor = !editSectorsPageOpen && !addRadarFormOpen && !editPhenomenaVisible && !signalListVisible && !isVisitor
@@ -210,7 +210,7 @@ class SideNav extends PureComponent {
                                                 }
                                                 <EditMenuItem
                                                   className='fp-dropdown-item'
-                                                  onClick={() => this.handleGeneratePPTX()}
+                                                  onClick={() => this.setState({ generatingModalOpen: true })}
                                                 >
                                                     {requestTranslation('pptxGenerateReport')}
                                                 </EditMenuItem>
@@ -247,6 +247,33 @@ class SideNav extends PureComponent {
                         {requestTranslation('close')}
                     </CloseButton>
                 }
+                <Modal
+                    isOpen={generatingModalOpen}
+                    contentLabel='generate powerpoint'
+                    style={paddingModalStyles}
+                    className='paddedModal'
+                    ariaHideApp={false}
+                >
+                        <div className={'confirmation-modal-content'}>
+                            <h3>
+                                {requestTranslation('download')}
+                            </h3>
+                            <p>{requestTranslation('downloadPPTXDescription')}</p>
+                            <div className={'d-flex align-items-center justify-content-end'}>
+                                <button className='btn btn-lg btn-plain-gray'
+                                        onClick={() => this.setState({ generatingModalOpen: false })}>
+                                    {requestTranslation('cancel')}
+                                </button>
+                                <button className='btn btn-lg btn-primary'
+                                        onClick={() => {
+                                            this.setState({ generatingModalOpen: false })
+                                            generatePowerpoint(id, groupId)
+                                        }}>
+                                    {requestTranslation('download')}
+                                </button>
+                            </div>
+                        </div>
+                </Modal>
                 <Modal
                     isOpen={deletingModalOpen}
                     contentLabel='delete sanity check'
