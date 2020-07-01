@@ -14,7 +14,7 @@ export default async function generatePPTX(radarId, groupId) {
   const createdDate = reportCreatedDate.toLocaleDateString()
   const phenomenonTypes = await getPhenomenaTypes(groupId)
   const phenomenonTypeTitlesById = phenomenonTypes.reduce((obj, { id, title }) => ({ ...obj, [id]: title }), {})
-  const { radarName, results_url: radarResultsUrl, url: radarUrl, phenomena: radarPhenomenaDataById, axisXTitle, axisYTitle, comment_count } = await getRadar(radarId)
+  const { radarName, results_url: radarResultsUrl, url: radarUrl, phenomena: radarPhenomenaDataById, axisXTitle, axisYTitle, comment_count, ratingsOn, votingOn, discussionOn, commentsOn } = await getRadar(radarId)
   const { data: { sectors } } = await radarDataApi.getRadar(radarId)
   const { phenomena: radarPhenomena } = await getRadarPhenomena(radarId, groupId)
   let phenomena = radarPhenomena.map(p => ({ ...radarPhenomenaDataById[p.id], ...p })).sort(({ time: aTime }, { time: bTime }) => aTime - bTime)
@@ -197,37 +197,43 @@ export default async function generatePPTX(radarId, groupId) {
   })
 
   // Top Voted Phenomena
-  const sortedPhenomena = [...phenomena].sort(({ vote_sum: aVoteSum, time: aTimestamp }, { vote_sum: bVoteSum, time: bTimestamp }) => {
-    aVoteSum = aVoteSum === null ? -1000000 : aVoteSum
-    bVoteSum = bVoteSum === null ? -1000000 : bVoteSum
-    if (aVoteSum === bVoteSum) {
-      return aTimestamp-bTimestamp
-    }
-    return bVoteSum-aVoteSum
-  })
+  if (votingOn) {
+    const sortedPhenomena = [...phenomena].sort(({ vote_sum: aVoteSum, time: aTimestamp }, { vote_sum: bVoteSum, time: bTimestamp }) => {
+      aVoteSum = aVoteSum === null ? -1000000 : aVoteSum
+      bVoteSum = bVoteSum === null ? -1000000 : bVoteSum
+      if (aVoteSum === bVoteSum) {
+        return aTimestamp-bTimestamp
+      }
+      return bVoteSum-aVoteSum
+    })
 
-  const topVotedPageCount = Math.ceil(sortedPhenomena.length % 15)
-  let topVotedPageNum = 1
-  do {
-    addTopVotedContentSlide(sortedPhenomena.splice(0, 15), topVotedPageCount, topVotedPageNum++, topVotedPageCount)
-  } while (sortedPhenomena.length > 0)
+    const topVotedPageCount = Math.ceil(sortedPhenomena.length % 15)
+    let topVotedPageNum = 1
+    do {
+      addTopVotedContentSlide(sortedPhenomena.splice(0, 15), topVotedPageCount, topVotedPageNum++, topVotedPageCount)
+    } while (sortedPhenomena.length > 0)
+  }
 
   // Content Rating
-  await addRatedContentImageSlide()
+  if (ratingsOn) {
+    await addRatedContentImageSlide()
 
-  const axisPhenomena = ['x', 'y'].map(axis => [...phenomena].sort(({ rating_avg: aRatingAvg }, { rating_avg: bRatingAvg }) => {
+    const axisPhenomena = ['x', 'y'].map(axis => [...phenomena].sort(({ rating_avg: aRatingAvg }, { rating_avg: bRatingAvg }) => {
       let aAvg = get(aRatingAvg, axis, -10000000)
       let bAvg = get(bRatingAvg, axis, -10000000)
       return bAvg-aAvg
-  }))
-  let xPhenomena = axisPhenomena[0] || []
-  let yPhenomena = axisPhenomena[1] || []
-  do {
-    addRatedContentAxisSlide({ title: axisXTitle, axis: 'x', phenomena: xPhenomena.length > 0 ? xPhenomena.splice(0, 14) : [] }, { title: axisYTitle, axis: 'y', phenomena: yPhenomena.length > 0 ? yPhenomena.splice(0, 14) : [] })
-  } while (xPhenomena.length > 0 || yPhenomena.length > 0)
+    }))
+    let xPhenomena = axisPhenomena[0] || []
+    let yPhenomena = axisPhenomena[1] || []
+    do {
+      addRatedContentAxisSlide({ title: axisXTitle, axis: 'x', phenomena: xPhenomena.length > 0 ? xPhenomena.splice(0, 14) : [] }, { title: axisYTitle, axis: 'y', phenomena: yPhenomena.length > 0 ? yPhenomena.splice(0, 14) : [] })
+    } while (xPhenomena.length > 0 || yPhenomena.length > 0)
+  }
 
-  // Comment Summary Slide
-  addCommentSummarySlide()
+  if (discussionOn || commentsOn) {
+    // Comment Summary Slide
+    addCommentSummarySlide()
+  }
   return pptx.writeFile(radarName.replace(/(\W+)/gi, '-'));
 }
 
