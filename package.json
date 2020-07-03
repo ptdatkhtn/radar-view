@@ -1,6 +1,6 @@
 {
   "name": "radar",
-  "version": "2.2.0-alpha.4",
+  "version": "2.2.0",
   "private": true,
   "dependencies": {
     "@sangre-fp/connectors": "^1.5.1",
