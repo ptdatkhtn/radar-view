@@ -153,8 +153,7 @@ export default async function generatePPTX(radarId, groupId) {
     const slide = addSlide()
     slide.addText(radarName, { x: 0.4, y: 0.4, fontSize: 18, w: 13, h: 0.35 })
     slide.addText(tr('pptxRatedContent'), { fontSize: 25, color: '44546a', bold: true, x: 0.4, y: 0.8, w: 11.5 })
-    let xOffset = 0.4
-    console.log(xPhenomena);
+    let xOffset = 0.4;
     [xPhenomena, yPhenomena].forEach(({ title, axis, phenomena }) => {
       slide.addText(title, { x: xOffset, y: 1.4, fontSize: 18, w: 13, h: 0.35, bold: true })
       const rows = phenomena.map(({ content: { short_title, type }, rating_avg }) => {
