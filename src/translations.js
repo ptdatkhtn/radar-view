@@ -22,7 +22,7 @@ const localTranslations = {
         fi: 'Lataa raportti in PowerPoint-muodossa'
     },
     pptxGenerateReport: {
-        en: 'Download Summary (ppt)',
+        en: 'Download summary (ppt)',
         fi: 'Lataa yhteenveto (ppt)'
     },
     generatingPPTXError: {
