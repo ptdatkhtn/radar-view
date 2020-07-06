@@ -22,8 +22,8 @@ const localTranslations = {
         fi: 'Lataa raportti in PowerPoint-muodossa'
     },
     pptxGenerateReport: {
-      en: 'Generate PowerPoint Report',
-      fi: 'Luo PowerPoint-raportti'
+        en: 'Download Summary (ppt)',
+        fi: 'Lataa yhteenveto (ppt)'
     },
     generatingPPTXError: {
         en: `generating PowerPoint`,
