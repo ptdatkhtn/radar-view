@@ -18,8 +18,8 @@ const localTranslations = {
         fi: 'Lataa'
     },
     downloadPPTXDescription: {
-        en: 'Download radar summary in PowerPoint format',
-        fi: 'Lataa raportti in PowerPoint-muodossa'
+        en: 'Download radar summary in PowerPoint format.',
+        fi: 'Lataa yhteenveto PowerPoint-muodossa.'
     },
     pptxGenerateReport: {
         en: 'Download summary (ppt)',
