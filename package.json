@@ -1,10 +1,10 @@
 {
   "name": "radar",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "private": true,
   "dependencies": {
     "@sangre-fp/connectors": "^1.5.1",
-    "@sangre-fp/content-editor": "^2.0.28",
+    "@sangre-fp/content-editor": "^2.0.29",
     "@sangre-fp/hooks": "^1.0.3",
     "@sangre-fp/i18n": "^2.0.15",
     "@sangre-fp/reducers": "^1.1.3",
