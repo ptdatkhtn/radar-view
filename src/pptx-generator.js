@@ -42,7 +42,7 @@ export default async function generatePPTX(radarId, groupId) {
   })
 
   function addHeading(txt, slide) {
-    slide.addText(txt.toUpperCase(), { x: 0.4, y: 0.4, fontSize: 18, valign: "top", w: 12, h: 0.4 })
+    slide.addText(txt, { x: 0.4, y: 0.4, fontSize: 18, valign: "top", w: 12, h: 0.4 })
   }
 
   function addTitle(txt, slide) {
@@ -102,14 +102,14 @@ export default async function generatePPTX(radarId, groupId) {
 
   function addSectorSummarySlide({ title, notes }) {
     const slide = addSlide()
-    addHeading(tr('pptxSector'), slide)
+    addHeading(tr('pptxSector').toUpperCase(), slide)
     addTitle(title, slide)
     slide.addText(toText(notes), { x: 0.4, y: 1.2, w: 11.5, h: 6, fontSize: 12, isTextBox: true, shrinkText: true, valign: 'top' })
   }
 
   function addSectorContent(id, title, phenomena) {
     const slide = addSlide()
-    addHeading(tr('pptxSectorContent'), slide)
+    addHeading(tr('pptxSectorContent').toUpperCase(), slide)
     addTitle(title, slide)
     let xOffset = 0
     // TODO: Replace time with crowdsourced
