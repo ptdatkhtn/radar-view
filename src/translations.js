@@ -10,8 +10,8 @@ const localTranslations = {
       fi: 'Kommentit'
     },
     pptxCommentsText: {
-      en: count => `There are ${count} comment${count > 1 && 's'} on this radar. To review them, please log in to the platform and click this link: `,
-        fi: count => `Kartalla on yhteensä ${count} käyttäjien kommentti${count > 1 && 'a'}. Pääset katsomaan niitä kirjautumalla palveluun ja klikkaamalla tätä linkkiä: `
+      en: count => `There are ${count === 0 ? 'no' : count } comment${count !== 1 ? 's' : ''} on this radar. To review them${count === 0 ? ' later': ''}, please log in to the platform and click this link: `,
+        fi: count => count === 0 ? 'Kartalle ei ole vielä käyttäjien kommentteja. Pääset katsomaan niitä myöhemmin kirjautumalla palveluun ja klikkaamalla tätä linkkiä: ' : `Kartalla on yhteensä ${count} käyttäjien kommentti${count > 1 ? 'a' : ''}. Pääset katsomaan niitä kirjautumalla palveluun ja klikkaamalla tätä linkkiä: `
     },
     download: {
         en: 'Download',

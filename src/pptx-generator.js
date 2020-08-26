@@ -41,6 +41,14 @@ export default async function generatePPTX(radarId, groupId) {
     ]
   })
 
+  function addHeading(txt, slide) {
+    slide.addText(txt.toUpperCase(), { x: 0.4, y: 0.4, fontSize: 18, valign: "top", w: 12, h: 0.4 })
+  }
+
+  function addTitle(txt, slide) {
+    slide.addText(txt, { x: 0.4, y: 0.68, fontSize: 25, color: '44546a', bold: true, valign: "top", w: 12, h: 0.5 })
+  }
+
   function addSlide(opts = {}) {
     return pptx.addSlide(Object.assign({
       masterName: "FP_SLIDE",
@@ -60,7 +68,7 @@ export default async function generatePPTX(radarId, groupId) {
       { text: `${tr('pptxReportTitle')} `, options: { bold: true, breakLine: false } },
       { text: createdDate, options: { breakLine: false } },
       { text: ` ${tr('pptxReportBy')} `, options: { bold: true, breakLine: false } },
-      { text: username },
+      { text: username, options: { breakLine: false } },
     ], { x: 0.16, y: 4.24, w: 13, h: 2, fontSize: 20, align: 'center', color: '44546a' })
     slide.addImage({
       x: 4.7,
@@ -85,24 +93,24 @@ export default async function generatePPTX(radarId, groupId) {
 
   function addSectorsSlide() {
     const slide = addSlide()
-    slide.addText(radarName, { x: 0.4, y: 0.4, fontSize: 18, w: 13, h: 0.35 })
-    slide.addText(tr('pptxSectorListTitle'), { x: 0.4, y: 0.8, fontSize: 25, color: '44546a', w: 12, bold: true })
+    addHeading(radarName, slide)
+    addTitle(tr('pptxSectorListTitle'), slide)
     slide.addText(sectors.map(({title}) => ({
       text: title
-    })), { x: 0.4, y: 2, fontSize: 15, w: 12, bullet: true, lineSpacing: 25 })
+    })), { x: 0.4, y: 1.2, fontSize: 15, bullet: true, lineSpacing: 25, valign:"top", w: 12, h: 5 })
   }
 
   function addSectorSummarySlide({ title, notes }) {
     const slide = addSlide()
-    slide.addText(tr('pptxSector').toUpperCase(), { x: 0.4, y: 0.4, fontSize: 18, w: 13, h: 0.35 })
-    slide.addText(title, { fontSize: 25, color: '44546a', bold: true, x: 0.4, y: 0.8, w: 11.5 })
+    addHeading(tr('pptxSector'), slide)
+    addTitle(title, slide)
     slide.addText(toText(notes), { x: 0.4, y: 1.2, w: 11.5, h: 6, fontSize: 12, isTextBox: true, shrinkText: true, valign: 'top' })
   }
 
   function addSectorContent(id, title, phenomena) {
     const slide = addSlide()
-    slide.addText(tr('pptxSectorContent').toUpperCase(), { x: 0.4, y: 0.4, fontSize: 18, w: 13, h: 0.35 })
-    slide.addText(title, { fontSize: 25, color: '44546a', bold: true, x: 0.4, y: 0.8, w: 11.5 })
+    addHeading(tr('pptxSectorContent'), slide)
+    addTitle(title, slide)
     let xOffset = 0
     // TODO: Replace time with crowdsourced
     phenomena.forEach(({ content: { short_title, type, summary, time_range }, time }) => {
@@ -112,9 +120,10 @@ export default async function generatePPTX(radarId, groupId) {
       if (yearMin || yearMax) {
         timeRangeStr = `${yearMin}-${yearMax}`
       }
-      slide.addText(short_title, { x: 0.4 + xOffset, y: 1.2, w: 3.9, isTextBox: true, shrinkText: true, bold: true, fontSize: 15 })
-      slide.addText(`${phenomenonTypeTitlesById[type]} ${timeRangeStr}`, { x: 0.4 + xOffset, y: 1.4, w: 3.9, shrinkText: true, fontSize: 10 })
-      slide.addText(`${tr('pptxTimestamp')}: ${time || '-'}`, { x: 0.4 + xOffset, y: 1.6, w: 3.9, shrinkText: true, fontSize: 10 })
+
+      slide.addText(short_title, { x: 0.4 + xOffset, y: 1.2, w: 3.9, h: 0.3, isTextBox: true, shrinkText: true, bold: true, fontSize: 15 })
+      slide.addText(`${phenomenonTypeTitlesById[type]} ${timeRangeStr}`, { x: 0.4 + xOffset, y: 1.4, w: 3.9, h: 0.3, shrinkText: true, fontSize: 10 })
+      slide.addText(`${tr('pptxTimestamp')}: ${time || '-'}`, { x: 0.4 + xOffset, y: 1.6, w: 3.9,  h: 0.3, shrinkText: true, fontSize: 10 })
       slide.addText(toText(summary), { x: 0.4 + xOffset, y: 1.9, w: 3.9, h: 5, isTextBox: true, shrinkText: true, valign: 'top', fontSize: 12 })
       xOffset += 4
     })
@@ -123,8 +132,8 @@ export default async function generatePPTX(radarId, groupId) {
 
   function addTopVotedContentSlide(phenomena, pageNum, totalCount) {
     const slide = addSlide()
-    slide.addText(radarName, { x: 0.4, y: 0.4, fontSize: 18, w: 13, h: 0.35 })
-    slide.addText(tr('pptxTopVotedContent'), { fontSize: 25, color: '44546a', bold: true, x: 0.4, y: 0.8, w: 11.5 })
+    addHeading(radarName, slide)
+    addTitle(tr('pptxTopVotedContent'), slide)
     const rows = phenomena.map(({ content: { short_title, type }, vote_sum }) => (
       [
         { text: short_title, options: { bold: true } },
@@ -137,8 +146,9 @@ export default async function generatePPTX(radarId, groupId) {
 
   async function addRatedContentImageSlide() {
     const slide = addSlide()
-    slide.addText(radarName, { x: 0.4, y: 0.4, fontSize: 18, w: 13, h: 0.35 })
-    slide.addText(tr('pptxRatedContent'), { fontSize: 25, color: '44546a', bold: true, x: 0.4, y: 0.8, w: 11.5 })
+    addHeading(radarName, slide)
+    addTitle(tr('pptxRatedContent'), slide)
+
     const { data } = await screenshot({ url: `${radarResultsUrl}?tab=1`, selector: 'div.fourfold' })
     slide.addImage({
       data: `image/png;base64,${data}`,
@@ -151,8 +161,9 @@ export default async function generatePPTX(radarId, groupId) {
 
   function addRatedContentAxisSlide(xPhenomena, yPhenomena) {
     const slide = addSlide()
-    slide.addText(radarName, { x: 0.4, y: 0.4, fontSize: 18, w: 13, h: 0.35 })
-    slide.addText(tr('pptxRatedContent'), { fontSize: 25, color: '44546a', bold: true, x: 0.4, y: 0.8, w: 11.5 })
+    addHeading(radarName, slide)
+    addTitle(tr('pptxRatedContent'), slide)
+
     let xOffset = 0.4;
     [xPhenomena, yPhenomena].forEach(({ title, axis, phenomena }) => {
       slide.addText(title, { x: xOffset, y: 1.4, fontSize: 18, w: 13, h: 0.35, bold: true })
@@ -174,8 +185,9 @@ export default async function generatePPTX(radarId, groupId) {
 
   function addCommentSummarySlide() {
     const slide = addSlide()
-    slide.addText(radarName, { x: 0.4, y: 0.4, fontSize: 18, w: 13, h: 0.35 })
-    slide.addText([{text: tr('pptxCommentsTitle')}], { fontSize: 25, color: '44546a', bold: true, x: 0.4, y: 0.8, w: 11.5 })
+    addHeading(radarName, slide)
+    addTitle(tr('pptxCommentsTitle'), slide)
+
     slide.addText([
       {text: tr('pptxCommentsText', comment_count) , options: { breakLine: false }},
       {text: `${radarResultsUrl}?tab=2`, options: { hyperlink: {url: `${radarResultsUrl}?tab=2` }}}
