@@ -105,9 +105,9 @@ class SignalList extends PureComponent {
                     </div>)
                 : ''}
                 {canArchiveSignals && (
-                  <ButtonsContainer>
+                  <ButtonsContainer style={{ justifyContent: 'flex-start' }}>
                       <button
-                        className="btn btn-lg btn-plain-red"
+                        className="btn btn-md btn-plain-gray pl-0"
                         onClick={() => window.confirm(requestTranslation('deleteSignalConfirmation')) && this.handleArchiveSignal(id)}
                       >
                           {requestTranslation('delete')}
