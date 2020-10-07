@@ -394,7 +394,7 @@ class RadarPage extends PureComponent {
                  height={containerHeight}
                  width={containerWidth}
                  className={classes}
-                 style={{ zIndex: phenomenaDragged ? 1 : 0 }}>
+                 style={{zIndex: phenomenaDragged ? 1 : 0}}>
                 <g className='zoom-control' transform={`translate(${x}, ${y}) scale(${k})`}>
                     <g ref={this.radarRef}
                        transform={`translate(${containerWidth / 2}, ${containerHeight / 2})`}>
