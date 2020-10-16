@@ -529,7 +529,7 @@ class RadarPage extends PureComponent {
     handleMouseAction = () => {
         const { timeRanges, radius: radarRadius } = this.props
 
-        d3.event.preventDefault()
+        // d3.event.preventDefault()
 
         if (!this.isEditorPageOpen()) {
             const [x, y] = d3.mouse(this.radar)
