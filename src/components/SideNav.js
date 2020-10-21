@@ -118,6 +118,7 @@ class SideNav extends PureComponent {
                                     <div>
                                         <EditMenuHeader
                                             className='fp-dropdown-header'
+                                            style={{lineHeight: "1.2rem"}}
                                         >
                                             {requestTranslation('layoutHeader')}
                                         </EditMenuHeader>
