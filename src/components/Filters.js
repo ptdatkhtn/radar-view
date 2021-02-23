@@ -61,7 +61,8 @@ export const Filters = props => {
         resetFilters,
         activeFilter,
         activeTagFilter,
-        group
+        group,
+        hideInfoButton = false
     } = props
 
     const {tags} = useTags(group && group.id)
@@ -70,13 +71,13 @@ export const Filters = props => {
 
     return (
         <div style={{ zIndex: 2 }}>
-            <div className='radar-nav' id='radar-nav-bottomleft' style={{zIndex: 1}}>
-                <HubLink className='btn-round btn-lg d-flex align-items-center justify-content-center' target='_blank'
-                         rel='noopener noreferrer' href={requestTranslation('infoUrl')}>
-                    <span className='af-custom-info'/>
-                    <span className='sr-only'>Info</span>
-                </HubLink>
-            </div>
+            {!hideInfoButton && <div className='radar-nav' id='radar-nav-bottomleft' style={{zIndex: 1}}>
+                    <HubLink className='btn-round btn-lg d-flex align-items-center justify-content-center' target='_blank'
+                             rel='noopener noreferrer' href={requestTranslation('infoUrl')}>
+                        <span className='af-custom-info'/>
+                        <span className='sr-only'>Info</span>
+                    </HubLink>
+                </div> }
             <FiltersButton
               className={`btn-round btn-lg d-flex align-items-center justify-content-center ${activeFilters ? '' : 'inactive'}`}
               onClick={toggleFilter}

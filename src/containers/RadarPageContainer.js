@@ -210,8 +210,7 @@ const mapStateToProps = (state, props) => {
         canEditRadar: radarSettings.canEditRadar,
         isVisitor: radarSettings.isVisitor,
         draggedPhenomenon: getDraggedPhenomenon(state),
-        timelines,
-        returnUri: props.returnUri
+        timelines
     }
 }
 

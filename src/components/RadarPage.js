@@ -241,7 +241,7 @@ class RadarPage extends PureComponent {
     }
 
     renderLogo() {
-        const { timeRanges, radius, radarSettings: { radarImage } } = this.props
+        const { timeRanges, radius, radarSettings: { radarImage }, radarLogoLinkDisabled } = this.props
         const logoRadius = _.first(timeRanges)
             ? _.first(timeRanges).radius
             : radius * centerRadiusPercentage
@@ -252,17 +252,19 @@ class RadarPage extends PureComponent {
                 {!radarImage ? (
                     <circle
                         className='radar-logo'
-                        onClick={this.handleResultsRedirect}
+                        onClick={!radarLogoLinkDisabled && this.handleResultsRedirect}
                         r={logoRadius}
                         fill={'#126995'}
+                        style={radarLogoLinkDisabled ? { cursor: 'default' } : null}
                     />
                 ) : (
                     <foreignObject
                         className='radar-logo'
-                        onClick={this.handleResultsRedirect}
+                        onClick={!radarLogoLinkDisabled && this.handleResultsRedirect}
                         width={logoRadius * 2}
                         height={logoRadius * 2}
                         transform={transform}
+                        style={radarLogoLinkDisabled ? { cursor: 'default' } : null}
                     >
                         <img
                             alt='logo'
@@ -722,9 +724,9 @@ class RadarPage extends PureComponent {
     }
 
     renderBottomLeftNav() {
-        const { radarSettings: { editSectorsPageOpen } } = this.props
+        const { radarSettings: { editSectorsPageOpen }, radarLogoLinkDisabled } = this.props
 
-        return !editSectorsPageOpen && <Filters />
+        return !editSectorsPageOpen && <Filters hideInfoButton={radarLogoLinkDisabled} />
     }
 
     renderTitle() {

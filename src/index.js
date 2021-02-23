@@ -24,7 +24,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import 'rc-slider/dist/rc-slider.css'
 import 'rc-tooltip/assets/bootstrap.css'
 
-const renderApp = returnUri => (
+const renderApp = (returnUri, radarLogoLinkDisabled) => (
   <Provider store={store}>
     <GlobalStyles />
     <RadarStyles />
@@ -33,12 +33,16 @@ const renderApp = returnUri => (
       position='top-left'
       progressClassName='toast-progress'
     />
-    <RadarPage returnUri={returnUri} />
+    <RadarPage returnUri={returnUri} radarLogoLinkDisabled={radarLogoLinkDisabled} />
   </Provider>
 )
 
 const appElement = document.getElementById('fp-radar-page')
-ReactDOM.render(renderApp(appElement.getAttribute('data-return-uri')), appElement)
+ReactDOM.render(
+    renderApp(
+        appElement.getAttribute('data-return-uri'),
+        appElement.getAttribute('data-rlld') === '1'
+    ), appElement)
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
