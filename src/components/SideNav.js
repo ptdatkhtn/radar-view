@@ -1,6 +1,9 @@
 import React, {PureComponent} from 'react'
 import styled from 'styled-components'
+import _ from 'lodash'
 import {paddingModalStyles, modalStyles} from '@sangre-fp/ui'
+import drupalApi from '@sangre-fp/connectors/drupal-api'
+import {getMembershipForPublicLink} from '../helpers/fetcher'
 import {PUBLIC_URL} from '../env'
 import {Modal, PopupContainer} from '@sangre-fp/ui'
 import {requestTranslation} from '@sangre-fp/i18n'
@@ -11,14 +14,25 @@ import {
     PAGE_USER_OPTIONS
 } from './CreateRadarForm'
 import ShareRadarModal from '../containers/ShareRadarModalContainer'
+import PublicLink from './PublicLink/PublicLink' 
+import ConfirmationModal from './ConfirmationModal/ConfirmationModal'
+import DeleteConfirmationModal from './DeleteConfirmationModal/DeleteConfirmationModal'
+
 
 class SideNav extends PureComponent {
     state = {
         deletingModalOpen: false,
         sharingModalOpen: false,
         clonedModalOpen: false,
-        generatingModalOpen: false
+        generatingModalOpen: false,
+        publicLinkModal: false,
+        confirmationModal: false,
+        deleteConfirmationModal: false,
+        publicSharedLink: '',
+        publicSharedUserInfo: [],
+        radarShareId: null
     }
+
 
     toggleOpenEditMenu = () => {
         const {toggleEditMenuVisiblity, editMenuOpen} = this.props
@@ -54,13 +68,140 @@ class SideNav extends PureComponent {
         return getReturnUrl()
     }
 
+    closePublicLink = () => {
+        this.setState({ publicLinkModal: false })
+      }
+    
+    openPublicLinkModal = async (gid) => {
+        this.setState({ sharingModalOpen: false })
+        this.setState({ publicLinkModal: true })
+        const NOW = new Date()
+        const searchParams = new URLSearchParams(document.location.search)
+        const node = Number(searchParams.get('node'))
+        const fakeEmail = `public@visitors.futuresplatform.com`
+
+        // get all shared link
+        await getMembershipForPublicLink(gid ).then((data) => {
+            // eslint-disable-next-line array-callback-return
+            data && Object.keys(data).map((i) => {
+                if (data[i]['user_full_name'] === String('public@visitors.futuresplatform.com')) {
+                    this.setState({
+                        publicSharedUserInfo: this.state.publicSharedUserInfo.concat(data[i])
+                    })
+                    return this.state.publicSharedUserInfo
+                }
+                else return []
+            })
+            
+        })
+
+        this.state.publicSharedUserInfo && this.state.publicSharedUserInfo.length > 0 && await drupalApi.fetchShares(gid).then((data) => {
+           data && Object.keys(data).map((i) => {
+                this.state.publicSharedUserInfo.map ((userInfo) => {
+                    if (String(data[i]['user_id']) === String(userInfo?.id)) {
+                        this.setState({
+                            publicSharedLink: data[i]['radar_share_url'],
+                            radarShareId: data[i]['radar_share_id']
+                        })
+                        return data[i]
+                    }
+                })
+            })
+        })
+
+        if (!this.state.publicSharedLink || this.state.publicSharedLink  === '') {
+            const payload = {
+                "users": [
+                    {
+                        "gid": gid, 
+                        "role": "visitor", 
+                        "mail": fakeEmail, 
+                        "radars": [node], 
+                        "login_expire": Math.round(Number(new Date(NOW.setMonth(NOW.getMonth() + 1)).getTime()) / 1000)
+                    }
+                ]
+            }
+
+            // invite
+            await drupalApi.inviteToRadar(payload, gid).then(async () => {
+                // eslint-disable-next-line no-undef
+                await getMembershipForPublicLink(gid).then(async (data) => {
+                    // eslint-disable-next-line array-callback-return
+                    const resId = _.filter(data, (i) => i['user_full_name'] === payload.users[0].mail )
+                    await drupalApi.fetchShares(gid).then((data) => {
+                        const publicLink = _.filter(data, (i) => Number(i['user_id']) === Number(resId[0].id))
+                        this.setState({
+                            publicSharedLink: publicLink[0].radar_share_url,
+                            radarShareId: publicLink[0].radar_share_id,
+                            publicSharedUserInfo: resId
+
+                        })
+                    })
+                })
+                
+            })
+        }
+    }
+
+    onRegeneratePublicLink = async (id) => {
+        await drupalApi.regenerateShare(id).then(data => {
+            this.setState({
+                publicSharedLink: data['radar_share_url'],
+                radarShareId: data['radar_share_id'],
+                confirmationModal: false
+            })
+        })
+    }
+
+    openConfirmationModal = () => {
+        this.setState({
+            confirmationModal: true,
+            publicLinkModal: false
+        })
+    }
+
+    closeConfirmationModal= () => {
+        this.setState({
+            confirmationModal: false,
+        })
+    }
+   
+    openDeleteConfirmationModal = () => {
+        this.setState({
+            deleteConfirmationModal: true, 
+            publicLinkModal: false
+
+        })
+    }
+
+    closeDeleteConfirmationModal= () => {
+        this.setState({
+            deleteConfirmationModal: false
+        })
+    }
+
+    onDeletePublicLink = async (membershipUser) => {
+        const {mid} = membershipUser[0]
+        const membershipArray = [].concat(mid)
+        await drupalApi.deleteMemberships(membershipArray).then(() => {
+            this.setState({
+                radarShareId: null,
+                publicSharedUserInfo: [],
+                publicSharedLink: '',
+                deleteConfirmationModal: false
+            })
+        })
+        
+    }
+    
+    
     render() {
         const params = new URLSearchParams(window.location.search)
         let returnId = params.get('ret_id')
         if (returnId) {
             returnId = returnId.replace(/[^a-f0-9-]/, '')
         }
-        const {deletingModalOpen, clonedModalOpen, sharingModalOpen, generatingModalOpen} = this.state
+        const {deletingModalOpen, clonedModalOpen, sharingModalOpen, generatingModalOpen, publicLinkModal, confirmationModal, deleteConfirmationModal, radarShareId, publicSharedUserInfo } = this.state
         const {
             changeAddRadarFormVisibility,
             sectorPageHandler,
@@ -309,7 +450,7 @@ class SideNav extends PureComponent {
                     style={modalStyles}
                     ariaHideApp={false}
                 >
-                    <ShareRadarModal requestClose={() => this.setState({sharingModalOpen: false})}/>
+                    <ShareRadarModal requestClose={() => this.setState({sharingModalOpen: false})} requestOpenPublicLink={this.openPublicLinkModal}/>
                 </Modal>
                 }
                 <Modal
@@ -337,6 +478,23 @@ class SideNav extends PureComponent {
                         </div>
                     </div>
                 </Modal>
+                <PublicLink 
+                    isModalOpen={publicLinkModal} 
+                    onRequestClose={this.closePublicLink} 
+                    publicURL={this.state.publicSharedLink || 'Loading...'} 
+                    openConfirmationModal={this.openConfirmationModal} 
+                    openDeleteConfirmationModal={this.openDeleteConfirmationModal}
+                />
+                <ConfirmationModal 
+                    confirmationModal={confirmationModal}
+                    confirmationModalClose={this.closeConfirmationModal}
+                    regeneratePublicLink={() => {this.onRegeneratePublicLink(radarShareId)}}
+                />
+                <DeleteConfirmationModal 
+                    deleteConfirmationModal={deleteConfirmationModal}
+                    deleteConfirmationModalClose={this.closeDeleteConfirmationModal}
+                    deletePublicLink={() => this.onDeletePublicLink(publicSharedUserInfo)}
+                />
             </PopupContainer>
         )
     }

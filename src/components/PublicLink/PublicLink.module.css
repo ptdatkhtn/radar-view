@@ -1,0 +1,26 @@
+.ReactModal__Content {
+    position: relative;
+    inset: auto;
+    border: none;
+    background: transparent;
+    overflow: visible;
+    border-radius: 0px;
+    outline: none;
+    padding: 50px 0px;
+    display: block;
+    opacity: 1;
+    width: 75%;
+    height: auto;
+    max-width: 900px;
+    margin: 0px auto;
+  }
+  
+  .Modal__Title {
+    display: inline-block;
+  }
+  
+  .SavePublicLink__Container {
+    display: flex;
+    justify-content: flex-end;
+  }
+  

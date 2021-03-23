@@ -1,10 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { requestTranslation } from '@sangre-fp/i18n'
-import moment from 'moment'
 import { PUBLIC_URL } from '../env'
 
 class ShareRadarModal extends Component {
@@ -13,6 +10,7 @@ class ShareRadarModal extends Component {
   render() {
     const {
       requestClose,
+      requestOpenPublicLink,
       changeRadarSharing,
       changeRadarSharingExpiry,
       enableUrlLogin,
@@ -22,6 +20,10 @@ class ShareRadarModal extends Component {
       group,
       id
     } = this.props
+
+    const onClickOpenPublicLink = (gid) => {
+      requestOpenPublicLink(gid)
+    }
 
     return (
       <div>
@@ -40,6 +42,14 @@ class ShareRadarModal extends Component {
                 >
                     {requestTranslation('cancel')}
                 </button>
+                <div style={{ marginRight: "20px" }}>
+                  <a
+                    onClick={() => onClickOpenPublicLink(group.id)}
+                    className="btn btn-lg btn-primary"
+                  >
+                    {requestTranslation("publicLink")}
+                  </a>
+                </div>
                 <a
                     href={`${PUBLIC_URL}/radarusers?gid=${group.id}&invite=${id}`}
                     className='btn btn-lg btn-primary'
