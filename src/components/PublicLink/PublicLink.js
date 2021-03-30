@@ -11,7 +11,7 @@ const PublicLink = ({ isModalOpen, onRequestClose, publicURL, openConfirmationMo
       <Modal
         onRequestClose={onRequestClose}
         isOpen={isModalOpen}
-        styles={modalStyles}
+        style={modalStyles}
         ariaHideApp={false}
         className={styles.ReactModal__Content}
       >
