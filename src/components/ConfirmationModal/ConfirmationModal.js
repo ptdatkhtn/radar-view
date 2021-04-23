@@ -16,8 +16,9 @@ const ConfirmationModal = ({
     >
       <div className="confirmation-modal-content pt-4 pb-4">
         <h3 className="confirmation-modal-title">
-          {requestTranslation("shareRegenerateConfirmation")}
+          {requestTranslation("sharePublicLinkConfirmation")}
         </h3>
+        <p style={{textAlign: 'center'}}>{requestTranslation("sharePublicLinkConfirmationNote")}</p>
         <div className="confirmation-modal-actions">
           <button
             onClick={confirmationModalClose}

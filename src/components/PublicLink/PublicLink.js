@@ -5,7 +5,7 @@ import { requestTranslation } from '@sangre-fp/i18n'
 import styles from './PublicLink.module.css'
 const PublicLink = ({ isModalOpen, onRequestClose, publicURL, openConfirmationModal, openDeleteConfirmationModal}) => {
   const [shareInput, setShareInput] = useState("");
-  
+  const [linkCopied, setLinkCopied] = useState(false);
   return (
     <>
       <Modal
@@ -37,26 +37,32 @@ const PublicLink = ({ isModalOpen, onRequestClose, publicURL, openConfirmationMo
                   setShareInput(el);
                 }}
               />
-              <CopyToClipboard text={publicURL} onCopy={() => shareInput.focus()}>
-                <button
-                  className="btn btn-outline-secondary ml-3 mr-3"
-                  style={{ height: "35px", flexShrink: 0 }}
-                >
-                  {requestTranslation("copyToClipboard")}
-                </button>
-              </CopyToClipboard>
+                <CopyToClipboard text={publicURL} onCopy={
+                  () => {
+                    shareInput.focus();
+                    setLinkCopied(true)
+                  }} >
+                  <button
+                    className="btn btn-outline-secondary ml-3 mr-3"
+                    style={{ height: "35px", flexShrink: 0 }}
+                  >
+                    {requestTranslation("copyToClipboard")}
+                  </button>
+                </CopyToClipboard>
+                
             </div>
+            {linkCopied && <h5 style={{display: 'flex', justifyContent: 'flex-end', marginRight: '64px', color: '#006998' }}>{requestTranslation("publicLinkCopied")}</h5>}
             <div className="d-flex mt-2 align-items-center">
               <button
                 // disabled={!checked}
                 className="btn btn-outline-secondary mr-3"
                 onClick={openConfirmationModal}
               >
-                {requestTranslation("regenerateUrl")}
+                {requestTranslation("regeneratePublicLink")}
               </button>
             </div>
             <div className="d-flex mt-2 align-items-center">
-              {requestTranslation("regeneratePublicUrlNote")}
+              {requestTranslation("regeneratePublicLinkNote")}
             </div>
           </div>
           <div className="modal-form-section modal-form-actions d-flex justify-content-between">
