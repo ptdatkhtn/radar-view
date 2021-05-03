@@ -41,7 +41,7 @@ export const changeAddRadarFormVisibility = (page = false) => dispatch => {
 export const changeDisplayHaloWhenRating = rating => dispatch => dispatch({ type: actionTypes.CHANGE_DISPLAY_HALO_WHEN_RATING, payload: rating })
 export const changeRadarName = name => dispatch => dispatch({ type: actionTypes.CHANGE_RADAR_NAME, payload: name })
 export const changeMapIntro = mapIntro => dispatch => dispatch({ type: actionTypes.CHANGE_MAP_INTRO, payload: mapIntro })
-export const changeRadarLanguage = langauge => dispatch => dispatch({ type: actionTypes.CHANGE_RADAR_LANGUAGE, payload: langauge })
+export const changeRadarLanguage = language => dispatch => dispatch({ type: actionTypes.CHANGE_RADAR_LANGUAGE, payload: language })
 export const changeRadarGroup = group => dispatch => dispatch({ type: actionTypes.CHANGE_RADAR_GROUP, payload: group })
 export const changeAddRadarFormPage = page => dispatch => dispatch({ type: actionTypes.CHANGE_ADD_FORM_PAGE, payload: page })
 export const changePhenomenaSet = set => dispatch => dispatch({ type: actionTypes.CHANGE_PHENOMENA_SET, payload: set })
