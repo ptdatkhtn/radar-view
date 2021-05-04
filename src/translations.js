@@ -200,7 +200,48 @@ const localTranslations = {
     filterByTag: {
         en: `BY TAG`,
         fi: `TAGIT`
+    },
+    publicLink: {
+        en: `CREATE A PUBLIC LINK`,
+        fi: `NÄYTÄ JAETTAVA LINKKI`
+    },
+    createPublicLink: {
+        en: `Create a Shared Collaboration Link`,
+        fi: `Luo jaettu yhteistyölinkki`
+    },
+    publicLinkNote: {
+        en: `Copy the link and share it in your network. Anyone with the link can access this radar`,
+        fi: `Kopioi linkki ja jaa se verkostossasi. Otathan huomioon, että linkkiä klikkaamalla kuka tahansa pääsee tälle kartalle.`
+    },
+    regeneratePublicLink: {
+        en: `REGENERATE LINK`,
+        fi: `LUO UUSI LINKKI`
+    },
+    publicLinkURL: {
+        en: `Shared Collaboration Link: `,
+        fi: `Jaettu yhteistyölinkki:`
+    },
+    regeneratePublicLinkNote: {
+        en: `NOTE! Regenerating the URL will deactivate the previous link`,
+        fi: `HUOM. Uuden linkin luonti poistaa nykyisen linkin toiminnasta.`
+    },
+    deletePublicLink: {
+        en: `Delete the public link`,
+        fi: `Poista julkinen linkki`
+    },
+    sharePublicLinkConfirmation: {
+        en: `Are you sure you want to make a new public link?`,
+        fi: `Oletko varma, että haluat tehdä uuden linkin?`
+    },
+    sharePublicLinkConfirmationNote: {
+        en: `The old link will stop working when you create a new one.`,
+        fi: `Vanha linkki lakkaa toimimasta, kun luot uuden.`
+    },
+    deletePublicLinkConfirmation: {
+        en: `Are you sure you want to remove this public link?`,
+        fi: `Haluatko varmasti poistaa tämän julkisen linkin?`,        
     }
+
 }
 
 initTranslations(localTranslations);
