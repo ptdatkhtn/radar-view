@@ -240,8 +240,15 @@ const localTranslations = {
     deletePublicLinkConfirmation: {
         en: `Are you sure you want to remove this public link?`,
         fi: `Haluatko varmasti poistaa tämän julkisen linkin?`,        
+    },
+    copyToClipboard: {
+        en: `Copy to clipboard`,
+        fi: `Kopioi leikepöydälle`
+    },
+    publicLinkCopied: {
+        en: `Link copied.`,
+        fi: `Linkki kopioitu.`
     }
-
 }
 
 initTranslations(localTranslations);
