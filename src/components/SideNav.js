@@ -30,7 +30,8 @@ class SideNav extends PureComponent {
         deleteConfirmationModal: false,
         publicSharedLink: '',
         publicSharedUserInfo: [],
-        radarShareId: null
+        radarShareId: null,
+        publicSharedLinkExsited: false
     }
 
 
@@ -194,6 +195,50 @@ class SideNav extends PureComponent {
         
     }
     
+    onShareRadarClick = async() => {
+        this.setState({sharingModalOpen: true})
+        const searchParams = new URLSearchParams(document.location.search)
+        const node = Number(searchParams.get('node'))
+
+        const groupId = await drupalApi.getRadar(node).then((radar) => radar.group.id)
+        console.log('groupId', groupId)
+        
+        // get all shared link
+        await getMembershipForPublicLink(groupId ).then((data) => {
+            // eslint-disable-next-line array-callback-return
+            data && Object.keys(data).map((i) => {
+                if (data[i]['user_full_name'] === String('public@visitors.futuresplatform.com')) {
+                    this.setState({
+                        publicSharedUserInfo: this.state.publicSharedUserInfo.concat(data[i])
+                    })
+                    return this.state.publicSharedUserInfo
+                }
+                else return []
+            })
+            
+        })
+
+        this.state.publicSharedUserInfo && this.state.publicSharedUserInfo.length > 0 && await drupalApi.fetchShares(groupId).then((data) => {
+           data && Object.keys(data).map((i) => {
+                this.state.publicSharedUserInfo.map ((userInfo) => {
+                    if (String(data[i]['user_id']) === String(userInfo?.id)) {
+                        this.setState({
+                            publicSharedLink: data[i]['radar_share_url'],
+                            radarShareId: data[i]['radar_share_id']
+                        })
+                        console.log('data[i]', data[i])
+                        return data[i]
+                    }
+                })
+            })
+            if(this.state.publicSharedLink) {
+                this.setState({
+                    publicSharedLinkExsited: true
+                })
+            }
+        })
+
+    }
     
     render() {
         const params = new URLSearchParams(window.location.search)
@@ -336,7 +381,8 @@ class SideNav extends PureComponent {
                                         </EditMenuItem>
                                         <EditMenuItem
                                             className='fp-dropdown-item'
-                                            onClick={() => this.setState({sharingModalOpen: true})}
+                                            // onClick={() => this.setState({sharingModalOpen: true})}
+                                            onClick={this.onShareRadarClick}
                                         >
                                             {requestTranslation('shareRadar')}
                                         </EditMenuItem>
@@ -451,8 +497,28 @@ class SideNav extends PureComponent {
                     ariaHideApp={false}
                 >
                     <ShareRadarModal requestClose={() => this.setState({sharingModalOpen: false})} requestOpenPublicLink={this.openPublicLinkModal}/>
+                    <button className='tn btn-lg btn-primary showSharedLinkBtn'>SHOW THE SHARED LINK</button>
                 </Modal>
                 }
+                {/* {this.state.publicSharedLinkExsited &&
+                <Modal
+                    isOpen={!!sharingModalOpen}
+                    contentLabel='share radar'
+                    style={{
+                        content: {
+                            ...modalStyles.content,
+                            top: '400px'
+                        },
+                        overlay: {
+                            ...modalStyles.overlay,
+                            zIndex: 999
+                        }
+                    }}
+                    ariaHideApp={false}
+                >
+                    <button>CliCK me</button>
+                </Modal>
+                } */}
                 <Modal
                     isOpen={!!clonedModalOpen}
                     contentLabel='cloned radar'

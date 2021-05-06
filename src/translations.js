@@ -248,6 +248,14 @@ const localTranslations = {
     publicLinkCopied: {
         en: `Link copied.`,
         fi: `Linkki kopioitu.`
+    },
+    shareRadarFromUsrMngmt: {
+        en: `You can invite users to this radar from the User management, or create a Shared collaboration link (public link) and share it in your network.`,
+        fi: `Voit kutsua kollegasi kartalle käyttäjähallinnasta tai tehdä julkisen linkin ja jakaa sen verkostossasi.` 
+    },
+    publicLinkExisted : {
+        en: `A shared link already exists for this radar. Click below to view it.`,
+        fi: `Tälle kartalle on tehty jaettava linkki. Voit katsoa sen alta.`
     }
 }
 

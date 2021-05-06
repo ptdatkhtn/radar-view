@@ -6,10 +6,14 @@ import styles from './PublicLink.module.css'
 const PublicLink = ({ isModalOpen, onRequestClose, publicURL, openConfirmationModal, openDeleteConfirmationModal}) => {
   const [shareInput, setShareInput] = useState("");
   const [linkCopied, setLinkCopied] = useState(false);
+  const onRequestCloseModal = () => {
+    onRequestClose();
+    setLinkCopied(false)
+  }
   return (
     <>
       <Modal
-        onRequestClose={onRequestClose}
+        onRequestClose={onRequestCloseModal}
         isOpen={isModalOpen}
         style={modalStyles}
         ariaHideApp={false}
@@ -75,7 +79,7 @@ const PublicLink = ({ isModalOpen, onRequestClose, publicURL, openConfirmationMo
             <div className={styles.SavePublicLink__Container}>
               <button
                 className={"btn btn-lg btn-plain-gray"}
-                onClick={onRequestClose}
+                onClick={onRequestCloseModal}
               >
                 {requestTranslation("cancel")}
               </button>
