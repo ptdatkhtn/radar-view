@@ -81,6 +81,7 @@ class RadarPage extends PureComponent {
             })
 
         this.attachEvents()
+        console.log('tessting for testing.......')
     }
 
     componentDidUpdate(prevProps) {
