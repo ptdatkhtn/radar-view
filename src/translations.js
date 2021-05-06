@@ -256,6 +256,10 @@ const localTranslations = {
     publicLinkExisted : {
         en: `A shared link already exists for this radar. Click below to view it.`,
         fi: `Tälle kartalle on tehty jaettava linkki. Voit katsoa sen alta.`
+    },
+    showThePublicLink: {
+        en: `SHOW THE SHARED LINK`,
+        fi: `NÄYTÄ JULKINEN LINKKI`
     }
 }
 

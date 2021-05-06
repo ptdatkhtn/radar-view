@@ -53,7 +53,6 @@ const PublicLink = ({ isModalOpen, onRequestClose, publicURL, openConfirmationMo
                     {requestTranslation("copyToClipboard")}
                   </button>
                 </CopyToClipboard>
-                
             </div>
             {linkCopied && <h5 style={{display: 'flex', justifyContent: 'flex-end', marginRight: '64px', color: '#006998' }}>{requestTranslation("publicLinkCopied")}</h5>}
             <div className="d-flex mt-2 align-items-center">

@@ -17,12 +17,14 @@ import ShareRadarModal from '../containers/ShareRadarModalContainer'
 import PublicLink from './PublicLink/PublicLink' 
 import ConfirmationModal from './ConfirmationModal/ConfirmationModal'
 import DeleteConfirmationModal from './DeleteConfirmationModal/DeleteConfirmationModal'
+import ShowPublicLinkModal from './ShowPublicLinkModal/ShowPublicLinkModal';
 
 
 class SideNav extends PureComponent {
     state = {
         deletingModalOpen: false,
         sharingModalOpen: false,
+        showPublicLinkModal: false,
         clonedModalOpen: false,
         generatingModalOpen: false,
         publicLinkModal: false,
@@ -70,7 +72,10 @@ class SideNav extends PureComponent {
     }
 
     closePublicLink = () => {
-        this.setState({ publicLinkModal: false })
+        this.setState({ 
+            publicLinkModal: false,
+            sharingModalOpen: true
+        })
       }
     
     openPublicLinkModal = async (gid) => {
@@ -164,6 +169,7 @@ class SideNav extends PureComponent {
     closeConfirmationModal= () => {
         this.setState({
             confirmationModal: false,
+            publicLinkModal: true
         })
     }
    
@@ -177,7 +183,22 @@ class SideNav extends PureComponent {
 
     closeDeleteConfirmationModal= () => {
         this.setState({
-            deleteConfirmationModal: false
+            deleteConfirmationModal: false,
+            publicLinkModal: true
+        })
+    }
+
+    openShowPublicLinkModal = () => {
+        this.setState({
+            showPublicLinkModal: true,
+            sharingModalOpen: false
+        })
+    }
+
+    closeShowPublicLinkModal = () => {
+        this.setState({
+            showPublicLinkModal: false,
+            sharingModalOpen: true
         })
     }
 
@@ -189,7 +210,8 @@ class SideNav extends PureComponent {
                 radarShareId: null,
                 publicSharedUserInfo: [],
                 publicSharedLink: '',
-                deleteConfirmationModal: false
+                deleteConfirmationModal: false,
+                publicSharedLinkExsited: false
             })
         })
         
@@ -381,7 +403,6 @@ class SideNav extends PureComponent {
                                         </EditMenuItem>
                                         <EditMenuItem
                                             className='fp-dropdown-item'
-                                            // onClick={() => this.setState({sharingModalOpen: true})}
                                             onClick={this.onShareRadarClick}
                                         >
                                             {requestTranslation('shareRadar')}
@@ -497,28 +518,11 @@ class SideNav extends PureComponent {
                     ariaHideApp={false}
                 >
                     <ShareRadarModal requestClose={() => this.setState({sharingModalOpen: false})} requestOpenPublicLink={this.openPublicLinkModal}/>
-                    <button className='tn btn-lg btn-primary showSharedLinkBtn'>SHOW THE SHARED LINK</button>
+                    {
+                        this.state.publicSharedLinkExsited && <button className='tn btn-lg btn-primary showSharedLinkBtn' onClick={this.openShowPublicLinkModal}>{requestTranslation('showThePublicLink')}</button>
+                    }
                 </Modal>
                 }
-                {/* {this.state.publicSharedLinkExsited &&
-                <Modal
-                    isOpen={!!sharingModalOpen}
-                    contentLabel='share radar'
-                    style={{
-                        content: {
-                            ...modalStyles.content,
-                            top: '400px'
-                        },
-                        overlay: {
-                            ...modalStyles.overlay,
-                            zIndex: 999
-                        }
-                    }}
-                    ariaHideApp={false}
-                >
-                    <button>CliCK me</button>
-                </Modal>
-                } */}
                 <Modal
                     isOpen={!!clonedModalOpen}
                     contentLabel='cloned radar'
@@ -560,6 +564,12 @@ class SideNav extends PureComponent {
                     deleteConfirmationModal={deleteConfirmationModal}
                     deleteConfirmationModalClose={this.closeDeleteConfirmationModal}
                     deletePublicLink={() => this.onDeletePublicLink(publicSharedUserInfo)}
+                />
+
+                <ShowPublicLinkModal 
+                    publicLinkShowed= {this.state.showPublicLinkModal}
+                    publicLinkURL= {this.state.publicSharedLink}
+                    showPublicLinkModalClose={this.closeShowPublicLinkModal}
                 />
             </PopupContainer>
         )
