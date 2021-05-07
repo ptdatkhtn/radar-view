@@ -243,6 +243,7 @@ class RadarPage extends PureComponent {
 
     renderLogo() {
         const { timeRanges, radius, radarSettings: { radarImage }, radarLogoLinkDisabled } = this.props
+        console.log('this.pros', this.props)
         const logoRadius = _.first(timeRanges)
             ? _.first(timeRanges).radius
             : radius * centerRadiusPercentage
