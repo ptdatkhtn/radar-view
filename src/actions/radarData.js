@@ -20,6 +20,18 @@ export const updateRadarVersion = version => ({
     payload: version
 })
 
+export function preloadImages (imageSources) {
+    console.log('imageSources', imageSources)
+    imageSources
+        .forEach(i => {
+        const linkEl = document.createElement('link');
+        linkEl.setAttribute('rel', 'preload');
+        linkEl.setAttribute('href', i);
+        linkEl.setAttribute('as', 'image');
+        document.head.appendChild(linkEl);
+        });
+    }
+
 export const fetchRadar = () => async (dispatch, getState) => {
     const id = getState().radarSettings.id
 
@@ -38,8 +50,8 @@ export const fetchRadar = () => async (dispatch, getState) => {
         img.onload = async () => {
             
         }
-        img.src = `${PUBLIC_URL}${radarData?.radarImage}` // by setting an src, you trigger browser download
-        
+        preloadImages([`${PUBLIC_URL}${radarData?.radarImage}`])
+        img.src = radarData?.radarImage // by setting an src, you trigger browser download
         const phenomenaData = await getRadarPhenomena(id, radarData.group.id)
 
             Object.values(phenomenaData.phenomena).forEach(res => {

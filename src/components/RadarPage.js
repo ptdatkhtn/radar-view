@@ -269,8 +269,9 @@ class RadarPage extends PureComponent {
                         style={radarLogoLinkDisabled ? { cursor: 'default' } : null}
                     >
                         <img
+                        
                             alt='logo'
-                            src={radarImage}
+                            src={`${PUBLIC_URL}${radarImage}`}
                             style={{
                                 width: logoRadius * 2,
                                 height: logoRadius * 2,
