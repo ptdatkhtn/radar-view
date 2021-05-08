@@ -70,6 +70,15 @@ class RadarPage extends PureComponent {
             }
         } = this.props
 
+        if ( this.props.isVisitor === true) {
+            const { radarSettings: { radarImage } } = this.props
+            const img = new Image();
+            img.onload = () => {
+                // when it finishes loading, update the component state
+                this.setState({ imageLogoForVisitorIsReady: true });
+            }
+            img.src = radarImage
+        }
         getAuth()
             .then(() => {
                 getUserGroups()
@@ -242,15 +251,15 @@ class RadarPage extends PureComponent {
     }
 
     renderLogo() {
-        const { timeRanges, radius, radarSettings: { radarImage }, radarLogoLinkDisabled } = this.props
+        const { timeRanges, radius, radarSettings: { radarImage }, radarLogoLinkDisabled, isVisitor } = this.props
         console.log('this.pros', this.props)
         const logoRadius = _.first(timeRanges)
             ? _.first(timeRanges).radius
             : radius * centerRadiusPercentage
         const transform = `translate(${-logoRadius}, ${-logoRadius})`
-
-        return (
-            <g>
+        if (this.state.imageLogoForVisitorIsReady && isVisitor) {
+            return (
+                <g>
                 {!radarImage ? (
                     <circle
                         className='radar-logo'
@@ -281,7 +290,43 @@ class RadarPage extends PureComponent {
                     </foreignObject>
                 )}
             </g>
-        )
+            )
+        } else if ( !isVisitor) {
+            return (
+                <g>
+                    {!radarImage ? (
+                        <circle
+                            className='radar-logo'
+                            onClick={!radarLogoLinkDisabled && this.handleResultsRedirect}
+                            r={logoRadius}
+                            fill={'#126995'}
+                            style={radarLogoLinkDisabled ? { cursor: 'default' } : null}
+                        />
+                    ) : (
+                        <foreignObject
+                            className='radar-logo'
+                            onClick={!radarLogoLinkDisabled && this.handleResultsRedirect}
+                            width={logoRadius * 2}
+                            height={logoRadius * 2}
+                            transform={transform}
+                            style={radarLogoLinkDisabled ? { cursor: 'default' } : null}
+                        >
+                            <img
+                                alt='logo'
+                                src={radarImage}
+                                style={{
+                                    width: logoRadius * 2,
+                                    height: logoRadius * 2,
+                                    borderRadius: '50%',
+                                    objectFit: 'cover'
+                                }}
+                            />
+                        </foreignObject>
+                    )}
+                </g>
+            )
+        }
+        
     }
 
     getTimerangeLabelPath(radius) {
