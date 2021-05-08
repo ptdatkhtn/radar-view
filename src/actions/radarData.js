@@ -33,16 +33,23 @@ export const fetchRadar = () => async (dispatch, getState) => {
 
     try {
         const radarData = await drupalApi.getRadar(id)
+
+        const img = new Image();
+        img.onload = async () => {
+            
+        }
+        img.src = `${PUBLIC_URL}${radarData?.radarImage}` // by setting an src, you trigger browser download
+        
         const phenomenaData = await getRadarPhenomena(id, radarData.group.id)
 
-        Object.values(phenomenaData.phenomena).forEach(res => {
-            res.halo = _.get(radarData.phenomena[res.id], 'halo', false)
-            res.speech_bubble = _.get(radarData.phenomena[res.id], 'speech_bubble', false)
-        })
+            Object.values(phenomenaData.phenomena).forEach(res => {
+                res.halo = _.get(radarData.phenomena[res.id], 'halo', false)
+                res.speech_bubble = _.get(radarData.phenomena[res.id], 'speech_bubble', false)
+            })
 
-        const result = { ...radarData, ...phenomenaData }
+            const result = { ...radarData, ...phenomenaData }
 
-        dispatch(getPhenomenaTypes(radarData.group.id)).then(() => dispatch(success(result)))
+            dispatch(getPhenomenaTypes(radarData.group.id)).then(() => dispatch(success(result)))
     } catch (err) {
         dispatch(error(err))
     }

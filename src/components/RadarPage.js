@@ -75,21 +75,14 @@ class RadarPage extends PureComponent {
         getAuth()
             .then(() => {
                 getUserGroups()
-                .then(() => {
+                .then( () => {
                     if (existingRadarPage) {
-                        const {radarSettings: { radarImage } } = this.props
-                        const imgs = [
-                            `${PUBLIC_URL}${radarImage}`
-                        ]
-                        console.log('img', imgs)
-                        this.cacheImgs(imgs).then(() => fetchRadar())
-                        
+                        fetchRadar()
                     }
                 })
             })
 
         this.attachEvents()
-        console.log('tessting for testing.......')
     }
 
     componentDidUpdate(prevProps) {
@@ -97,20 +90,6 @@ class RadarPage extends PureComponent {
             this.attachEvents()
         }
     }
-
-    cacheImgs = async (srcArray) => {
-        const promises = await srcArray.map(src => {
-            return new Promise(function(resolve, reject) {
-                const img = new Image()
-                img.src = src
-                img.onload = resolve()
-                img.onerror = reject()
-            })
-        })
-
-        await Promise.all(promises)
-        this.setState({isIconImgLoading: false})
-    } 
 
     zoomed = () => {
         const { phenomenaDragged } = this.state
@@ -265,7 +244,6 @@ class RadarPage extends PureComponent {
 
     renderLogo() {
         const { timeRanges, radius, radarSettings: { radarImage }, radarLogoLinkDisabled } = this.props
-        console.log('this.pros', this.props)
         const logoRadius = _.first(timeRanges)
             ? _.first(timeRanges).radius
             : radius * centerRadiusPercentage
