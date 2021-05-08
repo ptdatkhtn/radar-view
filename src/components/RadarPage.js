@@ -70,20 +70,20 @@ class RadarPage extends PureComponent {
             }
         } = this.props
 
-        if ( this.props.isVisitor === true) {
-            const { radarSettings: { radarImage } } = this.props
-            const img = new Image();
-            img.onload = () => {
-                // when it finishes loading, update the component state
-                this.setState({ imageLogoForVisitorIsReady: true });
-            }
-            img.src = radarImage
-        }
         getAuth()
             .then(() => {
                 getUserGroups()
                 .then(() => {
                     if (existingRadarPage) {
+                        if ( this.props.isVisitor === true) {
+                            const { radarSettings: { radarImage } } = this.props
+                            const img = new Image();
+                            img.onload = () => {
+                                // when it finishes loading, update the component state
+                                this.setState({ imageLogoForVisitorIsReady: true });
+                            }
+                            img.src = radarImage
+                        }
                         fetchRadar()
                     }
                 })
@@ -251,13 +251,13 @@ class RadarPage extends PureComponent {
     }
 
     renderLogo() {
-        const { timeRanges, radius, radarSettings: { radarImage }, radarLogoLinkDisabled, isVisitor } = this.props
+        const { timeRanges, radius, radarSettings: { radarImage }, radarLogoLinkDisabled } = this.props
         console.log('this.pros', this.props)
         const logoRadius = _.first(timeRanges)
             ? _.first(timeRanges).radius
             : radius * centerRadiusPercentage
         const transform = `translate(${-logoRadius}, ${-logoRadius})`
-        if (this.state.imageLogoForVisitorIsReady && isVisitor) {
+        if (this.state.imageLogoForVisitorIsReady) {
             return (
                 <g>
                 {!radarImage ? (
@@ -291,42 +291,7 @@ class RadarPage extends PureComponent {
                 )}
             </g>
             )
-        } else if ( !isVisitor) {
-            return (
-                <g>
-                    {!radarImage ? (
-                        <circle
-                            className='radar-logo'
-                            onClick={!radarLogoLinkDisabled && this.handleResultsRedirect}
-                            r={logoRadius}
-                            fill={'#126995'}
-                            style={radarLogoLinkDisabled ? { cursor: 'default' } : null}
-                        />
-                    ) : (
-                        <foreignObject
-                            className='radar-logo'
-                            onClick={!radarLogoLinkDisabled && this.handleResultsRedirect}
-                            width={logoRadius * 2}
-                            height={logoRadius * 2}
-                            transform={transform}
-                            style={radarLogoLinkDisabled ? { cursor: 'default' } : null}
-                        >
-                            <img
-                                alt='logo'
-                                src={radarImage}
-                                style={{
-                                    width: logoRadius * 2,
-                                    height: logoRadius * 2,
-                                    borderRadius: '50%',
-                                    objectFit: 'cover'
-                                }}
-                            />
-                        </foreignObject>
-                    )}
-                </g>
-            )
-        }
-        
+        } 
     }
 
     getTimerangeLabelPath(radius) {
