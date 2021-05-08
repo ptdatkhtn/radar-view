@@ -37,6 +37,7 @@ class RadarPage extends PureComponent {
         const zoomExtent = (containerSize / svgDimensions) * 0.80
         this.zoom = d3.zoom().scaleExtent([(containerSize / svgDimensions) * 0.50, zoomExtent + 4]).on('zoom', this.zoomed)
         this.state = {
+            isIconImgLoading: true,
             zoomExtent,
             sectorDescriptionModal: null,
             deleteRadarPhenomenonOpen: false,
@@ -70,21 +71,19 @@ class RadarPage extends PureComponent {
             }
         } = this.props
 
+        
         getAuth()
             .then(() => {
                 getUserGroups()
                 .then(() => {
                     if (existingRadarPage) {
-                        if ( this.props.isVisitor === true) {
-                            const { radarSettings: { radarImage } } = this.props
-                            const img = new Image();
-                            img.onload = () => {
-                                // when it finishes loading, update the component state
-                                this.setState({ imageLogoForVisitorIsReady: true });
-                            }
-                            img.src = radarImage
-                        }
-                        fetchRadar()
+                        const {radarSettings: { radarImage } } = this.props
+                        const imgs = [
+                            `${PUBLIC_URL}${radarImage}`
+                        ]
+                        console.log('img', imgs)
+                        this.cacheImgs(imgs).then(() => fetchRadar())
+                        
                     }
                 })
             })
@@ -98,6 +97,20 @@ class RadarPage extends PureComponent {
             this.attachEvents()
         }
     }
+
+    cacheImgs = async (srcArray) => {
+        const promises = await srcArray.map(src => {
+            return new Promise(function(resolve, reject) {
+                const img = new Image()
+                img.src = src
+                img.onload = resolve()
+                img.onerror = reject()
+            })
+        })
+
+        await Promise.all(promises)
+        this.setState({isIconImgLoading: false})
+    } 
 
     zoomed = () => {
         const { phenomenaDragged } = this.state
@@ -257,9 +270,9 @@ class RadarPage extends PureComponent {
             ? _.first(timeRanges).radius
             : radius * centerRadiusPercentage
         const transform = `translate(${-logoRadius}, ${-logoRadius})`
-        if (this.state.imageLogoForVisitorIsReady) {
-            return (
-                <g>
+
+        return (
+            <g>
                 {!radarImage ? (
                     <circle
                         className='radar-logo'
@@ -290,8 +303,7 @@ class RadarPage extends PureComponent {
                     </foreignObject>
                 )}
             </g>
-            )
-        } 
+        )
     }
 
     getTimerangeLabelPath(radius) {
