@@ -260,26 +260,30 @@ class RadarPage extends PureComponent {
                         style={radarLogoLinkDisabled ? { cursor: 'default' } : null}
                     />
                 ) : (
-                    <foreignObject
-                        className='radar-logo'
-                        onClick={!radarLogoLinkDisabled && this.handleResultsRedirect}
-                        width={logoRadius * 2}
-                        height={logoRadius * 2}
-                        transform={transform}
-                        style={radarLogoLinkDisabled ? { cursor: 'default' } : null}
-                    >
-                        <img
+                    <image
+  href={`${PUBLIC_URL}${radarImage}`}  width= {logoRadius * 2}
+  height= {logoRadius * 2}/>
+
+                    // <foreignObject
+                    //     className='radar-logo'
+                    //     onClick={!radarLogoLinkDisabled && this.handleResultsRedirect}
+                    //     width={logoRadius * 2}
+                    //     height={logoRadius * 2}
+                    //     transform={transform}
+                    //     style={radarLogoLinkDisabled ? { cursor: 'default' } : null}
+                    // >
+                    //     <img
                         
-                            alt='logo'
-                            src={`${PUBLIC_URL}${radarImage}`}
-                            style={{
-                                width: logoRadius * 2,
-                                height: logoRadius * 2,
-                                borderRadius: '50%',
-                                objectFit: 'cover'
-                            }}
-                        />
-                    </foreignObject>
+                    //         alt='logo'
+                    //         src={`${PUBLIC_URL}${radarImage}`}
+                    //         style={{
+                                // width: logoRadius * 2,
+                                // height: logoRadius * 2,
+                    //             borderRadius: '50%',
+                    //             objectFit: 'cover'
+                    //         }}
+                    //     />
+                    // </foreignObject>
                 )}
             </g>
         )
