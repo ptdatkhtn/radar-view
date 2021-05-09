@@ -260,10 +260,26 @@ class RadarPage extends PureComponent {
                         style={radarLogoLinkDisabled ? { cursor: 'default' } : null}
                     />
                 ) : (
-                    <image
-                        href={`${PUBLIC_URL}${radarImage}`}  
-                        width= {logoRadius * 2}
-                        height= {logoRadius * 2}/>
+                    <foreignObject
+                        className='radar-logo'
+                        onClick={!radarLogoLinkDisabled && this.handleResultsRedirect}
+                        width={logoRadius * 2}
+                        height={logoRadius * 2}
+                        transform={transform}
+                        style={radarLogoLinkDisabled ? { cursor: 'default' } : null}
+                    >
+                        <img
+                        
+                            alt='logo'
+                            src={`${PUBLIC_URL}${radarImage}`}
+                            style={{
+                                width: logoRadius * 2,
+                                height: logoRadius * 2,
+                                borderRadius: '50%',
+                                objectFit: 'cover'
+                            }}
+                        />
+                    </foreignObject>
                 )}
             </g>
         )
@@ -382,10 +398,10 @@ class RadarPage extends PureComponent {
             <svg 
                 xmlns="http://www.w3.org/2000/svg"
                 ref={this.svgRef}
-                 height={containerHeight}
-                 width={containerWidth}
-                 className={classes}
-                 style={{zIndex: phenomenaDragged ? 1 : 0}}>
+                height={containerHeight}
+                width={containerWidth}
+                className={classes}
+                style={{zIndex: phenomenaDragged ? 1 : 0}}>
                 <g className='zoom-control' transform={`translate(${x}, ${y}) scale(${k})`}>
                     <g ref={this.radarRef}
                        transform={`translate(${containerWidth / 2}, ${containerHeight / 2})`}>
