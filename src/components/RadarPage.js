@@ -271,7 +271,7 @@ class RadarPage extends PureComponent {
                         <img
                         
                             alt='logo'
-                            src={`${PUBLIC_URL}${radarImage}`}
+                            src={'https://d9lvdmmwvuqi1.cloudfront.net/uploads/production/series/thumb/2/thumb_640x/cntv-series-winterfire-1920x1080.jpg'}
                             style={{
                                 width: logoRadius * 2,
                                 height: logoRadius * 2,
