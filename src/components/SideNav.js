@@ -223,7 +223,6 @@ class SideNav extends PureComponent {
         const node = Number(searchParams.get('node'))
 
         const groupId = await drupalApi.getRadar(node).then((radar) => radar.group.id)
-        console.log('groupId', groupId)
         
         // get all shared link
         await getMembershipForPublicLink(groupId ).then((data) => {
@@ -248,7 +247,6 @@ class SideNav extends PureComponent {
                             publicSharedLink: data[i]['radar_share_url'],
                             radarShareId: data[i]['radar_share_id']
                         })
-                        console.log('data[i]', data[i])
                         return data[i]
                     }
                 })

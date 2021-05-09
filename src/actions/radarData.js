@@ -21,7 +21,6 @@ export const updateRadarVersion = version => ({
 })
 
 export function preloadImages (imageSources) {
-    console.log('imageSources', imageSources)
     imageSources
         .forEach(i => {
         const linkEl = document.createElement('link');
