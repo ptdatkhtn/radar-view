@@ -261,29 +261,9 @@ class RadarPage extends PureComponent {
                     />
                 ) : (
                     <image
-  href={`${PUBLIC_URL}${radarImage}`}  width= {logoRadius * 2}
-  height= {logoRadius * 2}/>
-
-                    // <foreignObject
-                    //     className='radar-logo'
-                    //     onClick={!radarLogoLinkDisabled && this.handleResultsRedirect}
-                    //     width={logoRadius * 2}
-                    //     height={logoRadius * 2}
-                    //     transform={transform}
-                    //     style={radarLogoLinkDisabled ? { cursor: 'default' } : null}
-                    // >
-                    //     <img
-                        
-                    //         alt='logo'
-                    //         src={`${PUBLIC_URL}${radarImage}`}
-                    //         style={{
-                                // width: logoRadius * 2,
-                                // height: logoRadius * 2,
-                    //             borderRadius: '50%',
-                    //             objectFit: 'cover'
-                    //         }}
-                    //     />
-                    // </foreignObject>
+                        href={`${PUBLIC_URL}${radarImage}`}  
+                        width= {logoRadius * 2}
+                        height= {logoRadius * 2}/>
                 )}
             </g>
         )
@@ -399,7 +379,9 @@ class RadarPage extends PureComponent {
         })
 
         return this.shouldRadarRender() && (
-            <svg ref={this.svgRef}
+            <svg 
+                xmlns="http://www.w3.org/2000/svg"
+                ref={this.svgRef}
                  height={containerHeight}
                  width={containerWidth}
                  className={classes}
