@@ -248,8 +248,7 @@ class RadarPage extends PureComponent {
             ? _.first(timeRanges).radius
             : radius * centerRadiusPercentage
         const transform = `translate(${-logoRadius}, ${-logoRadius})`
-
-        const fullURI = `https://fp-dev.sangre.fi${radarImage}`
+        
         return (
             <g>
                 {!radarImage ? (
@@ -272,7 +271,7 @@ class RadarPage extends PureComponent {
                         <img
                         
                             alt='logo'
-                            src={fullURI}
+                            src={radarImage}
                             style={{
                                 width: logoRadius * 2,
                                 height: logoRadius * 2,
