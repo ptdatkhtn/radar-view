@@ -249,6 +249,7 @@ class RadarPage extends PureComponent {
             : radius * centerRadiusPercentage
         const transform = `translate(${-logoRadius}, ${-logoRadius})`
 
+        const fullURI = `https://fp-dev.sangre.fi${radarImage}`
         return (
             <g>
                 {!radarImage ? (
@@ -271,7 +272,7 @@ class RadarPage extends PureComponent {
                         <img
                         
                             alt='logo'
-                            src={'https://d9lvdmmwvuqi1.cloudfront.net/uploads/production/series/thumb/2/thumb_640x/cntv-series-winterfire-1920x1080.jpg'}
+                            src={fullURI}
                             style={{
                                 width: logoRadius * 2,
                                 height: logoRadius * 2,
