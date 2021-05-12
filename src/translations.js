@@ -201,11 +201,15 @@ const localTranslations = {
         en: `BY TAG`,
         fi: `TAGIT`
     },
-    publicLink: {
-        en: `OPEN A SHARED LINK`,
-        fi: `AVAA JAETTAVA LINKKI`
+    openPublicLink: {
+        en: `SHOW THE SHARED LINK`,
+        fi: `NÄYTÄ JAETTAVA LINKKI`
     },
     createPublicLink: {
+        en: `CREATE A SHARED LINK`,
+        fi: `LUO JAETTAVA LINKKI`
+    },
+    publicLink: {
         en: `Shared Link`,
         fi: `Jaettava linkki`
     },
@@ -265,10 +269,6 @@ const localTranslations = {
         en: `A shared link already exists for this radar. Click below to view it.`,
         fi: `Tälle kartalle on tehty jaettava linkki. Voit katsoa sen alta.`
     },
-    showThePublicLink: {
-        en: `SHOW THE SHARED LINK`,
-        fi: `NÄYTÄ JULKINEN LINKKI`
-    },
     checkPublicLinkAlreadyExisted: {
         en:`A shared link already exists for this radar. Click below to view it.`,
         fi:`Tälle kartalle on tehty jaettava linkki. Voit katsoa sen alta.`
@@ -276,6 +276,14 @@ const localTranslations = {
     goToManagement: {
         en:`OPEN THE USER MANAGEMENT`,
         fi:`AVAA KÄYTTÄJÄHALLINTA`
+    },
+    ok: {
+        en:`OK`,
+        fi:`OK`
+    },
+    sharedLinkDeletedNote: {
+        en:`The shared link is now deleted from this radar.`,
+        fi:`Jaettava linkki on nyt poistettu tältä kartalta.`
     }
 }
 

@@ -23,7 +23,7 @@ const PublicLink = ({ isModalOpen, onRequestClose, publicURL, openConfirmationMo
         <div className="modal-form-sections">
           <div className="modal-form-section modal-form-header">
             <h2 className={styles.Modal__Title}>
-              {requestTranslation("createPublicLink")}
+              {requestTranslation("publicLink")}
             </h2>
             <p className="mt-4">{requestTranslation("publicLinkNote")}</p>
           </div>
