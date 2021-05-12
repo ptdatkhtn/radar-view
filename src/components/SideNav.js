@@ -17,8 +17,7 @@ import ShareRadarModal from '../containers/ShareRadarModalContainer'
 import PublicLink from './PublicLink/PublicLink' 
 import ConfirmationModal from './ConfirmationModal/ConfirmationModal'
 import DeleteConfirmationModal from './DeleteConfirmationModal/DeleteConfirmationModal'
-import ShowPublicLinkModal from './ShowPublicLinkModal/ShowPublicLinkModal';
-
+import ShowPublicLinkModal from './ShowPublicLinkModal/ShowPublicLinkModal'
 
 class SideNav extends PureComponent {
     state = {
@@ -515,7 +514,7 @@ class SideNav extends PureComponent {
                     style={modalStyles}
                     ariaHideApp={false}
                 >
-                    <ShareRadarModal requestClose={() => this.setState({sharingModalOpen: false})} requestOpenPublicLink={this.openPublicLinkModal}/>
+                    <ShareRadarModal requestClose={() => this.setState({sharingModalOpen: false})} requestOpenPublicLink={this.openPublicLinkModal} checkPublicLinkExsited={this.state.publicSharedLinkExsited} publicLink={this.state.publicSharedLink}/>
                     {
                         this.state.publicSharedLinkExsited && <button className='tn btn-lg btn-primary showSharedLinkBtn' onClick={this.openShowPublicLinkModal}>{requestTranslation('showThePublicLink')}</button>
                     }

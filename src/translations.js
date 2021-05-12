@@ -202,44 +202,52 @@ const localTranslations = {
         fi: `TAGIT`
     },
     publicLink: {
-        en: `CREATE A PUBLIC LINK`,
-        fi: `NÄYTÄ JAETTAVA LINKKI`
+        en: `OPEN A SHARED LINK`,
+        fi: `AVAA JAETTAVA LINKKI`
     },
     createPublicLink: {
-        en: `Create a Shared Collaboration Link`,
-        fi: `Luo jaettu yhteistyölinkki`
+        en: `Shared Link`,
+        fi: `Jaettava linkki`
     },
     publicLinkNote: {
-        en: `Copy the link and share it in your network. Anyone with the link can access this radar`,
-        fi: `Kopioi linkki ja jaa se verkostossasi. Otathan huomioon, että linkkiä klikkaamalla kuka tahansa pääsee tälle kartalle.`
+        en: `Copy the link and share it in your network. Anyone with the link can access the radar and collaborate. For data privacy reasons, we recommend deleting the shared link when it’s not used anymore.`,
+        fi: `Kopioi linkki, ja jaa se verkostossasi. Otathan huomioon, että linkkiä klikkaamalla tälle kartalle pääsee kuka tahansa. Tietoturvasyistä suosittelemme jaettavan linkin poistamista, kun sitä ei enää tarvita.`
     },
     regeneratePublicLink: {
-        en: `REGENERATE LINK`,
-        fi: `LUO UUSI LINKKI`
-    },
-    publicLinkURL: {
-        en: `Shared Collaboration Link: `,
-        fi: `Jaettu yhteistyölinkki:`
-    },
-    regeneratePublicLinkNote: {
-        en: `NOTE! Regenerating the URL will deactivate the previous link`,
-        fi: `HUOM. Uuden linkin luonti poistaa nykyisen linkin toiminnasta.`
+        en: `REGENERATE A SHARED LINK`,
+        fi: `LUO UUSI JAETTAVA LINKKI`
     },
     deletePublicLink: {
-        en: `Delete the public link`,
-        fi: `Poista julkinen linkki`
+        en: `DELETE THE SHARED LINK`,
+        fi: `POISTA JAETTAVA LINKKI`
+    },
+    publicLinkURL: {
+        en: `Shared link: `,
+        fi: `Jaettava linkki:`
+    },
+    regeneratePublicLinkNote: {
+        en: `Note! Regenerating the link will deactivate the current link.`,
+        fi: `Huom. Uuden linkin luonti poistaa nykyisen linkin toiminnasta.`
+    },
+    deletePublicLinkBtn: {
+        en: `DELETE THE CURRENT SHARED LINK`,
+        fi: `POISTA NYKYINEN JAETTU LINKKI`
     },
     sharePublicLinkConfirmation: {
-        en: `Are you sure you want to make a new public link?`,
-        fi: `Oletko varma, että haluat tehdä uuden linkin?`
+        en: `Are you sure you want to regenerate a shared link?`,
+        fi: `Haluatko varmasti luoda uuden jaettavan linkin?`
     },
     sharePublicLinkConfirmationNote: {
-        en: `The old link will stop working when you create a new one.`,
-        fi: `Vanha linkki lakkaa toimimasta, kun luot uuden.`
+        en: `The current link will stop working when you create a new one.`,
+        fi: `Nykyinen linkki lakkaa toimimasta, kun luot uuden.`
     },
     deletePublicLinkConfirmation: {
-        en: `Are you sure you want to remove this public link?`,
-        fi: `Haluatko varmasti poistaa tämän julkisen linkin?`,        
+        en: `Are you sure you want to delete the shared link?`,
+        fi: `Haluatko varmasti poistaa jaettavan linkin?`,        
+    },
+    deletePublicLinkConfirmationNote: {
+        en: `When you delete the shared link, the radar remains visible to the users who have been granted access to the radar in the user management.`,
+        fi: `Poistettuasi jaetun linkin tämä kartta näkyy vain henkilöille, joille on käyttäjähallinnassa annettu sille pääsy.`
     },
     copyToClipboard: {
         en: `Copy to clipboard`,
@@ -250,8 +258,8 @@ const localTranslations = {
         fi: `Linkki kopioitu.`
     },
     shareRadarFromUsrMngmt: {
-        en: `You can invite users to this radar from the User management, or create a Shared collaboration link (public link) and share it in your network.`,
-        fi: `Voit kutsua kollegasi kartalle käyttäjähallinnasta tai tehdä julkisen linkin ja jakaa sen verkostossasi.` 
+        en: `You can invite users to this radar from the User management, or by creating a Shared link and share that in your network. If you choose to create a Shared link, please note, that anyone with the link can access the radar and collaborate on it.`,
+        fi: `Voit kutsua kollegasi kartalle käyttäjähallinnasta tai tehdä jaettavan linkin ja jakaa sen verkostossasi. Huomaathan, että jakamaasi linkkiä klikkaamalla kuka tahansa voi päästä kartalle ja osallistua työskentelyyn.` 
     },
     publicLinkExisted : {
         en: `A shared link already exists for this radar. Click below to view it.`,
@@ -260,6 +268,14 @@ const localTranslations = {
     showThePublicLink: {
         en: `SHOW THE SHARED LINK`,
         fi: `NÄYTÄ JULKINEN LINKKI`
+    },
+    checkPublicLinkAlreadyExisted: {
+        en:`A shared link already exists for this radar. Click below to view it.`,
+        fi:`Tälle kartalle on tehty jaettava linkki. Voit katsoa sen alta.`
+    },
+    goToManagement: {
+        en:`OPEN THE USER MANAGEMENT`,
+        fi:`AVAA KÄYTTÄJÄHALLINTA`
     }
 }
 

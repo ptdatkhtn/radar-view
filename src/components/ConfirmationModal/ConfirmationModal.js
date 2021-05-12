@@ -30,7 +30,7 @@ const ConfirmationModal = ({
             className="btn btn-lg btn-primary"
             onClick={regeneratePublicLink}
           >
-            {requestTranslation("regenerate").toUpperCase()}
+            {requestTranslation("regeneratePublicLink").toUpperCase()}
           </button>
         </div>
       </div>

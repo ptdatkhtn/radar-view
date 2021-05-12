@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
 import { requestTranslation } from '@sangre-fp/i18n'
 import { PUBLIC_URL } from '../env'
-
+import LinkIcon from '@material-ui/icons/Link';
 class ShareRadarModal extends Component {
   // handleClipboardClick = () => this.shareInput.focus()
 
@@ -11,6 +11,8 @@ class ShareRadarModal extends Component {
     const {
       requestClose,
       requestOpenPublicLink,
+      checkPublicLinkExsited,
+      publicLink,
       changeRadarSharing,
       changeRadarSharingExpiry,
       enableUrlLogin,
@@ -34,6 +36,7 @@ class ShareRadarModal extends Component {
             <div className='modal-form-section modal-form-header'>
                 <h2 className={'confirmation-modal-title'}>{requestTranslation('shareRadar')}</h2>
                 <p className='mt-4'>{requestTranslation('shareRadarFromUsrMngmt')}</p>
+                {checkPublicLinkExsited && publicLink && <div className='mt-4' style={{display: 'flex'}}><LinkIcon style={{transform: 'rotate(310deg)', borderRadius: '20px'}}></LinkIcon><p style={{ paddingLeft:'8px'}}>{requestTranslation('checkPublicLinkAlreadyExisted')}</p></div>}
             </div>
             <div className='modal-form-section justify-content-end d-flex'>
                 <button

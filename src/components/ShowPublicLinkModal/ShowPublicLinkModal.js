@@ -21,7 +21,7 @@ const ShowPublicLinkModal = ({ publicLinkShowed, publicLinkURL, showPublicLinkMo
         <h3 className="confirmation-modal-title">
             {requestTranslation("publicLinkURL")}
         </h3>
-        <p style={{textAlign: 'center'}}>{requestTranslation("publicLinkNote")}</p>
+        <p style={{textAlign: 'center', padding: '0 32px'}}>{requestTranslation("publicLinkNote")}</p>
         <div className="modal-form-section">
             <div className="d-flex mt-2 align-items-center">
                 <input

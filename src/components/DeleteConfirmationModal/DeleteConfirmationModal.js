@@ -18,6 +18,7 @@ const DeleteConfirmationModal = ({
         <h3 className="confirmation-modal-title">
           {requestTranslation("deletePublicLinkConfirmation")}
         </h3>
+        <p style={{textAlign: 'center', marginLeft: '110px', marginRight: '117px'}}>{requestTranslation("deletePublicLinkConfirmationNote")}</p>
         <div className="confirmation-modal-actions">
           <button
             onClick={deleteConfirmationModalClose}
@@ -29,7 +30,7 @@ const DeleteConfirmationModal = ({
             className="btn btn-lg btn-primary"
             onClick={deletePublicLink}
           >
-            {requestTranslation("delete").toUpperCase()}
+            {requestTranslation("deletePublicLink").toUpperCase()}
           </button>
         </div>
       </div>
