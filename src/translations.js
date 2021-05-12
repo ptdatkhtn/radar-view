@@ -214,8 +214,8 @@ const localTranslations = {
         fi: `Kopioi linkki, ja jaa se verkostossasi. Otathan huomioon, että linkkiä klikkaamalla tälle kartalle pääsee kuka tahansa. Tietoturvasyistä suosittelemme jaettavan linkin poistamista, kun sitä ei enää tarvita.`
     },
     regeneratePublicLink: {
-        en: `REGENERATE A SHARED LINK`,
-        fi: `LUO UUSI JAETTAVA LINKKI`
+        en: `REGENERATE LINK`,
+        fi: `LUO UUSI LINKKI`
     },
     deletePublicLink: {
         en: `DELETE THE SHARED LINK`,
