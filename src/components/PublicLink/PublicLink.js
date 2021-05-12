@@ -62,6 +62,7 @@ const PublicLink = ({ isModalOpen, onRequestClose, publicURL, openConfirmationMo
                 // className="btn btn-outline-secondary mr-3"
                 className={styles.RegenerateBtn}
                 onClick={openConfirmationModal}
+                style={{color: '#006998'}}
               >
                 <RefreshIcon />
                 {requestTranslation("regeneratePublicLink")}
