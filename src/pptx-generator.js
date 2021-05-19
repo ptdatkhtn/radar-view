@@ -149,14 +149,18 @@ export default async function generatePPTX(radarId, groupId) {
     addHeading(radarName, slide)
     addTitle(tr('pptxRatedContent'), slide)
 
-    const { data } = await screenshot({ waitFor: 5000, url: `${radarResultsUrl}?tab=1`, selector: 'div.rating-results-diagram' })
-    slide.addImage({
-      data: `image/png;base64,${data}`,
-      x: 0.4,
-      y: 1.4,
-      w: 9,
-      h: 5.3
-    })
+    try {
+      const { data } = await screenshot({ waitFor: 5000, url: `${radarResultsUrl}?tab=1`, selector: 'div.rating-results-diagram' })
+      slide.addImage({
+        data: `image/png;base64,${data}`,
+        x: 0.4,
+        y: 1.4,
+        w: 9,
+        h: 5.3
+      })
+    } catch (err) {
+      console.warn('screenshot failed')
+    }
   }
 
   function addRatedContentAxisSlide(xPhenomena, yPhenomena) {
@@ -209,9 +213,7 @@ export default async function generatePPTX(radarId, groupId) {
 
   // Top Voted Phenomena
   if (votingOn) {
-    const sortedPhenomena = [...phenomena].sort(({ vote_sum: aVoteSum, time: aTimestamp }, { vote_sum: bVoteSum, time: bTimestamp }) => {
-      aVoteSum = aVoteSum === null ? -1000000 : aVoteSum
-      bVoteSum = bVoteSum === null ? -1000000 : bVoteSum
+    const sortedPhenomena = [...phenomena].sort(({ vote_sum: aVoteSum = -1000000, time: aTimestamp }, { vote_sum: bVoteSum = -1000000, time: bTimestamp }) => {
       if (aVoteSum === bVoteSum) {
         return aTimestamp-bTimestamp
       }
