@@ -81,14 +81,18 @@ export default async function generatePPTX(radarId, groupId) {
 
   async function addPreviewSlide() {
     const slide = addSlide({ masterName: undefined })
-    const { data } = await screenshot({ url: radarUrl, waitFor: 5000 })
-    slide.addImage({
-      data: `image/png;base64,${data}`,
-      x: 0,
-      y: 0,
-      w: 13.33,
-      h: 7.5
-    })
+    try {
+      const { data } = await screenshot({ url: radarUrl, waitFor: 5000 })
+      slide.addImage({
+        data: `image/png;base64,${data}`,
+        x: 0,
+        y: 0,
+        w: 13.33,
+        h: 7.5
+      })
+    } catch (err) {
+      console.error('radar preview screenshot failed')
+    }
   }
 
   function addSectorsSlide() {
@@ -159,7 +163,7 @@ export default async function generatePPTX(radarId, groupId) {
         h: 5.3
       })
     } catch (err) {
-      console.warn('screenshot failed')
+      console.error('rating results diagram screenshot failed')
     }
   }
 
