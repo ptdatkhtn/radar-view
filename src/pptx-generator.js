@@ -149,7 +149,7 @@ export default async function generatePPTX(radarId, groupId) {
     addHeading(radarName, slide)
     addTitle(tr('pptxRatedContent'), slide)
 
-    const { data } = await screenshot({ url: `${radarResultsUrl}?tab=1`, selector: 'div.fourfold' })
+    const { data } = await screenshot({ waitFor: 5000, url: `${radarResultsUrl}?tab=1`, selector: 'div.rating-results-diagram' })
     slide.addImage({
       data: `image/png;base64,${data}`,
       x: 0.4,
