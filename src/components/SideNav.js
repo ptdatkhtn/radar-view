@@ -76,7 +76,59 @@ class SideNav extends PureComponent {
             sharingModalOpen: true
         })
       }
+      async componentDidMount() {
+        const searchParams = new URLSearchParams(document.location.search)
+        const shareQuery = Number(searchParams.get('share'))
+        const node = Number(searchParams.get('node'))
+   
+        if (shareQuery ==='1' || shareQuery === 1) {
+
+            await drupalApi.getRadar(node).then((radar) => {
+                const groupIdRes = radar.group.id
+                // const radarTitle = radar.radarName
+                this.setState({
+                    groupId: groupIdRes
+                })
+               
+            })
+            await this.getExistedSharedLink(this.state.groupId)
+
+            this.setState({ publicLinkModal: true })
+        }
+    }
     
+    
+    getExistedSharedLink = async (gid) => {
+        const [getMembershipForPublicLink_data, drupalApi_fetchShares_data] = await Promise.all([
+            getMembershipForPublicLink(gid),
+            drupalApi.fetchShares(gid)
+        ])
+
+        getMembershipForPublicLink_data && Object.keys(getMembershipForPublicLink_data).map((i) => {
+            if (getMembershipForPublicLink_data[i]['user_full_name'] === String('public@visitors.futuresplatform.com')) {
+                this.setState({
+                    publicSharedUserInfo: this.state.publicSharedUserInfo.concat(getMembershipForPublicLink_data[i])
+                })
+                return this.state.publicSharedUserInfo
+            }
+            else return []
+        })
+
+        drupalApi_fetchShares_data && Object.keys(drupalApi_fetchShares_data).map((i) => {
+            this.state.publicSharedUserInfo.map ((userInfo) => {
+                if (String(drupalApi_fetchShares_data[i]['user_id']) === String(userInfo?.id)) {
+                    this.setState({
+                        publicSharedLink: drupalApi_fetchShares_data[i]['radar_share_url'],
+                        radarShareId: drupalApi_fetchShares_data[i]['radar_share_id'],
+                        publicSharedLinkExsited: true
+                    })
+                    return drupalApi_fetchShares_data[i]
+                }
+            })
+        })
+
+    }
+
     openPublicLinkModal = async (gid) => {
         this.setState({ sharingModalOpen: false })
         this.setState({ publicLinkModal: true })
@@ -85,35 +137,7 @@ class SideNav extends PureComponent {
         const node = Number(searchParams.get('node'))
         const fakeEmail = `public@visitors.futuresplatform.com`
 
-        // get all shared link
-        await getMembershipForPublicLink(gid ).then((data) => {
-            // eslint-disable-next-line array-callback-return
-            data && Object.keys(data).map((i) => {
-                if (data[i]['user_full_name'] === String('public@visitors.futuresplatform.com')) {
-                    this.setState({
-                        publicSharedUserInfo: this.state.publicSharedUserInfo.concat(data[i])
-                    })
-                    return this.state.publicSharedUserInfo
-                }
-                else return []
-            })
-            
-        })
-
-        this.state.publicSharedUserInfo && this.state.publicSharedUserInfo.length > 0 && await drupalApi.fetchShares(gid).then((data) => {
-           data && Object.keys(data).map((i) => {
-                this.state.publicSharedUserInfo.map ((userInfo) => {
-                    if (String(data[i]['user_id']) === String(userInfo?.id)) {
-                        this.setState({
-                            publicSharedLink: data[i]['radar_share_url'],
-                            radarShareId: data[i]['radar_share_id'],
-                            publicSharedLinkExsited: true
-                        })
-                        return data[i]
-                    }
-                })
-            })
-        })
+        await this.getExistedSharedLink(gid)
 
         if (!this.state.publicSharedLink || this.state.publicSharedLink  === '') {
             const payload = {
@@ -289,6 +313,7 @@ class SideNav extends PureComponent {
         } = this.props
 
         const renderRadarEditor = !editSectorsPageOpen && !addRadarFormOpen && !editPhenomenaVisible && !signalListVisible && !isVisitor
+
         return (
             <PopupContainer onClose={toggleEditMenuVisiblity}>
                 {renderRadarEditor &&
