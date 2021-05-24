@@ -18,6 +18,10 @@ import PublicLink from './PublicLink/PublicLink'
 import ConfirmationModal from './ConfirmationModal/ConfirmationModal'
 import DeleteConfirmationModal from './DeleteConfirmationModal/DeleteConfirmationModal'
 import SharedLinkModalAfterDelete from './SharedLinkModalAfterDelete/SharedLinkModalAfterDelete'
+import { getUserRoles } from '@sangre-fp/connectors/session'
+import {isManagerOrOwnerRole} from '../helpers'
+
+
 class SideNav extends PureComponent {
     state = {
         deletingModalOpen: false,
@@ -32,10 +36,42 @@ class SideNav extends PureComponent {
         radarShareId: null,
         publicSharedLinkExsited: false,
         SharedLinkModalAfterDelete: false,
-        radarTitle: ''
+        radarTitle: '',
+        isPublicShareUrlEnabled: false
     }
 
+    async componentDidMount() {
+        const searchParams = new URLSearchParams(document.location.search)
+        const shareQuery = Number(searchParams.get('share'))
+        const node = Number(searchParams.get('node'))
 
+
+        if (shareQuery ==='1' || shareQuery === 1) {
+
+            await drupalApi.getRadar(node).then((radar) => {
+                const groupIdRes = radar.group.id
+                // const radarTitle = radar.radarName
+                this.setState({
+                    groupId: groupIdRes
+                })
+               
+            })
+            await this.getExistedSharedLink(this.state.groupId)
+
+            this.setState({ publicLinkModal: true })
+        }
+    }
+
+    componentDidUpdate(nextProps, nextState) {
+        this.props.radarSettings.groups.map(g => {
+            if (String(g?.id) === String(this.props.radarSettings?.group.id) && Number(g?.publicShareUrlEnabled) === 1) {
+                this.setState({
+                    isPublicShareUrlEnabled: true
+                })
+            }
+        })
+      }
+      
     toggleOpenEditMenu = () => {
         const {toggleEditMenuVisiblity, editMenuOpen} = this.props
 
@@ -76,27 +112,6 @@ class SideNav extends PureComponent {
             sharingModalOpen: true
         })
       }
-      async componentDidMount() {
-        const searchParams = new URLSearchParams(document.location.search)
-        const shareQuery = Number(searchParams.get('share'))
-        const node = Number(searchParams.get('node'))
-   
-        if (shareQuery ==='1' || shareQuery === 1) {
-
-            await drupalApi.getRadar(node).then((radar) => {
-                const groupIdRes = radar.group.id
-                // const radarTitle = radar.radarName
-                this.setState({
-                    groupId: groupIdRes
-                })
-               
-            })
-            await this.getExistedSharedLink(this.state.groupId)
-
-            this.setState({ publicLinkModal: true })
-        }
-    }
-    
     
     getExistedSharedLink = async (gid) => {
         const [getMembershipForPublicLink_data, drupalApi_fetchShares_data] = await Promise.all([
@@ -419,12 +434,15 @@ class SideNav extends PureComponent {
                                         >
                                             {requestTranslation('pptxGenerateReport')}
                                         </EditMenuItem>
-                                        <EditMenuItem
+                                        
+                                        {
+                                            canShareRadar && this.state.isPublicShareUrlEnabled && <EditMenuItem
                                             className='fp-dropdown-item'
                                             onClick={this.onShareRadarClick}
                                         >
                                             {requestTranslation('shareRadar')}
                                         </EditMenuItem>
+                                        }
                                         <EditMenuItem
                                             className='fp-dropdown-item'
                                             onClick={() => cloneRadar(this.clonedRadarCallback)}

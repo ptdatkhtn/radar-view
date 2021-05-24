@@ -907,7 +907,7 @@ class RadarPage extends PureComponent {
                 <Loading shown={loading.length} color={'white'}/>
                 {this.renderTitle()}
                 {this.renderBottomLeftNav()}
-                <SideNav returnUri={returnUri} />
+                <SideNav returnUri={returnUri} radarSettings={this.props.radarSettings}/>
                 {this.renderEditSectorMenu()}
                 {this.renderRadar()}
                 {this.renderSectorEditor()}
