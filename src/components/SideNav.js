@@ -241,15 +241,13 @@ class SideNav extends PureComponent {
         this.state.publicSharedUserInfo && this.state.publicSharedUserInfo.length > 0 && await drupalApi.fetchShares(groupId).then((data) => {
            data && Object.keys(data).map((i) => {
                 this.state.publicSharedUserInfo.map ((userInfo) => {
-                    console.log('testing = .....', String(node) === String(data[i]['radar_id']))
-                    console.log('data[i]', data[i])
                     if (String(data[i]['user_id']) === String(userInfo?.id) && String(node) === String(data[i]['radar_id'])) {
                         this.setState({
                             publicSharedLink: data[i]['radar_share_url'],
                             radarShareId: data[i]['radar_share_id'],
                             publicSharedLinkExsited: true
                         })
-                        return data[i]
+                        return data
                     }
                 })
             })
