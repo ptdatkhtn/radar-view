@@ -23,8 +23,8 @@ class ShareRadarModal extends Component {
       id
     } = this.props
 
-    const onClickOpenPublicLink = (gid) => {
-      requestOpenPublicLink(gid)
+    const onClickOpenPublicLink = () => {
+      requestOpenPublicLink()
     }
 
     return (
@@ -47,7 +47,7 @@ class ShareRadarModal extends Component {
                 </button>
                 <div style={{ marginRight: "20px" }}>
                   <a
-                    onClick={() => onClickOpenPublicLink(group.id)}
+                    onClick={() => onClickOpenPublicLink()}
                     className="btn btn-lg btn-primary"
                   >
                     {checkPublicLinkExsited && publicLink ? requestTranslation("openPublicLink") : requestTranslation("createPublicLink")} 

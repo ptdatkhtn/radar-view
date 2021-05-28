@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import _ from 'lodash'
 import {paddingModalStyles, modalStyles} from '@sangre-fp/ui'
 import drupalApi from '@sangre-fp/connectors/drupal-api'
-import {getMembershipForPublicLink} from '../helpers/fetcher'
 import {PUBLIC_URL} from '../env'
 import {Modal, PopupContainer} from '@sangre-fp/ui'
 import {requestTranslation} from '@sangre-fp/i18n'
@@ -18,8 +17,6 @@ import PublicLink from './PublicLink/PublicLink'
 import ConfirmationModal from './ConfirmationModal/ConfirmationModal'
 import DeleteConfirmationModal from './DeleteConfirmationModal/DeleteConfirmationModal'
 import SharedLinkModalAfterDelete from './SharedLinkModalAfterDelete/SharedLinkModalAfterDelete'
-import { getUserRoles } from '@sangre-fp/connectors/session'
-import {isManagerOrOwnerRole} from '../helpers'
 
 
 class SideNav extends PureComponent {
@@ -31,7 +28,7 @@ class SideNav extends PureComponent {
         publicLinkModal: false,
         confirmationModal: false,
         deleteConfirmationModal: false,
-        publicSharedLink: '',
+        publicSharedLink: null,
         publicSharedUserInfo: [],
         radarShareId: null,
         publicSharedLinkExsited: false,
@@ -45,18 +42,21 @@ class SideNav extends PureComponent {
         const shareQuery = Number(searchParams.get('share'))
         const node = Number(searchParams.get('node'))
 
-
-        if (shareQuery ==='1' || shareQuery === 1) {
-
-            await drupalApi.getRadar(node).then((radar) => {
-                const groupIdRes = radar.group.id
-                // const radarTitle = radar.radarName
-                this.setState({
-                    groupId: groupIdRes
-                })
-               
+        await drupalApi.getRadar(node).then((radar) => {
+            this.setState({
+                groupId: radar.group.id,
+                radarTitle: radar.radarName
             })
-            await this.getExistedSharedLink(this.state.groupId)
+           
+        })
+        if (shareQuery ==='1' || shareQuery === 1) {
+            await drupalApi.getRadarPublicShare(node).then((data) => {
+                this.setState({
+                    publicSharedLink: data.url,
+                    publicSharedLinkExsited: true
+    
+                })
+            })
 
             this.setState({ publicLinkModal: true })
         }
@@ -112,88 +112,40 @@ class SideNav extends PureComponent {
             sharingModalOpen: true
         })
       }
-    
-    getExistedSharedLink = async (gid) => {
-        const [getMembershipForPublicLink_data, drupalApi_fetchShares_data] = await Promise.all([
-            getMembershipForPublicLink(gid),
-            drupalApi.fetchShares(gid)
-        ])
 
-        getMembershipForPublicLink_data && Object.keys(getMembershipForPublicLink_data).map((i) => {
-            if (getMembershipForPublicLink_data[i]['user_full_name'] === String('public@visitors.futuresplatform.com')) {
-                this.setState({
-                    publicSharedUserInfo: this.state.publicSharedUserInfo.concat(getMembershipForPublicLink_data[i])
-                })
-                return this.state.publicSharedUserInfo
-            }
-            else return []
-        })
-
-        drupalApi_fetchShares_data && Object.keys(drupalApi_fetchShares_data).map((i) => {
-            this.state.publicSharedUserInfo.map ((userInfo) => {
-                if (String(drupalApi_fetchShares_data[i]['user_id']) === String(userInfo?.id)) {
-                    this.setState({
-                        publicSharedLink: drupalApi_fetchShares_data[i]['radar_share_url'],
-                        radarShareId: drupalApi_fetchShares_data[i]['radar_share_id'],
-                        publicSharedLinkExsited: true
-                    })
-                    return drupalApi_fetchShares_data[i]
-                }
-            })
-        })
-
-    }
-
-    openPublicLinkModal = async (gid) => {
+    openPublicLinkModal = async () => {
         this.setState({ sharingModalOpen: false })
         this.setState({ publicLinkModal: true })
-        const NOW = new Date()
         const searchParams = new URLSearchParams(document.location.search)
         const node = Number(searchParams.get('node'))
-        const fakeEmail = `public@visitors.futuresplatform.com`
 
-        await this.getExistedSharedLink(gid)
-
-        if (!this.state.publicSharedLink || this.state.publicSharedLink  === '') {
-            const payload = {
-                "users": [
-                    {
-                        "gid": gid, 
-                        "role": "visitor", 
-                        "mail": fakeEmail, 
-                        "radars": [node], 
-                        "login_expire": Math.round(Number(new Date(NOW.setMonth(NOW.getMonth() + 1)).getTime()) / 1000)
-                    }
-                ]
-            }
-
-            // invite
-            await drupalApi.inviteToRadar(payload, gid).then(async () => {
-                // eslint-disable-next-line no-undef
-                await getMembershipForPublicLink(gid).then(async (data) => {
-                    // eslint-disable-next-line array-callback-return
-                    const resId = _.filter(data, (i) => i['user_full_name'] === payload.users[0].mail )
-                    await drupalApi.fetchShares(gid).then((data) => {
-                        const publicLink = _.filter(data, (i) => Number(i['user_id']) === Number(resId[0].id))
-                        this.setState({
-                            publicSharedLink: publicLink[0].radar_share_url,
-                            radarShareId: publicLink[0].radar_share_id,
-                            publicSharedUserInfo: resId,
-                            publicSharedLinkExsited: true
-
-                        })
-                    })
+        // create a shared link
+        if(this.state.publicSharedLink === null) {
+            await drupalApi.createOrReplaceRadarPublicShare({radarId: node}).then((data) => {
+                console.log('data', data)
+                this.setState({
+                    publicSharedLink: data?.url,
+                    publicSharedLinkExsited: true
                 })
-                
+            })
+        }
+        else {
+            await drupalApi.getRadarPublicShare(node).then((data) => {
+                this.setState({
+                    publicSharedLink: data.url,
+                    publicSharedLinkExsited: true
+    
+                })
             })
         }
     }
 
-    onRegeneratePublicLink = async (id) => {
-        await drupalApi.regenerateShare(id).then(data => {
+    onRegeneratePublicLink = async () => {
+        const searchParams = new URLSearchParams(document.location.search)
+        const node = Number(searchParams.get('node'))
+        await drupalApi.regenerateRadarPublicShare(node).then(data => {
             this.setState({
-                publicSharedLink: data['radar_share_url'],
-                radarShareId: data['radar_share_id'],
+                publicSharedLink: data.url,
                 confirmationModal: false
             })
         })
@@ -228,14 +180,13 @@ class SideNav extends PureComponent {
         })
     }
 
-    onDeletePublicLink = async (membershipUser) => {
-        const {mid} = membershipUser[0]
-        const membershipArray = [].concat(mid)
-        await drupalApi.deleteMemberships(membershipArray).then(() => {
+    onDeletePublicLink = async () => {
+        const searchParams = new URLSearchParams(document.location.search)
+        const node = Number(searchParams.get('node'))
+
+        await drupalApi.removeRadarPublicShare(node).then((data) => {
             this.setState({
-                radarShareId: null,
-                publicSharedUserInfo: [],
-                publicSharedLink: '',
+                publicSharedLink: null,
                 deleteConfirmationModal: false,
                 publicSharedLinkExsited: false,
                 SharedLinkModalAfterDelete: true
@@ -252,45 +203,20 @@ class SideNav extends PureComponent {
     onShareRadarClick = async() => {
         const searchParams = new URLSearchParams(document.location.search)
         const node = Number(searchParams.get('node'))
-        
-        const groupId = await drupalApi.getRadar(node).then((radar) => {
-            const groupIdRes = radar.group.id
-            const radarTitle = radar.radarName
-            this.setState({
-                radarTitle: radarTitle
-            })
-            return groupIdRes
-        })
   
-        // get all shared link
-        await getMembershipForPublicLink(groupId).then((data) => {
-            // eslint-disable-next-line array-callback-return
-            data && Object.keys(data).map((i) => {
-                if (data[i]['user_full_name'] === String('public@visitors.futuresplatform.com')) {
-                    this.setState({
-                        publicSharedUserInfo: this.state.publicSharedUserInfo.concat(data[i]),
-                    })
-                    return this.state.publicSharedUserInfo
-                }
-                else return []
+        //get shared link 
+        await drupalApi.getRadarPublicShare(node).then((data) => {
+            this.setState({
+                publicSharedLink: data.url
             })
-            
         })
 
-        this.state.publicSharedUserInfo && this.state.publicSharedUserInfo.length > 0 && await drupalApi.fetchShares(groupId).then((data) => {
-           data && Object.keys(data).map((i) => {
-                this.state.publicSharedUserInfo.map ((userInfo) => {
-                    if (String(data[i]['user_id']) === String(userInfo?.id) && String(node) === String(data[i]['radar_id'])) {
-                        this.setState({
-                            publicSharedLink: data[i]['radar_share_url'],
-                            radarShareId: data[i]['radar_share_id'],
-                            publicSharedLinkExsited: true
-                        })
-                        return data
-                    }
-                })
+        if(this.state.publicSharedLink !== null) {
+            this.setState({
+                publicSharedLinkExsited: true
             })
-        })
+            
+        }
         this.setState({sharingModalOpen: true})
 
     }
@@ -301,7 +227,7 @@ class SideNav extends PureComponent {
         if (returnId) {
             returnId = returnId.replace(/[^a-f0-9-]/, '')
         }
-        const {deletingModalOpen, clonedModalOpen, sharingModalOpen, generatingModalOpen, publicLinkModal, confirmationModal, deleteConfirmationModal, radarShareId, publicSharedUserInfo } = this.state
+        const {deletingModalOpen, clonedModalOpen, sharingModalOpen, generatingModalOpen, publicLinkModal, confirmationModal, deleteConfirmationModal, radarShareId } = this.state
         const {
             changeAddRadarFormVisibility,
             sectorPageHandler,
@@ -591,12 +517,12 @@ class SideNav extends PureComponent {
                 <ConfirmationModal 
                     confirmationModal={confirmationModal}
                     confirmationModalClose={this.closeConfirmationModal}
-                    regeneratePublicLink={() => {this.onRegeneratePublicLink(radarShareId)}}
+                    regeneratePublicLink={() => {this.onRegeneratePublicLink()}}
                 />
                 <DeleteConfirmationModal 
                     deleteConfirmationModal={deleteConfirmationModal}
                     deleteConfirmationModalClose={this.closeDeleteConfirmationModal}
-                    deletePublicLink={() => this.onDeletePublicLink(publicSharedUserInfo)}
+                    deletePublicLink={() => this.onDeletePublicLink()}
                 />
                 <SharedLinkModalAfterDelete 
                     SharedLinkModalAfterDelete={this.state.SharedLinkModalAfterDelete}
