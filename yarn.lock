@@ -1562,9 +1562,9 @@
     lodash-es "^4.17.15"
 
 "@sangre-fp/content-editor@^2.1.7":
-  version "2.1.11"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-editor/-/content-editor-2.1.11.tgz#ff31318c6a2ca7bc8ad03117c7bb12c1c5f7a17e"
-  integrity sha512-UF4uYvlbx9QqVZNZqfumKzmxthrESvu6oIjQ8gUWs4O1mh8DmD5BK+Xx1fPXZqkj+TUuI5SekuNj6Wpm+wLSvQ==
+  version "2.1.12"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-editor/-/content-editor-2.1.12.tgz#af017a2c49e05e28453534787c8a74e9eef4b837"
+  integrity sha512-4IAM0teKm5+EaOJ0aVGhFbADksQGqDjxkpD4qyODqdpFO5vr4ToCMS9pLbvLHnYo05y+cioAk+PIlgYOjuc5MQ==
   dependencies:
     "@sangre-fp/connectors" "^1.5.5"
     "@sangre-fp/content-filters" "^1.0.22"
@@ -1581,9 +1581,9 @@
     styled-components "^4.4.1"
 
 "@sangre-fp/content-filters@^1.0.22":
-  version "1.0.22"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-filters/-/content-filters-1.0.22.tgz#d35bddb66e017bc332e4c4f59cd543cf6cac2221"
-  integrity sha512-40eOoF8uTnGS4/XIqTfMvT/oK9Yf1VHIPtbNaYzKOQUE8EBKwCiHfBAJ3AqoTruNUtF9E5CnQeaaRQsDdgtarw==
+  version "1.0.26"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-filters/-/content-filters-1.0.26.tgz#9ea784d594bbc74931103c69e18fcaf2b4136c84"
+  integrity sha512-edG4npXgj7K0pN7jdqiDy/j/8/tyy5kyb4VC4pbFy9m7KRvqPyO0KWvCZOhJz8gN3O/pcQ6PNzkS3yL4lG6bVg==
   dependencies:
     "@sangre-fp/hooks" "^1.0.9"
     "@sangre-fp/i18n" "^2.0.15"
@@ -1593,31 +1593,31 @@
     use-debounce "^3.3.0"
 
 "@sangre-fp/hooks@^1.0.9":
-  version "1.0.12"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fhooks/-/hooks-1.0.12.tgz#0bfd4168da77a9960be959b9666dcf0209b2422d"
-  integrity sha512-6KXGjbOYphfBhVjGwt5CP7txsHnLPNoL8AuMzLJB2UhKSrdi1k0TKGaYTZCtDFBOi6Stpdg4ao27DuXlFz4zng==
+  version "1.0.13"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fhooks/-/hooks-1.0.13.tgz#7af4a984c523e61b1c6d2ddf00475c5176a2db61"
+  integrity sha512-PgILyMDP2iXMETa4AFTt8A2oO6Owl7a2TDGiq8V9O7eQ1gRPY+gCY4R60mde+SMeZZ3HgM4tLbnwKJsScdAu2g==
   dependencies:
     "@sangre-fp/connectors" "^1.5.5"
     lodash-es "^4.17.15"
 
 "@sangre-fp/i18n@^2.0.15":
-  version "2.1.1"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fi18n/-/i18n-2.1.1.tgz#05908d08c7c01d5d5cd4d7223dd10344d5e12cc8"
-  integrity sha512-o47hyFXuQAdfgO26fjryUz15pvNOae9kR/QSV531jLpAMrnbKEPnowS19ueZUSjqFHEsPIL3MpzQ+SQteZVlzw==
+  version "2.1.2"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fi18n/-/i18n-2.1.2.tgz#4efbb1e560ce33e040c81d3640b68ccb1f5e2729"
+  integrity sha512-5v6rAmDQeTfgPGWU1BUxEhdkEWf3r57acb8aOpvni6bo8DXXjHNOJsQ3Pxc4gjnjGmITow+ICaOUJffRqXNNkw==
   dependencies:
     lodash "^4.17.15"
 
 "@sangre-fp/reducers@^1.1.3":
-  version "1.1.4"
-  resolved "https://npm.sangre.dev/@sangre-fp%2freducers/-/reducers-1.1.4.tgz#c02fa30eaf03bd902e06549725a92b1369621b82"
-  integrity sha512-WM8dpl6OZ4q81edyAfTa90FVNkBJP2Eo9hcMxkRrma5AL6Z5rFzFeWU11EgxmLGgQDp/WSAKTvPcye7WA9bf1A==
+  version "1.1.5"
+  resolved "https://npm.sangre.dev/@sangre-fp%2freducers/-/reducers-1.1.5.tgz#5b35015c77a07d734bcad21078b984f9377b269b"
+  integrity sha512-p2vSvUXb6px02JeoWYOb42lrjvNMC7ccclEN6ncJ8rRctVXsMgbZwg69Ig9LVzJncSTX6T52H4U0KGvbQVuJYA==
   dependencies:
     lodash "^4.17.15"
 
-"@sangre-fp/ui@^2.0.23":
-  version "2.0.26"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fui/-/ui-2.0.26.tgz#e239e53d3d03f097e1e762acac743ed3b75bdd95"
-  integrity sha512-6KpFT+ukkLWvVkPeFViAC/02XhBthd/+MjWooAYNvrnU/cHStLa+j/AOPljB+OqINwBJPJBMDWnu9axTR3KAbA==
+"@sangre-fp/ui@^2.0.23", "@sangre-fp/ui@^2.0.26":
+  version "2.0.28"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fui/-/ui-2.0.28.tgz#ccea095515a5762e11519f14732593b19257e702"
+  integrity sha512-qdU8lfOPlENrTj1nYUy/s5eNtrjb9NUR4tP+ASpyxA8J4PZ1c2yqEdKdKSy/HLemZZNXuMtiNZsEKePoZks3IA==
   dependencies:
     "@mdi/font" "^5.0.45"
     "@sangre-fp/i18n" "^2.0.15"
