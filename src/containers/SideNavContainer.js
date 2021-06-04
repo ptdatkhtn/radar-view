@@ -34,13 +34,15 @@ export default connect(
                 canEditRadar,
                 isVisitor,
                 canShareRadar,
-                editTimeRangesPageOpen
+                editTimeRangesPageOpen,
+                radarName
             },
             signals: {
                 signalListVisible
             }
         } = state
 
+        console.log('state', state)
         const collaborationToolsAllowed = group && groups ?
             isCollaborationToolsAllowed(state)(group.id) : false
 
@@ -60,7 +62,8 @@ export default connect(
             canEditRadar,
             getReturnUrl: () => props.returnUri || PUBLIC_URL || '/',
             editMenuOpen,
-            editTimeRangesPageOpen
+            editTimeRangesPageOpen,
+            radarName
         }
     },
     dispatch => bindActionCreators({

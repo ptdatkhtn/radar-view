@@ -42,13 +42,6 @@ class SideNav extends PureComponent {
         const shareQuery = Number(searchParams.get('share'))
         const node = Number(searchParams.get('node'))
 
-        await drupalApi.getRadar(node).then((radar) => {
-            this.setState({
-                groupId: radar.group.id,
-                radarTitle: radar.radarName
-            })
-           
-        })
         if (shareQuery ==='1' || shareQuery === 1) {
             await drupalApi.getRadarPublicShare(node).then((data) => {
                 this.setState({
@@ -63,6 +56,12 @@ class SideNav extends PureComponent {
     }
 
     componentDidUpdate(nextProps, nextState) {
+        const {radarSettings: {radarName}, groupId} = this.props
+        this.setState({
+            groupId: groupId,
+            radarTitle: radarName
+        })
+
         this.props.radarSettings.groups.map(g => {
             if (String(g?.id) === String(this.props.radarSettings?.group.id) && Number(g?.publicShareUrlEnabled) === 1) {
                 this.setState({
