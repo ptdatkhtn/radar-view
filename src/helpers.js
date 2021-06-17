@@ -28,8 +28,11 @@ export const getPhenomenonUrl = (radarId = false, phenomenon, hideEdit = false) 
         return `${PUBLIC_URL}/fp-phenomena/${id}${groupUrl.length ? `/?${groupUrl}` : ''}`
     }
 
+    const urlParams = new URLSearchParams(window.location.search)
+    const vsid = urlParams.get('vsid')
+
     // eslint-disable-next-line
-    return `${PUBLIC_URL}/node/${radarId}?issue=${id}&map_id=${radarId}&source_position=right&source_page=radar-view${groupUrl.length ? `&${groupUrl}` : ''}${hideEdit ? '&hideEdit=true' : ''}`
+    return `${PUBLIC_URL}/node/${radarId}?issue=${id}&map_id=${radarId}&source_position=right&source_page=radar-view${groupUrl.length ? `&${groupUrl}` : ''}${hideEdit ? '&hideEdit=true' : ''}${vsid ? `&vsid=${vsid}` : ''}`
 }
 
 export const editorRole = role =>  role === 'manager' || role === 'owner' || role === 'editor'
