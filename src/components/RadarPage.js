@@ -63,7 +63,6 @@ class RadarPage extends PureComponent {
 
     componentDidMount() {
         const {
-            getAuth,
             fetchRadar,
             getUserGroups,
             radarSettings: {
@@ -71,16 +70,14 @@ class RadarPage extends PureComponent {
             }
         } = this.props
 
-        
-        getAuth()
+
+        getUserGroups()
             .then(() => {
-                getUserGroups()
-                .then( () => {
                     if (existingRadarPage) {
                         fetchRadar()
                     }
-                })
-            })
+                }
+            )
 
         this.attachEvents()
     }

@@ -8,7 +8,7 @@ import { centerRadiusPercentage } from '../config'
 import { getCoordsFromAngleAndRadius } from '../helpers'
 import * as d3 from 'd3'
 import _ from 'lodash'
-import { getAuth } from '../actions/auth'
+
 import {
     changeAddRadarFormVisibility,
     changeEditPhenomenaVisibility,
@@ -217,7 +217,6 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => ({
     ...bindActionCreators({
         changeAddRadarFormVisibility,
-        getAuth,
         addSector,
         deleteSector,
         updateSector,

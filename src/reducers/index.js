@@ -6,7 +6,6 @@ import filters from './filters'
 import signals from './signals'
 
 import {
-    auth,
     loading,
     errors,
     radarSets,
@@ -22,7 +21,6 @@ export default combineReducers({
     phenomena,
     timelines,
     radarSettings,
-    auth,
     radarSets,
     loading,
     errors,
