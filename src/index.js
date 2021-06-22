@@ -40,7 +40,7 @@ const renderApp = (returnUri, radarLogoLinkDisabled) => {
 }
 
 const appElement = document.getElementById('fp-radar-page')
-startSession().then(() => {
+startSession(window.location.origin).then(() => {
     ReactDOM.render(
         renderApp(
             appElement.getAttribute('data-return-uri'),
