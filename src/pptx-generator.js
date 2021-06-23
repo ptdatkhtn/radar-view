@@ -100,8 +100,8 @@ export default async function generatePPTX(radarId, groupId) {
     addHeading(radarName, slide)
     addTitle(tr('pptxSectorListTitle'), slide)
     slide.addText(sectors.map(({title}) => ({
-      text: title
-    })), { x: 0.4, y: 1.2, fontSize: 15, bullet: true, lineSpacing: 25, valign:"top", w: 12, h: 5 })
+      text: title, options: { bullet: true }
+    })), { x: 0.4, y: 1.2, fontSize: 15, lineSpacing: 25, valign:"top", w: 12, h: 5 })
   }
 
   function addSectorSummarySlide({ title, notes }) {
