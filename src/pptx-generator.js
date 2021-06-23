@@ -159,7 +159,7 @@ export default async function generatePPTX(radarId, groupId) {
         data: `image/png;base64,${data}`,
         x: 0.4,
         y: 1.4,
-        w: 9,
+        w: 7.1,
         h: 5.3
       })
     } catch (err) {
