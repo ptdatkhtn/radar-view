@@ -1554,9 +1554,9 @@
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
 "@sangre-fp/connectors@>=2.0.0-0":
-  version "2.0.0-3"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fconnectors/-/connectors-2.0.0-3.tgz#3fc2f990d439a792287e066528beffe963328110"
-  integrity sha512-FEWG0YE7CC4cMbqLmkk94bjGQcOy2t7mrrxN5BtpM3xE0NboRgx5jGEpFNdbEx9PwDz5bULblx3/8wllYwxqhg==
+  version "2.0.0"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fconnectors/-/connectors-2.0.0.tgz#c9215bbd6a54f20349d99080c9c3d373a1bc2df4"
+  integrity sha512-6k05iG5CxZUasERusrFgxiXQDtVcPD+J0YzAHXmIbNbDxFO0tisxVsdC2KH/6s5l3dTOj4Sew7IeM8i5VKCzmA==
   dependencies:
     axios "^0.19.1"
     lodash-es "^4.17.15"
