@@ -113,11 +113,8 @@ class RadarPage extends PureComponent {
 
     handleResultsRedirect = () => {
         const { radarSettings: { id, editSectorsPageOpen, addRadarFormOpen, editPhenomenaVisible, signalListVisible, isVisitor } } = this.props
-        const renderRadarEditor = !editSectorsPageOpen && !addRadarFormOpen && !editPhenomenaVisible && !signalListVisible && !isVisitor
-        
-        if (renderRadarEditor) {
-            window.location.href = `${PUBLIC_URL}/node/${id}/results`
-        }
+        // const renderRadarEditor = !editSectorsPageOpen && !addRadarFormOpen && !editPhenomenaVisible && !signalListVisible && !isVisitor
+        window.location.href = `${PUBLIC_URL}/node/${id}/results`
     }
 
     isZoomable = () => !this.isEditorPageOpen()
