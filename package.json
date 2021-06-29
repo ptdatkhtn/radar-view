@@ -5,8 +5,8 @@
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
-    "@sangre-fp/connectors": ">=2.0.0-0",
-    "@sangre-fp/content-editor": "^2.1.7",
+    "@sangre-fp/connectors": "^2.1.0",
+    "@sangre-fp/content-editor": "^2.1.12",
     "@sangre-fp/hooks": "^1.0.9",
     "@sangre-fp/i18n": "^2.0.15",
     "@sangre-fp/reducers": "^1.1.3",
