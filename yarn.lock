@@ -1588,9 +1588,9 @@
     lodash-es "^4.17.15"
 
 "@sangre-fp/content-editor@^2.1.12":
-  version "2.1.13"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-editor/-/content-editor-2.1.13.tgz#e92c2d5aa4f831f14689f50976db73e1e8f2571f"
-  integrity sha512-Z5WW0PLOxnI/YswgZFZfSbGtG3Aoa5XpgzNEfz2QeCN23DtxxPCxq7F7Vs8LtllJX/7sce+lMu0fCfVCZiaRqQ==
+  version "2.1.14"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-editor/-/content-editor-2.1.14.tgz#e988b919d3bceaf2e06d0f46592a8af2093fc038"
+  integrity sha512-zbxYMOu7YhMQjakF4f2P62ZTj4YmjKb5xEtxlLIHq0ulH9H23nmT5QMqoyMGlvvsjtzaRiTINKTV7dkPZbDWdA==
   dependencies:
     "@sangre-fp/connectors" "^2.1.0"
     "@sangre-fp/content-filters" "^1.0.22"
