@@ -20,7 +20,8 @@ class ShareRadarModal extends Component {
       urlLoginExpire,
       updateRadar,
       group,
-      id
+      id,
+      isPublicShareUrlEnabled
     } = this.props
 
     const onClickOpenPublicLink = () => {
@@ -45,6 +46,7 @@ class ShareRadarModal extends Component {
                 >
                     {requestTranslation('cancel')}
                 </button>
+                {isPublicShareUrlEnabled &&
                 <div style={{ marginRight: "20px" }}>
                   <a
                     onClick={() => onClickOpenPublicLink()}
@@ -53,6 +55,7 @@ class ShareRadarModal extends Component {
                     {checkPublicLinkExsited && publicLink ? requestTranslation("openPublicLink") : requestTranslation("createPublicLink")} 
                   </a>
                 </div>
+                }
                 <a
                     href={`${PUBLIC_URL}/radarusers?gid=${group.id}&invite=${id}`}
                     className='btn btn-lg btn-primary'

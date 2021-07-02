@@ -361,7 +361,7 @@ class SideNav extends PureComponent {
                                         </EditMenuItem>
                                         
                                         {
-                                            canShareRadar && this.state.isPublicShareUrlEnabled && <EditMenuItem
+                                            canShareRadar && <EditMenuItem
                                             className='fp-dropdown-item'
                                             onClick={this.onShareRadarClick}
                                         >
@@ -478,7 +478,13 @@ class SideNav extends PureComponent {
                     style={modalStyles}
                     ariaHideApp={false}
                 >
-                    <ShareRadarModal requestClose={() => this.setState({sharingModalOpen: false})} requestOpenPublicLink={this.openPublicLinkModal} checkPublicLinkExsited={this.state.publicSharedLinkExsited} publicLink={this.state.publicSharedLink}/>
+                    <ShareRadarModal 
+                        requestClose={() => this.setState({sharingModalOpen: false})} 
+                        requestOpenPublicLink={this.openPublicLinkModal} 
+                        checkPublicLinkExsited={this.state.publicSharedLinkExsited} 
+                        publicLink={this.state.publicSharedLink} 
+                        isPublicShareUrlEnabled ={this.state.isPublicShareUrlEnabled}
+                    />
                 </Modal>
                 }
                 <Modal
