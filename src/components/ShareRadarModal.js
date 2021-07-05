@@ -39,7 +39,16 @@ class ShareRadarModal extends Component {
                 <p className='mt-4'>
                   {isPublicShareUrlEnabled ? requestTranslation('shareRadarFromUsrMngmt'): requestTranslation('shareRadarWithoutPublicLink')}
                 </p>
-                {checkPublicLinkExsited && publicLink && <div className='mt-4' style={{display: 'flex'}}><LinkIcon style={{transform: 'rotate(310deg)', borderRadius: '20px'}}></LinkIcon><p style={{ paddingLeft:'8px'}}>{requestTranslation('checkPublicLinkAlreadyExisted')}</p></div>}
+                {checkPublicLinkExsited 
+                  && publicLink 
+                  && isPublicShareUrlEnabled 
+                  && 
+                    <div className='mt-4' style={{display: 'flex'}}>
+                      <LinkIcon style={{transform: 'rotate(310deg)', borderRadius: '20px'}}>
+                      </LinkIcon>
+                      <p style={{ paddingLeft:'8px'}}>{requestTranslation('checkPublicLinkAlreadyExisted')}
+                      </p>
+                    </div>}
             </div>
             <div className='modal-form-section justify-content-end d-flex'>
                 <button
