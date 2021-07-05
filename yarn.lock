@@ -1587,10 +1587,10 @@
     axios "^0.19.1"
     lodash-es "^4.17.15"
 
-"@sangre-fp/content-editor@^2.1.12":
-  version "2.1.14"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-editor/-/content-editor-2.1.14.tgz#e988b919d3bceaf2e06d0f46592a8af2093fc038"
-  integrity sha512-zbxYMOu7YhMQjakF4f2P62ZTj4YmjKb5xEtxlLIHq0ulH9H23nmT5QMqoyMGlvvsjtzaRiTINKTV7dkPZbDWdA==
+"@sangre-fp/content-editor@^2.1.15":
+  version "2.1.15"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fcontent-editor/-/content-editor-2.1.15.tgz#eb273b8f386bf52fa71836a4a97cf85225ddfcda"
+  integrity sha512-vMIX2EMSxvsbgaM2ov7I3eP7by4/Rg5JHy0z6P0ovRWndJu+vsV8Rf3BEwRG6IUIStih1C13Q/1Fb7E02IHheQ==
   dependencies:
     "@sangre-fp/connectors" "^2.1.0"
     "@sangre-fp/content-filters" "^1.0.22"
