@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/radar-app/static/css/main.cae46b96.chunk.css",
+    "main.js": "/radar-app/static/js/main.9b3d272c.chunk.js",
+    "main.js.map": "/radar-app/static/js/main.9b3d272c.chunk.js.map",
+    "runtime-main.js": "/radar-app/static/js/runtime-main.a6f2248f.js",
+    "runtime-main.js.map": "/radar-app/static/js/runtime-main.a6f2248f.js.map",
+    "static/css/2.045a1c74.chunk.css": "/radar-app/static/css/2.045a1c74.chunk.css",
+    "static/js/2.dd3a6228.chunk.js": "/radar-app/static/js/2.dd3a6228.chunk.js",
+    "static/js/2.dd3a6228.chunk.js.map": "/radar-app/static/js/2.dd3a6228.chunk.js.map",
+    "index.html": "/radar-app/index.html",
+    "precache-manifest.ed808914e80cb6a5963a6bdbc0620086.js": "/radar-app/precache-manifest.ed808914e80cb6a5963a6bdbc0620086.js",
+    "service-worker.js": "/radar-app/service-worker.js",
+    "static/css/2.045a1c74.chunk.css.map": "/radar-app/static/css/2.045a1c74.chunk.css.map",
+    "static/css/main.cae46b96.chunk.css.map": "/radar-app/static/css/main.cae46b96.chunk.css.map",
+    "static/js/2.dd3a6228.chunk.js.LICENSE.txt": "/radar-app/static/js/2.dd3a6228.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a6f2248f.js",
+    "static/css/2.045a1c74.chunk.css",
+    "static/js/2.dd3a6228.chunk.js",
+    "static/css/main.cae46b96.chunk.css",
+    "static/js/main.9b3d272c.chunk.js"
+  ]
+}
