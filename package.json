@@ -1,12 +1,12 @@
 {
   "name": "radar",
-  "version": "2.6.12",
+  "version": "2.6.13",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@sangre-fp/connectors": "^2.1.0",
-    "@sangre-fp/content-editor": "^2.1.16",
+    "@sangre-fp/content-editor": "^2.1.17",
     "@sangre-fp/hooks": "^1.0.9",
     "@sangre-fp/i18n": "^2.1.5",
     "@sangre-fp/reducers": "^1.1.3",
