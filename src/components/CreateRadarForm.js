@@ -912,7 +912,7 @@ class CreateRadarForm extends PureComponent {
                                     <>
                                         <Spacing customHeight={40}/>
                                         <HeaderContainer>{'Preview for content cards'}</HeaderContainer>
-                                        <Spacing customHeight={50}/>
+                                        <Spacing customHeight={24}/>
                                         <AxisPreview 
                                             title={axisYTitle}
                                             rightLabel={axisYMax}
@@ -993,7 +993,7 @@ class CreateRadarForm extends PureComponent {
                             <HalfWidth>
                                 {
                                     <>
-                                        <Spacing customHeight={120}/>
+                                        <Spacing customHeight={100}/>
                                         <AxisPreview 
                                             title={axisXTitle}
                                             rightLabel={axisXMax} 
