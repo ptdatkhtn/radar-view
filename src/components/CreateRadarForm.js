@@ -12,15 +12,20 @@ import { requestTranslation } from '@sangre-fp/i18n'
 import { radarLanguages, initialCommentTopics, customQuillModules } from '../config'
 import { PUBLIC_URL } from '../env'
 import ReactQuill from 'react-quill'
-
 import filter from 'lodash/filter'
 import find from 'lodash/find'
 import first from 'lodash/first'
 import times from 'lodash/times'
-
 import { formats } from '../quill'
 import classNames from 'classnames'
+import {InfoCircle} from '@styled-icons/boxicons-regular'
+import Popover from '@material-ui/core/Popover';
+import { withStyles } from '@material-ui/core/styles';
+import styles from './CreateRadarForm.module.css'
+import RatingSummaryPreview from './RatingSummaryPreview';
+import AxisPreview from './AxisPreview';
 
+import {HeaderContainer, Spacing} from './RatingSummaryPreview';
 const URL = window.URL || window.webkitURL
 
 export const PAGE_HEADER_AND_LANGUAGE = 1
@@ -32,11 +37,163 @@ export const PAGE_CONCLUSIONS = 4
 const COMMENT_TOPICS_ENABLED = false
 const RATING_ARROWS_ENABLED = false
 
-export default class CreateRadarForm extends PureComponent {
+//mock data
+// export const mockDataOption = [
+//     {value: 'Time', label: 'Time'},
+//     {value: 'Probability', label: 'Probability'},
+//     {value: 'Fit with current strategy', label: 'Fit with current strategy'},
+//     {value: 'Direction of the trend', label: 'Direction of the trend'},
+//     {value: 'Importance', label: 'Importance'},
+//     {value: 'Impact1', label: 'Impact'},
+//     {value: 'Impact2', label: 'Impact'},
+//     {value: 'Nature1', label: 'Nature'},
+//     {value: 'Nature2', label: 'Nature'},
+//     {value: 'Speed of change', label: 'Speed of change'},
+//     {value: 'Size of threat/risk', label: 'Size of threat/risk'},
+//     {value: 'Size of opportunity', label: 'Size of opportunity'},
+//     {value: 'Nature3', label: 'Nature'},
+//     {value: 'Fit with existing capabilities', label: 'Fit with existing capabilities'},
+//     {value: 'Magnitude of actions required', label: 'Magnitude of actions required'},
+//     {value: 'Custom', label: 'Custom'}
+// ]
+export const mockData= [
+    {
+        title: 'Time',
+        label: 'Time',
+        leftAttr: 'near term',
+        rightAttr: 'long term'
+    },
+    {
+        title: 'Probability',
+        label: 'Probability',
+        leftAttr: 'low',
+        rightAttr: 'high'
+    },
+    {
+        title: 'Fit with current strategy',
+        label: 'Fit with current strategy',
+        leftAttr: 'near term',
+        rightAttr: 'long term'
+    },
+    {
+        title: 'Fit with new strategy',
+        label: 'Fit with new strategy',
+        leftAttr: 'weak',
+        rightAttr: 'strong'
+    },
+    {
+        title: 'Direction of the trend',
+        label: 'Direction of the trend',
+        leftAttr: 'weakening',
+        rightAttr: 'increasing'
+    },
+    {
+        title: 'Importance',
+        label: 'Importance',
+        leftAttr: 'low',
+        rightAttr: 'high'
+    },
+    {
+        title: 'Impact1',
+        label: 'Impact',
+        leftAttr: 'moderate',
+        rightAttr: 'huge'
+    },
+    {
+        title: 'Impact2',
+        label: 'Impact',
+        leftAttr: 'local',
+        rightAttr: 'global'
+    },
+    {
+        title: 'Nature1',
+        label: 'Nature',
+        leftAttr: 'threat',
+        rightAttr: 'opportunity'
+    },
+    {
+        title: 'Nature2',
+        label: 'Nature',
+        leftAttr: 'long term trend',
+        rightAttr: 'emergent'
+    },
+    {
+        title: 'Speed of change',
+        label: 'Speed of change',
+        leftAttr: 'gradual',
+        rightAttr: 'tsunami'
+    },
+    {
+        title: 'Size of threat/risk',
+        label: 'Size of threat/risk',
+        leftAttr: 'moderate',
+        rightAttr: 'huge'
+    },
+    {
+        title: 'Size of opportunity',
+        label: 'Size of opportunity',
+        leftAttr: 'moderate',
+        rightAttr: 'huge'
+    },
+    {
+        title: 'Nature3',
+        label: 'Nature',
+        leftAttr: 'non-disrupting',
+        rightAttr: 'disrupting'
+    },
+    {
+        title: 'Fit with existing capabilities',
+        label: 'Fit with existing capabilities',
+        leftAttr: 'weak',
+        rightAttr: 'strong'
+    },
+    {
+        title: 'Magnitude of actions required',
+        label: 'Magnitude of actions required',
+        leftAttr: 'minor',
+        rightAttr: 'huge'
+    },
+    {
+        title: 'Custom',
+        label: 'Custom',
+        leftAttr: 'x',
+        rightAttr: 'y'
+    },
+]
+
+
+const useStyles = theme => ({
+    popover: {
+      pointerEvents: 'none',
+      width: '40%'
+    },
+    paper: {
+      padding: theme.spacing(1),
+      backgroundColor: '#424242',
+      color: '#fff',
+      width: 'fit-content'
+    },
+  });
+class CreateRadarForm extends PureComponent {
+    state = {
+        VotingAnchorEl: null,
+        RatingAnchorEl: null,
+        CommentingAnchorEl: null,
+        DiscussionAnchorEl: null,
+        VotingDescriptionDisplayed: false,
+        RatingDescriptionDisplayed: false,
+        CommentingDescriptionDisplayed: false,
+        DiscussionDescriptionDisplayed: false,
+        axisYSelect: '',
+        axisXSelect: '',
+        widthContentWidth: 0
+    }
     // state is getting set because we are implementing a cancel + save button
     constructor(props) {
         super(props)
         let group = false
+
+        this.editorMode = React.createRef()
 
         if (props.group) {
             group = props.group
@@ -92,7 +249,10 @@ export default class CreateRadarForm extends PureComponent {
 
     componentDidMount() {
         const { getRadarSets, getUserGroups, existingRadarPage } = this.props
-
+        // console.log('===> ', this.editorMode.current.offsetWidth)
+        this.setState({
+            widthContentWidth: +this.editorMode?.current?.offsetWidth
+        })
         if (!existingRadarPage) {
             getUserGroups()
             getRadarSets()
@@ -442,11 +602,108 @@ export default class CreateRadarForm extends PureComponent {
             fourFieldsTopRight,
             fourFieldsBottomLeft,
             fourFieldsBottomRight,
-            displayHaloWhenRating
+            displayHaloWhenRating,
+            VotingDescriptionDisplayed,
+            RatingDescriptionDisplayed,
+            CommentingDescriptionDisplayed,
+            DiscussionDescriptionDisplayed,
+            VotingAnchorEl,
+            RatingAnchorEl,
+            CommentingAnchorEl,
+            DiscussionAnchorEl,
+            axisYSelect,
+            axisXSelect,
         } = this.state
 
+        const onHoverVotingIcon = (event) => {
+            this.setState({
+                VotingAnchorEl: event.currentTarget,
+                VotingDescriptionDisplayed: true
+            })
+        }
+        const onLeaveVotingIcon = () => {
+            this.setState({
+                VotingAnchorEl: null,
+                VotingDescriptionDisplayed: false
+            })
+        }
+
+        const onHoverRatingIcon = (event) => {
+            this.setState({
+                RatingAnchorEl: event.currentTarget,
+                RatingDescriptionDisplayed: true
+            })
+        }
+        const onLeaveRatingIcon = () => {
+            this.setState({
+                RatingAnchorEl: null,
+                RatingDescriptionDisplayed: false
+            })
+        }
+
+        const onHoverCommentingIcon = (event) => {
+            this.setState({
+                CommentingAnchorEl: event.currentTarget,
+                CommentingDescriptionDisplayed: true
+            })
+        }
+        const onLeaveCommentingIcon = () => {
+            this.setState({
+                CommentingAnchorEl: null,
+                CommentingDescriptionDisplayed: false
+            })
+        }
+
+        const onHoverDiscussionIcon = (event) => {
+            this.setState({
+                DiscussionAnchorEl: event.currentTarget,
+                DiscussionDescriptionDisplayed: true
+            })
+        }
+        const onLeaveDiscussionIcon = () => {
+            this.setState({
+                DiscussionAnchorEl: null,
+                DiscussionDescriptionDisplayed: false
+            })
+        }
+
+        const handleDisplayVericalAxisRatingChange = ({ value }) => {
+            // if(axisYTitle && axisYMin && axisYMin) {
+            //     this.setState({ 
+            //         axisYSelect: value
+            //     }}
+            // })
+            mockData.map(i => {
+                if(String(value) === String(i.title)) {
+                    this.setState({ 
+                        axisYSelect: value,
+                        axisYTitle: i.label, 
+                        axisYMin: i.leftAttr,
+                        axisYMax: i.rightAttr
+                    })
+                }
+            })
+    }
+        const handleDisplayHorizontalAxisRatingChange = ({ value }) => {
+            mockData.map(i => {
+                if(String(value) === String(i.title)) {
+                    this.setState({ 
+                        axisXSelect: value,
+                        axisXTitle: i.label,
+                        axisXMin: i.leftAttr,
+                        axisXMax: i.rightAttr
+                    })
+                }
+            })
+    }
+
+        const { classes } = this.props;
+        console.log('(+this.editorMode?.current?.offsetWidth)', (+this.editorMode?.current?.offsetWidth) *45 /100)
+        console.log('widthContentWidth', this.state.widthContentWidth)
+        // const widthEditMode = this.editorMode ? this.editorMode.current.offsetWidth: null
+        //   const classes = useStyles();
         return (
-            <div className='modal-form-sections'>
+            <div className='modal-form-sections' ref={this.editorMode}>
                 <div className='modal-form-section modal-form-header'>
                     <h2>
                         {requestTranslation('activateUsers')}
@@ -455,9 +712,35 @@ export default class CreateRadarForm extends PureComponent {
                 <div className='modal-form-section'>
                     <SpaceBetween>
                         <HalfWidth>
-                            <h3>
-                                {requestTranslation('voting')}
-                            </h3>
+                            <div style={{display: 'flex'}}>
+                                <h3>
+                                    {requestTranslation('voting')}
+                                </h3>
+                                <InformationIcon 
+                                    onMouseEnter={onHoverVotingIcon} 
+                                    onMouseLeave={onLeaveVotingIcon}
+                                />
+                               <Popover 
+                                    className={classes.popover}
+                                    classes={{
+                                        paper: classes.paper,
+                                    }}
+                                    open={VotingDescriptionDisplayed || false}
+                                    anchorEl={VotingAnchorEl} 
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'left',
+                                    }}
+                                    transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                    }}
+                                      onClose={onLeaveVotingIcon}
+                                      disableRestoreFocus
+                                >
+                                    <HoverBox>This is for votings</HoverBox>
+                                </Popover> 
+                            </div>
                             <SpaceBetween>
                                 <p>
                                     {requestTranslation('createFormVotingDescription')}
@@ -491,27 +774,59 @@ export default class CreateRadarForm extends PureComponent {
                             </HalfWidth>
                         )}
                     </SpaceBetween>
-                    <div style={{ marginTop: '20px' }}>
+                    {votingOn && 
+                    <UpVotesWrapper>
                         <h4>
                             {requestTranslation('upvotesForHalo')}
                         </h4>
-                        <Select
-                            searchable={false}
-                            name='group'
-                            className='fp-radar-select'
-                            value={displayHaloWhenRating}
-                            onChange={this.handleDisplayHaloWhenRatingChange}
-                            options={times(20, value => ({ label: value + 1, value: value + 1 }))}
-                            clearable={false}
-                        />
-                    </div>
+                        <DisplayFlex>
+                            <p style={{ marginRight: '30px'}}>{requestTranslation('upvotesForHaloDescription')}</p> 
+                            <Select
+                                searchable={false}
+                                name='group'
+                                className= {`fp-radar-select ${styles['custom-react-select-height-att']}` }
+                                value={displayHaloWhenRating}
+                                onChange={this.handleDisplayHaloWhenRatingChange}
+                                options={times(20, value => ({ label: value + 1, value: value + 1 }))}
+                                clearable={false}
+                            />
+                            
+                        </DisplayFlex>
+                    </UpVotesWrapper>    
+                    }
                 </div>
 
                 <div className='modal-form-section'>
                     <HalfWidth>
-                        <h3>
-                            {requestTranslation('rating')}
-                        </h3>
+                        <div style={{display: 'flex'}}>
+                            <h3>
+                                {requestTranslation('rating')}
+                            </h3>
+                            <InformationIcon 
+                                onMouseEnter={onHoverRatingIcon}
+                                onMouseLeave={onLeaveRatingIcon}
+                            />
+                            <Popover 
+                                className={classes.popover}
+                                classes={{
+                                    paper: classes.paper,
+                                }}
+                                open={RatingDescriptionDisplayed || false}
+                                anchorEl={RatingAnchorEl} 
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                                transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                                }}
+                                onClose={onLeaveRatingIcon}
+                                disableRestoreFocus
+                            >
+                                <HoverBox>This is for ratings</HoverBox>
+                            </Popover> 
+                        </div>
                         <SpaceBetween>
                             <p>
                                 {requestTranslation('createFormRatingDescription')}
@@ -523,6 +838,94 @@ export default class CreateRadarForm extends PureComponent {
                         </SpaceBetween>
                     </HalfWidth>
                 </div>
+     
+                {ratingsOn && (
+                    <FullWidthBgContainer style={{ paddingTop: 0 }}>
+                        <SpaceBetween>
+                            <HalfWidth>
+                                <h4>
+                                    {requestTranslation('verticalAxis')}
+                                </h4>
+                                <Columns>
+                                    <Column>
+                                        <Select
+                                            defaultValue='Select'
+                                            searchable={false}
+                                            name='group'
+                                            className= {`${styles['custom-react-select-margin-bottom-att']}` }
+                                            onChange={handleDisplayVericalAxisRatingChange}
+                                            value={axisYSelect}
+                                            options={mockData.map(i => ({
+                                                label: i.label, value: i.title
+                                            }))}
+                                            clearable={false}
+                                        />
+                                    </Column>
+                                </Columns>
+                                <Columns>
+                                    <Column>
+                                        {/* <Label>
+                                            {requestTranslation('axisName')}
+                                        </Label> */}
+                                        <Input type={'text'}
+                                               value={axisYTitle || ''}
+                                            //    value={axisYTitle ? axisYTitle : DisplayVerticalAxisName || ''}
+                                               onChange={this.handleValueChange('axisYTitle')}
+                                            //    onChange={String(axisYSelect) === 'Custom' ? this.handleValueChange('DisplayVerticalAxisName') : this.handleValueChange('axisYTitle')}
+                                               placeholder={requestTranslation('verticalAxisName')}
+                                        />
+                                    </Column>
+                                </Columns>
+                                <Columns>
+                                    <Column>
+                                        {/* <Label>
+                                            {requestTranslation('lowEnd')}
+                                        </Label> */}
+                                        <Input type={'text'}
+                                               value={axisYMin || ''}
+                                            //    value={axisYMin ? axisYMin : VerticalAxisLowEnd || ''}
+                                               onChange={this.handleValueChange('axisYMin')}
+                                                //   onChange={String(axisYSelect) === 'Custom' ? this.handleValueChange('VerticalAxisLowEnd') : this.handleValueChange('axisYMin')}
+                                               placeholder={requestTranslation('lowEnd')}
+                                        />
+                                    </Column>
+                                    <Column>
+                                        {/* <Label>
+                                            {requestTranslation('highEnd')}
+                                        </Label> */}
+                                        <Input type={'text'}
+                                               value={axisYMax || ''}
+                                            //    value={axisYMax ? axisYMax : VerticalAxisHighEnd || ''}
+                                               onChange={this.handleValueChange('axisYMax')}
+                                            //    onChange={String(axisYSelect) === 'Custom' ? this.handleValueChange('VerticalAxisHighEnd') : this.handleValueChange('axisYMax')}
+                                               placeholder={requestTranslation('highEnd')}
+                                        />
+                                    </Column>
+                                </Columns>
+                            </HalfWidth>
+                            <HalfWidth>
+                                {/* <div style={{background: 'red'}}>
+                                    testtt
+                                </div> */}
+                                
+                                {
+                                    <>
+                                        <Spacing customHeight={40}/>
+                                        <HeaderContainer>{'Preview for content cards'}</HeaderContainer>
+                                        <Spacing customHeight={50}/>
+                                        <AxisPreview 
+                                            title={axisYTitle}
+                                            rightLabel={axisYMax}
+                                            leftLabel={axisYMin}
+                                            containerWidth={(+this.state.widthContentWidth) *45/100 - 50}
+                                        />
+                                    </>
+                                }
+                            </HalfWidth>
+                        </SpaceBetween>
+                    </FullWidthBgContainer>
+                )}
+
 
                 {ratingsOn && (
                     <FullWidthBgContainer style={{ paddingTop: 0 }}>
@@ -533,92 +936,101 @@ export default class CreateRadarForm extends PureComponent {
                                 </h4>
                                 <Columns>
                                     <Column>
-                                        <Label>
-                                            {requestTranslation('axisName')}
-                                        </Label>
-                                        <Input type={'text'}
-                                               value={axisXTitle || ''}
-                                               onChange={this.handleValueChange('axisXTitle')}/>
+                                        <Select
+                                            searchable={false}
+                                            name='group'
+                                            className= {`${styles['custom-react-select-margin-bottom-att']}` }
+                                            value={axisXSelect}
+                                            onChange={handleDisplayHorizontalAxisRatingChange}
+                                            options={mockData.map(i => ({
+                                                label: i.label, value: i.title
+                                            }))}
+                                            clearable={false}
+                                        />
                                     </Column>
                                 </Columns>
                                 <Columns>
                                     <Column>
-                                        <Label>
+                                        {/* <Label>
+                                            {requestTranslation('axisName')}
+                                        </Label> */}
+                                        <Input type={'text'}
+                                               value={axisXTitle || ''}
+                                            //    value={!axisXTitle ? axisXTitle : DisplayHorizontalAxisName || ''}
+                                               onChange={this.handleValueChange('axisXTitle')}
+                                            //    onChange={String(axisXSelect) === 'Custom' ? this.handleValueChange('DisplayHorizontalAxisName') : this.handleValueChange('axisXTitle')}
+                                               placeholder={requestTranslation('HorizontalAxisName')}
+                                        />
+                                    </Column>
+                                </Columns>
+                                <Columns>
+                                    <Column>
+                                        {/* <Label>
                                             {requestTranslation('leftEnd')}
-                                        </Label>
+                                        </Label> */}
                                         <Input type={'text'}
                                                value={axisXMin || ''}
-                                               onChange={this.handleValueChange('axisXMin')}/>
+                                            //    value={!axisXMin ? axisXMin : HorizontalAxisLeftEnd || ''}
+                                               onChange={this.handleValueChange('axisXMin')}
+                                            //    onChange={String(axisXSelect) === 'Custom' ? this.handleValueChange('HorizontalAxisLeftEnd') : this.handleValueChange('axisXMin')}
+                                               placeholder={requestTranslation('leftEnd')}
+                                        />
                                     </Column>
                                     <Column>
-                                        <Label>
+                                        {/* <Label>
                                             {requestTranslation('rightEnd')}
-                                        </Label>
+                                        </Label> */}
                                         <Input type={'text'}
                                                value={axisXMax || ''}
-                                               onChange={this.handleValueChange('axisXMax')}/>
+                                            //    value={!axisXMax ? axisXMax : HorizontalAxisRightEnd || ''}
+                                               onChange={this.handleValueChange('axisXMax')}
+                                            //    onChange={String(axisXSelect) === 'Custom' ? this.handleValueChange('HorizontalAxisRightEnd') : this.handleValueChange('axisXMax')}
+                                               placeholder={requestTranslation('rightEnd')}       
+                                        />
                                     </Column>
                                 </Columns>
                             </HalfWidth>
                             <HalfWidth>
-                                <h4>
-                                    {requestTranslation('verticalAxis')}
-                                </h4>
-                                <Columns>
-                                    <Column>
-                                        <Label>
-                                            {requestTranslation('axisName')}
-                                        </Label>
-                                        <Input type={'text'}
-                                               value={axisYTitle || ''}
-                                               onChange={this.handleValueChange('axisYTitle')}/>
-                                    </Column>
-                                </Columns>
-                                <Columns>
-                                    <Column>
-                                        <Label>
-                                            {requestTranslation('lowEnd')}
-                                        </Label>
-                                        <Input type={'text'}
-                                               value={axisYMin || ''}
-                                               onChange={this.handleValueChange('axisYMin')}/>
-                                    </Column>
-                                    <Column>
-                                        <Label>
-                                            {requestTranslation('highEnd')}
-                                        </Label>
-                                        <Input type={'text'}
-                                               value={axisYMax || ''}
-                                               onChange={this.handleValueChange('axisYMax')}/>
-                                    </Column>
-                                </Columns>
+                                {
+                                    <>
+                                        <Spacing customHeight={120}/>
+                                        <AxisPreview 
+                                            title={axisXTitle}
+                                            rightLabel={axisXMax} 
+                                            leftLabel={axisXMin}
+                                            containerWidth={(+this.state.widthContentWidth) *45/100 - 50}
+                                        />
+                                    </>
+                                }
                             </HalfWidth>
                         </SpaceBetween>
                     </FullWidthBgContainer>
                 )}
                 {ratingsOn && (
-                    <FullWidthBgContainer style={{ paddingTop: 0 }}>
-                        <h4>
-                            {requestTranslation('cornersText')}
-                        </h4>
+                    <FullWidthBgContainer style={{ paddingTop: 0 }}> 
                         <SpaceBetween>
                             <HalfWidth>
+                            <h4>
+                                {requestTranslation('cornersText')}
+                            </h4>
                                 <Columns>
                                     <Column>
-                                        <Label>
+                                        {/* <Label>
                                             {requestTranslation('topLeft')}
-                                        </Label>
+                                        </Label> */}
                                         <Input type={'text'}
+                                               placeholder={requestTranslation('topLeft')}
                                                value={fourFieldsTopLeft || ''}
                                                onChange={
                                                    this.handleValueChange('fourFieldsTopLeft')
                                                }/>
                                     </Column>
                                     <Column>
-                                        <Label>
+                                        {/* <Label>
                                             {requestTranslation('topRight')}
-                                        </Label>
+                                        </Label> */}
                                         <Input type={'text'}
+                                               placeholder={requestTranslation('topRight')}
                                                value={fourFieldsTopRight || ''}
                                                onChange={
                                                    this.handleValueChange('fourFieldsTopRight')
@@ -627,26 +1039,47 @@ export default class CreateRadarForm extends PureComponent {
                                 </Columns>
                                 <Columns>
                                     <Column>
-                                        <Label>
+                                        {/* <Label>
                                             {requestTranslation('bottomLeft')}
-                                        </Label>
+                                        </Label> */}
                                         <Input type={'text'}
+                                               placeholder={requestTranslation('bottomLeft')}
                                                value={fourFieldsBottomLeft || ''}
                                                onChange={
                                                    this.handleValueChange('fourFieldsBottomLeft')
                                                }/>
                                     </Column>
                                     <Column>
-                                        <Label>
+                                        {/* <Label>
                                             {requestTranslation('bottomRight')}
-                                        </Label>
+                                        </Label> */}
                                         <Input type={'text'}
+                                               placeholder={requestTranslation('bottomRight')}
                                                value={fourFieldsBottomRight || ''}
                                                onChange={
                                                    this.handleValueChange('fourFieldsBottomRight')
                                                }/>
                                     </Column>
                                 </Columns>
+                            </HalfWidth>
+                            <HalfWidth>
+                                <RatingSummaryPreview
+                                    bottomHeader = 'Preview for rating result and summary view'
+                                    containerWidth = {(+this.state.widthContentWidth)* 45/100 -50 -32}
+                                    containerHeight = {(0.7) *(+this.state.widthContentWidth) *45/100 -50 -32}
+                                    // containerWidth = {320}
+                                    // containerHeight = {200}
+                                    topLeft = {fourFieldsTopLeft}
+                                    topRight = {fourFieldsTopRight}
+                                    bottomLeft = {fourFieldsBottomLeft}
+                                    bottomRight = {fourFieldsBottomRight}
+                                    horizontalAxisName = {axisXTitle}
+                                    leftEnd = {axisXMin}
+                                    rightEnd = {axisXMax}
+                                    verticalAxisName = {axisYTitle}
+                                    topEnd = {axisYMax}
+                                    lowEnd = {axisYMin}
+                                />
                             </HalfWidth>
                         </SpaceBetween>
                     </FullWidthBgContainer>
@@ -655,11 +1088,37 @@ export default class CreateRadarForm extends PureComponent {
                 <div className='modal-form-section'>
                     <SpaceBetween>
                         <HalfWidth>
-                            <h3>
-                                {requestTranslation('commenting')}
-                            </h3>
+                            <div style={{display: 'flex'}}>
+                                <h3>
+                                    {requestTranslation('commenting')}
+                                </h3>
+                                <InformationIcon 
+                                    onMouseEnter={onHoverCommentingIcon}
+                                    onMouseLeave={onLeaveCommentingIcon}
+                                />
+                                <Popover 
+                                    className={classes.popover}
+                                    classes={{
+                                        paper: classes.paper,
+                                    }}
+                                    open={CommentingDescriptionDisplayed || false}
+                                    anchorEl={CommentingAnchorEl} 
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'left',
+                                    }}
+                                    transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                    }}
+                                    onClose={onLeaveCommentingIcon}
+                                    disableRestoreFocus
+                                >
+                                    <HoverBox>This is for comments</HoverBox>
+                                </Popover>
+                            </div>
                             <SpaceBetween>
-                                <p>
+                                <p style={{marginRight:'30px'}}>
                                     {requestTranslation('createFormCommentingDescription')}
                                 </p>
                                 <Toggle
@@ -669,7 +1128,7 @@ export default class CreateRadarForm extends PureComponent {
                                 />
                             </SpaceBetween>
                             <SpaceBetween style={{ marginTop: '15px' }}>
-                                <p>
+                                <p style={{marginRight:'30px'}}>
                                     {requestTranslation('allowLikeCommenting')}
                                 </p>
                                 <Toggle icons={false}
@@ -701,13 +1160,44 @@ export default class CreateRadarForm extends PureComponent {
                 <div className='modal-form-section'>
                     <HalfWidth>
                         <SpaceBetween>
-                            <h3 className='mb-0'>
-                                {requestTranslation('discussion')}
-                            </h3>
-                            <Toggle icons={false}
-                                    defaultChecked={discussionOn}
-                                    onChange={this.handleDiscussionOnChange}
-                            />
+                            <div>
+                                <div style={{display: 'flex'}}>
+                                    <h3 className='mb-0'>
+                                        {requestTranslation('discussion')}
+                                    </h3>
+                                    <InformationIcon 
+                                        onMouseEnter={onHoverDiscussionIcon}
+                                        onMouseLeave={onLeaveDiscussionIcon}
+                                    />
+                                    <Popover 
+                                        className={classes.popover}
+                                        classes={{
+                                            paper: classes.paper,
+                                        }}
+                                        open={DiscussionDescriptionDisplayed || false}
+                                        anchorEl={DiscussionAnchorEl} 
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'left',
+                                        }}
+                                        transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'left',
+                                        }}
+                                        onClose={onLeaveDiscussionIcon}
+                                        disableRestoreFocus
+                                    >
+                                        <HoverBox>This is for discussions</HoverBox>
+                                    </Popover>
+                                </div>
+                                <DisplayFlex>
+                                    <p style={{marginRight: '30px'}}>{requestTranslation('createFormDiscussionDescription')}</p>
+                                    <Toggle icons={false}
+                                            defaultChecked={discussionOn}
+                                            onChange={this.handleDiscussionOnChange}
+                                    />
+                                </DisplayFlex>
+                            </div>
                         </SpaceBetween>
                     </HalfWidth>
                 </div>
@@ -1017,6 +1507,7 @@ export default class CreateRadarForm extends PureComponent {
         )
     }
 }
+export default withStyles(useStyles)(CreateRadarForm)
 
 const SelectWrapper = styled.div`
     display: inline-block;
@@ -1211,4 +1702,37 @@ const Columns = styled.div`
 const Column = styled.div`
     flex: 1 1 ${({ width }) => width ? width : '0%'};
     padding: 0 ${columnPadding}px;
+`
+const InformationIcon = styled(InfoCircle)`
+    background-color: white;
+    color: black;
+    width: 18px;
+    height: 18px;
+    margin-top: 4px;
+    margin-left: 18px;
+    &:hover {
+        cursor: pointer;
+    }
+`
+
+const DisplayFlex = styled.div`
+    @media (min-width: ${breakpoint}) {
+        display: flex;
+    }
+`
+
+const UpVotesWrapper = styled.div`
+    margin-top: 20px;
+    @media (min-width: ${breakpoint}) {
+        width: 50%;
+    }
+`
+const HoverBox = styled.p`
+    display: flex;
+    flex-wrap: wrap;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin: auto; 
 `

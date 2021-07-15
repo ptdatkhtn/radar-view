@@ -284,7 +284,24 @@ const localTranslations = {
     sharedLinkDeletedNote: {
         en:`The shared link is now deleted from this radar.`,
         fi:`Jaettava linkki on nyt poistettu tältä kartalta.`
-    }
+    },
+    upvotesForHaloDescription: {
+        en:`The ’halo’ effect is displayed as a circle around the content dot on the Radar screen, if this threshold value (sum of votes) is reached.`,
+        fi:`The ’halo’ effect is displayed as a circle around the content dot on the Radar screen, if this threshold value (sum of votes) is reached.`
+    },
+    createFormDiscussionDescription: {
+        en: `Activate the discussion area in the Collaboration results view (radar centre).`,
+        fi: `Activate the discussion area in the Collaboration results view (radar centre).`
+    },
+    verticalAxisName: {
+        en:`Vertical axis name`,
+        fi:`Vertical axis name`
+    },
+    HorizontalAxisName: {
+        en:`Horizontal axis name`,
+        fi:`Horizontal axis name`
+    },
+
 }
 
 initTranslations(localTranslations);
