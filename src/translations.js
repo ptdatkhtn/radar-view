@@ -301,6 +301,15 @@ const localTranslations = {
         en:`Horizontal axis name`,
         fi:`Horizontal axis name`
     },
+    IntructionsForNamingAxis: {
+        en:`You can select the commonly used axis from the pulldown menu, and/or fill in the fields manually. `,
+        fi:`You can select the commonly used axis from the pulldown menu, and/or fill in the fields manually. `
+    },
+    FlipHorizontalVertical: {
+        en:`FLIP HORIZONTAL/VERTICAL`,
+        fi:`FLIP HORIZONTAL/VERTICAL`
+    },
+    
 
 }
 

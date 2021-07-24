@@ -697,6 +697,17 @@ class CreateRadarForm extends PureComponent {
             })
     }
 
+    const handleFlipHorizontalAndVerticalChange = () => {
+        this.setState({
+            axisXTitle: axisYTitle,
+            axisYTitle: axisXTitle,
+            axisXMin: axisYMin,
+            axisYMin: axisXMin,
+            axisXMax: axisYMax,
+            axisYMax: axisXMax,
+        })
+    }
+
         const { classes } = this.props;
         console.log('(+this.editorMode?.current?.offsetWidth)', (+this.editorMode?.current?.offsetWidth) *45 /100)
         console.log('widthContentWidth', this.state.widthContentWidth)
@@ -835,6 +846,9 @@ class CreateRadarForm extends PureComponent {
                                     defaultChecked={ratingsOn}
                                     onChange={this.handleRatingsOnChange}
                             />
+                        </SpaceBetween>
+                        <SpaceBetween>
+                            <p style={{marginTop: '12px'}}>{requestTranslation('IntructionsForNamingAxis')}</p>
                         </SpaceBetween>
                     </HalfWidth>
                 </div>
@@ -1081,6 +1095,9 @@ class CreateRadarForm extends PureComponent {
                                     lowEnd = {axisYMin}
                                 />
                             </HalfWidth>
+                        </SpaceBetween>
+                        <SpaceBetween>
+                            <HandleFlipAxisBtn className="btn btn-outline-gray" onClick={handleFlipHorizontalAndVerticalChange}>{requestTranslation('FlipHorizontalVertical')}</HandleFlipAxisBtn>
                         </SpaceBetween>
                     </FullWidthBgContainer>
                 )}
@@ -1735,4 +1752,8 @@ const HoverBox = styled.p`
     align-items: center;
     align-content: center;
     margin: auto; 
+`
+const HandleFlipAxisBtn = styled.button`
+    border-color: #666 !important;
+    color: #666 !important;
 `
