@@ -127,7 +127,7 @@ export default async function generatePPTX(radarId, groupId) {
 
       slide.addText(short_title, { x: 0.4 + xOffset, y: 1.2, w: 3.9, h: 0.3, isTextBox: true, shrinkText: true, bold: true, fontSize: 15 })
       slide.addText(`${phenomenonTypeTitlesById[type]} ${timeRangeStr}`, { x: 0.4 + xOffset, y: 1.4, w: 3.9, h: 0.3, shrinkText: true, fontSize: 10 })
-      slide.addText(`${tr('pptxTimestamp')}: ${time || '-'}`, { x: 0.4 + xOffset, y: 1.6, w: 3.9,  h: 0.3, shrinkText: true, fontSize: 10 })
+      slide.addText(`${tr('pptxTimestamp')}: ${Math.trunc(time) || '-'}`, { x: 0.4 + xOffset, y: 1.6, w: 3.9,  h: 0.3, shrinkText: true, fontSize: 10 })
       slide.addText(toText(summary), { x: 0.4 + xOffset, y: 1.9, w: 3.9, h: 5, isTextBox: true, shrinkText: true, valign: 'top', fontSize: 12 })
       xOffset += 4
     })
