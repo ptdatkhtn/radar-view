@@ -24,6 +24,7 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from './CreateRadarForm.module.css'
 import RatingSummaryPreview from './RatingSummaryPreview';
 import AxisPreview from './AxisPreview';
+import debounce from 'lodash/debounce'
 
 import {HeaderContainer, Spacing} from './RatingSummaryPreview';
 const URL = window.URL || window.webkitURL
@@ -249,13 +250,29 @@ class CreateRadarForm extends PureComponent {
 
     componentDidMount() {
         const { getRadarSets, getUserGroups, existingRadarPage } = this.props
-        // console.log('===> ', this.editorMode.current.offsetWidth)
+
         this.setState({
             widthContentWidth: +this.editorMode?.current?.offsetWidth
         })
+        if (window) {
+            window.addEventListener("resize", debounce(this.handleResize, 200));
+        }
+        
         if (!existingRadarPage) {
             getUserGroups()
             getRadarSets()
+        }
+    }
+
+    handleResize = () => {
+        this.setState({
+            widthContentWidth: +this.editorMode?.current?.offsetWidth
+        })
+    }
+
+    componentWillUnmount() {
+        if (window) {
+            window.removeEventListener("resize", this.handleResize);
         }
     }
 
@@ -709,12 +726,9 @@ class CreateRadarForm extends PureComponent {
     }
 
         const { classes } = this.props;
-        console.log('(+this.editorMode?.current?.offsetWidth)', (+this.editorMode?.current?.offsetWidth) *45 /100)
-        console.log('widthContentWidth', this.state.widthContentWidth)
-        // const widthEditMode = this.editorMode ? this.editorMode.current.offsetWidth: null
-        //   const classes = useStyles();
+
         return (
-            <div className='modal-form-sections' ref={this.editorMode}>
+            <div className='modal-form-sections'>
                 <div className='modal-form-section modal-form-header'>
                     <h2>
                         {requestTranslation('activateUsers')}
@@ -749,7 +763,7 @@ class CreateRadarForm extends PureComponent {
                                       onClose={onLeaveVotingIcon}
                                       disableRestoreFocus
                                 >
-                                    <HoverBox>This is for votings</HoverBox>
+                                    <HoverBox>The Voting tool enables prioritizing the trends and phenomena together with your team. You can start creating a common view of the future by allowing your users to vote on phenomena by using the ‘up’ or ’down’ arrows available in the top right-hand corner of each phenomena card.</HoverBox>
                                 </Popover> 
                             </div>
                             <SpaceBetween>
@@ -835,7 +849,7 @@ class CreateRadarForm extends PureComponent {
                                 onClose={onLeaveRatingIcon}
                                 disableRestoreFocus
                             >
-                                <HoverBox>This is for ratings</HoverBox>
+                                <HoverBox>The Rating tool allows users to evaluate phenomena based on any pre-defined axis. You can easily select some of the commonly used axis from the pulldown menu and/or fill in any custom fields manually. </HoverBox>
                             </Popover> 
                         </div>
                         <SpaceBetween>
@@ -851,10 +865,9 @@ class CreateRadarForm extends PureComponent {
                             <p style={{marginTop: '12px'}}>{requestTranslation('IntructionsForNamingAxis')}</p>
                         </SpaceBetween>
                     </HalfWidth>
-                </div>
-     
-                {ratingsOn && (
-                    <FullWidthBgContainer style={{ paddingTop: 0 }}>
+
+                    {ratingsOn && (
+                    <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}>
                         <SpaceBetween>
                             <HalfWidth>
                                 <h4>
@@ -917,7 +930,7 @@ class CreateRadarForm extends PureComponent {
                                     </Column>
                                 </Columns>
                             </HalfWidth>
-                            <HalfWidth>
+                            <HalfWidth ref={this.editorMode}>
                                 {/* <div style={{background: 'red'}}>
                                     testtt
                                 </div> */}
@@ -931,7 +944,7 @@ class CreateRadarForm extends PureComponent {
                                             title={axisYTitle}
                                             rightLabel={axisYMax}
                                             leftLabel={axisYMin}
-                                            containerWidth={(+this.state.widthContentWidth) *45/100 - 50}
+                                            containerWidth={(+this.state.widthContentWidth)}
                                         />
                                     </>
                                 }
@@ -942,7 +955,7 @@ class CreateRadarForm extends PureComponent {
 
 
                 {ratingsOn && (
-                    <FullWidthBgContainer style={{ paddingTop: 0 }}>
+                    <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}>
                         <SpaceBetween>
                             <HalfWidth>
                                 <h4>
@@ -1012,7 +1025,7 @@ class CreateRadarForm extends PureComponent {
                                             title={axisXTitle}
                                             rightLabel={axisXMax} 
                                             leftLabel={axisXMin}
-                                            containerWidth={(+this.state.widthContentWidth) *45/100 - 50}
+                                            containerWidth={(+this.state.widthContentWidth)}
                                         />
                                     </>
                                 }
@@ -1021,9 +1034,9 @@ class CreateRadarForm extends PureComponent {
                     </FullWidthBgContainer>
                 )}
                 {ratingsOn && (
-                    <FullWidthBgContainer style={{ paddingTop: 0 }}> 
+                    <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}> 
                         <SpaceBetween>
-                            <HalfWidth>
+                            <HalfWidth style={{marginBottom: '52px'}}>
                             <h4>
                                 {requestTranslation('cornersText')}
                             </h4>
@@ -1079,8 +1092,8 @@ class CreateRadarForm extends PureComponent {
                             <HalfWidth>
                                 <RatingSummaryPreview
                                     bottomHeader = 'Preview for rating result and summary view'
-                                    containerWidth = {(+this.state.widthContentWidth)* 45/100 -50 -32}
-                                    containerHeight = {(0.7) *(+this.state.widthContentWidth) *45/100 -50 -32}
+                                    containerWidth = {+this.state.widthContentWidth - 50}
+                                    containerHeight = {+this.state.widthContentWidth * 0.60}
                                     // containerWidth = {320}
                                     // containerHeight = {200}
                                     topLeft = {fourFieldsTopLeft}
@@ -1096,11 +1109,14 @@ class CreateRadarForm extends PureComponent {
                                 />
                             </HalfWidth>
                         </SpaceBetween>
-                        <SpaceBetween>
+                        <SpaceBetween style={{marginTop: '62px'}}>
                             <HandleFlipAxisBtn className="btn btn-outline-gray" onClick={handleFlipHorizontalAndVerticalChange}>{requestTranslation('FlipHorizontalVertical')}</HandleFlipAxisBtn>
                         </SpaceBetween>
                     </FullWidthBgContainer>
                 )}
+                </div>
+     
+                
 
                 <div className='modal-form-section'>
                     <SpaceBetween>
@@ -1131,7 +1147,7 @@ class CreateRadarForm extends PureComponent {
                                     onClose={onLeaveCommentingIcon}
                                     disableRestoreFocus
                                 >
-                                    <HoverBox>This is for comments</HoverBox>
+                                    <HoverBox>The Commenting functionality allows users to access phenomena on your radar and add free text comments related to relevant Opportunities, Threats and Actions.</HoverBox>
                                 </Popover>
                             </div>
                             <SpaceBetween>
@@ -1204,7 +1220,7 @@ class CreateRadarForm extends PureComponent {
                                         onClose={onLeaveDiscussionIcon}
                                         disableRestoreFocus
                                     >
-                                        <HoverBox>This is for discussions</HoverBox>
+                                        <HoverBox>Activating the Discussion area allows free conversation, collecting user feedback, or e.g. easily collecting participant answers during a foresight workshop. </HoverBox>
                                     </Popover>
                                 </div>
                                 <DisplayFlex>
@@ -1702,8 +1718,10 @@ const SpaceBetween = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
+        flex-direction: row;
     }
 `
+
 
 const Label = styled.label`
     white-space: nowrap;

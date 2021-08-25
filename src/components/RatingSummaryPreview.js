@@ -159,7 +159,7 @@ const RatingSummaryPreview = ({
     if (appContext.axis) {
       drawNormalAxis()
     }
-  }, [appContext, topLeft, topRight, bottomLeft, bottomRight])
+  }, [appContext, topLeft, topRight, bottomLeft, bottomRight, containerWidth])
 
   useEffect(() => {
     const canvasAxis = document.getElementById('axis')
@@ -173,14 +173,6 @@ const RatingSummaryPreview = ({
 
   return (
     <>
-      {/* <HeaderContainer>{topHeader}</HeaderContainer>
-      <Spacing customHeight={50}/>
-      <AxisPreview title='Horizontal axis preview' rightLabel='Right end' leftLabel='Left end' containerWidth={containerWidth + LABEL_WIDTH * 2}/>
-      
-      <Spacing customHeight={80}/>
-      <AxisPreview title='Vertical axis preview' rightLabel='Top end' leftLabel='Low end' containerWidth={containerWidth + LABEL_WIDTH * 2}/>
-      <Spacing customHeight={30}/> */}
-
       <HeaderContainer>{bottomHeader}</HeaderContainer>
       <Spacing customHeight={10}/>
       <div style={{ display: 'flex', width: `${containerWidth}px` }}>
