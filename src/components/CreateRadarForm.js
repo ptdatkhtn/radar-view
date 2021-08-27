@@ -25,8 +25,9 @@ import styles from './CreateRadarForm.module.css'
 import RatingSummaryPreview from './RatingSummaryPreview';
 import AxisPreview from './AxisPreview';
 import debounce from 'lodash/debounce'
-
+import ConfirmationModalForRatings from './ConfirmationModalForRatings/ConfirmationModalForRatings'
 import {HeaderContainer, Spacing} from './RatingSummaryPreview';
+import RatingModalPreviewEditMode from './RatingModalPreviewEditMode/RatingModalPreviewEditMode'
 const URL = window.URL || window.webkitURL
 
 export const PAGE_HEADER_AND_LANGUAGE = 1
@@ -187,7 +188,9 @@ class CreateRadarForm extends PureComponent {
         DiscussionDescriptionDisplayed: false,
         axisYSelect: '',
         axisXSelect: '',
-        widthContentWidth: 0
+        widthContentWidth: 0,
+        openClearAllFields: false,
+        openRatingModalEditMode: false
     }
     // state is getting set because we are implementing a cancel + save button
     constructor(props) {
@@ -630,6 +633,7 @@ class CreateRadarForm extends PureComponent {
             DiscussionAnchorEl,
             axisYSelect,
             axisXSelect,
+            openRatingModalEditMode
         } = this.state
 
         const onHoverVotingIcon = (event) => {
@@ -722,11 +726,59 @@ class CreateRadarForm extends PureComponent {
             axisYMin: axisXMin,
             axisXMax: axisYMax,
             axisYMax: axisXMax,
+            axisXSelect: axisYSelect,
+            axisYSelect: axisXSelect
+        })
+    }
+    // RatingModalPreviewEditMode openRatingModalEditMode
+    const openClearAllFieldsModal = () => {
+        this.setState({
+            openClearAllFields: true
         })
     }
 
+    const closeClearAllFieldsModal = () => {
+        this.setState({
+            openClearAllFields: false
+        })
+    } 
+    const openRatingModalEditModeModal = () => {
+        this.setState({
+            openRatingModalEditMode: true
+        })
+    }
+
+    const closeRatingModalEditModeModal = () => {
+        this.setState({
+            openRatingModalEditMode: false
+        })
+    }
+    const clearAllFieldsBtn = () => {
+        this.setState({
+            axisXTitle: 'Horizontal axis name',
+            axisYTitle: 'Vertical axis name',
+            axisXMin: 'Left end',
+            axisYMin: 'Low end',
+            axisXMax: 'Right end',
+            axisYMax: 'High end',
+            fourFieldsTopLeft: 'Top left',
+            fourFieldsTopRight: 'Top right',
+            fourFieldsBottomLeft: 'Bottom left',
+            fourFieldsBottomRight: 'Bottom right',
+            openClearAllFields: false,
+            axisXSelect: '',
+            axisYSelect: ''
+        })
+    }
         const { classes } = this.props;
 
+        const handleRatingOffParantComp = (value) => {
+            this.setState({
+                ratingsOn: value,
+                openRatingModalEditMode: value
+            })
+        }
+        console.log('ratingsOn', this.state.ratingsOn)
         return (
             <div className='modal-form-sections'>
                 <div className='modal-form-section modal-form-header'>
@@ -742,6 +794,7 @@ class CreateRadarForm extends PureComponent {
                                     {requestTranslation('voting')}
                                 </h3>
                                 <InformationIcon 
+                                    background={false}
                                     onMouseEnter={onHoverVotingIcon} 
                                     onMouseLeave={onLeaveVotingIcon}
                                 />
@@ -828,6 +881,7 @@ class CreateRadarForm extends PureComponent {
                                 {requestTranslation('rating')}
                             </h3>
                             <InformationIcon 
+                                background={true}
                                 onMouseEnter={onHoverRatingIcon}
                                 onMouseLeave={onLeaveRatingIcon}
                             />
@@ -856,19 +910,23 @@ class CreateRadarForm extends PureComponent {
                             <p>
                                 {requestTranslation('createFormRatingDescription')}
                             </p>
-                            <Toggle icons={false}
+                            <Toggle 
+                                    icons={false}
+                                    checked={ratingsOn}
                                     defaultChecked={ratingsOn}
                                     onChange={this.handleRatingsOnChange}
                             />
                         </SpaceBetween>
-                        <SpaceBetween>
-                            <p style={{marginTop: '12px'}}>{requestTranslation('IntructionsForNamingAxis')}</p>
-                        </SpaceBetween>
+                        {/* <SpaceBetween> */}
+                            {/* <p style={{marginTop: '12px'}}>{requestTranslation('IntructionsForNamingAxis')}</p> */}
+                        {/* </SpaceBetween> */}
                     </HalfWidth>
+                    
 
                     {ratingsOn && (
                     <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}>
-                        <SpaceBetween>
+                        <p style={{marginTop: '12px'}}>{requestTranslation('IntructionsForNamingAxis')}</p>
+                        <RatingGroupBtn>
                             <HalfWidth>
                                 <h4>
                                     {requestTranslation('verticalAxis')}
@@ -888,75 +946,8 @@ class CreateRadarForm extends PureComponent {
                                             clearable={false}
                                         />
                                     </Column>
-                                </Columns>
-                                <Columns>
-                                    <Column>
-                                        {/* <Label>
-                                            {requestTranslation('axisName')}
-                                        </Label> */}
-                                        <Input type={'text'}
-                                               value={axisYTitle || ''}
-                                            //    value={axisYTitle ? axisYTitle : DisplayVerticalAxisName || ''}
-                                               onChange={this.handleValueChange('axisYTitle')}
-                                            //    onChange={String(axisYSelect) === 'Custom' ? this.handleValueChange('DisplayVerticalAxisName') : this.handleValueChange('axisYTitle')}
-                                               placeholder={requestTranslation('verticalAxisName')}
-                                        />
-                                    </Column>
-                                </Columns>
-                                <Columns>
-                                    <Column>
-                                        {/* <Label>
-                                            {requestTranslation('lowEnd')}
-                                        </Label> */}
-                                        <Input type={'text'}
-                                               value={axisYMin || ''}
-                                            //    value={axisYMin ? axisYMin : VerticalAxisLowEnd || ''}
-                                               onChange={this.handleValueChange('axisYMin')}
-                                                //   onChange={String(axisYSelect) === 'Custom' ? this.handleValueChange('VerticalAxisLowEnd') : this.handleValueChange('axisYMin')}
-                                               placeholder={requestTranslation('lowEnd')}
-                                        />
-                                    </Column>
-                                    <Column>
-                                        {/* <Label>
-                                            {requestTranslation('highEnd')}
-                                        </Label> */}
-                                        <Input type={'text'}
-                                               value={axisYMax || ''}
-                                            //    value={axisYMax ? axisYMax : VerticalAxisHighEnd || ''}
-                                               onChange={this.handleValueChange('axisYMax')}
-                                            //    onChange={String(axisYSelect) === 'Custom' ? this.handleValueChange('VerticalAxisHighEnd') : this.handleValueChange('axisYMax')}
-                                               placeholder={requestTranslation('highEnd')}
-                                        />
-                                    </Column>
-                                </Columns>
+                                </Columns>   
                             </HalfWidth>
-                            <HalfWidth ref={this.editorMode}>
-                                {/* <div style={{background: 'red'}}>
-                                    testtt
-                                </div> */}
-                                
-                                {
-                                    <>
-                                        <Spacing customHeight={40}/>
-                                        <HeaderContainer>{'Preview for content cards'}</HeaderContainer>
-                                        <Spacing customHeight={24}/>
-                                        <AxisPreview 
-                                            title={axisYTitle}
-                                            rightLabel={axisYMax}
-                                            leftLabel={axisYMin}
-                                            containerWidth={(+this.state.widthContentWidth)}
-                                        />
-                                    </>
-                                }
-                            </HalfWidth>
-                        </SpaceBetween>
-                    </FullWidthBgContainer>
-                )}
-
-
-                {ratingsOn && (
-                    <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}>
-                        <SpaceBetween>
                             <HalfWidth>
                                 <h4>
                                     {requestTranslation('horizontalAxis')}
@@ -976,126 +967,20 @@ class CreateRadarForm extends PureComponent {
                                         />
                                     </Column>
                                 </Columns>
-                                <Columns>
-                                    <Column>
-                                        {/* <Label>
-                                            {requestTranslation('axisName')}
-                                        </Label> */}
-                                        <Input type={'text'}
-                                               value={axisXTitle || ''}
-                                            //    value={!axisXTitle ? axisXTitle : DisplayHorizontalAxisName || ''}
-                                               onChange={this.handleValueChange('axisXTitle')}
-                                            //    onChange={String(axisXSelect) === 'Custom' ? this.handleValueChange('DisplayHorizontalAxisName') : this.handleValueChange('axisXTitle')}
-                                               placeholder={requestTranslation('HorizontalAxisName')}
-                                        />
-                                    </Column>
-                                </Columns>
-                                <Columns>
-                                    <Column>
-                                        {/* <Label>
-                                            {requestTranslation('leftEnd')}
-                                        </Label> */}
-                                        <Input type={'text'}
-                                               value={axisXMin || ''}
-                                            //    value={!axisXMin ? axisXMin : HorizontalAxisLeftEnd || ''}
-                                               onChange={this.handleValueChange('axisXMin')}
-                                            //    onChange={String(axisXSelect) === 'Custom' ? this.handleValueChange('HorizontalAxisLeftEnd') : this.handleValueChange('axisXMin')}
-                                               placeholder={requestTranslation('leftEnd')}
-                                        />
-                                    </Column>
-                                    <Column>
-                                        {/* <Label>
-                                            {requestTranslation('rightEnd')}
-                                        </Label> */}
-                                        <Input type={'text'}
-                                               value={axisXMax || ''}
-                                            //    value={!axisXMax ? axisXMax : HorizontalAxisRightEnd || ''}
-                                               onChange={this.handleValueChange('axisXMax')}
-                                            //    onChange={String(axisXSelect) === 'Custom' ? this.handleValueChange('HorizontalAxisRightEnd') : this.handleValueChange('axisXMax')}
-                                               placeholder={requestTranslation('rightEnd')}       
-                                        />
-                                    </Column>
-                                </Columns>
                             </HalfWidth>
-                            <HalfWidth>
-                                {
-                                    <>
-                                        <Spacing customHeight={100}/>
-                                        <AxisPreview 
-                                            title={axisXTitle}
-                                            rightLabel={axisXMax} 
-                                            leftLabel={axisXMin}
-                                            containerWidth={(+this.state.widthContentWidth)}
-                                        />
-                                    </>
-                                }
-                            </HalfWidth>
-                        </SpaceBetween>
+                        </RatingGroupBtn>
                     </FullWidthBgContainer>
                 )}
+
                 {ratingsOn && (
                     <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}> 
                         <SpaceBetween>
-                            <HalfWidth style={{marginBottom: '52px'}}>
-                            <h4>
-                                {requestTranslation('cornersText')}
-                            </h4>
-                                <Columns>
-                                    <Column>
-                                        {/* <Label>
-                                            {requestTranslation('topLeft')}
-                                        </Label> */}
-                                        <Input type={'text'}
-                                               placeholder={requestTranslation('topLeft')}
-                                               value={fourFieldsTopLeft || ''}
-                                               onChange={
-                                                   this.handleValueChange('fourFieldsTopLeft')
-                                               }/>
-                                    </Column>
-                                    <Column>
-                                        {/* <Label>
-                                            {requestTranslation('topRight')}
-                                        </Label> */}
-                                        <Input type={'text'}
-                                               placeholder={requestTranslation('topRight')}
-                                               value={fourFieldsTopRight || ''}
-                                               onChange={
-                                                   this.handleValueChange('fourFieldsTopRight')
-                                               }/>
-                                    </Column>
-                                </Columns>
-                                <Columns>
-                                    <Column>
-                                        {/* <Label>
-                                            {requestTranslation('bottomLeft')}
-                                        </Label> */}
-                                        <Input type={'text'}
-                                               placeholder={requestTranslation('bottomLeft')}
-                                               value={fourFieldsBottomLeft || ''}
-                                               onChange={
-                                                   this.handleValueChange('fourFieldsBottomLeft')
-                                               }/>
-                                    </Column>
-                                    <Column>
-                                        {/* <Label>
-                                            {requestTranslation('bottomRight')}
-                                        </Label> */}
-                                        <Input type={'text'}
-                                               placeholder={requestTranslation('bottomRight')}
-                                               value={fourFieldsBottomRight || ''}
-                                               onChange={
-                                                   this.handleValueChange('fourFieldsBottomRight')
-                                               }/>
-                                    </Column>
-                                </Columns>
-                            </HalfWidth>
-                            <HalfWidth>
                                 <RatingSummaryPreview
-                                    bottomHeader = 'Preview for rating result and summary view'
-                                    containerWidth = {+this.state.widthContentWidth - 50}
-                                    containerHeight = {+this.state.widthContentWidth * 0.60}
-                                    // containerWidth = {320}
-                                    // containerHeight = {200}
+                                    // bottomHeader = 'Preview for rating result and summary view'
+                                    // containerWidth = {+this.state.widthContentWidth - 50}
+                                    // containerHeight = {+this.state.widthContentWidth * 0.60}
+                                    containerWidth = {320}
+                                    containerHeight = {200}
                                     topLeft = {fourFieldsTopLeft}
                                     topRight = {fourFieldsTopRight}
                                     bottomLeft = {fourFieldsBottomLeft}
@@ -1107,11 +992,49 @@ class CreateRadarForm extends PureComponent {
                                     topEnd = {axisYMax}
                                     lowEnd = {axisYMin}
                                 />
-                            </HalfWidth>
                         </SpaceBetween>
-                        <SpaceBetween style={{marginTop: '62px'}}>
-                            <HandleFlipAxisBtn className="btn btn-outline-gray" onClick={handleFlipHorizontalAndVerticalChange}>{requestTranslation('FlipHorizontalVertical')}</HandleFlipAxisBtn>
-                        </SpaceBetween>
+                        <RatingGroupBtn style={{marginTop: '62px'}}>
+                                <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openClearAllFieldsModal} >CLEAR ALL FIELDS</HandleRatingsBtn>
+                                <HandleRatingsBtn className="btn btn-outline-secondary" onClick={handleFlipHorizontalAndVerticalChange}>{requestTranslation('FlipHorizontalVertical')}</HandleRatingsBtn>
+                                <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openRatingModalEditModeModal} >EDIT MANUALLY</HandleRatingsBtn>
+                        </RatingGroupBtn>
+                        <ConfirmationModalForRatings 
+                            ConfirmationModalNote= 'Are you sure to clear all fields?'
+                            confirmationModal= {this.state.openClearAllFields}
+                            confirmationModalClose = {closeClearAllFieldsModal}
+                            confirmationModalHandleBtn = {clearAllFieldsBtn}
+                        />
+                        <RatingModalPreviewEditMode 
+                            isRatingPreviewEditOpen={openRatingModalEditMode}
+                            handleRatingOff={handleRatingOffParantComp}
+                            ratingsOn={this.state.ratingsOn}
+                            axisXTitle={axisXTitle}
+                            axisXMin={axisXMin}
+                            axisXMax={axisXMax}
+                            axisYTitle={axisYTitle}
+                            axisYMin={axisYMin}
+                            axisYMax={axisYMax}
+                            fourFieldsTopLeft={fourFieldsTopLeft}
+                            fourFieldsTopRight={fourFieldsTopRight}
+                            fourFieldsBottomLeft={fourFieldsBottomLeft}
+                            fourFieldsBottomRight={fourFieldsBottomRight}
+                            axisYSelect={axisYSelect}
+                            axisXSelect={axisXSelect}
+                            RatingAnchorEl={RatingAnchorEl}
+                            RatingDescriptionDisplayed={RatingDescriptionDisplayed}
+                            openClearAllFields={this.state.openClearAllFields}
+                            widthContentWidth={this.state.widthContentWidth}
+                            onHoverRatingIcon={onHoverRatingIcon}
+                            onLeaveRatingIcon={onLeaveRatingIcon}
+                            handleDisplayVericalAxisRatingChange={handleDisplayVericalAxisRatingChange}
+                            handleDisplayHorizontalAxisRatingChange={handleDisplayHorizontalAxisRatingChange}
+                            handleFlipHorizontalAndVerticalChange={handleFlipHorizontalAndVerticalChange}
+                            openClearAllFieldsModal={openClearAllFieldsModal}
+                            closeClearAllFieldsModal={closeClearAllFieldsModal}
+                            clearAllFieldsBtn={clearAllFieldsBtn}
+                            handleRatingsOnChange={this.handleRatingsOnChange}
+                            handleRatingPreviewEditModeClose={closeRatingModalEditModeModal}
+                        />
                     </FullWidthBgContainer>
                 )}
                 </div>
@@ -1126,6 +1049,7 @@ class CreateRadarForm extends PureComponent {
                                     {requestTranslation('commenting')}
                                 </h3>
                                 <InformationIcon 
+                                    background={false}
                                     onMouseEnter={onHoverCommentingIcon}
                                     onMouseLeave={onLeaveCommentingIcon}
                                 />
@@ -1199,6 +1123,7 @@ class CreateRadarForm extends PureComponent {
                                         {requestTranslation('discussion')}
                                     </h3>
                                     <InformationIcon 
+                                        background={true}
                                         onMouseEnter={onHoverDiscussionIcon}
                                         onMouseLeave={onLeaveDiscussionIcon}
                                     />
@@ -1722,6 +1647,18 @@ const SpaceBetween = styled.div`
     }
 `
 
+const RatingGroupBtn = styled.div`
+display: flex;
+flex-direction: column;
+
+    @media (min-width: ${breakpoint}) {
+        display: flex;
+        justify-content: space-evenly;
+        // align-items: flex-start;
+        flex-direction: row;
+    }
+`
+
 
 const Label = styled.label`
     white-space: nowrap;
@@ -1739,7 +1676,7 @@ const Column = styled.div`
     padding: 0 ${columnPadding}px;
 `
 const InformationIcon = styled(InfoCircle)`
-    background-color: white;
+    background-color: ${props => props.background ? '#f1f3f3': 'white'};
     color: black;
     width: 18px;
     height: 18px;
@@ -1771,7 +1708,12 @@ const HoverBox = styled.p`
     align-content: center;
     margin: auto; 
 `
-const HandleFlipAxisBtn = styled.button`
-    border-color: #666 !important;
-    color: #666 !important;
+const HandleRatingsBtn = styled.button`
+&:hover {
+    background: #006998 !important;
+    color: white !important;
+}
+margin-bottom: 10px;
+
+    
 `

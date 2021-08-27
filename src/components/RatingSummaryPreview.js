@@ -103,7 +103,7 @@ const AxisY = ({
 
 const RatingSummaryPreview = ({
   topHeader = 'Preview for content cards:',
-  bottomHeader = 'Preview for rating result and summary view:',
+  bottomHeader = '',
   containerWidth = 400,
   containerHeight = 400,
   topLeft = 'Top left',
@@ -174,8 +174,8 @@ const RatingSummaryPreview = ({
   return (
     <>
       <HeaderContainer>{bottomHeader}</HeaderContainer>
-      <Spacing customHeight={10}/>
-      <div style={{ display: 'flex', width: `${containerWidth}px` }}>
+      {/* <Spacing customHeight={10}/> */}
+      <div style={{ display: 'flex', width: `${containerWidth}px`, margin: '0 auto' }}>
         <AxisY containerHeight={containerHeight} axisHeight={containerHeight} verticalAxisName={verticalAxisName} topEnd={topEnd} lowEnd={lowEnd}/>
         <div style={{ width: containerWidth, height: containerHeight }}>
           <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'white' }}>
