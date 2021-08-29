@@ -28,6 +28,7 @@ import debounce from 'lodash/debounce'
 import ConfirmationModalForRatings from './ConfirmationModalForRatings/ConfirmationModalForRatings'
 import {HeaderContainer, Spacing} from './RatingSummaryPreview';
 import RatingModalPreviewEditMode from './RatingModalPreviewEditMode/RatingModalPreviewEditMode'
+import InformationModal from './InformationModal/InformationModal'
 const URL = window.URL || window.webkitURL
 
 export const PAGE_HEADER_AND_LANGUAGE = 1
@@ -190,7 +191,11 @@ class CreateRadarForm extends PureComponent {
         axisXSelect: '',
         widthContentWidth: 0,
         openClearAllFields: false,
-        openRatingModalEditMode: false
+        openRatingModalEditMode: false,
+        openVotingInformationModal: false,
+        openRatingInformationModal: false,
+        openCommentingInformationModal: false,
+        openDiscussionInformationModal: false
     }
     // state is getting set because we are implementing a cancel + save button
     constructor(props) {
@@ -633,7 +638,11 @@ class CreateRadarForm extends PureComponent {
             DiscussionAnchorEl,
             axisYSelect,
             axisXSelect,
-            openRatingModalEditMode
+            openRatingModalEditMode,
+            openVotingInformationModal,
+            openRatingInformationModal,
+            openCommentingInformationModal,
+            openDiscussionInformationModal
         } = this.state
 
         const onHoverVotingIcon = (event) => {
@@ -730,7 +739,54 @@ class CreateRadarForm extends PureComponent {
             axisYSelect: axisXSelect
         })
     }
-    // RatingModalPreviewEditMode openRatingModalEditMode
+    
+    const openVotingInformationModalHandle = () => {
+        this.setState({
+            openVotingInformationModal: true
+        })
+    }
+
+    const closeVotingInformationModalHandle = () => {
+        this.setState({
+            openVotingInformationModal: false
+        })
+    } 
+    const openRatingInformationModalHandle = () => {
+        this.setState({
+            openRatingInformationModal: true
+        })
+    }
+
+    const closeRatingInformationModalHandle = () => {
+        this.setState({
+            openRatingInformationModal: false
+        })
+    } 
+
+    const openCommentingInformationModalHandle = () => {
+        this.setState({
+            openCommentingInformationModal: true
+        })
+    }
+
+    const closeCommentingInformationModalHandle  = () => {
+        this.setState({
+            openCommentingInformationModal: false
+        })
+    } 
+
+    const openDiscussionInformationModalHandle = () => {
+        this.setState({
+            openDiscussionInformationModal: true
+        })
+    }
+
+    const closeDiscussionInformationModalHandle  = () => {
+        this.setState({
+            openDiscussionInformationModal: false
+        })
+    } 
+
     const openClearAllFieldsModal = () => {
         this.setState({
             openClearAllFields: true
@@ -742,6 +798,7 @@ class CreateRadarForm extends PureComponent {
             openClearAllFields: false
         })
     } 
+    
     const openRatingModalEditModeModal = () => {
         this.setState({
             openRatingModalEditMode: true
@@ -797,6 +854,7 @@ class CreateRadarForm extends PureComponent {
                                     background={false}
                                     onMouseEnter={onHoverVotingIcon} 
                                     onMouseLeave={onLeaveVotingIcon}
+                                    onClick={openVotingInformationModalHandle}
                                 />
                                <Popover 
                                     className={classes.popover}
@@ -818,6 +876,17 @@ class CreateRadarForm extends PureComponent {
                                 >
                                     <HoverBox>The Voting tool enables prioritizing the trends and phenomena together with your team. You can start creating a common view of the future by allowing your users to vote on phenomena by using the ‘up’ or ’down’ arrows available in the top right-hand corner of each phenomena card.</HoverBox>
                                 </Popover> 
+                                <InformationModal 
+                                    InfoModalHeader='Voting'
+                                    InfoModalNote='With the Voting tool you and your team members can easily vote on the radar content and come up with a co-prioritised list of content items. '
+                                    InfoModalOpen={openVotingInformationModal}
+                                    InfoModalClose={closeVotingInformationModalHandle}
+                                    LearnMoreBtn='How the Voting system works in Futures Platform?'
+                                    GuideBtn='How to organise Voting in practise?'
+                                    LearnMoreLink='http://info.futuresplatform.com/hub/how-to-vote'
+                                    GuideLink='http://info.futuresplatform.com/hub/how-to-orginise-voting'
+                                    InfoModalDescription='Voting happens by clicking the up and down arrows on the Content cards. The halo effect is shown as a light circle around the content dot on the radar screen when this threshold is reached. The threshold is counted summing up the up and down votes (or is it?)The voting results view can be found from the radar centre. '
+                                />
                             </div>
                             <SpaceBetween>
                                 <p>
@@ -884,6 +953,7 @@ class CreateRadarForm extends PureComponent {
                                 background={true}
                                 onMouseEnter={onHoverRatingIcon}
                                 onMouseLeave={onLeaveRatingIcon}
+                                onClick={openRatingInformationModalHandle}
                             />
                             <Popover 
                                 className={classes.popover}
@@ -905,6 +975,16 @@ class CreateRadarForm extends PureComponent {
                             >
                                 <HoverBox>The Rating tool allows users to evaluate phenomena based on any pre-defined axis. You can easily select some of the commonly used axis from the pulldown menu and/or fill in any custom fields manually. </HoverBox>
                             </Popover> 
+                            <InformationModal 
+                                    InfoModalHeader='Rating'
+                                    InfoModalNote='With the Rating tool you can easily get your radar content organized by two axis. You can freely choose your axis, or select from the list of most commonly used ones. The rating results will be visualised in a four field table and orderd list by both axis. '
+                                    InfoModalOpen={openRatingInformationModal}
+                                    InfoModalClose={closeRatingInformationModalHandle}
+                                    LearnMoreBtn='How the Rating system works in Futures Platform?'
+                                    GuideBtn='How to organize Rating in practise?'
+                                    LearnMoreLink='http://info.futuresplatform.com/hub/how-to-rate'
+                                    GuideLink='http://info.futuresplatform.com/hub/most-commonly-used-axis-for-rating'
+                                />
                         </div>
                         <SpaceBetween>
                             <p>
@@ -1052,6 +1132,7 @@ class CreateRadarForm extends PureComponent {
                                     background={false}
                                     onMouseEnter={onHoverCommentingIcon}
                                     onMouseLeave={onLeaveCommentingIcon}
+                                    onClick={openCommentingInformationModalHandle}
                                 />
                                 <Popover 
                                     className={classes.popover}
@@ -1073,6 +1154,16 @@ class CreateRadarForm extends PureComponent {
                                 >
                                     <HoverBox>The Commenting functionality allows users to access phenomena on your radar and add free text comments related to relevant Opportunities, Threats and Actions.</HoverBox>
                                 </Popover>
+                                <InformationModal 
+                                    InfoModalHeader='Commenting'
+                                    InfoModalNote='With the Commenting tool you can collect input from your colleagues on the radar content. Commenting tool consists of three fields, Opportunities, Threats and Actions. All comments are listed on the Commenting results view. '
+                                    InfoModalOpen={openCommentingInformationModal}
+                                    InfoModalClose={closeCommentingInformationModalHandle}
+                                    LearnMoreBtn='How the Commenting system works in Futures Platform?'
+                                    GuideBtn='How to organize Commenting in practise?'
+                                    LearnMoreLink='http://info.futuresplatform.com/hub/how-to-comment'
+                                    GuideLink='http://info.futuresplatform.com/hub/how-to-organise-commenting'
+                                />
                             </div>
                             <SpaceBetween>
                                 <p style={{marginRight:'30px'}}>
@@ -1126,6 +1217,7 @@ class CreateRadarForm extends PureComponent {
                                         background={true}
                                         onMouseEnter={onHoverDiscussionIcon}
                                         onMouseLeave={onLeaveDiscussionIcon}
+                                        onClick={openDiscussionInformationModalHandle}
                                     />
                                     <Popover 
                                         className={classes.popover}
@@ -1147,6 +1239,16 @@ class CreateRadarForm extends PureComponent {
                                     >
                                         <HoverBox>Activating the Discussion area allows free conversation, collecting user feedback, or e.g. easily collecting participant answers during a foresight workshop. </HoverBox>
                                     </Popover>
+                                    <InformationModal 
+                                        InfoModalHeader='Discussion area'
+                                        InfoModalNote='Discussion area can be used to discuss the results of voting, rating or commenting. The area is attached to the left edge of the result views that can be found from the radar centre.. '
+                                        InfoModalOpen={openDiscussionInformationModal}
+                                        InfoModalClose={closeDiscussionInformationModalHandle}
+                                        LearnMoreBtn='How the Discussion area works in Futures Platform?'                                        
+                                        GuideBtn='How to organize Discussion area in practise?'
+                                        LearnMoreLink='http://info.futuresplatform.com/hub/how-to-discuss'
+                                        GuideLink='http://info.futuresplatform.com/hub/how-to-organise-discussion'
+                                    />
                                 </div>
                                 <DisplayFlex>
                                     <p style={{marginRight: '30px'}}>{requestTranslation('createFormDiscussionDescription')}</p>
