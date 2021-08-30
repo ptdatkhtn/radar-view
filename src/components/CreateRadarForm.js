@@ -29,6 +29,8 @@ import ConfirmationModalForRatings from './ConfirmationModalForRatings/Confirmat
 import {HeaderContainer, Spacing} from './RatingSummaryPreview';
 import RatingModalPreviewEditMode from './RatingModalPreviewEditMode/RatingModalPreviewEditMode'
 import InformationModal from './InformationModal/InformationModal'
+import CollaborationChartSetting from './CollaborationChartSetting/index';
+
 const URL = window.URL || window.webkitURL
 
 export const PAGE_HEADER_AND_LANGUAGE = 1
@@ -189,6 +191,8 @@ class CreateRadarForm extends PureComponent {
         DiscussionDescriptionDisplayed: false,
         axisYSelect: '',
         axisXSelect: '',
+        isCustomVertical: false,
+        isCustomHorozol: false,
         widthContentWidth: 0,
         openClearAllFields: false,
         openRatingModalEditMode: false,
@@ -257,19 +261,70 @@ class CreateRadarForm extends PureComponent {
     }
 
     componentDidMount() {
-        const { getRadarSets, getUserGroups, existingRadarPage } = this.props
+        const { getRadarSets, getUserGroups, existingRadarPage, axisYTitle, axisXTitle, axisYMin, axisYMax, axisXMin, axisXMax } = this.props
 
         this.setState({
             widthContentWidth: +this.editorMode?.current?.offsetWidth
         })
         if (window) {
-            window.addEventListener("resize", debounce(this.handleResize, 200));
+            window.addEventListener("resize", debounce(this.handleResize, 150));
         }
         
         if (!existingRadarPage) {
             getUserGroups()
             getRadarSets()
         }
+
+        localStorage.removeItem('chartData')
+
+        mockData.some(i => {
+            if (String(axisYTitle) === String('Vertical axis name') 
+                    && String(axisYMin) === String('Low end')
+                    && String(axisYMax) === String('High end')) {
+                this.setState({ 
+                    axisYSelect: '',
+                })
+                return true
+            }
+            else if(String(axisYTitle) === String(i.title)
+                    && String(axisYMin) === String(i.leftAttr)
+                    && String(axisYMax) === String(i.rightAttr)) {
+                    this.setState({ 
+                        axisYSelect: axisYTitle,
+                    })
+                    return true
+                } 
+            else {
+                this.setState({ 
+                    axisYSelect: 'Custom',
+                })
+            }
+        })
+
+        mockData.some(i => {
+            if (String(axisXTitle) === String('Horizontal axis name') 
+                        && String(axisXMin) === String('Left end')
+                        && String(axisXMax) === String('Right end')) {
+                    this.setState({ 
+                        axisXSelect: '',
+                    })
+                    return true
+            }
+            else if(String(axisXTitle) === String(i.title)
+                    && String(axisXMin) === String(i.leftAttr)
+                    && String(axisXMax) === String(i.rightAttr)) {
+                    this.setState({ 
+                        axisXSelect: axisXTitle,
+                    })
+                    return true
+                } 
+            else {
+                this.setState({ 
+                    axisXSelect: 'Custom',
+                })
+            }
+        })
+
     }
 
     handleResize = () => {
@@ -281,6 +336,7 @@ class CreateRadarForm extends PureComponent {
     componentWillUnmount() {
         if (window) {
             window.removeEventListener("resize", this.handleResize);
+            localStorage.removeItem('chartData')
         }
     }
 
@@ -697,49 +753,117 @@ class CreateRadarForm extends PureComponent {
             })
         }
 
-        const handleDisplayVericalAxisRatingChange = ({ value }) => {
-            // if(axisYTitle && axisYMin && axisYMin) {
-            //     this.setState({ 
-            //         axisYSelect: value
-            //     }}
-            // })
-            mockData.map(i => {
-                if(String(value) === String(i.title)) {
+        const handleDisplayVericalAxisRatingChange = ({ value }, isCustom) => {
+            this.setState({
+                isCustomVertical: isCustom,
+            })
+            mockData.some(i => {
+                if (String(value) === 'Custom') {
+                    this.setState({ 
+                        axisYSelect: value
+                    })
+                    return true
+                }
+                else if(String(value) === String(i.title)) {
                     this.setState({ 
                         axisYSelect: value,
                         axisYTitle: i.label, 
                         axisYMin: i.leftAttr,
-                        axisYMax: i.rightAttr
+                        axisYMax: i.rightAttr,
                     })
                 }
             })
-    }
-        const handleDisplayHorizontalAxisRatingChange = ({ value }) => {
-            mockData.map(i => {
-                if(String(value) === String(i.title)) {
+        }
+        const handleDisplayHorizontalAxisRatingChange = ({ value }, isCustom) => {
+            this.setState({
+                isCustomHorozol: isCustom,
+            })
+            mockData.some(i => {
+                if (String(value) === 'Custom') {
+                    this.setState({ 
+                        axisXSelect: value
+                    })
+                    return true
+                }
+                else if(String(value) === String(i.title)) {
                     this.setState({ 
                         axisXSelect: value,
                         axisXTitle: i.label,
                         axisXMin: i.leftAttr,
-                        axisXMax: i.rightAttr
+                        axisXMax: i.rightAttr,
                     })
                 }
             })
     }
 
     const handleFlipHorizontalAndVerticalChange = () => {
-        this.setState({
-            axisXTitle: axisYTitle,
-            axisYTitle: axisXTitle,
-            axisXMin: axisYMin,
-            axisYMin: axisXMin,
-            axisXMax: axisYMax,
-            axisYMax: axisXMax,
-            axisXSelect: axisYSelect,
-            axisYSelect: axisXSelect
-        })
+        const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+           if (retrievedObject) {
+                const {
+                    leftEndValue, 
+                    rightEndValue, 
+                    topEndValue, 
+                    lowEndValue, 
+                    horizontalAxisNameValue, 
+                    verticalAxisNameValue,
+                    topLeftValue, 
+                    topRightValue, 
+                    bottomLeftValue, 
+                    bottomRightValue,
+                    inputSelectedXValue,
+                    inputSelectedYValue,
+                    isEditHorizontal,
+                    isVerticalEdit
+                } = retrievedObject
+
+                localStorage.setItem('chartData', JSON.stringify({
+                    leftEndValue: lowEndValue, 
+                    rightEndValue: topEndValue, 
+                    topEndValue: rightEndValue, 
+                    lowEndValue: leftEndValue, 
+                    horizontalAxisNameValue: verticalAxisNameValue, 
+                    verticalAxisNameValue: horizontalAxisNameValue,
+                    topLeftValue, 
+                    topRightValue, 
+                    bottomLeftValue, 
+                    bottomRightValue,
+                    inputSelectedXValue: inputSelectedYValue,
+                    inputSelectedYValue: inputSelectedXValue,
+                    isVerticalEdit: isEditHorizontal,
+                    isEditHorizontal: isVerticalEdit
+                }));
+
+                if (retrievedObject) {
+                    this.setState({
+                        axisXTitle: verticalAxisNameValue,
+                        axisYTitle: horizontalAxisNameValue,
+                        axisXMin: lowEndValue,
+                        axisYMin: leftEndValue,
+                        axisXMax: rightEndValue,
+                        axisYMax: topEndValue,
+                        axisXSelect: inputSelectedYValue,
+                        axisYSelect: inputSelectedXValue,
+                        isCustomHorozol: isVerticalEdit,
+                        isCustomVertical: isEditHorizontal
+                    })
+                }
+           }
+
+
+        else {
+            this.setState({
+                axisXTitle: axisYTitle,
+                axisYTitle: axisXTitle,
+                axisXMin: axisYMin,
+                axisYMin: axisXMin,
+                axisXMax: axisYMax,
+                axisYMax: axisXMax,
+                axisXSelect: axisYSelect,
+                axisYSelect: axisXSelect
+            })
+        }
     }
-    
+
     const openVotingInformationModalHandle = () => {
         this.setState({
             openVotingInformationModal: true
@@ -824,8 +948,13 @@ class CreateRadarForm extends PureComponent {
             fourFieldsBottomRight: 'Bottom right',
             openClearAllFields: false,
             axisXSelect: '',
-            axisYSelect: ''
+            axisYSelect: '',
+            isCustomHorozol: false,
+            isCustomVertical: false
         })
+
+        localStorage.removeItem('chartData')
+        
     }
         const { classes } = this.props;
 
@@ -835,7 +964,106 @@ class CreateRadarForm extends PureComponent {
                 openRatingModalEditMode: value
             })
         }
-        console.log('ratingsOn', this.state.ratingsOn)
+
+        const receiveCheckedCustomData = (isVertical, isHorizontal) =>{
+            this.setState({
+                isCustomVertical: isVertical,
+                isCustomHorozol: isHorizontal
+            })
+        }
+
+        const handleUpdateStateWhenClickedDoneBtnInCreateRadarForm = () => {
+            // mockData.some(i => {
+            //     if (String(axisYTitle) === String('Vertical axis name') 
+            //             && String(axisYMin) === String('Low end')
+            //             && String(axisYMax) === String('High end')) {
+            //         this.setState({ 
+            //             axisYSelect: '',
+            //         })
+            //         return true
+            //     }
+            //     else if(String(axisYTitle) === String(i.title)
+            //             && String(axisYMin) === String(i.leftAttr)
+            //             && String(axisYMax) === String(i.rightAttr)) {
+            //             this.setState({ 
+            //                 axisYSelect: axisYTitle,
+            //             })
+            //             return true
+            //         } 
+            //     else {
+            //         this.setState({ 
+            //             axisYSelect: 'Custom',
+            //         })
+            //     }
+            // })
+    
+            // mockData.some(i => {
+            //     if (String(axisXTitle) === String('Horizontal axis name') 
+            //                 && String(axisXMin) === String('Left end')
+            //                 && String(axisXMax) === String('Right end')) {
+            //             this.setState({ 
+            //                 axisYSelect: '',
+            //             })
+            //             return true
+            //     }
+            //     else if(String(axisXTitle) === String(i.title)
+            //             && String(axisXMin) === String(i.leftAttr)
+            //             && String(axisXMax) === String(i.rightAttr)) {
+            //             this.setState({ 
+            //                 axisXSelect: axisXTitle,
+            //             })
+            //             return true
+            //         } 
+            //     else {
+            //         this.setState({ 
+            //             axisXSelect: 'Custom',
+            //         })
+            //     }
+            // })
+        }
+
+        const handleEmitFlagToRefetchDataOfChart = (value) => {
+            try {
+                if (value) {
+                    const { 
+                        horizontalAxisNameValue, 
+                        verticalAxisNameValue,
+                        leftEndValue,
+                        rightEndValue,
+                        lowEndValue,
+                        topEndValue,
+                        topLeftValue,
+                        topRightValue,
+                        bottomLeftValue,
+                        bottomRightValue,
+                        inputSelectedXValue,
+                        inputSelectedYValue
+                    } = value
+                    this.setState( () => {
+                        return {
+                            axisXTitle: horizontalAxisNameValue,
+                            axisYTitle: verticalAxisNameValue,
+                            axisXMin: leftEndValue,
+                            axisYMin: lowEndValue,
+                            axisXMax: rightEndValue,
+                            axisYMax: topEndValue,
+                            fourFieldsTopLeft: topLeftValue,
+                            fourFieldsTopRight: topRightValue,
+                            fourFieldsBottomLeft: bottomLeftValue,
+                            fourFieldsBottomRight: bottomRightValue,
+                            axisXSelect: inputSelectedXValue,
+                            axisYSelect: inputSelectedYValue
+                        }
+                    })
+                }
+            } catch (error) {
+                
+            }
+        }
+
+        console.log('this.state.isCustomHorozol', this.state)
+        const inputVerticalAxisValue = String(axisYSelect) !== '' ? (this.state.isCustomVertical ? 'Custom' : axisYSelect) : ''
+        const inputHorozoltalAxisValue = String(axisXSelect) !== '' ? (this.state.isCustomHorozol ? 'Custom' : axisXSelect) : ''
         return (
             <div className='modal-form-sections'>
                 <div className='modal-form-section modal-form-header'>
@@ -1004,7 +1232,7 @@ class CreateRadarForm extends PureComponent {
                     
 
                     {ratingsOn && (
-                    <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}>
+                    <FullWidthBgContainer ref={this.editorMode} style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}>
                         <p style={{marginTop: '12px'}}>{requestTranslation('IntructionsForNamingAxis')}</p>
                         <RatingGroupBtn>
                             <HalfWidth>
@@ -1019,7 +1247,7 @@ class CreateRadarForm extends PureComponent {
                                             name='group'
                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
                                             onChange={handleDisplayVericalAxisRatingChange}
-                                            value={axisYSelect}
+                                            value={inputVerticalAxisValue}
                                             options={mockData.map(i => ({
                                                 label: i.label, value: i.title
                                             }))}
@@ -1038,7 +1266,7 @@ class CreateRadarForm extends PureComponent {
                                             searchable={false}
                                             name='group'
                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
-                                            value={axisXSelect}
+                                            value={inputHorozoltalAxisValue}
                                             onChange={handleDisplayHorizontalAxisRatingChange}
                                             options={mockData.map(i => ({
                                                 label: i.label, value: i.title
@@ -1053,14 +1281,16 @@ class CreateRadarForm extends PureComponent {
                 )}
 
                 {ratingsOn && (
-                    <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}> 
+                    <FullWidthBgContainer 
+                        
+                        style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}> 
                         <SpaceBetween>
                                 <RatingSummaryPreview
                                     // bottomHeader = 'Preview for rating result and summary view'
-                                    // containerWidth = {+this.state.widthContentWidth - 50}
-                                    // containerHeight = {+this.state.widthContentWidth * 0.60}
-                                    containerWidth = {320}
-                                    containerHeight = {200}
+                                    containerWidth = {+this.state.widthContentWidth - 50}
+                                    containerHeight = {+this.state.widthContentWidth * 0.60}
+                                    // containerWidth = {320}
+                                    // containerHeight = {200}
                                     topLeft = {fourFieldsTopLeft}
                                     topRight = {fourFieldsTopRight}
                                     bottomLeft = {fourFieldsBottomLeft}
@@ -1072,6 +1302,7 @@ class CreateRadarForm extends PureComponent {
                                     topEnd = {axisYMax}
                                     lowEnd = {axisYMin}
                                 />
+                                
                         </SpaceBetween>
                         <RatingGroupBtn style={{marginTop: '62px'}}>
                                 <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openClearAllFieldsModal} >CLEAR ALL FIELDS</HandleRatingsBtn>
@@ -1098,12 +1329,12 @@ class CreateRadarForm extends PureComponent {
                             fourFieldsTopRight={fourFieldsTopRight}
                             fourFieldsBottomLeft={fourFieldsBottomLeft}
                             fourFieldsBottomRight={fourFieldsBottomRight}
-                            axisYSelect={axisYSelect}
-                            axisXSelect={axisXSelect}
+                            axisYSelect={inputVerticalAxisValue}
+                            axisXSelect={inputHorozoltalAxisValue}
                             RatingAnchorEl={RatingAnchorEl}
                             RatingDescriptionDisplayed={RatingDescriptionDisplayed}
                             openClearAllFields={this.state.openClearAllFields}
-                            widthContentWidth={this.state.widthContentWidth}
+                            widthContentWidth={+this.state.widthContentWidth -(34 + 24) -(16 + 12) - (16 + 8)}
                             onHoverRatingIcon={onHoverRatingIcon}
                             onLeaveRatingIcon={onLeaveRatingIcon}
                             handleDisplayVericalAxisRatingChange={handleDisplayVericalAxisRatingChange}
@@ -1114,6 +1345,11 @@ class CreateRadarForm extends PureComponent {
                             clearAllFieldsBtn={clearAllFieldsBtn}
                             handleRatingsOnChange={this.handleRatingsOnChange}
                             handleRatingPreviewEditModeClose={closeRatingModalEditModeModal}
+                            passCheckedCustomData={receiveCheckedCustomData}
+                            emitFlagToRefetchDataOfChart={handleEmitFlagToRefetchDataOfChart}
+                            handleUpdateStateWhenClickedDoneBtnInCreateRadarForm={handleUpdateStateWhenClickedDoneBtnInCreateRadarForm}
+                            isCustomVerticalProp={this.state.isCustomVertical}
+                            isCustomHorozontalProp={this.state.isCustomHorozol}
                         />
                     </FullWidthBgContainer>
                 )}
@@ -1815,6 +2051,7 @@ const HandleRatingsBtn = styled.button`
     background: #006998 !important;
     color: white !important;
 }
+
 margin-bottom: 10px;
 
     

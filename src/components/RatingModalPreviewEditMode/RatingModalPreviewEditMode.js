@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react'
 import styled from 'styled-components'
 import _ from 'lodash'
 import Select from 'react-select'
@@ -28,6 +28,7 @@ import RatingSummaryPreview from '../RatingSummaryPreview';
 import debounce from 'lodash/debounce'
 import ConfirmationModalForRatings from '../ConfirmationModalForRatings/ConfirmationModalForRatings'
 import { SettingsInputAntennaTwoTone } from '@material-ui/icons'
+import CollaborationChartSetting from '../CollaborationChartSetting'
 
 const URL = window.URL || window.webkitURL
 
@@ -159,6 +160,7 @@ const useStyles = theme => ({
       width: 'fit-content'
     },
   });
+
 const  RatingModalPreviewEditMode = ({
     isRatingPreviewEditOpen,
     ratingsOn,
@@ -189,14 +191,221 @@ const  RatingModalPreviewEditMode = ({
     classes,
     // handleRatingsOnChange,
     handleRatingPreviewEditModeClose,
-    handleRatingOff
-
+    handleRatingOff,
+    passCheckedCustomData,
+    emitFlagToRefetchDataOfChart,
+    handleUpdateStateWhenClickedDoneBtnInCreateRadarForm,
+    isCustomVerticalProp,
+    isCustomHorozontalProp
 }) => {
         // const { classes } = props;
-
+        
         const handleRatingsOnChange = (e) => {
             handleRatingOff(e)
         }
+        
+        const [isCustomVertical, setIsCustomVertical] = React.useState(isCustomVerticalProp)
+        const [isCustomHorozol, setIsCustomHorozol] = React.useState(isCustomHorozontalProp)
+
+        const [topEnd, setTopEnd] = React.useState(axisYMax)
+        const [lowEnd, setLowEnd] = React.useState(axisYMin)
+        const [leftEnd, setLeftEnd] = React.useState(axisXMin)
+        const [rightEnd, setRightEnd] = React.useState(axisXMax)
+        const [xName, setXName] = React.useState(axisXTitle)
+        const [yName, setYname] = React.useState(axisYTitle)
+        const [fourFieldsTopLeftValue, setfourFieldsTopLeftValue] = React.useState(fourFieldsTopLeft)
+        const [fourFieldsTopRightValue, setfourFieldsTopRight] = React.useState(fourFieldsTopRight)
+        const [fourFieldsBottomLeftValue, setfourFieldsBottomLeftValue] = React.useState(fourFieldsBottomLeft)
+        const [fourFieldsBottomRightValue, setfourFieldsBottomRightValue] = React.useState(fourFieldsBottomRight)
+        const [axisXSelectValue, setaxisXSelect] = React.useState(axisXSelect)
+        const [axisYSelectValue, setaxisYSelect] = React.useState(axisYSelect)
+
+        const receivedCheckDataFromCollaborationChartSettingVertical = (isVertical) => {
+            setIsCustomVertical(isVertical)
+        }
+
+        const receivedCheckDataFromCollaborationChartSettingHoronzal = (isHorizontal) => {
+            setIsCustomHorozol(isHorizontal)
+        }
+
+        const handleBothClickedDoneAndPassCheckedCustomData = async(isVertical, isHorizontal) => {
+            passCheckedCustomData(isVertical, isHorizontal)
+            // Retrieve the object from storage
+            const retrievedObject = await localStorage.getItem('chartData');
+            console.log('retrievedObject', retrievedObject)
+            retrievedObject && emitFlagToRefetchDataOfChart(JSON.parse(retrievedObject));
+            handleRatingPreviewEditModeClose()
+        }
+
+        const handleOpenClearAllFieldsModal = () => {
+            localStorage.removeItem('chartData')
+            setLowEnd(() => 'Low end')
+            setTopEnd(() => 'High end')
+            setLeftEnd(() => 'Left end')
+            setRightEnd(() => 'Right end')
+            setXName(() => 'Horizontal axis name')
+            setYname(() => 'Vertical axis name')
+            setfourFieldsTopLeftValue(() => 'Top left')
+            setfourFieldsTopRight((() => 'Top right'))
+            setfourFieldsBottomLeftValue(() => 'Bottom left')
+            setfourFieldsBottomRightValue(() => 'Bottom right')
+            setaxisXSelect(()=> '')
+            setaxisYSelect(() => '')
+            clearAllFieldsBtn()
+            setIsCustomHorozol(false)
+            setIsCustomVertical(false)
+        }
+
+        const handleDisplayVericalAxisRatingChangeOnRatingModalPreviewEditMode = ({value}) => {
+            // handleDisplayVericalAxisRatingChange({value})
+            mockData.some(i => {
+                if (String(value) === 'Custom') {
+                    setIsCustomVertical(true)
+                    handleDisplayVericalAxisRatingChange({value}, true)
+                    return true
+                }
+                else if(String(value) === String(i.title)) {
+                    setTopEnd(i.rightAttr)
+                    setLowEnd(i.leftAttr)
+                    setYname(value)
+                    setIsCustomVertical(false)
+                    handleDisplayVericalAxisRatingChange({value}, false)
+                    return true
+                }
+            })
+            
+        }
+
+        const handleDisplayHorizontalAxisRatingChangeOnRatingModalPreviewEditMode = ({value}) => {
+            // handleDisplayHorizontalAxisRatingChange({value})
+            mockData.some(i => {
+                if (String(value) === 'Custom') {
+                    setIsCustomHorozol(true)
+                    handleDisplayHorizontalAxisRatingChange({value}, true)
+                    return true
+                }
+                else if(String(value) === String(i.title)) {
+                    setRightEnd(i.rightAttr)
+                    setLeftEnd(i.leftAttr)
+                    setXName(value)
+                    setIsCustomHorozol(false)
+                    handleDisplayHorizontalAxisRatingChange({value}, false)
+                    return true
+                }
+            })
+            
+        }
+
+        const handleFlipHorizontalAndVerticalChangeInRatingEditChartMode = () => {
+            const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+            const {
+                    leftEndValue, 
+                    rightEndValue, 
+                    topEndValue, 
+                    lowEndValue, 
+                    horizontalAxisNameValue, 
+                    verticalAxisNameValue,
+                    topLeftValue, 
+                    topRightValue, 
+                    bottomLeftValue, 
+                    bottomRightValue,
+                    inputSelectedXValue,
+                    inputSelectedYValue,
+                    isEditHorizontal,
+                    isVerticalEdit
+            } = retrievedObject
+
+            localStorage.setItem('chartData', JSON.stringify({
+                leftEndValue: lowEndValue, 
+                rightEndValue: topEndValue, 
+                topEndValue: rightEndValue, 
+                lowEndValue: leftEndValue, 
+                horizontalAxisNameValue: verticalAxisNameValue, 
+                verticalAxisNameValue: horizontalAxisNameValue,
+                topLeftValue, 
+                topRightValue, 
+                bottomLeftValue, 
+                bottomRightValue,
+                inputSelectedXValue: inputSelectedYValue,
+                inputSelectedYValue: inputSelectedXValue,
+                isVerticalEdit: isEditHorizontal,
+                isEditHorizontal: isVerticalEdit
+              }));
+
+            if (retrievedObject) {
+                setLowEnd(() => retrievedObject.leftEndValue)
+                setTopEnd(() => retrievedObject.rightEndValue)
+                setLeftEnd(() => retrievedObject.lowEndValue)
+                setRightEnd(() => retrievedObject.topEndValue)
+                setXName(() => retrievedObject.verticalAxisNameValue)
+                setYname(() => retrievedObject.horizontalAxisNameValue)
+                setfourFieldsTopLeftValue(() => retrievedObject.topLeftValue)
+                setfourFieldsTopRight((() => retrievedObject.topRightValue))
+                setfourFieldsBottomLeftValue(() => retrievedObject.bottomLeftValue)
+                setfourFieldsBottomRightValue(() => retrievedObject.bottomRightValue)
+                setaxisXSelect(prestate => retrievedObject.inputSelectedYValue)
+                setaxisYSelect(prestate => retrievedObject.inputSelectedXValue)
+                setIsCustomVertical(pre => isEditHorizontal)
+                setIsCustomHorozol( pre => isVerticalEdit)
+            }
+            // const ySelected = axisXSelectValue
+            // const xSelected = axisYSelectValue
+            // setaxisXSelect(() => xSelected)
+            // setaxisYSelect(() => ySelected)
+            // handleFlipHorizontalAndVerticalChange()
+        }
+
+        const handleDoneBtn = (isCustomVertical, isCustomHorozol) => {
+            handleBothClickedDoneAndPassCheckedCustomData(isCustomVertical, isCustomHorozol)
+            handleUpdateStateWhenClickedDoneBtnInCreateRadarForm()
+        }
+
+        useEffect(() => {
+            setRightEnd(axisXMax)
+        }, [axisXMax])
+        useEffect(() => {
+            setLeftEnd(axisXMin)
+        }, [axisXMin])
+        useEffect(() => {
+            setLowEnd(axisYMin)
+        }, [axisYMin])
+        useEffect(() => {
+            setTopEnd(axisYMax)
+        }, [axisYMax])
+        useEffect(() => {
+            setXName(axisXTitle)
+        }, [axisXTitle])
+        useEffect(() => {
+            setYname(axisYTitle)
+        }, [axisYTitle])
+
+        useEffect(() => {
+            setfourFieldsTopLeftValue(fourFieldsTopLeft)
+        }, [fourFieldsTopLeft])
+        useEffect(() => {
+            setfourFieldsTopRight(fourFieldsTopRight)
+        }, [fourFieldsTopRight])
+        useEffect(() => {
+            setfourFieldsBottomLeftValue(fourFieldsBottomLeft)
+        }, [fourFieldsBottomLeft])
+        useEffect(() => {
+            setfourFieldsBottomRightValue(fourFieldsBottomRight)
+        }, [fourFieldsBottomRight])
+
+        useEffect(() => {
+            setaxisXSelect(axisXSelect)
+        }, [axisXSelect])
+        useEffect(() => {
+            setaxisYSelect(axisYSelect)
+        }, [axisYSelect])
+        useEffect(() => {
+            setIsCustomVertical(isCustomVerticalProp)
+        }, [isCustomVerticalProp])
+        useEffect(() => {
+            setIsCustomHorozol(isCustomHorozontalProp)
+        }, [isCustomHorozontalProp])
+
+        console.log('axisXTitleaxisXTitleaxisXTitleaxisXTitle', axisYSelect, axisXSelect)
         return (
         ratingsOn && (
             <Modal
@@ -204,143 +413,153 @@ const  RatingModalPreviewEditMode = ({
                 contentLabel="radar-modal"
                 ariaHideApp={false}
                 style={CustomModalStyles}
-    >
-            {/* <div className='modal-form-sections'> */}
-                <div className='modal-form-section' style={{background: '#f1f3f3'}}>
-                    <HalfWidth>
-                        <div style={{display: 'flex'}}>
-                            <h3>
-                                {requestTranslation('rating')}
-                            </h3>
-                            <InformationIcon 
-                                onMouseEnter={onHoverRatingIcon}
-                                onMouseLeave={onLeaveRatingIcon}
-                            />
-                            <Popover 
-                                className={classes.popover}
-                                classes={{
-                                    paper: classes.paper,
-                                }}
-                                open={RatingDescriptionDisplayed || false}
-                                anchorEl={RatingAnchorEl} 
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
-                                }}
-                                transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                                }}
-                                onClose={onLeaveRatingIcon}
-                                disableRestoreFocus
-                            >
-                                <HoverBox>The Rating tool allows users to evaluate phenomena based on any pre-defined axis. You can easily select some of the commonly used axis from the pulldown menu and/or fill in any custom fields manually. </HoverBox>
-                            </Popover> 
-                        </div>
-                        <SpaceBetween>
-                            <p>
-                                {requestTranslation('createFormRatingDescription')}
-                            </p>
-                            <Toggle icons={false}
-                                    defaultChecked={ratingsOn}
-                                    onChange={() => handleRatingsOnChange(!ratingsOn)}
-                            />
-                        </SpaceBetween>
-                        {/* <SpaceBetween> */}
-                            {/* <p style={{marginTop: '12px'}}>{requestTranslation('IntructionsForNamingAxis')}</p> */}
-                        {/* </SpaceBetween> */}
-                    </HalfWidth>
-                    
+                    >
+                            {/* <div className='modal-form-sections'> */}
+                                <div 
+                                    className='modal-form-section' 
+                                    style={{background: '#f1f3f3'}}
+                                    id="modal-form-section-chartEditMode"
+                                    >
+                                    <HalfWidth
+                                        
+                                    >
+                                        <div style={{display: 'flex'}}>
+                                            <h3>
+                                                {requestTranslation('rating')}
+                                            </h3>
+                                            <InformationIcon 
+                                                onMouseEnter={onHoverRatingIcon}
+                                                onMouseLeave={onLeaveRatingIcon}
+                                            />
+                                            <Popover 
+                                                className={classes.popover}
+                                                classes={{
+                                                    paper: classes.paper,
+                                                }}
+                                                open={RatingDescriptionDisplayed || false}
+                                                anchorEl={RatingAnchorEl} 
+                                                anchorOrigin={{
+                                                    vertical: 'bottom',
+                                                    horizontal: 'left',
+                                                }}
+                                                transformOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'left',
+                                                }}
+                                                onClose={onLeaveRatingIcon}
+                                                disableRestoreFocus
+                                            >
+                                                <HoverBox>The Rating tool allows users to evaluate phenomena based on any pre-defined axis. You can easily select some of the commonly used axis from the pulldown menu and/or fill in any custom fields manually. </HoverBox>
+                                            </Popover> 
+                                        </div>
+                                        <SpaceBetween>
+                                            <p>
+                                                {requestTranslation('createFormRatingDescription')}
+                                            </p>
+                                            <Toggle icons={false}
+                                                    defaultChecked={ratingsOn}
+                                                    onChange={() => handleRatingsOnChange(!ratingsOn)}
+                                            />
+                                        </SpaceBetween>
+                                        {/* <SpaceBetween> */}
+                                            {/* <p style={{marginTop: '12px'}}>{requestTranslation('IntructionsForNamingAxis')}</p> */}
+                                        {/* </SpaceBetween> */}
+                                    </HalfWidth>
+                                    
 
-                    {ratingsOn && (
-                    <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}>
-                        <p style={{marginTop: '12px'}}>{requestTranslation('IntructionsForNamingAxis')}</p>
-                        <SpaceBetween>
-                            <HalfWidth>
-                                <h4>
-                                    {requestTranslation('verticalAxis')}
-                                </h4>
-                                <Columns>
-                                    <Column>
-                                        <Select
-                                            defaultValue='Select'
-                                            searchable={false}
-                                            name='group'
-                                            className= {`${styles['custom-react-select-margin-bottom-att']}` }
-                                            onChange={handleDisplayVericalAxisRatingChange}
-                                            value={axisYSelect}
-                                            options={mockData.map(i => ({
-                                                label: i.label, value: i.title
-                                            }))}
-                                            clearable={false}
-                                        />
-                                    </Column>
-                                </Columns>   
-                            </HalfWidth>
-                            <HalfWidth>
-                                <h4>
-                                    {requestTranslation('horizontalAxis')}
-                                </h4>
-                                <Columns>
-                                    <Column>
-                                        <Select
-                                            searchable={false}
-                                            name='group'
-                                            className= {`${styles['custom-react-select-margin-bottom-att']}` }
-                                            value={axisXSelect}
-                                            onChange={handleDisplayHorizontalAxisRatingChange}
-                                            options={mockData.map(i => ({
-                                                label: i.label, value: i.title
-                                            }))}
-                                            clearable={false}
-                                        />
-                                    </Column>
-                                </Columns>
-                            </HalfWidth>
-                        </SpaceBetween>
-                    </FullWidthBgContainer>
-                )}
+                                    {ratingsOn && (
+                                    <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}>
+                                        <p style={{marginTop: '12px'}}>{requestTranslation('IntructionsForNamingAxis')}</p>
+                                        <SpaceBetween>
+                                            <HalfWidth>
+                                                <h4>
+                                                    {requestTranslation('verticalAxis')}
+                                                </h4>
+                                                <Columns>
+                                                    <Column>
+                                                        <Select
+                                                            defaultValue='Select'
+                                                            searchable={false}
+                                                            name='group'
+                                                            className= {`${styles['custom-react-select-margin-bottom-att']}` }
+                                                            onChange={handleDisplayVericalAxisRatingChangeOnRatingModalPreviewEditMode}
+                                                            value={isCustomVertical ? 'Custom' : axisYSelectValue}
+                                                            options={mockData.map(i => ({
+                                                                label: i.label, value: i.title
+                                                            }))}
+                                                            clearable={false}
+                                                        />
+                                                    </Column>
+                                                </Columns>   
+                                            </HalfWidth>
+                                            <HalfWidth>
+                                                <h4>
+                                                    {requestTranslation('horizontalAxis')}
+                                                </h4>
+                                                <Columns>
+                                                    <Column>
+                                                        <Select
+                                                            searchable={false}
+                                                            name='group'
+                                                            className= {`${styles['custom-react-select-margin-bottom-att']}` }
+                                                            value={isCustomHorozol ? 'Custom' : axisXSelectValue}
+                                                            onChange={handleDisplayHorizontalAxisRatingChangeOnRatingModalPreviewEditMode}
+                                                            options={mockData.map(i => ({
+                                                                label: i.label, value: i.title
+                                                            }))}
+                                                            clearable={false}
+                                                        />
+                                                    </Column>
+                                                </Columns>
+                                            </HalfWidth>
+                                        </SpaceBetween>
+                                    </FullWidthBgContainer>
+                                )}
 
-                {ratingsOn && (
-                    <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}> 
-                        <SpaceBetween>
-                                <RatingSummaryPreview
-                                    // bottomHeader = 'Preview for rating result and summary view'
-                                    // containerWidth = {+this.state.widthContentWidth - 50}
-                                    // containerHeight = {+this.state.widthContentWidth * 0.60}
-                                    containerWidth = {320}
-                                    containerHeight = {200}
-                                    topLeft = {fourFieldsTopLeft}
-                                    topRight = {fourFieldsTopRight}
-                                    bottomLeft = {fourFieldsBottomLeft}
-                                    bottomRight = {fourFieldsBottomRight}
-                                    horizontalAxisName = {axisXTitle}
-                                    leftEnd = {axisXMin}
-                                    rightEnd = {axisXMax}
-                                    verticalAxisName = {axisYTitle}
-                                    topEnd = {axisYMax}
-                                    lowEnd = {axisYMin}
-                                />
-                        </SpaceBetween>
-                        <RatingGroupBtn style={{marginTop: '62px'}}>
-                            <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openClearAllFieldsModal} >CLEAR ALL FIELDS</HandleRatingsBtn>
-                            <HandleRatingsBtn className="btn btn-outline-secondary" onClick={handleFlipHorizontalAndVerticalChange}>{requestTranslation('FlipHorizontalVertical')}</HandleRatingsBtn>
-                            <HandleRatingsBtnActive className="btn btn-outline-secondary">EDIT MANUALLY</HandleRatingsBtnActive>
-                            <button className="btn btn-primary" onClick={handleRatingPreviewEditModeClose}>DONE</button>
-                        </RatingGroupBtn>
-                        <ConfirmationModalForRatings 
-                            ConfirmationModalNote= 'Are you sure to clear all fields?'
-                            confirmationModal= {openClearAllFields}
-                            confirmationModalClose = {closeClearAllFieldsModal}
-                            confirmationModalHandleBtn = {clearAllFieldsBtn}
-                        />
-                    </FullWidthBgContainer>
-                )}
-                </div>
-            {/* </div> */}
-            </Modal>
-        )
-    )
+                                {ratingsOn && (
+                                    <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}> 
+                                        <SpaceBetween>
+                                            <CollaborationChartSetting 
+                                                containerWidth = {widthContentWidth}
+                                                containerHeight = {widthContentWidth * 0.65}
+                                                topLeft = {fourFieldsTopLeftValue}
+                                                topRight = {fourFieldsTopRightValue}
+                                                bottomLeft = {fourFieldsBottomLeftValue}
+                                                bottomRight = {fourFieldsBottomRightValue}
+                                                horizontalAxisName = {xName}
+                                                leftEnd = {leftEnd}
+                                                rightEnd = {rightEnd}
+                                                verticalAxisName = {yName}
+                                                topEnd = {topEnd}
+                                                lowEnd = {lowEnd}
+                                                passisCustomToRatingModalPreviewModeVertical={receivedCheckDataFromCollaborationChartSettingVertical}
+                                                passisCustomToRatingModalPreviewModeHoronzal={receivedCheckDataFromCollaborationChartSettingHoronzal}
+                                                inputSelectedX={isCustomHorozol? 'Custom' : axisXSelectValue}
+                                                inputSelectedY={isCustomVertical? 'Custom' : axisYSelectValue}
+                                                isCustomHorozol={isCustomHorozol}
+                                                isCustomVertical={isCustomVertical}
+                                                // passDataFromPreviewEditModeToPreivewMore={passDataFromPreviewEditModeToPreivewMore}
+                                                />
+                                        </SpaceBetween>
+                                        <RatingGroupBtn style={{marginTop: '150px'}}>
+                                            <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openClearAllFieldsModal} >CLEAR ALL FIELDS</HandleRatingsBtn>
+                                            <HandleRatingsBtn className="btn btn-outline-secondary" onClick={handleFlipHorizontalAndVerticalChangeInRatingEditChartMode}>{requestTranslation('FlipHorizontalVertical')}</HandleRatingsBtn>
+                                            <HandleRatingsBtnActive className="btn btn-outline-secondary">EDIT MANUALLY</HandleRatingsBtnActive>
+                                            <button className="btn btn-primary" onClick={() => handleDoneBtn(isCustomVertical, isCustomHorozol)}>DONE</button>
+                                        </RatingGroupBtn>
+                                        <ConfirmationModalForRatings 
+                                            ConfirmationModalNote= 'Are you sure to clear all fields?'
+                                            confirmationModal= {openClearAllFields}
+                                            confirmationModalClose = {closeClearAllFieldsModal}
+                                            confirmationModalHandleBtn = {handleOpenClearAllFieldsModal}
+                                        />
+                                    </FullWidthBgContainer>
+                                )}
+                                </div>
+                            {/* </div> */}
+                            </Modal>
+                        )
+                    )
     }
 export default withStyles(useStyles)(RatingModalPreviewEditMode)
 
