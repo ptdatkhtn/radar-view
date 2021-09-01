@@ -264,13 +264,13 @@ const  RatingModalPreviewEditMode = ({
 
         const receivedCheckDataFromCollaborationChartSettingVertical = (isVertical) => {
             setIsCustomVertical(isVertical)
-            getDataFromLocalStorageThenSaveToLocalState()
+            // getDataFromLocalStorageThenSaveToLocalState()
             
         }
 
         const receivedCheckDataFromCollaborationChartSettingHoronzal = (isHorizontal) => {
             setIsCustomHorozol(isHorizontal)
-            getDataFromLocalStorageThenSaveToLocalState()
+            // getDataFromLocalStorageThenSaveToLocalState()
             
         }
 

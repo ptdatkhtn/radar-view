@@ -318,13 +318,13 @@ const CollaborationChartSetting = ({
         if (currentSettingIndex === 'topEndValue' 
           || currentSettingIndex === 'lowEndValue'
           || currentSettingIndex === 'verticalAxisNameValue') {
-            setIsVerticalEdit(true)
+            // setIsVerticalEdit(true)
           passisCustomToRatingModalPreviewModeVertical(true)
         }
         if (currentSettingIndex === 'leftEndValue'
         || currentSettingIndex === 'rightEndValue'
         || currentSettingIndex === 'horizontalAxisNameValue') {
-          setIsEditHorizontal(true)
+          // setIsEditHorizontal(true)
           passisCustomToRatingModalPreviewModeHoronzal(true)
         }
       })
