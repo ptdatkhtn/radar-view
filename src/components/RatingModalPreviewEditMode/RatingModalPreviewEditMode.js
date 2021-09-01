@@ -220,12 +220,52 @@ const  RatingModalPreviewEditMode = ({
         const [axisXSelectValue, setaxisXSelect] = React.useState(axisXSelect)
         const [axisYSelectValue, setaxisYSelect] = React.useState(axisYSelect)
 
+        const getDataFromLocalStorageThenSaveToLocalState = () => {
+            const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+            const {
+                    leftEndValue, 
+                    rightEndValue, 
+                    topEndValue, 
+                    lowEndValue, 
+                    horizontalAxisNameValue, 
+                    verticalAxisNameValue,
+                    topLeftValue, 
+                    topRightValue, 
+                    bottomLeftValue, 
+                    bottomRightValue,
+                    inputSelectedXValue,
+                    inputSelectedYValue,
+                    isEditHorizontal,
+                    isVerticalEdit
+            } = retrievedObject
+
+
+            if (retrievedObject) {
+                setLowEnd(() => lowEndValue)
+                setTopEnd(() => topEndValue)
+                setLeftEnd(() => leftEndValue)
+                setRightEnd(() => rightEndValue)
+                setXName(() => horizontalAxisNameValue)
+                setYname(() => verticalAxisNameValue)
+                setfourFieldsTopLeftValue(() => topLeftValue)
+                setfourFieldsTopRight((() => topRightValue))
+                setfourFieldsBottomLeftValue(() => bottomLeftValue)
+                setfourFieldsBottomRightValue(() => bottomRightValue)
+                setaxisXSelect(inputSelectedXValue)
+                setaxisYSelect(prestate => inputSelectedYValue)
+                setIsCustomVertical(pre => isEditHorizontal)
+                setIsCustomHorozol( pre => isVerticalEdit)
+            }
+        }
+
         const receivedCheckDataFromCollaborationChartSettingVertical = (isVertical) => {
+            getDataFromLocalStorageThenSaveToLocalState()
             setIsCustomVertical(isVertical)
         }
 
         const receivedCheckDataFromCollaborationChartSettingHoronzal = (isHorizontal) => {
             setIsCustomHorozol(isHorizontal)
+            getDataFromLocalStorageThenSaveToLocalState()
         }
 
         const handleBothClickedDoneAndPassCheckedCustomData = async(isVertical, isHorizontal) => {

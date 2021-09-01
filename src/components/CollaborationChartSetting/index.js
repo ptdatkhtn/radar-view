@@ -306,26 +306,32 @@ const CollaborationChartSetting = ({
   }
 
   const onSaveModal = async() => {
-    setState(prevState => {
+    Promise.resolve()
+      .then(() => { setState(prevState => {
       return {
         ...prevState,
         showModal: false,
         [currentSettingIndex]: inputValueModal.trim()
       }
-    })
+    })})
+      .then(() => {
+        if (currentSettingIndex === 'topEndValue' 
+          || currentSettingIndex === 'lowEndValue'
+          || currentSettingIndex === 'verticalAxisNameValue') {
+            setIsVerticalEdit(true)
+          passisCustomToRatingModalPreviewModeVertical(true)
+        }
+        if (currentSettingIndex === 'leftEndValue'
+        || currentSettingIndex === 'rightEndValue'
+        || currentSettingIndex === 'horizontalAxisNameValue') {
+          setIsEditHorizontal(true)
+          passisCustomToRatingModalPreviewModeHoronzal(true)
+        }
+      })
 
-    if (currentSettingIndex === 'topEndValue' 
-      || currentSettingIndex === 'lowEndValue'
-      || currentSettingIndex === 'verticalAxisNameValue') {
-        setIsVerticalEdit(true)
-      passisCustomToRatingModalPreviewModeVertical(true)
-    }
-    if (currentSettingIndex === 'leftEndValue'
-    || currentSettingIndex === 'rightEndValue'
-    || currentSettingIndex === 'horizontalAxisNameValue') {
-      setIsEditHorizontal(true)
-      passisCustomToRatingModalPreviewModeHoronzal(true)
-    }
+    
+
+    
 
     // localStorage.setItem('chartData', JSON.stringify({
     //   leftEndValue, 
