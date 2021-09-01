@@ -284,22 +284,34 @@ const  RatingModalPreviewEditMode = ({
         }
 
         const handleOpenClearAllFieldsModal = () => {
-            localStorage.removeItem('chartData')
-            setLowEnd(() => 'Low end')
-            setTopEnd(() => 'High end')
-            setLeftEnd(() => 'Left end')
-            setRightEnd(() => 'Right end')
-            setXName(() => 'Horizontal axis name')
-            setYname(() => 'Vertical axis name')
-            setfourFieldsTopLeftValue(() => 'Top left')
-            setfourFieldsTopRight((() => 'Top right'))
-            setfourFieldsBottomLeftValue(() => 'Bottom left')
-            setfourFieldsBottomRightValue(() => 'Bottom right')
-            setaxisXSelect(()=> '')
-            setaxisYSelect(() => '')
-            clearAllFieldsBtn()
-            setIsCustomHorozol(false)
-            setIsCustomVertical(false)
+            Promise.resolve()
+            .then(() => { 
+                
+                // localStorage.removeItem("chartData")
+                setLowEnd(() => 'Low end')
+                setTopEnd(() => 'High end')
+                setLeftEnd(() => 'Left end')
+                setRightEnd(() => 'Right end')
+                setXName(() => 'Horizontal axis name')
+                setYname(() => 'Vertical axis name')
+                setfourFieldsTopLeftValue(() => 'Top left')
+                setfourFieldsTopRight((() => 'Top right'))
+                setfourFieldsBottomLeftValue(() => 'Bottom left')
+                setfourFieldsBottomRightValue(() => 'Bottom right')
+                setaxisXSelect(()=> '')
+                setaxisYSelect(() => '')
+                
+                setIsCustomHorozol(false)
+                setIsCustomVertical(false)
+
+                }
+            )
+            .then(() => {
+                localStorage.removeItem("chartData")
+                clearAllFieldsBtn()
+            })
+            
+           
         }
 
         const handleDisplayVericalAxisRatingChangeOnRatingModalPreviewEditMode = ({value}) => {
