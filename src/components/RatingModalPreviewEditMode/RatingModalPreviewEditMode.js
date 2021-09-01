@@ -222,7 +222,10 @@ const  RatingModalPreviewEditMode = ({
 
         const getDataFromLocalStorageThenSaveToLocalState = () => {
             const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
-            const {
+
+            Promise.resolve()
+            .then(() => {
+                const {
                     leftEndValue, 
                     rightEndValue, 
                     topEndValue, 
@@ -239,33 +242,36 @@ const  RatingModalPreviewEditMode = ({
                     isVerticalEdit
             } = retrievedObject
 
-
-            if (retrievedObject) {
-                setLowEnd(() => lowEndValue)
-                setTopEnd(() => topEndValue)
-                setLeftEnd(() => leftEndValue)
-                setRightEnd(() => rightEndValue)
-                setXName(() => horizontalAxisNameValue)
-                setYname(() => verticalAxisNameValue)
-                setfourFieldsTopLeftValue(() => topLeftValue)
-                setfourFieldsTopRight((() => topRightValue))
-                setfourFieldsBottomLeftValue(() => bottomLeftValue)
-                setfourFieldsBottomRightValue(() => bottomRightValue)
-                setaxisXSelect(inputSelectedXValue)
-                setaxisYSelect(prestate => inputSelectedYValue)
-                setIsCustomVertical(pre => isEditHorizontal)
-                setIsCustomHorozol( pre => isVerticalEdit)
+                if (retrievedObject) {
+                    setLowEnd(retrievedObject.lowEndValue)
+                    setTopEnd(retrievedObject.topEndValue)
+                    setLeftEnd(retrievedObject.leftEndValue)
+                    setRightEnd(retrievedObject.rightEndValue)
+                    setXName(retrievedObject.horizontalAxisNameValue)
+                    setYname(retrievedObject.verticalAxisName)
+                    setfourFieldsTopLeftValue(() => retrievedObject.topLeftValue)
+                    setfourFieldsTopRight((() => retrievedObject.topRightValue))
+                    setfourFieldsBottomLeftValue(() => retrievedObject.bottomLeftValue)
+                    setfourFieldsBottomRightValue(() => retrievedObject.bottomRightValue)
+                    setaxisXSelect(prestate => retrievedObject.inputSelectedXValue)
+                    setaxisYSelect(prestate => retrievedObject.inputSelectedYValue)
+                    setIsCustomVertical(pre => isVerticalEdit)
+                    setIsCustomHorozol( pre => isEditHorizontal)
+                }
             }
+            )
         }
 
         const receivedCheckDataFromCollaborationChartSettingVertical = (isVertical) => {
-            getDataFromLocalStorageThenSaveToLocalState()
             setIsCustomVertical(isVertical)
+            getDataFromLocalStorageThenSaveToLocalState()
+            
         }
 
         const receivedCheckDataFromCollaborationChartSettingHoronzal = (isHorizontal) => {
             setIsCustomHorozol(isHorizontal)
             getDataFromLocalStorageThenSaveToLocalState()
+            
         }
 
         const handleBothClickedDoneAndPassCheckedCustomData = async(isVertical, isHorizontal) => {
