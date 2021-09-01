@@ -372,22 +372,31 @@ const  RatingModalPreviewEditMode = ({
                 isEditHorizontal: isVerticalEdit
               }));
 
-            if (retrievedObject) {
-                setLowEnd(() => retrievedObject.leftEndValue)
-                setTopEnd(() => retrievedObject.rightEndValue)
-                setLeftEnd(() => retrievedObject.lowEndValue)
-                setRightEnd(() => retrievedObject.topEndValue)
-                setXName(() => retrievedObject.verticalAxisNameValue)
-                setYname(() => retrievedObject.horizontalAxisNameValue)
-                setfourFieldsTopLeftValue(() => retrievedObject.topLeftValue)
-                setfourFieldsTopRight((() => retrievedObject.topRightValue))
-                setfourFieldsBottomLeftValue(() => retrievedObject.bottomLeftValue)
-                setfourFieldsBottomRightValue(() => retrievedObject.bottomRightValue)
-                setaxisXSelect(prestate => retrievedObject.inputSelectedYValue)
-                setaxisYSelect(prestate => retrievedObject.inputSelectedXValue)
-                setIsCustomVertical(pre => isEditHorizontal)
-                setIsCustomHorozol( pre => isVerticalEdit)
+            
+
+            Promise.resolve()
+            .then(() => { 
+                if (retrievedObject) {
+                    setLowEnd(retrievedObject.leftEndValue)
+                    setTopEnd(retrievedObject.rightEndValue)
+                    setLeftEnd(retrievedObject.lowEndValue)
+                    setRightEnd(retrievedObject.topEndValue)
+                    setXName(retrievedObject.verticalAxisNameValue)
+                    setYname(retrievedObject.horizontalAxisNameValue)
+                    setfourFieldsTopLeftValue(() => retrievedObject.topLeftValue)
+                    setfourFieldsTopRight((() => retrievedObject.topRightValue))
+                    setfourFieldsBottomLeftValue(() => retrievedObject.bottomLeftValue)
+                    setfourFieldsBottomRightValue(() => retrievedObject.bottomRightValue)
+                    setaxisXSelect(prestate => retrievedObject.inputSelectedYValue)
+                    setaxisYSelect(prestate => retrievedObject.inputSelectedXValue)
+                    setIsCustomVertical(pre => isEditHorizontal)
+                    setIsCustomHorozol( pre => isVerticalEdit)
+                }
             }
+            )
+            // .then(() => {
+            //     // console.log('testtingng9999', lowEnd, leftEnd)
+            // })
             // const ySelected = axisXSelectValue
             // const xSelected = axisYSelectValue
             // setaxisXSelect(() => xSelected)
