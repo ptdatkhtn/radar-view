@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
-// import Modal from 'react-modal'
 import edit1 from './edit1.svg'
 import edit2 from './edit2.svg'
 import {
@@ -12,9 +11,11 @@ import {
 } from '@sangre-fp/ui'
 
 import { mockData } from '../RatingModalPreviewEditMode/RatingModalPreviewEditMode'
+
 const GlobalStyle = createGlobalStyle`
   .ReactModal__Overlay--after-open {
     background-color: rgba(0,0,0,.77)!important;
+    z-index: 100;
   }
 `
 
@@ -33,7 +34,7 @@ const ButtonModalStyled = styled.button`
   font-size: 16px;
   margin-right: ${({ marginRight }) => !!marginRight ? marginRight : 0}px;
   :hover {
-    opacity: 0.8;
+    opacity: 0.9;
   }
   :disabled {
     opacity: 0.5;
@@ -59,7 +60,8 @@ const customStyles = {
     transform: 'translate(-50%, -50%)',
     width: 450,
     height: 276,
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    zIndex: 10
   },
 }
 const EditButton = styled.img`
@@ -114,6 +116,8 @@ const SETTING_VALUE_TITLE = {
   [SETTING_VALUE.VERTICAL]: 'Vertical axis - vertical',
 }
 
+const ICON_SPACING = 30
+
 const AxisX = ({
   axisWidth,
   horizontalAxisName,
@@ -122,12 +126,28 @@ const AxisX = ({
   containerWidth,
   onEdit
 }) => {
-  const cellStyle = { fontSize: 10, height: 16, whiteSpace: 'nowrap', color: '#637282' }
+  const cellStyle = { fontSize: 12, height: 16, whiteSpace: 'nowrap', color: '#637282' }
   return (
     <>
-      <table cellPadding='0' cellSpacing='0' align='center' style={{ width: axisWidth, margin: 0, marginTop: 8 }}>
+      <table cellPadding='0' cellSpacing='0' align='center' style={{ width: axisWidth + 2, margin: 0, marginTop: -17, zIndex: 10, position: 'relative' }}>
+      <tbody style={{border: 'none'}}>
+        <tr style={{border: 'none'}}>
+            <td style={{ ...cellStyle, fontSize: 16, fontWeight: 500, paddingLeft: ICON_SPACING }}>
+              <EditButton src={edit2} onClick={() => onEdit(SETTING_VALUE.LEFT_END)} />
+            </td>
+            <td style={{ ...cellStyle, textAlign: 'center', fontSize: 16, fontWeight: 500 }}>
+              <EditButton src={edit2} onClick={() => onEdit(SETTING_VALUE.HORIZONTAL)} />
+            </td>
+            <td style={{ ...cellStyle, textAlign: 'right', fontSize: 16, fontWeight: 500, paddingRight: ICON_SPACING }}>
+              <EditButton src={edit2} onClick={() => onEdit(SETTING_VALUE.RIGHT_END)} />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table cellPadding='0' cellSpacing='0' align='center' style={{ width: axisWidth, margin: 0, marginTop: 2 }}>
         <tbody style={{border: 'none'}}>
-          <tr>
+          <tr style={{border: 'none'}}>
             <td style={{ ...cellStyle, textAlign: 'left' }}>
               <div style={{ width: containerWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis' }}>{leftEnd}</div>
             </td>
@@ -139,26 +159,10 @@ const AxisX = ({
       </table>
 
       <table cellPadding='0' cellSpacing='0' align='center' style={{ width: axisWidth, margin: 0, marginTop: 12 }}>
-        <tbody style={{border: 'none'}}>
-          <tr>
+      <tbody style={{border: 'none'}}>
+          <tr style={{border: 'none'}}>
             <td style={{ ...cellStyle, textAlign: 'center', fontSize: 16, fontWeight: 500 }}>
               <div style={{ width: containerWidth, overflow: 'hidden', textOverflow: 'ellipsis' }}>{horizontalAxisName}</div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table cellPadding='0' cellSpacing='0' align='center' style={{ width: axisWidth, margin: 0, marginTop: 4 }}>
-        <tbody style={{border: 'none'}}>
-          <tr>
-            <td style={{ ...cellStyle, fontSize: 16, fontWeight: 500 }}>
-              <EditButton src={edit2} onClick={() => onEdit(SETTING_VALUE.LEFT_END)} />
-            </td>
-            <td style={{ ...cellStyle, textAlign: 'center', fontSize: 16, fontWeight: 500 }}>
-              <EditButton src={edit1} onClick={() => onEdit(SETTING_VALUE.HORIZONTAL)} />
-            </td>
-            <td style={{ ...cellStyle, textAlign: 'right', fontSize: 16, fontWeight: 500 }}>
-              <EditButton src={edit1} onClick={() => onEdit(SETTING_VALUE.RIGHT_END)} />
             </td>
           </tr>
         </tbody>
@@ -176,42 +180,16 @@ const AxisY = ({
   onEdit
 }) => {
   const cellStyle = {
-    fontSize: 10,
+    fontSize: 12,
     whiteSpace: 'nowrap',
     color: '#637282'
   }
   return (
     <>
-      <table cellPadding='0' cellSpacing='0' style={{ height: axisHeight, marginRight: 24, border: 'none' }}>
-        <tbody style={{border: 'none'}}>
-          <tr style={{ ...cellStyle, border: 'none' }}>
-            <td style={{ textAlign: 'right', border: 'none' }}>
-              <div style={{ width: 34, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 24, textAlign: 'right' }}>
-                <EditButton src={edit2} onClick={() => onEdit(SETTING_VALUE.TOP_END)} />
-              </div>
-            </td>
-          </tr>
-
-          <tr style={{ ...cellStyle, border: 'none' }}>
-            <td>
-              <EditButton src={edit2} onClick={() => onEdit(SETTING_VALUE.VERTICAL)} />
-            </td>
-          </tr>
-
-          <tr style={{ ...cellStyle, border: 'none' }}>
-            <td style={{ textAlign: 'left', border: 'none' }}>
-              <div style={{ width: 34, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 24, textAlign: 'left' }}>
-                <EditButton src={edit2} onClick={() => onEdit(SETTING_VALUE.LOW_END)} />
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table cellPadding='0' cellSpacing='0' style={{ height: axisHeight, marginRight: 12, border: 'none' }}>
+      <table cellPadding='0' cellSpacing='0' style={{ height: axisHeight, marginRight: 10 }}>
         <tbody style={{border: 'none'}}>
           <tr style={{ ...cellStyle, fontSize: 16, fontWeight: 500, border: 'none' }}>
-            <td>
+            <td style={{border: 'none'}}>
               <div style={{ width: 16, writingMode: 'vertical-lr', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight, textAlign: 'center' }}>{verticalAxisName}</div>
             </td>
           </tr>
@@ -219,17 +197,43 @@ const AxisY = ({
         </tbody>
       </table>
 
-      <table cellPadding='0' cellSpacing='0' style={{ height: axisHeight, marginRight: 8, border: 'none' }}>
+      <table cellPadding='0' cellSpacing='0' style={{ height: axisHeight, marginRight: 8 }}>
         <tbody style={{border: 'none'}}>
           <tr style={{ ...cellStyle, border: 'none' }}>
-            <td>
+          <td style={{border: 'none'}}>
               <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 10, textAlign: 'right' }}>{topEnd}</div>
             </td>
           </tr>
 
-          <tr style={{ ...cellStyle }}>
-            <td>
+          <tr style={{ ...cellStyle, border: 'none' }}>
+          <td style={{border: 'none'}}>
               <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 10, textAlign: 'left' }}>{lowEnd}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table cellPadding='0' cellSpacing='0' style={{ height: axisHeight + 2, marginRight: -17, zIndex: 1 }}>
+        <tbody style={{border: 'none'}}>
+          <tr style={{ ...cellStyle, border: 'none' }}>
+            <td style={{ textAlign: 'right', border: 'none' }}>
+              <div style={{ width: 34, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 24 - ICON_SPACING, textAlign: 'right', marginTop: ICON_SPACING }}>
+                <EditButton src={edit2} onClick={() => onEdit(SETTING_VALUE.TOP_END)} />
+              </div>
+            </td>
+          </tr>
+
+          <tr style={{ ...cellStyle, border: 'none' }}>
+          <td style={{border: 'none'}}>
+              <EditButton src={edit2} onClick={() => onEdit(SETTING_VALUE.VERTICAL)} />
+            </td>
+          </tr>
+
+          <tr style={{ ...cellStyle, border: 'none' }}>
+            <td style={{ textAlign: 'left', border: 'none' }}>
+              <div style={{ width: 34, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 24 - ICON_SPACING, textAlign: 'left', marginBottom: ICON_SPACING }}>
+                <EditButton src={edit2} onClick={() => onEdit(SETTING_VALUE.LOW_END)} />
+              </div>
             </td>
           </tr>
         </tbody>
@@ -272,8 +276,9 @@ const CollaborationChartSetting = ({
     [SETTING_VALUE.TOP_END]: topEnd,
     [SETTING_VALUE.LOW_END]: lowEnd,
     [SETTING_VALUE.HORIZONTAL]: horizontalAxisName,
-    [SETTING_VALUE.VERTICAL]: verticalAxisName,
+    [SETTING_VALUE.VERTICAL]: verticalAxisName
   })
+
   const [isEditHorizontal, setIsEditHorizontal] = useState(isCustomHorozol)
   const [isVerticalEdit, setIsVerticalEdit] = useState(isCustomVertical)
   const [inputSelectedXValue, setinputSelectedXValue] = useState(inputSelectedX)
@@ -440,6 +445,7 @@ const CollaborationChartSetting = ({
     setinputSelectedYValue
   ])
 
+  
   const onChangeInputModal = (e) => {
     e.persist()
     setState(prevState => {
@@ -451,8 +457,7 @@ const CollaborationChartSetting = ({
   }
 
   const drawLine = ({ begin, end }) => {
-    axisContext.lineWidth = 1
-    axisContext.strokeStyle = 'rgb(37 37 37)'
+    axisContext.strokeStyle = '#979797'
     axisContext.beginPath()
     axisContext.moveTo(...begin)
     axisContext.lineTo(...end)
@@ -477,8 +482,8 @@ const CollaborationChartSetting = ({
     // clear before redrawing
     axisContext.clearRect(0, 0, containerWidth, containerHeight)
 
-    drawLine({ begin: [0, axis.clientHeight / 2], end: [axis.clientWidth, axis.clientHeight / 2] })
-    drawLine({ begin: [axis.clientWidth / 2, 0], end: [axis.clientWidth / 2, axis.clientHeight] })
+    drawLine({ begin: [0, axis.clientHeight / 2 + 0.5], end: [axis.clientWidth + 0.5, axis.clientHeight / 2 + 0.5] })
+    drawLine({ begin: [axis.clientWidth / 2 + 0.5, 0], end: [axis.clientWidth / 2 + 0.5, axis.clientHeight + 0.5] })
     drawTexts()
   }
 
@@ -486,8 +491,6 @@ const CollaborationChartSetting = ({
     if (appContext.axis) {
       drawNormalAxis()
     }
-
-
   }, [appContext, topLeftValue, topRightValue, bottomLeftValue, bottomRightValue])
 
   useEffect(() => {
@@ -502,7 +505,6 @@ const CollaborationChartSetting = ({
       })
     }
   }, [])
-
   useEffect(() => {
     mockData.some(i => {
       if(String(inputSelectedX) === String(i.title) 
@@ -559,7 +561,6 @@ const CollaborationChartSetting = ({
       }
   })
   }, [inputSelectedY] )
-
   const setCanvas = useCallback((node) => {
     // set one time only
     if (node && !axisContext) {
@@ -572,36 +573,9 @@ const CollaborationChartSetting = ({
     }
   }, [])
 
-  console.log('verticalAxisName', bottomRight)
   return (
     <>
       <GlobalStyle />
-      <div style={{ display: 'flex', width: `${containerWidth}px` }}>
-        <AxisY onEdit={onEditSetting} containerHeight={containerHeight} axisHeight={containerHeight} verticalAxisName={verticalAxisNameValue} topEnd={topEndValue} lowEnd={lowEndValue} />
-        <div style={{ width: containerWidth, height: containerHeight }}>
-          <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'white' }}>
-            <svg id='svg-app' style={{ position: 'absolute', width: containerWidth, height: containerHeight }}>
-              <foreignObject x={containerWidth / 2 - 80} y={containerHeight / 2 - 80} width='34' height='34'>
-                <EditButton src={edit2} onClick={() => onEditSetting(SETTING_VALUE.TOP_LEFT)} />
-              </foreignObject>
-              <foreignObject x={containerWidth / 2 - 80} y={containerHeight / 2 + 40} width='34' height='34'>
-                <EditButton src={edit2} onClick={() => onEditSetting(SETTING_VALUE.BOTTOM_LEFT)} />
-              </foreignObject>
-
-              <foreignObject x={containerWidth / 2 + 40} y={containerHeight / 2 - 80} width='32' height='32'>
-                <EditButton src={edit1} onClick={() => onEditSetting(SETTING_VALUE.TOP_RIGHT)} />
-              </foreignObject>
-              <foreignObject x={containerWidth / 2 + 40} y={containerHeight / 2 + 40} width='32' height='32'>
-                <EditButton src={edit1} onClick={() => onEditSetting(SETTING_VALUE.BOTTOM_RIGHT)} />
-              </foreignObject>
-
-            </svg>
-            <CanvasContainer ref={setCanvas } id='setting-app-axis' style={{ width: containerWidth, height: containerHeight }}/>
-          </div>
-          <AxisX onEdit={onEditSetting} containerWidth={containerWidth} axisWidth={containerWidth} horizontalAxisName={horizontalAxisNameValue} leftEnd={leftEndValue} rightEnd={rightEndValue} />
-        </div>
-      </div>
-
       {showModal && (
         <Modal
           isOpen={showModal}
@@ -609,7 +583,7 @@ const CollaborationChartSetting = ({
           style={confirmDialogModalStyles}
           ariaHideApp={false}
         >
-          <ModalContent>
+          <ModalContent style={{ zIndex: 2 }}>
             <ModalTitle>{SETTING_VALUE_TITLE[currentSettingIndex]}</ModalTitle>
             <ModalInputValue value={inputValueModal} maxLength={20} onChange={onChangeInputModal} />
             <ModalInputHint>(max. 20 characters)</ModalInputHint>
@@ -621,6 +595,31 @@ const CollaborationChartSetting = ({
           </ModalContent>
         </Modal>
       )}
+
+      <div style={{ display: 'flex', width: `${containerWidth}px` }}>
+        <AxisY onEdit={onEditSetting} containerHeight={containerHeight} axisHeight={containerHeight} verticalAxisName={verticalAxisNameValue} topEnd={topEndValue} lowEnd={lowEndValue} />
+        <div style={{ width: containerWidth, height: containerHeight }}>
+          <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'white' }}>
+            <svg id='svg-app' style={{ position: 'absolute', width: containerWidth + 2, height: containerHeight + 2 }}>
+              <foreignObject x={containerWidth / 2 - 80} y={containerHeight / 2 - 80} width='34' height='34'>
+                <EditButton src={edit2} onClick={() => onEditSetting(SETTING_VALUE.TOP_LEFT)} />
+              </foreignObject>
+              <foreignObject x={containerWidth / 2 - 80} y={containerHeight / 2 + 40} width='34' height='34'>
+                <EditButton src={edit2} onClick={() => onEditSetting(SETTING_VALUE.BOTTOM_LEFT)} />
+              </foreignObject>
+
+              <foreignObject x={containerWidth / 2 + 40} y={containerHeight / 2 - 80} width='34' height='34'>
+                <EditButton src={edit2} onClick={() => onEditSetting(SETTING_VALUE.TOP_RIGHT)} />
+              </foreignObject>
+              <foreignObject x={containerWidth / 2 + 40} y={containerHeight / 2 + 40} width='34' height='34'>
+                <EditButton src={edit2} onClick={() => onEditSetting(SETTING_VALUE.BOTTOM_RIGHT)} />
+              </foreignObject>
+            </svg>
+            <CanvasContainer ref={setCanvas} id='setting-app-axis' style={{ width: containerWidth, height: containerHeight }} />
+          </div>
+          <AxisX onEdit={onEditSetting} containerWidth={containerWidth} axisWidth={containerWidth} horizontalAxisName={horizontalAxisNameValue} leftEnd={leftEndValue} rightEnd={rightEndValue} />
+        </div>
+      </div>
     </>
   )
 }
