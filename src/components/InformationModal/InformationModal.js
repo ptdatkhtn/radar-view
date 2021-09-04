@@ -7,6 +7,10 @@ import styled from "styled-components";
 const InformationModal = ({
   InfoModalHeader,
   InfoModalDescription,
+  InfoModalDescription2,
+  InfoModalDescription3,
+  InfoModalDescription4,
+  InfoModalDescription5,
   InfoModalNote,
   InfoModalOpen,
   InfoModalClose,
@@ -32,16 +36,24 @@ const InformationModal = ({
           style={{ marginLeft: "10px" }}
         >
           <div style={{ display: "flex", alignItems: "center" }}>
-            <InformationIcon background={false} />
+            <InformationIcon />
             <h3 style={{ marginLeft: "20px", marginBottom: "0" }}>
               {InfoModalHeader}
             </h3>
           </div>
-          <p className="mt-4" style={{ fontWeight: "700" }}>
+          <p className="mt-4">
             {InfoModalNote}
           </p>
-          <p className="mt-4">{InfoModalDescription}</p>
-          <div style={{ marginTop: "48px", display: 'flex', justifyContent:'space-between', justifyItems:'center' }}>
+          
+            <ul style={{listStyleType: 'none'}}>
+              <li>{InfoModalDescription}</li>
+              <li>{InfoModalDescription2}</li>
+              <li>{InfoModalDescription3}</li>
+              <li>{InfoModalDescription4}</li>
+              <li>{InfoModalDescription5}</li>
+            </ul>
+
+          <div style={{ marginTop: "48px", display: 'flex', flexDirection:'column', width: '60%' }}>
             <p>Learn more from the HUB: </p>
             <div style={{display: 'flex', flexDirection: 'column'}}>
               <button
@@ -58,6 +70,9 @@ const InformationModal = ({
                 {GuideBtn}
               </button>
             </div>
+          </div>
+          <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+            <button className='btn btn-sm btn-primary' onClick={InfoModalClose}>GOT IT</button>
           </div>
         </div>
 
@@ -84,8 +99,8 @@ const InformationModal = ({
 export default InformationModal;
 
 const InformationIcon = styled(InfoCircle)`
-  background-color: ${(props) => (props.background ? "#f1f3f3" : "white")};
-  color: black;
+  background-color: white;
+  color: #00C3FF;
   width: 45px;
   height: 45px;
 `;

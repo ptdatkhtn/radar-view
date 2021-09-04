@@ -63,104 +63,121 @@ const RATING_ARROWS_ENABLED = false
 // ]
 export const mockData= [
     {
-        title: 'Time',
-        label: 'Time',
+        title: 'Time: near term/long term',
+        label: 'Time: near term/long term',
+        nameAxis: 'Time',
         leftAttr: 'near term',
         rightAttr: 'long term'
     },
     {
-        title: 'Probability',
-        label: 'Probability',
+        title: 'Probability: low/high ',
+        label: 'Probability: low/high',
+        nameAxis: 'Probability',
         leftAttr: 'low',
         rightAttr: 'high'
     },
     {
-        title: 'Fit with current strategy',
-        label: 'Fit with current strategy',
+        title: 'Fit with current strategy: near term/long term',
+        label: 'Fit with current strategy: near term/long term',
+        nameAxis: 'Fit with current strategy',
         leftAttr: 'near term',
         rightAttr: 'long term'
     },
     {
-        title: 'Fit with new strategy',
-        label: 'Fit with new strategy',
+        title: 'Fit with new strategy: weak/strong',
+        label: 'Fit with new strategy: weak/strong',
+        nameAxis: 'Fit with new strategy',
         leftAttr: 'weak',
         rightAttr: 'strong'
     },
     {
-        title: 'Direction of the trend',
-        label: 'Direction of the trend',
+        title: 'Direction of the trend: weakening/increasing',
+        label: 'Direction of the trend: weakening/increasing',
+        nameAxis: 'Direction of the trend',
         leftAttr: 'weakening',
         rightAttr: 'increasing'
     },
     {
-        title: 'Importance',
-        label: 'Importance',
+        title: 'Importance: low/high',
+        label: 'Importance: low/high',
+        nameAxis: 'Importance',
         leftAttr: 'low',
         rightAttr: 'high'
     },
     {
-        title: 'Impact1',
-        label: 'Impact',
+        title: 'Impact1: moderate/huge',
+        label: 'Impact: moderate/huge',
+        nameAxis: 'Impact',
         leftAttr: 'moderate',
         rightAttr: 'huge'
     },
     {
-        title: 'Impact2',
-        label: 'Impact',
+        title: 'Impact2: local/global',
+        label: 'Impact: local/global',
+        nameAxis: 'Impact',
         leftAttr: 'local',
         rightAttr: 'global'
     },
     {
-        title: 'Nature1',
-        label: 'Nature',
+        title: 'Nature1: threat/opportunity',
+        label: 'Nature: threat/opportunity',
+        nameAxis: 'Nature',
         leftAttr: 'threat',
         rightAttr: 'opportunity'
     },
     {
-        title: 'Nature2',
-        label: 'Nature',
+        title: 'Nature2: long term trend/emergent',
+        label: 'Nature: long term trend/emergent',
+        nameAxis: 'Nature',
         leftAttr: 'long term trend',
         rightAttr: 'emergent'
     },
     {
-        title: 'Speed of change',
-        label: 'Speed of change',
+        title: 'Speed of change: gradual/tsunami',
+        label: 'Speed of change: gradual/tsunami',
+        nameAxis: 'Speed of change',
         leftAttr: 'gradual',
         rightAttr: 'tsunami'
     },
     {
-        title: 'Size of threat/risk',
-        label: 'Size of threat/risk',
+        title: 'Size of threat/risk: moderate/huge',
+        label: 'Size of threat/risk: moderate/huge',
+        nameAxis: 'Size of threat/risk',
         leftAttr: 'moderate',
         rightAttr: 'huge'
     },
     {
-        title: 'Size of opportunity',
-        label: 'Size of opportunity',
+        title: 'Size of opportunity: moderate/huge',
+        label: 'Size of opportunity: moderate/huge',
+        nameAxis: 'Size of opportunity',
         leftAttr: 'moderate',
         rightAttr: 'huge'
     },
     {
-        title: 'Nature3',
-        label: 'Nature',
+        title: 'Nature3: non-disrupting/disrupting',
+        label: 'Nature: non-disrupting/disrupting',
+        nameAxis: 'Nature',
         leftAttr: 'non-disrupting',
         rightAttr: 'disrupting'
     },
     {
-        title: 'Fit with existing capabilities',
-        label: 'Fit with existing capabilities',
+        title: 'Fit with existing capabilities: weak/strong',
+        label: 'Fit with existing capabilities: weak/strong',
+        nameAxis: 'Fit with existing capabilities',
         leftAttr: 'weak',
         rightAttr: 'strong'
     },
     {
-        title: 'Magnitude of actions required',
-        label: 'Magnitude of actions required',
+        title: 'Magnitude of actions required: minor/huge',
+        label: 'Magnitude of actions required: minor/huge',
+        nameAxis: 'Magnitude of actions required',
         leftAttr: 'minor',
         rightAttr: 'huge'
     },
     {
         title: 'Custom',
         label: 'Custom',
+        nameAxis: 'Custom',
         leftAttr: 'x',
         rightAttr: 'y'
     },
@@ -199,7 +216,8 @@ class CreateRadarForm extends PureComponent {
         openVotingInformationModal: false,
         openRatingInformationModal: false,
         openCommentingInformationModal: false,
-        openDiscussionInformationModal: false
+        openDiscussionInformationModal: false,
+        votingHaloOn: false
     }
     // state is getting set because we are implementing a cancel + save button
     constructor(props) {
@@ -277,20 +295,30 @@ class CreateRadarForm extends PureComponent {
 
         localStorage.removeItem('chartData')
 
+        if (this.state.displayHaloWhenRating <= 20) {
+            this.setState({
+                votingHaloOn: true
+            })
+        } else {
+            this.setState({
+                votingHaloOn: false
+            })
+        }
         mockData.some(i => {
-            if (String(axisYTitle) === String('Vertical axis name') 
-                    && String(axisYMin) === String('Low end')
-                    && String(axisYMax) === String('High end')) {
+            if (String(axisYTitle) === requestTranslation('verticalAxisName')
+                    && String(axisYMin) === requestTranslation('lowEnd')
+                    && String(axisYMax) === requestTranslation('highEnd')) {
                 this.setState({ 
                     axisYSelect: '',
                 })
                 return true
             }
-            else if(String(axisYTitle) === String(i.title)
+            else if((String(axisYTitle) === String(i.nameAxis) || String(axisYTitle) === String(i.title))
                     && String(axisYMin) === String(i.leftAttr)
                     && String(axisYMax) === String(i.rightAttr)) {
                     this.setState({ 
-                        axisYSelect: axisYTitle,
+                        axisYSelect: i?.title,
+                        axisYTitle: i?.nameAxis
                     })
                     return true
                 } 
@@ -302,19 +330,21 @@ class CreateRadarForm extends PureComponent {
         })
 
         mockData.some(i => {
-            if (String(axisXTitle) === String('Horizontal axis name') 
-                        && String(axisXMin) === String('Left end')
-                        && String(axisXMax) === String('Right end')) {
+            if (String(axisXTitle) === requestTranslation('HorizontalAxisName')
+                        && String(axisXMin) === requestTranslation('leftEnd')
+                        && String(axisXMax) ===requestTranslation('rightEnd')) {
                     this.setState({ 
                         axisXSelect: '',
                     })
                     return true
             }
-            else if(String(axisXTitle) === String(i.title)
+            else if((String(axisXTitle) === String(i.nameAxis) || String(axisXTitle) === String(i.title))
                     && String(axisXMin) === String(i.leftAttr)
                     && String(axisXMax) === String(i.rightAttr)) {
                     this.setState({ 
-                        axisXSelect: axisXTitle,
+                        axisXSelect: i?.title,
+                        axisXTitle: i?.nameAxis
+                        
                     })
                     return true
                 } 
@@ -456,6 +486,18 @@ class CreateRadarForm extends PureComponent {
     handleGroupChange = ({ value }) => this.setState({ group: value }, () => this.validateGroup())
     handleDiscussionOnChange = () => this.setState({ discussionOn: !this.state.discussionOn })
     handleVotingOnChange = () => this.setState({ votingOn: !this.state.votingOn })
+    handleVotingHaloOnChange = () => {
+
+        return this.setState({ 
+            votingHaloOn: !this.state.votingHaloOn
+        }, () => {
+            if (!this.state.votingHaloOn) {
+                this.setState({ 
+                    displayHaloWhenRating: 999
+                })
+            }
+        })
+    }
     handleRatingsOnChange = () => this.setState({ ratingsOn: !this.state.ratingsOn })
     handleLikingOnChange = () => this.setState({ likingOn: !this.state.likingOn })
     handleCommentsOnChange = () => this.setState({ commentsOn: !this.state.commentsOn })
@@ -753,6 +795,14 @@ class CreateRadarForm extends PureComponent {
             })
         }
 
+        // {
+        //     title: 'Time: A/B',
+        //     label: 'Time:A/B',
+        //     nameAxis: Time,
+        //     leftAttr: 'near term',
+        //     rightAttr: 'long term'
+        // }
+        // label: i.label, value: i.title
         const handleDisplayVericalAxisRatingChange = ({ value }, isCustom) => {
             this.setState({
                 isCustomVertical: isCustom,
@@ -767,7 +817,7 @@ class CreateRadarForm extends PureComponent {
                 else if(String(value) === String(i.title)) {
                     this.setState({ 
                         axisYSelect: value,
-                        axisYTitle: i.label, 
+                        axisYTitle: i.nameAxis,
                         axisYMin: i.leftAttr,
                         axisYMax: i.rightAttr,
                     })
@@ -788,7 +838,7 @@ class CreateRadarForm extends PureComponent {
                 else if(String(value) === String(i.title)) {
                     this.setState({ 
                         axisXSelect: value,
-                        axisXTitle: i.label,
+                        axisXTitle: i.nameAxis,
                         axisXMin: i.leftAttr,
                         axisXMax: i.rightAttr,
                     })
@@ -936,16 +986,16 @@ class CreateRadarForm extends PureComponent {
     }
     const clearAllFieldsBtn = () => {
         this.setState({
-            axisXTitle: 'Horizontal axis name',
-            axisYTitle: 'Vertical axis name',
-            axisXMin: 'Left end',
-            axisYMin: 'Low end',
-            axisXMax: 'Right end',
-            axisYMax: 'High end',
-            fourFieldsTopLeft: 'Top left',
-            fourFieldsTopRight: 'Top right',
-            fourFieldsBottomLeft: 'Bottom left',
-            fourFieldsBottomRight: 'Bottom right',
+            axisXTitle: requestTranslation('HorizontalAxisName'),
+            axisYTitle: requestTranslation('verticalAxisName'),
+            axisXMin: requestTranslation('leftEnd'),
+            axisYMin:requestTranslation('lowEnd'),
+            axisXMax: requestTranslation('rightEnd'),
+            axisYMax: requestTranslation('highEnd'),
+            fourFieldsTopLeft: requestTranslation('topLeft'),
+            fourFieldsTopRight:requestTranslation('topRight'),
+            fourFieldsBottomLeft: requestTranslation('bottomLeft'),
+            fourFieldsBottomRight: requestTranslation('bottomRight'),
             openClearAllFields: false,
             axisXSelect: '',
             axisYSelect: '',
@@ -1061,7 +1111,6 @@ class CreateRadarForm extends PureComponent {
             }
         }
 
-        console.log('this.state.isCustomHorozol', this.state)
         const inputVerticalAxisValue = String(axisYSelect) !== '' ? (this.state.isCustomVertical ? 'Custom' : axisYSelect) : ''
         const inputHorozoltalAxisValue = String(axisXSelect) !== '' ? (this.state.isCustomHorozol ? 'Custom' : axisXSelect) : ''
         return (
@@ -1073,7 +1122,7 @@ class CreateRadarForm extends PureComponent {
                 </div>
                 <div className='modal-form-section'>
                     <SpaceBetween>
-                        <HalfWidth>
+                        <CustomHalfWidth>
                             <div style={{display: 'flex'}}>
                                 <h3>
                                     {requestTranslation('voting')}
@@ -1102,18 +1151,23 @@ class CreateRadarForm extends PureComponent {
                                       onClose={onLeaveVotingIcon}
                                       disableRestoreFocus
                                 >
-                                    <HoverBox>The Voting tool enables prioritizing the trends and phenomena together with your team. You can start creating a common view of the future by allowing your users to vote on phenomena by using the ‘up’ or ’down’ arrows available in the top right-hand corner of each phenomena card.</HoverBox>
+                                    <HoverBox>{requestTranslation('InfoIconHover')}</HoverBox>
                                 </Popover> 
                                 <InformationModal 
-                                    InfoModalHeader='Voting'
-                                    InfoModalNote='With the Voting tool you and your team members can easily vote on the radar content and come up with a co-prioritised list of content items. '
+                                    InfoModalHeader={requestTranslation('VotingTool')}
+                                    InfoModalNote={requestTranslation('InfoModalVotingNote')}
                                     InfoModalOpen={openVotingInformationModal}
                                     InfoModalClose={closeVotingInformationModalHandle}
-                                    LearnMoreBtn='How the Voting system works in Futures Platform?'
-                                    GuideBtn='How to organise Voting in practise?'
+                                    LearnMoreBtn={requestTranslation('LearnMoreVotingBtn')}
+                                    GuideBtn={requestTranslation('GuideVotingBtn')}
                                     LearnMoreLink='http://info.futuresplatform.com/hub/how-to-vote'
                                     GuideLink='http://info.futuresplatform.com/hub/how-to-orginise-voting'
-                                    InfoModalDescription='Voting happens by clicking the up and down arrows on the Content cards. The halo effect is shown as a light circle around the content dot on the radar screen when this threshold is reached. The threshold is counted summing up the up and down votes (or is it?)The voting results view can be found from the radar centre. '
+                                    InfoModalDescription={requestTranslation('InfoModalVotingContent')}
+                                    InfoModalDescription2={requestTranslation('InfoModalVotingContent2')}
+                                    InfoModalDescription3={requestTranslation('InfoModalVotingContent3')}
+                                    InfoModalDescription4={requestTranslation('InfoModalVotingContent4')}
+                                    InfoModalDescription5={requestTranslation('InfoModalVotingContent5')}
+
                                 />
                             </div>
                             <SpaceBetween>
@@ -1126,7 +1180,7 @@ class CreateRadarForm extends PureComponent {
                                     onChange={this.handleVotingOnChange}
                                 />
                             </SpaceBetween>
-                        </HalfWidth>
+                        </CustomHalfWidth>
                         {RATING_ARROWS_ENABLED && votingOn && (
                             <HalfWidth>
                                 <h4>
@@ -1151,28 +1205,41 @@ class CreateRadarForm extends PureComponent {
                     </SpaceBetween>
                     {votingOn && 
                     <UpVotesWrapper>
-                        <h4>
-                            {requestTranslation('upvotesForHalo')}
-                        </h4>
-                        <DisplayFlex>
+                        <CustomHalfWidth>
+                            <SpaceBetween>
+                                <p>
+                                    {requestTranslation('upvotesForHalo')}
+                                </p>
+                                <Toggle
+                                            icons={false}
+                                            checked={this.state.votingHaloOn}
+                                            defaultChecked={this.state.votingHaloOn}
+                                            onChange={this.handleVotingHaloOnChange}
+                                        />
+                            </SpaceBetween>
+                        {this.state.votingHaloOn &&
+                        <SpaceBetween style={{ marginTop: '15px'}}>
                             <p style={{ marginRight: '30px'}}>{requestTranslation('upvotesForHaloDescription')}</p> 
                             <Select
                                 searchable={false}
                                 name='group'
-                                className= {`fp-radar-select ${styles['custom-react-select-height-att']}` }
+                                className= {` ${styles['custom-react-select-height-att']} ${styles['custom-react-select-width-att']}` }
                                 value={displayHaloWhenRating}
                                 onChange={this.handleDisplayHaloWhenRatingChange}
                                 options={times(20, value => ({ label: value + 1, value: value + 1 }))}
                                 clearable={false}
                             />
                             
-                        </DisplayFlex>
+                        </SpaceBetween>
+                        }
+                            
+                        </CustomHalfWidth>
                     </UpVotesWrapper>    
                     }
                 </div>
 
                 <div className='modal-form-section'>
-                    <HalfWidth>
+                    <CustomHalfWidth>
                         <div style={{display: 'flex'}}>
                             <h3>
                                 {requestTranslation('rating')}
@@ -1201,17 +1268,22 @@ class CreateRadarForm extends PureComponent {
                                 onClose={onLeaveRatingIcon}
                                 disableRestoreFocus
                             >
-                                <HoverBox>The Rating tool allows users to evaluate phenomena based on any pre-defined axis. You can easily select some of the commonly used axis from the pulldown menu and/or fill in any custom fields manually. </HoverBox>
+                                <HoverBox>{requestTranslation('InfoIconHover')} </HoverBox>
                             </Popover> 
                             <InformationModal 
-                                    InfoModalHeader='Rating'
-                                    InfoModalNote='With the Rating tool you can easily get your radar content organized by two axis. You can freely choose your axis, or select from the list of most commonly used ones. The rating results will be visualised in a four field table and orderd list by both axis. '
+                                    InfoModalHeader={requestTranslation('RatingTool')}
+                                    InfoModalNote={requestTranslation('InfoModalRatingNote')}
                                     InfoModalOpen={openRatingInformationModal}
                                     InfoModalClose={closeRatingInformationModalHandle}
-                                    LearnMoreBtn='How the Rating system works in Futures Platform?'
-                                    GuideBtn='How to organize Rating in practise?'
+                                    LearnMoreBtn={requestTranslation('LearnMoreRatingBtn')}
+                                    GuideBtn={requestTranslation('GuideRatingBtn')}
                                     LearnMoreLink='http://info.futuresplatform.com/hub/how-to-rate'
                                     GuideLink='http://info.futuresplatform.com/hub/most-commonly-used-axis-for-rating'
+                                    InfoModalDescription={requestTranslation('InfoModalRatingContent')}
+                                    InfoModalDescription2={requestTranslation('InfoModalRatingContent2')}
+                                    InfoModalDescription3={requestTranslation('InfoModalRatingContent3')}
+                                    InfoModalDescription4={requestTranslation('InfoModalRatingContent4')}
+                                    InfoModalDescription5={requestTranslation('InfoModalRatingContent5')}
                                 />
                         </div>
                         <SpaceBetween>
@@ -1228,7 +1300,7 @@ class CreateRadarForm extends PureComponent {
                         {/* <SpaceBetween> */}
                             {/* <p style={{marginTop: '12px'}}>{requestTranslation('IntructionsForNamingAxis')}</p> */}
                         {/* </SpaceBetween> */}
-                    </HalfWidth>
+                    </CustomHalfWidth>
                     
 
                     {ratingsOn && (
@@ -1242,7 +1314,7 @@ class CreateRadarForm extends PureComponent {
                                 <Columns>
                                     <Column>
                                         <Select
-                                            defaultValue='Select'
+                                            placeholder={requestTranslation('selectValue')}
                                             searchable={false}
                                             name='group'
                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
@@ -1263,6 +1335,7 @@ class CreateRadarForm extends PureComponent {
                                 <Columns>
                                     <Column>
                                         <Select
+                                            placeholder={requestTranslation('selectValue')}
                                             searchable={false}
                                             name='group'
                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
@@ -1359,7 +1432,7 @@ class CreateRadarForm extends PureComponent {
 
                 <div className='modal-form-section'>
                     <SpaceBetween>
-                        <HalfWidth>
+                        <CustomHalfWidth>
                             <div style={{display: 'flex'}}>
                                 <h3>
                                     {requestTranslation('commenting')}
@@ -1388,17 +1461,20 @@ class CreateRadarForm extends PureComponent {
                                     onClose={onLeaveCommentingIcon}
                                     disableRestoreFocus
                                 >
-                                    <HoverBox>The Commenting functionality allows users to access phenomena on your radar and add free text comments related to relevant Opportunities, Threats and Actions.</HoverBox>
+                                    <HoverBox>{requestTranslation('InfoIconHover')}</HoverBox>
                                 </Popover>
                                 <InformationModal 
-                                    InfoModalHeader='Commenting'
-                                    InfoModalNote='With the Commenting tool you can collect input from your colleagues on the radar content. Commenting tool consists of three fields, Opportunities, Threats and Actions. All comments are listed on the Commenting results view. '
+                                    InfoModalHeader={requestTranslation('CommentingTool')}
+                                    InfoModalNote={requestTranslation('InfoModalCommentingNote')}
                                     InfoModalOpen={openCommentingInformationModal}
                                     InfoModalClose={closeCommentingInformationModalHandle}
-                                    LearnMoreBtn='How the Commenting system works in Futures Platform?'
-                                    GuideBtn='How to organize Commenting in practise?'
+                                    LearnMoreBtn={requestTranslation('LearnMoreCommentingBtn')}
+                                    GuideBtn={requestTranslation('GuideCommentingBtn')}
                                     LearnMoreLink='http://info.futuresplatform.com/hub/how-to-comment'
                                     GuideLink='http://info.futuresplatform.com/hub/how-to-organise-commenting'
+                                    InfoModalDescription={requestTranslation('InfoModalCommentingContent')}
+                                    InfoModalDescription2={requestTranslation('InfoModalCommentingContent2')}
+                                    InfoModalDescription3={requestTranslation('InfoModalCommentingContent3')}
                                 />
                             </div>
                             <SpaceBetween>
@@ -1420,7 +1496,7 @@ class CreateRadarForm extends PureComponent {
                                         onChange={this.handleLikingOnChange}
                                 />
                             </SpaceBetween>
-                        </HalfWidth>
+                        </CustomHalfWidth>
                         {commentsOn && COMMENT_TOPICS_ENABLED && (
                             <HalfWidth>
                                 <h4>
@@ -1442,8 +1518,7 @@ class CreateRadarForm extends PureComponent {
                     </SpaceBetween>
                 </div>
                 <div className='modal-form-section'>
-                    <HalfWidth>
-                        <SpaceBetween>
+                        {/* <SpaceBetween> */}
                             <div>
                                 <div style={{display: 'flex'}}>
                                     <h3 className='mb-0'>
@@ -1473,29 +1548,33 @@ class CreateRadarForm extends PureComponent {
                                         onClose={onLeaveDiscussionIcon}
                                         disableRestoreFocus
                                     >
-                                        <HoverBox>Activating the Discussion area allows free conversation, collecting user feedback, or e.g. easily collecting participant answers during a foresight workshop. </HoverBox>
+                                        <HoverBox>{requestTranslation('InfoIconHover')}</HoverBox>
                                     </Popover>
                                     <InformationModal 
-                                        InfoModalHeader='Discussion area'
-                                        InfoModalNote='Discussion area can be used to discuss the results of voting, rating or commenting. The area is attached to the left edge of the result views that can be found from the radar centre.. '
+                                        InfoModalHeader={requestTranslation('discussion')}
+                                        InfoModalNote={requestTranslation('InfoModalDiscussionNote')}
                                         InfoModalOpen={openDiscussionInformationModal}
                                         InfoModalClose={closeDiscussionInformationModalHandle}
-                                        LearnMoreBtn='How the Discussion area works in Futures Platform?'                                        
-                                        GuideBtn='How to organize Discussion area in practise?'
+                                        LearnMoreBtn={requestTranslation('LearnMoreDiscussionBtn')}
+                                        GuideBtn={requestTranslation('GuideDiscussionBtn')}
                                         LearnMoreLink='http://info.futuresplatform.com/hub/how-to-discuss'
                                         GuideLink='http://info.futuresplatform.com/hub/how-to-organise-discussion'
+                                        InfoModalDescription={requestTranslation('InfoModalDiscussionContent')}
+                                        InfoModalDescription2={requestTranslation('InfoModalDiscussionContent2')}
+                                        InfoModalDescription3={requestTranslation('InfoModalDiscussionContent3')}
                                     />
                                 </div>
-                                <DisplayFlex>
-                                    <p style={{marginRight: '30px'}}>{requestTranslation('createFormDiscussionDescription')}</p>
-                                    <Toggle icons={false}
-                                            defaultChecked={discussionOn}
-                                            onChange={this.handleDiscussionOnChange}
-                                    />
-                                </DisplayFlex>
+                                <CustomHalfWidth>
+                                    <SpaceBetween>
+                                        <p style={{marginRight: '30px'}}>{requestTranslation('createFormDiscussionDescription')}</p>
+                                        <Toggle icons={false}
+                                                defaultChecked={discussionOn}
+                                                onChange={this.handleDiscussionOnChange}
+                                        />
+                                    </SpaceBetween>
+                                </CustomHalfWidth>
                             </div>
-                        </SpaceBetween>
-                    </HalfWidth>
+                        {/* </SpaceBetween> */}
                 </div>
             </div>
         )
@@ -1968,6 +2047,13 @@ const RadarImageClose = styled.i`
 `
 
 const breakpoint = '767px'
+const CustomHalfWidth = styled.div`
+@media (min-width: ${breakpoint}) {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+`
 const HalfWidth = styled.div`
     @media (min-width: ${breakpoint}) {
         width: 45%;
@@ -2034,7 +2120,7 @@ const DisplayFlex = styled.div`
 const UpVotesWrapper = styled.div`
     margin-top: 20px;
     @media (min-width: ${breakpoint}) {
-        width: 50%;
+        width: 100%;
     }
 `
 const HoverBox = styled.p`

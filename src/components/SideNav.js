@@ -121,7 +121,6 @@ class SideNav extends PureComponent {
         // create a shared link
         if(this.state.publicSharedLink === null) {
             await drupalApi.createOrReplaceRadarPublicShare({radarId: node}).then((data) => {
-                console.log('data', data)
                 this.setState({
                     publicSharedLink: data?.url,
                     publicSharedLinkExsited: true

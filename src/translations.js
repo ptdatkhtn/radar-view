@@ -286,20 +286,20 @@ const localTranslations = {
         fi:`Jaettava linkki on nyt poistettu tältä kartalta.`
     },
     upvotesForHaloDescription: {
-        en:`The ’halo’ effect is displayed as a circle around the content dot on the Radar screen, if this threshold value (sum of votes) is reached.`,
-        fi:`The ’halo’ effect is displayed as a circle around the content dot on the Radar screen, if this threshold value (sum of votes) is reached.`
+        en:`Sum of votes required for 'halo' effect:`,
+        fi:`Sädekehään vaadittava äänimäärä:`
     },
     createFormDiscussionDescription: {
-        en: `Activate the discussion area in the Collaboration results view (radar centre).`,
-        fi: `Activate the discussion area in the Collaboration results view (radar centre).`
+        en: ` Enable Discussion area in the Collaboration results section.`,
+        fi: ` Enable Discussion area in the Collaboration results section.`
     },
     verticalAxisName: {
         en:`Vertical axis name`,
-        fi:`Vertical axis name`
+        fi:`Pystyakselin nimi`
     },
     HorizontalAxisName: {
         en:`Horizontal axis name`,
-        fi:`Horizontal axis name`
+        fi:`Vaaka-akseli`
     },
     IntructionsForNamingAxis: {
         en:`You can select the commonly used axis from the pulldown menu, and/or fill in the fields manually. `,
@@ -307,10 +307,249 @@ const localTranslations = {
     },
     FlipHorizontalVertical: {
         en:`FLIP HORIZONTAL/VERTICAL`,
-        fi:`FLIP HORIZONTAL/VERTICAL`
+        fi:`VAIHDA VAAKA- JA PYSTYAKSELIT`
     },
-    
+    clearAllFieldsBtn: {
+        en:`CLEAR ALL FIELDS`,
+        fi:`TYHJENNÄ KAIKKI KENTÄT`
+    },
+    editManuallyBtn: {
+        en:`EDIT MANUALLY`,
+        fi:`MUOKKAA KÄSIN`
+    },
+    InfoIconHover: {
+        en:`Click for more info.`,
+        fi:`Avaa lisätiedot klikkaamalla.`
+    },
+    InfoModalVotingNote: {
+        en: `The Voting tool enables prioritisation of the radar content together with your team.`,
+        fi:`The Voting tool enables prioritisation of the radar content together with your team.`
+        
+    },
 
+    InfoModalVotingContent: {
+        en:`
+        • It activates ‘up’ and ‘down’ arrows on the top-right corner of Content cards`,
+        fi:`
+        • It activates ‘up’ and ‘down’ arrows on the top-right corner of Content cards`
+    },
+    InfoModalVotingContent2: {
+        en:`
+        • The 'halo' effect can be activated to display a light circle around the content dot on the radar screen, when the set threshold is reached.`,
+        fi:`
+        • The 'halo' effect can be activated to display a light circle around the content dot on the radar screen, when the set threshold is reached.`
+    },
+    InfoModalVotingContent3: {
+        en:`
+        • Voting summary can be found from the radar centre`,
+        fi:`
+        • Voting summary can be found from the radar centre`
+    },
+    InfoModalVotingContent4: {
+        en:`
+        • Remember to Save your settings!`,
+        fi:`
+        • Remember to Save your settings!`
+    },
+    InfoModalVotingContent5: {
+        en:`
+        • If you wish to discard the changes you made, click Cancel`,
+        fi:`
+        • If you wish to discard the changes you made, click Cancel`
+    },
+    LearnMoreVotingBtn: {
+        en:`How the Voting system works in Futures Platform?`,
+        fi: `How the Voting system works in Futures Platform?`
+    },
+    GuideVotingBtn: {
+        en:`How to organise a Voting session in practise, and why?`,
+        fi: `How to organise a Voting session in practise, and why?`
+    },
+    InfoModalRatingNote: {
+        en:`The Rating tool enables evaluation of the radar content by two axis, and displays the results in a fourfold table.`,
+        fi: `The Rating tool enables evaluation of the radar content by two axis, and displays the results in a fourfold table.`
+    },
+    InfoModalRatingContent: {
+        en:`
+        • It activates the 'axis sliders' on each content card`,
+        fi:`
+        • It activates the 'axis sliders' on each content card`
+    },
+    InfoModalRatingContent2: {
+        en:`
+        • Easily select some of the commonly used axis from the dropdown menu, and/or fill in any custom values manually`,
+        fi:`
+        • Easily select some of the commonly used axis from the dropdown menu, and/or fill in any custom values manually`
+    },
+    InfoModalRatingContent3: {
+        en:`
+        • Rating summary can be found from the radar centre`,
+        fi:`
+        • Rating summary can be found from the radar centre`
+    },
+    InfoModalRatingContent4: {
+        en:`
+        • Remember to Save your settings!`,
+        fi:`
+        • Remember to Save your settings!`
+    },
+    InfoModalRatingContent5: {
+        en:`
+        • If you wish to discard the changes you made, click Cancel`,
+        fi:`
+        • If you wish to discard the changes you made, click Cancel`
+    },
+    LearnMoreRatingBtn: {
+        en:`How the Rating system works in Futures Platform?`,
+        fi: `How the Rating system works in Futures Platform?`
+    },
+    GuideRatingBtn: {
+        en:`How to organise a Rating session in practise, and why?`,
+        fi: `How to organise a Rating session in practise, and why?`
+    },
+    InfoModalCommentingNote: {
+        en:`The Commenting tool enables all team members to leave their notes on the radar content. `,
+        fi: `The Commenting tool enables all team members to leave their notes on the radar content. `
+    },
+    InfoModalCommentingContent: {
+        en:`
+        • It activates three commenting fields on the content cards: Opportunities, Threats and Actions.
+        `,
+        fi: `
+        • It activates three commenting fields on the content cards: Opportunities, Threats and Actions.
+        `
+    },
+    InfoModalCommentingContent2: {
+        en:`
+        • All comments are gathered to the summary views that you can access by clicking the radar centre.`,
+        fi: `
+        • All comments are gathered to the summary views that you can access by clicking the radar centre.`
+    },
+    InfoModalCommentingContent3: {
+        en:`
+        • A summary of content specific comments can be exported.`,
+        fi: `
+        • A summary of content specific comments can be exported.`
+    },
+    LearnMoreCommentingBtn: {
+        en:`How the Commenting system works in Futures Platform?`,
+        fi: `How the Commenting system works in Futures Platform?`
+    },
+    GuideCommentingBtn: {
+        en:`How to organise a Commenting session in practise, and why?`,
+        fi: `How to organise a Commenting session in practise, and why?`
+    },
+    InfoModalDiscussionNote: {
+        en:`The Discussion area allows free conversation, collecting feedback, or e.g. easily collecting participant answers during a foresight workshop.`,
+        fi: `The Discussion area allows free conversation, collecting feedback, or e.g. easily collecting participant answers during a foresight workshop.`
+    },
+    InfoModalDiscussionContent: {
+        en:`
+        • It activates the discussion board on the Collaboration results view. 
+        `,
+        fi: `
+        • It activates the discussion board on the Collaboration results view. 
+        `
+    },
+    InfoModalDiscussionContent2: {
+        en:`
+        • Can be used to discuss on Voting, Rating and Commenting results.`,
+        fi: `
+        • Can be used to discuss on Voting, Rating and Commenting results.`
+    },
+    InfoModalDiscussionContent3: {
+        en:`        
+        • The Discussion area can be exported as PDF / PPT summary.`,
+        fi: `
+        • The Discussion area can be exported as PDF / PPT summary.`
+    },
+    LearnMoreDiscussionBtn: {
+        en:`How the Discussion area works in Futures Platform?`,
+        fi: `How the Discussion area works in Futures Platform?`
+    },
+    GuideDiscussionBtn: {
+        en:`How to organise a Discussion in practise, and why?`,
+        fi: `How to organise a Discussion in practise, and why?`
+    },
+    commenting: {
+        en:`Commenting`,
+        fi: `Kommentointi`
+    },
+    CommentingTool: {
+        en:`Commenting tool`,
+        fi: `Commenting tool`
+    },
+    RatingTool: {
+        en:`Rating tool`,
+        fi: `Rating tool`
+    },
+    VotingTool: {
+        en:`Voting tool`,
+        fi: `Voting tool`
+    },
+    activateUsers: {
+        en:`Collaboration tools`,
+        fi: `Aktiviteetit`
+    },
+    createFormVotingDescription: {
+        en:`Enable Voting on Content cards.`,
+        fi: `Salli äänestys sisältökorteilla.`
+    },
+    upvotesForHalo: {
+        en:`Enable 'halo' effect on Radar screen.`,
+        fi: `Salli sädekehät karttanäkymässä.`
+    },
+    createFormRatingDescription: {
+        en:`Enable two axis Rating on Content cards (fourfold table).`,
+        fi: `Aktivoi arviointiakselit sisältökorteilla (nelikenttä).`
+    },
+    selectValue: {
+        en:`Select...`,
+        fi: `Valitse...`
+    },
+    manualEditLeftEnd: {
+        en:`Horizontal axis – Left end`,
+        fi: `Vaaka-akseli – vasen`
+    },
+    manualEditRightEnd: {
+        en:`Horizontal axis – Right end`,
+        fi: `Vaaka-akseli – oikea`
+    },
+    manualEditLowEnd: {
+        en:`Vertical axis – Low end`,
+        fi: `Pystyakseli – ala`
+    },
+    manualEditHighEnd: {
+        en:`Vertical axis – High end`,
+        fi: `Pystyakseli –  ylä`
+    },
+    manualEditTopLeft: {
+        en:`Fourfold table – top left`,
+        fi: `Nelikenttä – vasen yläosa`
+    },
+    manualEditTopRight: {
+        en:`Fourfold table – top right`,
+        fi: `Nelikenttä – oikea yläosa`
+    },
+    manualEditBottomLeft: {
+        en:`Fourfold table – bottom left`,
+        fi: `Nelikenttä – vasen alaosa`
+    },
+    manualEditBottomRight: {
+        en:`Fourfold table – bottom right`,
+        fi: `Nelikenttä – oikea alaosa`
+    },
+    createFormCommentingDescription: {
+        en:`Enable Commenting on Content cards.`,
+        fi: `Aktivoi kommentointikentät sisältökorteilla.`
+    },
+    allowLikeCommenting: {
+        en:`Enable Liking other users’ comments.`,
+        fi: `Salli käyttäjien tykätä toistensa kommenteista.`
+    }
+   
+    
+    
 }
 
 initTranslations(localTranslations);

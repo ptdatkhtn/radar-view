@@ -29,6 +29,7 @@ import debounce from 'lodash/debounce'
 import ConfirmationModalForRatings from '../ConfirmationModalForRatings/ConfirmationModalForRatings'
 import { SettingsInputAntennaTwoTone } from '@material-ui/icons'
 import CollaborationChartSetting from '../CollaborationChartSetting'
+import {mockData} from '../CreateRadarForm'
 
 const URL = window.URL || window.webkitURL
 
@@ -42,110 +43,110 @@ const COMMENT_TOPICS_ENABLED = false
 const RATING_ARROWS_ENABLED = false
 
 export const CustomModalStyles = { content: { ...paddingModalStyles.content}, overlay: { ...paddingModalStyles.overlay} }
-export const mockData= [
-    {
-        title: 'Time',
-        label: 'Time',
-        leftAttr: 'near term',
-        rightAttr: 'long term'
-    },
-    {
-        title: 'Probability',
-        label: 'Probability',
-        leftAttr: 'low',
-        rightAttr: 'high'
-    },
-    {
-        title: 'Fit with current strategy',
-        label: 'Fit with current strategy',
-        leftAttr: 'near term',
-        rightAttr: 'long term'
-    },
-    {
-        title: 'Fit with new strategy',
-        label: 'Fit with new strategy',
-        leftAttr: 'weak',
-        rightAttr: 'strong'
-    },
-    {
-        title: 'Direction of the trend',
-        label: 'Direction of the trend',
-        leftAttr: 'weakening',
-        rightAttr: 'increasing'
-    },
-    {
-        title: 'Importance',
-        label: 'Importance',
-        leftAttr: 'low',
-        rightAttr: 'high'
-    },
-    {
-        title: 'Impact1',
-        label: 'Impact',
-        leftAttr: 'moderate',
-        rightAttr: 'huge'
-    },
-    {
-        title: 'Impact2',
-        label: 'Impact',
-        leftAttr: 'local',
-        rightAttr: 'global'
-    },
-    {
-        title: 'Nature1',
-        label: 'Nature',
-        leftAttr: 'threat',
-        rightAttr: 'opportunity'
-    },
-    {
-        title: 'Nature2',
-        label: 'Nature',
-        leftAttr: 'long term trend',
-        rightAttr: 'emergent'
-    },
-    {
-        title: 'Speed of change',
-        label: 'Speed of change',
-        leftAttr: 'gradual',
-        rightAttr: 'tsunami'
-    },
-    {
-        title: 'Size of threat/risk',
-        label: 'Size of threat/risk',
-        leftAttr: 'moderate',
-        rightAttr: 'huge'
-    },
-    {
-        title: 'Size of opportunity',
-        label: 'Size of opportunity',
-        leftAttr: 'moderate',
-        rightAttr: 'huge'
-    },
-    {
-        title: 'Nature3',
-        label: 'Nature',
-        leftAttr: 'non-disrupting',
-        rightAttr: 'disrupting'
-    },
-    {
-        title: 'Fit with existing capabilities',
-        label: 'Fit with existing capabilities',
-        leftAttr: 'weak',
-        rightAttr: 'strong'
-    },
-    {
-        title: 'Magnitude of actions required',
-        label: 'Magnitude of actions required',
-        leftAttr: 'minor',
-        rightAttr: 'huge'
-    },
-    {
-        title: 'Custom',
-        label: 'Custom',
-        leftAttr: 'x',
-        rightAttr: 'y'
-    },
-]
+// export const mockData= [
+//     {
+//         title: 'Time',
+//         label: 'Time',
+//         leftAttr: 'near term',
+//         rightAttr: 'long term'
+//     },
+//     {
+//         title: 'Probability',
+//         label: 'Probability',
+//         leftAttr: 'low',
+//         rightAttr: 'high'
+//     },
+//     {
+//         title: 'Fit with current strategy',
+//         label: 'Fit with current strategy',
+//         leftAttr: 'near term',
+//         rightAttr: 'long term'
+//     },
+//     {
+//         title: 'Fit with new strategy',
+//         label: 'Fit with new strategy',
+//         leftAttr: 'weak',
+//         rightAttr: 'strong'
+//     },
+//     {
+//         title: 'Direction of the trend',
+//         label: 'Direction of the trend',
+//         leftAttr: 'weakening',
+//         rightAttr: 'increasing'
+//     },
+//     {
+//         title: 'Importance',
+//         label: 'Importance',
+//         leftAttr: 'low',
+//         rightAttr: 'high'
+//     },
+//     {
+//         title: 'Impact1',
+//         label: 'Impact',
+//         leftAttr: 'moderate',
+//         rightAttr: 'huge'
+//     },
+//     {
+//         title: 'Impact2',
+//         label: 'Impact',
+//         leftAttr: 'local',
+//         rightAttr: 'global'
+//     },
+//     {
+//         title: 'Nature1',
+//         label: 'Nature',
+//         leftAttr: 'threat',
+//         rightAttr: 'opportunity'
+//     },
+//     {
+//         title: 'Nature2',
+//         label: 'Nature',
+//         leftAttr: 'long term trend',
+//         rightAttr: 'emergent'
+//     },
+//     {
+//         title: 'Speed of change',
+//         label: 'Speed of change',
+//         leftAttr: 'gradual',
+//         rightAttr: 'tsunami'
+//     },
+//     {
+//         title: 'Size of threat/risk',
+//         label: 'Size of threat/risk',
+//         leftAttr: 'moderate',
+//         rightAttr: 'huge'
+//     },
+//     {
+//         title: 'Size of opportunity',
+//         label: 'Size of opportunity',
+//         leftAttr: 'moderate',
+//         rightAttr: 'huge'
+//     },
+//     {
+//         title: 'Nature3',
+//         label: 'Nature',
+//         leftAttr: 'non-disrupting',
+//         rightAttr: 'disrupting'
+//     },
+//     {
+//         title: 'Fit with existing capabilities',
+//         label: 'Fit with existing capabilities',
+//         leftAttr: 'weak',
+//         rightAttr: 'strong'
+//     },
+//     {
+//         title: 'Magnitude of actions required',
+//         label: 'Magnitude of actions required',
+//         leftAttr: 'minor',
+//         rightAttr: 'huge'
+//     },
+//     {
+//         title: 'Custom',
+//         label: 'Custom',
+//         leftAttr: 'x',
+//         rightAttr: 'y'
+//     },
+// ]
 
 
 const useStyles = theme => ({
@@ -278,7 +279,6 @@ const  RatingModalPreviewEditMode = ({
             passCheckedCustomData(isVertical, isHorizontal)
             // Retrieve the object from storage
             const retrievedObject = await localStorage.getItem('chartData');
-            console.log('retrievedObject', retrievedObject)
             retrievedObject && emitFlagToRefetchDataOfChart(JSON.parse(retrievedObject));
             handleRatingPreviewEditModeClose()
         }
@@ -288,16 +288,16 @@ const  RatingModalPreviewEditMode = ({
             .then(() => { 
                 
                 // localStorage.removeItem("chartData")
-                setLowEnd(() => 'Low end')
-                setTopEnd(() => 'High end')
-                setLeftEnd(() => 'Left end')
-                setRightEnd(() => 'Right end')
-                setXName(() => 'Horizontal axis name')
-                setYname(() => 'Vertical axis name')
-                setfourFieldsTopLeftValue(() => 'Top left')
-                setfourFieldsTopRight((() => 'Top right'))
-                setfourFieldsBottomLeftValue(() => 'Bottom left')
-                setfourFieldsBottomRightValue(() => 'Bottom right')
+                setLowEnd(() => requestTranslation('lowEnd'))
+                setTopEnd(() => requestTranslation('highEnd'))
+                setLeftEnd(() => requestTranslation('leftEnd'))
+                setRightEnd(() =>requestTranslation('rightEnd'))
+                setXName(() => requestTranslation('HorizontalAxisName'))
+                setYname(() => requestTranslation('verticalAxisName'))
+                setfourFieldsTopLeftValue(() => requestTranslation('topLeft'))
+                setfourFieldsTopRight((() => requestTranslation('topRight')))
+                setfourFieldsBottomLeftValue(() => requestTranslation('bottomLeft'))
+                setfourFieldsBottomRightValue(() => requestTranslation('bottomRight'))
                 setaxisXSelect(()=> '')
                 setaxisYSelect(() => '')
                 
@@ -325,7 +325,8 @@ const  RatingModalPreviewEditMode = ({
                 else if(String(value) === String(i.title)) {
                     setTopEnd(i.rightAttr)
                     setLowEnd(i.leftAttr)
-                    setYname(value)
+                    setYname(i.nameAxis)
+                    setaxisYSelect(i.title)
                     setIsCustomVertical(false)
                     handleDisplayVericalAxisRatingChange({value}, false)
                     return true
@@ -345,7 +346,8 @@ const  RatingModalPreviewEditMode = ({
                 else if(String(value) === String(i.title)) {
                     setRightEnd(i.rightAttr)
                     setLeftEnd(i.leftAttr)
-                    setXName(value)
+                    setXName(i.nameAxis)
+                    setaxisXSelect(i.title)
                     setIsCustomHorozol(false)
                     handleDisplayHorizontalAxisRatingChange({value}, false)
                     return true
@@ -412,14 +414,6 @@ const  RatingModalPreviewEditMode = ({
                 }
             }
             )
-            // .then(() => {
-            //     // console.log('testtingng9999', lowEnd, leftEnd)
-            // })
-            // const ySelected = axisXSelectValue
-            // const xSelected = axisYSelectValue
-            // setaxisXSelect(() => xSelected)
-            // setaxisYSelect(() => ySelected)
-            // handleFlipHorizontalAndVerticalChange()
         }
 
         const handleDoneBtn = (isCustomVertical, isCustomHorozol) => {
@@ -472,7 +466,6 @@ const  RatingModalPreviewEditMode = ({
             setIsCustomHorozol(isCustomHorozontalProp)
         }, [isCustomHorozontalProp])
 
-        console.log('axisXTitleaxisXTitleaxisXTitleaxisXTitle', axisYSelect, axisXSelect)
         return (
         ratingsOn && (
             <Modal
@@ -516,7 +509,7 @@ const  RatingModalPreviewEditMode = ({
                                                 onClose={onLeaveRatingIcon}
                                                 disableRestoreFocus
                                             >
-                                                <HoverBox>The Rating tool allows users to evaluate phenomena based on any pre-defined axis. You can easily select some of the commonly used axis from the pulldown menu and/or fill in any custom fields manually. </HoverBox>
+                                                <HoverBox>{requestTranslation('InfoIconHover')}</HoverBox>
                                             </Popover> 
                                         </div>
                                         <SpaceBetween>
@@ -609,9 +602,9 @@ const  RatingModalPreviewEditMode = ({
                                                 />
                                         </SpaceBetween>
                                         <RatingGroupBtn style={{marginTop: '150px'}}>
-                                            <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openClearAllFieldsModal} >CLEAR ALL FIELDS</HandleRatingsBtn>
+                                            <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openClearAllFieldsModal} >{requestTranslation('clearAllFieldsBtn')}</HandleRatingsBtn>
                                             <HandleRatingsBtn className="btn btn-outline-secondary" onClick={handleFlipHorizontalAndVerticalChangeInRatingEditChartMode}>{requestTranslation('FlipHorizontalVertical')}</HandleRatingsBtn>
-                                            <HandleRatingsBtnActive className="btn btn-outline-secondary">EDIT MANUALLY</HandleRatingsBtnActive>
+                                            <HandleRatingsBtnActive className="btn btn-outline-secondary">{requestTranslation('editManuallyBtn')}</HandleRatingsBtnActive>
                                             <button className="btn btn-primary" onClick={() => handleDoneBtn(isCustomVertical, isCustomHorozol)}>DONE</button>
                                         </RatingGroupBtn>
                                         <ConfirmationModalForRatings 

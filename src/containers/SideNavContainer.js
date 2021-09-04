@@ -42,7 +42,6 @@ export default connect(
             }
         } = state
 
-        console.log('state', state)
         const collaborationToolsAllowed = group && groups ?
             isCollaborationToolsAllowed(state)(group.id) : false
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import AxisPreview from './AxisPreview'
-
+import { requestTranslation } from "@sangre-fp/i18n";
 const LABEL_WIDTH = 16
 
 const CanvasContainer = styled.canvas`
@@ -106,16 +106,16 @@ const RatingSummaryPreview = ({
   bottomHeader = '',
   containerWidth = 400,
   containerHeight = 400,
-  topLeft = 'Top left',
-  topRight = 'Top right',
-  bottomLeft = 'Bottom left',
-  bottomRight = 'Bottom right',
-  horizontalAxisName = 'Horizontal axis name',
-  leftEnd = 'Left end',
-  rightEnd = 'Right end',
-  verticalAxisName = 'Vertical axis name',
-  topEnd = 'Top end',
-  lowEnd = 'Low end'
+  topLeft = requestTranslation('topLeft'),
+  topRight = requestTranslation('topRight'),
+  bottomLeft = requestTranslation('bottomLeft'),
+  bottomRight = requestTranslation('bottomRight'),
+  horizontalAxisName = requestTranslation('HorizontalAxisName'),
+  leftEnd = requestTranslation('leftEnd'),
+  rightEnd = requestTranslation('rightEnd'),
+  verticalAxisName = requestTranslation('verticalAxisName'),
+  topEnd = requestTranslation('highEnd'),
+  lowEnd = requestTranslation('lowEnd')
 }) => {
   const [appContext, setAppContext] = useState({})
   // areaDraw 1, 2 from the first row left to right

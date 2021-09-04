@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import edit1 from './edit1.svg'
 import edit2 from './edit2.svg'
+import { requestTranslation, getLanguage } from '@sangre-fp/i18n'
 import {
     Loading,
     Radiobox,
@@ -10,7 +11,7 @@ import {
     confirmDialogModalStyles
 } from '@sangre-fp/ui'
 
-import { mockData } from '../RatingModalPreviewEditMode/RatingModalPreviewEditMode'
+import { mockData } from '../CreateRadarForm'
 
 const GlobalStyle = createGlobalStyle`
   .ReactModal__Overlay--after-open {
@@ -104,16 +105,16 @@ const SETTING_VALUE = {
   VERTICAL: 'verticalAxisNameValue'
 }
 const SETTING_VALUE_TITLE = {
-  [SETTING_VALUE.TOP_LEFT]: 'Inner axis - top left',
-  [SETTING_VALUE.TOP_RIGHT]: 'Inner axis - top right',
-  [SETTING_VALUE.BOTTOM_LEFT]: 'Inner axis - bottom left',
-  [SETTING_VALUE.BOTTOM_RIGHT]: 'Inner axis - bottom right',
-  [SETTING_VALUE.LEFT_END]: 'Horizontal axis - left end',
-  [SETTING_VALUE.RIGHT_END]: 'Horizontal axis - right end',
-  [SETTING_VALUE.TOP_END]: 'Vertical axis - top end',
-  [SETTING_VALUE.LOW_END]: 'Vertical axis - low end',
-  [SETTING_VALUE.HORIZONTAL]: 'Horizontal axis - horizontal',
-  [SETTING_VALUE.VERTICAL]: 'Vertical axis - vertical',
+  [SETTING_VALUE.TOP_LEFT]: getLanguage() === 'en' ? 'Fourfold table – top left' : 'Nelikenttä – vasen yläosa',
+  [SETTING_VALUE.TOP_RIGHT]: getLanguage() === 'en' ? 'Fourfold table – top right' : 'Nelikenttä – oikea yläosa',
+  [SETTING_VALUE.BOTTOM_LEFT]: getLanguage() === 'en' ? 'Fourfold table – bottom left' : 'Nelikenttä – vasen alaosa',
+  [SETTING_VALUE.BOTTOM_RIGHT]:  getLanguage() === 'en' ? 'Fourfold table – bottom right' : 'Nelikenttä – oikea alaosa',
+  [SETTING_VALUE.LEFT_END]:  getLanguage() === 'en' ? 'Horizontal axis – Left end' : 'Vaaka-akseli – vasen',
+  [SETTING_VALUE.RIGHT_END]: getLanguage() === 'en' ? 'Horizontal axis – Right end' : 'Vaaka-akseli – oikea',
+  [SETTING_VALUE.TOP_END]: getLanguage() === 'en' ? 'Vertical axis – High end' : 'Pystyakseli –  ylä',
+  [SETTING_VALUE.LOW_END]: getLanguage() === 'en' ? 'Vertical axis – Low end' : 'Pystyakseli – ala',
+  [SETTING_VALUE.HORIZONTAL]:  getLanguage() === 'en'? 'Horizontal axis - horizontal': 'Vaaka-akseli',
+  [SETTING_VALUE.VERTICAL]:  getLanguage() === 'en'? 'Vertical axis - vertical':'Pystyakseli',
 }
 
 const ICON_SPACING = 30
@@ -127,6 +128,7 @@ const AxisX = ({
   onEdit
 }) => {
   const cellStyle = { fontSize: 12, height: 16, whiteSpace: 'nowrap', color: '#637282' }
+
   return (
     <>
       <table cellPadding='0' cellSpacing='0' align='center' style={{ width: axisWidth + 2, margin: 0, marginTop: -17, zIndex: 10, position: 'relative' }}>
@@ -516,7 +518,7 @@ const CollaborationChartSetting = ({
               ...prevState,
               [SETTING_VALUE.LEFT_END]: i.leftAttr,
               [SETTING_VALUE.RIGHT_END]: i.rightAttr,
-              [SETTING_VALUE.HORIZONTAL]: inputSelectedX,
+              [SETTING_VALUE.HORIZONTAL]: i.nameAxis,
             }
           })
 
@@ -545,7 +547,7 @@ const CollaborationChartSetting = ({
               ...prevState,
               [SETTING_VALUE.LOW_END]: i.leftAttr,
               [SETTING_VALUE.TOP_END]: i.rightAttr,
-              [SETTING_VALUE.VERTICAL]: inputSelectedY,
+              [SETTING_VALUE.VERTICAL]: i.nameAxis,
             }
           })
           return true
