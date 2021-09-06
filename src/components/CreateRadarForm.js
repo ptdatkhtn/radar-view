@@ -1153,6 +1153,7 @@ class CreateRadarForm extends PureComponent {
                                 >
                                     <HoverBox>{requestTranslation('InfoIconHover')}</HoverBox>
                                 </Popover> 
+                                
                                 <InformationModal 
                                     InfoModalHeader={requestTranslation('VotingTool')}
                                     InfoModalNote={requestTranslation('InfoModalVotingNote')}
@@ -1160,8 +1161,8 @@ class CreateRadarForm extends PureComponent {
                                     InfoModalClose={closeVotingInformationModalHandle}
                                     LearnMoreBtn={requestTranslation('LearnMoreVotingBtn')}
                                     GuideBtn={requestTranslation('GuideVotingBtn')}
-                                    LearnMoreLink='http://info.futuresplatform.com/hub/how-to-vote'
-                                    GuideLink='http://info.futuresplatform.com/hub/how-to-orginise-voting'
+                                    LearnMoreLink='https://info.futuresplatform.com/hub/how-to-vote'
+                                    GuideLink='https://info.futuresplatform.com/hub/how-to-orginise-voting'
                                     InfoModalDescription={requestTranslation('InfoModalVotingContent')}
                                     InfoModalDescription2={requestTranslation('InfoModalVotingContent2')}
                                     InfoModalDescription3={requestTranslation('InfoModalVotingContent3')}
@@ -1277,8 +1278,8 @@ class CreateRadarForm extends PureComponent {
                                     InfoModalClose={closeRatingInformationModalHandle}
                                     LearnMoreBtn={requestTranslation('LearnMoreRatingBtn')}
                                     GuideBtn={requestTranslation('GuideRatingBtn')}
-                                    LearnMoreLink='http://info.futuresplatform.com/hub/how-to-rate'
-                                    GuideLink='http://info.futuresplatform.com/hub/most-commonly-used-axis-for-rating'
+                                    LearnMoreLink='https://info.futuresplatform.com/hub/how-to-rate'
+                                    GuideLink='https://info.futuresplatform.com/hub/most-commonly-used-axis-for-rating'
                                     InfoModalDescription={requestTranslation('InfoModalRatingContent')}
                                     InfoModalDescription2={requestTranslation('InfoModalRatingContent2')}
                                     InfoModalDescription3={requestTranslation('InfoModalRatingContent3')}
@@ -1468,8 +1469,8 @@ class CreateRadarForm extends PureComponent {
                                     InfoModalClose={closeCommentingInformationModalHandle}
                                     LearnMoreBtn={requestTranslation('LearnMoreCommentingBtn')}
                                     GuideBtn={requestTranslation('GuideCommentingBtn')}
-                                    LearnMoreLink='http://info.futuresplatform.com/hub/how-to-comment'
-                                    GuideLink='http://info.futuresplatform.com/hub/how-to-organise-commenting'
+                                    LearnMoreLink='https://info.futuresplatform.com/hub/how-to-comment'
+                                    GuideLink='https://info.futuresplatform.com/hub/how-to-organise-commenting'
                                     InfoModalDescription={requestTranslation('InfoModalCommentingContent')}
                                     InfoModalDescription2={requestTranslation('InfoModalCommentingContent2')}
                                     InfoModalDescription3={requestTranslation('InfoModalCommentingContent3')}
@@ -1558,8 +1559,8 @@ class CreateRadarForm extends PureComponent {
                                         InfoModalClose={closeDiscussionInformationModalHandle}
                                         LearnMoreBtn={requestTranslation('LearnMoreDiscussionBtn')}
                                         GuideBtn={requestTranslation('GuideDiscussionBtn')}
-                                        LearnMoreLink='http://info.futuresplatform.com/hub/how-to-discuss'
-                                        GuideLink='http://info.futuresplatform.com/hub/how-to-organise-discussion'
+                                        LearnMoreLink='https://info.futuresplatform.com/hub/how-to-discuss'
+                                        GuideLink='https://info.futuresplatform.com/hub/how-to-organise-discussion'
                                         InfoModalDescription={requestTranslation('InfoModalDiscussionContent')}
                                         InfoModalDescription2={requestTranslation('InfoModalDiscussionContent2')}
                                         InfoModalDescription3={requestTranslation('InfoModalDiscussionContent3')}
