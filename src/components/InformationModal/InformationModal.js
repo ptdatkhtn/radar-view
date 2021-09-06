@@ -19,9 +19,14 @@ const InformationModal = ({
   LearnMoreLink,
   GuideLink,
 }) => {
-  const [openEmbedLinkModal, setOpenEmbedLinkModal ] = React.useState(false)
-  const handleClick = (link) => {
-    setOpenEmbedLinkModal(true)
+  const [openEmbedLinkModalGuideLink, setOpenEmbedLinkModalGuideLink ] = React.useState(false)
+  const [openEmbedLinkModalLearnMoreLink, setOpenEmbedLinkModalLearnMoreLink] = React.useState(false)
+  const handleOpenGuideLinkModal = (link) => {
+    setOpenEmbedLinkModalGuideLink(true)
+    // window.open(link);
+  };
+  const handleOpenLearnMoreLinkModal = (link) => {
+    setOpenEmbedLinkModalLearnMoreLink(true)
     // window.open(link);
   };
   return (
@@ -59,7 +64,7 @@ const InformationModal = ({
             <p>Learn more from the HUB: </p>
             <div style={{display: 'flex', flexDirection: 'column'}}>
               <button
-                onClick={() => handleClick(LearnMoreLink)}
+                onClick={() => handleOpenGuideLinkModal(LearnMoreLink)}
                 className="btn btn-sm btn-outline-secondary"
               >
                 {LearnMoreBtn}
@@ -67,7 +72,7 @@ const InformationModal = ({
               <button
                 className="btn btn-sm btn-outline-secondary"
                 style={{marginTop: '17px'}}
-                onClick={() => handleClick(GuideLink)}
+                onClick={() => handleOpenLearnMoreLinkModal(GuideLink)}
               >
                 {GuideBtn}
               </button>
@@ -79,8 +84,14 @@ const InformationModal = ({
         </div>
       </div>
       <EmbedLinkModal 
-        EmbedLinkModalOpen= {openEmbedLinkModal}
-        EmbedLinkModalClose= {() => setOpenEmbedLinkModal(!openEmbedLinkModal)}
+        EmbedLinkModalOpen= {openEmbedLinkModalGuideLink}
+        EmbedLinkModalClose= {() => setOpenEmbedLinkModalGuideLink(false)}
+        EmbedLink={GuideLink}
+      />
+      <EmbedLinkModal 
+        EmbedLinkModalOpen= {openEmbedLinkModalLearnMoreLink}
+        EmbedLinkModalClose= {() => setOpenEmbedLinkModalLearnMoreLink(false)}
+        EmbedLink={LearnMoreLink}
       />
     </Modal>
   );

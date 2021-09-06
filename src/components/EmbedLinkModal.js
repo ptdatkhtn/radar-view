@@ -8,7 +8,7 @@ const EmbedLinkModal = ({
     
     EmbedLinkModalOpen,
     EmbedLinkModalClose,
-    embedLink
+    EmbedLink
     
   }) => {
     const handleClick = (link) => {
@@ -29,7 +29,7 @@ const EmbedLinkModal = ({
         <div className="confirmation-modal-content pt-4 pb-4" style={{position: "relative", height: viewportHeight}}>
             <div style={{width:"100%", height: (+viewportHeight065) }}>
                 <embed 
-                    type="text/html" src={embedLink}
+                    type="text/html" src={EmbedLink}
                     width={"100%" } 
                     height={(viewportHeight065 -12 )} 
                     // style ={{marginBottom: '40px'}}
