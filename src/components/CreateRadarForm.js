@@ -1356,10 +1356,9 @@ class CreateRadarForm extends PureComponent {
                     <FullWidthBgContainer 
                         
                         style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}> 
-                        <SpaceBetween>
-                                <RatingSummaryPreview
+                        <RatingSummaryPreview
                                     // bottomHeader = 'Preview for rating result and summary view'
-                                    containerWidth = {+this.state.widthContentWidth - 50}
+                                    containerWidth = {+this.state.widthContentWidth - 50 - 16 + 32}
                                     containerHeight = {+this.state.widthContentWidth * 0.60}
                                     // containerWidth = {320}
                                     // containerHeight = {200}
@@ -1374,8 +1373,6 @@ class CreateRadarForm extends PureComponent {
                                     topEnd = {axisYMax}
                                     lowEnd = {axisYMin}
                                 />
-                                
-                        </SpaceBetween>
                         <RatingGroupBtn style={{marginTop: '62px'}}>
                             <RatingHandleBtnGroup>
                                 <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openClearAllFieldsModal} >{requestTranslation('clearAllFieldsBtn')}</HandleRatingsBtn>
@@ -1408,7 +1405,7 @@ class CreateRadarForm extends PureComponent {
                             RatingAnchorEl={RatingAnchorEl}
                             RatingDescriptionDisplayed={RatingDescriptionDisplayed}
                             openClearAllFields={this.state.openClearAllFields}
-                            widthContentWidth={+this.state.widthContentWidth -(34 + 24) -(16 + 12) - (16 + 8)}
+                            widthContentWidth={+this.state.widthContentWidth  -(16 + 12) - (16 + 8) -16}
                             onHoverRatingIcon={onHoverRatingIcon}
                             onLeaveRatingIcon={onLeaveRatingIcon}
                             handleDisplayVericalAxisRatingChange={handleDisplayVericalAxisRatingChange}

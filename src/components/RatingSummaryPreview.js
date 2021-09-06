@@ -27,7 +27,7 @@ const AxisX = ({
   rightEnd,
   containerWidth
 }) => {
-  const cellStyle = { fontSize: 10, height: 16, whiteSpace: 'nowrap', color: '#979797' }
+  const cellStyle = { fontSize: 12, height: 16, whiteSpace: 'nowrap', color: '#979797' }
   return (
     <>
       <table cellPadding='0' cellSpacing='0' align='center' style={{ width: axisWidth, margin: 0, border: 'none' }}>
@@ -64,7 +64,7 @@ const AxisY = ({
   containerHeight
 }) => {
   const cellStyle = {
-    fontSize: 10,
+    fontSize: 12,
     whiteSpace: 'nowrap',
     color: '#979797'
   }
@@ -175,7 +175,7 @@ const RatingSummaryPreview = ({
     <>
       <HeaderContainer>{bottomHeader}</HeaderContainer>
       {/* <Spacing customHeight={10}/> */}
-      <div style={{ display: 'flex', width: `${containerWidth}px`, margin: '0 auto' }}>
+      <div style={{ display: 'flex', width: `${containerWidth}px` }}>
         <AxisY containerHeight={containerHeight} axisHeight={containerHeight} verticalAxisName={verticalAxisName} topEnd={topEnd} lowEnd={lowEnd}/>
         <div style={{ width: containerWidth, height: containerHeight }}>
           <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'white' }}>

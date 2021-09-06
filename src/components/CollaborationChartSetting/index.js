@@ -192,7 +192,7 @@ const AxisY = ({
         <tbody style={{border: 'none'}}>
           <tr style={{ ...cellStyle, fontSize: 16, fontWeight: 500, border: 'none' }}>
             <td style={{border: 'none'}}>
-              <div style={{ width: 16, writingMode: 'vertical-lr', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight, textAlign: 'center' }}>{verticalAxisName}</div>
+              <div style={{ width: 18, writingMode: 'vertical-lr', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight, textAlign: 'center' }}>{verticalAxisName}</div>
             </td>
           </tr>
 
