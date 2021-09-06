@@ -1305,8 +1305,7 @@ class CreateRadarForm extends PureComponent {
 
                     {ratingsOn && (
                     <FullWidthBgContainer ref={this.editorMode} style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}>
-                        <p style={{marginTop: '12px'}}>{requestTranslation('IntructionsForNamingAxis')}</p>
-                        <RatingGroupBtn>
+                        <SpaceBetween>
                             <HalfWidth>
                                 <h4>
                                     {requestTranslation('verticalAxis')}
@@ -1349,7 +1348,7 @@ class CreateRadarForm extends PureComponent {
                                     </Column>
                                 </Columns>
                             </HalfWidth>
-                        </RatingGroupBtn>
+                        </SpaceBetween>
                     </FullWidthBgContainer>
                 )}
 
@@ -1378,9 +1377,11 @@ class CreateRadarForm extends PureComponent {
                                 
                         </SpaceBetween>
                         <RatingGroupBtn style={{marginTop: '62px'}}>
-                                <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openClearAllFieldsModal} >CLEAR ALL FIELDS</HandleRatingsBtn>
+                            <RatingHandleBtnGroup>
+                                <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openClearAllFieldsModal} >{requestTranslation('clearAllFieldsBtn')}</HandleRatingsBtn>
                                 <HandleRatingsBtn className="btn btn-outline-secondary" onClick={handleFlipHorizontalAndVerticalChange}>{requestTranslation('FlipHorizontalVertical')}</HandleRatingsBtn>
-                                <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openRatingModalEditModeModal} >EDIT MANUALLY</HandleRatingsBtn>
+                                <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openRatingModalEditModeModal} >{requestTranslation('editManuallyBtn')}</HandleRatingsBtn>
+                            </RatingHandleBtnGroup>
                         </RatingGroupBtn>
                         <ConfirmationModalForRatings 
                             ConfirmationModalNote= 'Are you sure to clear all fields?'
@@ -1487,15 +1488,18 @@ class CreateRadarForm extends PureComponent {
                                     onChange={this.handleCommentsOnChange}
                                 />
                             </SpaceBetween>
-                            <SpaceBetween style={{ marginTop: '15px' }}>
-                                <p style={{marginRight:'30px'}}>
-                                    {requestTranslation('allowLikeCommenting')}
-                                </p>
-                                <Toggle icons={false}
-                                        defaultChecked={likingOn}
-                                        onChange={this.handleLikingOnChange}
-                                />
-                            </SpaceBetween>
+                            {commentsOn && 
+                                <SpaceBetween style={{ marginTop: '15px' }}>
+                                    <p style={{marginRight:'30px'}}>
+                                        {requestTranslation('allowLikeCommenting')}
+                                    </p>
+                                    <Toggle icons={false}
+                                            defaultChecked={likingOn}
+                                            onChange={this.handleLikingOnChange}
+                                    />
+                                </SpaceBetween>
+                            }
+                            
                         </CustomHalfWidth>
                         {commentsOn && COMMENT_TOPICS_ENABLED && (
                             <HalfWidth>
@@ -2077,7 +2081,7 @@ flex-direction: column;
 
     @media (min-width: ${breakpoint}) {
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
         // align-items: flex-start;
         flex-direction: row;
     }
@@ -2141,4 +2145,17 @@ const HandleRatingsBtn = styled.button`
 margin-bottom: 10px;
 
     
+`
+
+const RatingHandleBtnGroup = styled.div`
+display: flex;
+flex-direction: column;
+
+    @media (min-width: ${breakpoint}) {
+        width: 83%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+    }   
+
 `

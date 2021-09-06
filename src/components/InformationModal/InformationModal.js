@@ -3,7 +3,7 @@ import { Modal, paddingModalStyles } from "@sangre-fp/ui";
 import { requestTranslation } from "@sangre-fp/i18n";
 import { InfoCircle } from "@styled-icons/boxicons-regular";
 import styled from "styled-components";
-
+import EmbedLinkModal from "../EmbedLinkModal";
 const InformationModal = ({
   InfoModalHeader,
   InfoModalDescription,
@@ -19,8 +19,10 @@ const InformationModal = ({
   LearnMoreLink,
   GuideLink,
 }) => {
+  const [openEmbedLinkModal, setOpenEmbedLinkModal ] = React.useState(false)
   const handleClick = (link) => {
-    window.open(link);
+    setOpenEmbedLinkModal(true)
+    // window.open(link);
   };
   return (
     <Modal
@@ -75,23 +77,11 @@ const InformationModal = ({
             <button className='btn btn-sm btn-primary' onClick={InfoModalClose}>GOT IT</button>
           </div>
         </div>
-
-        {/* <p style={{textAlign: 'center'}}>{requestTranslation("sharePublicLinkConfirmationNote")}</p> */}
-        {/* <div className="confirmation-modal-actions">
-          <button
-            onClick={() => handleClick(LearnMoreLink)}
-            className="btn btn-lg btn-plain-gray"
-          >
-            {LearnMoreBtn}
-          </button>
-          <button
-            className="btn btn-lg btn-primary"
-            onClick={() => handleClick(GuideLink)}
-          >
-            {GuideBtn}
-          </button>
-        </div> */}
       </div>
+      <EmbedLinkModal 
+        EmbedLinkModalOpen= {openEmbedLinkModal}
+        EmbedLinkModalClose= {() => setOpenEmbedLinkModal(!openEmbedLinkModal)}
+      />
     </Modal>
   );
 };

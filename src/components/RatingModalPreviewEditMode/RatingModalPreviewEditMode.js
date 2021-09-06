@@ -480,9 +480,7 @@ const  RatingModalPreviewEditMode = ({
                                     style={{background: '#f1f3f3'}}
                                     id="modal-form-section-chartEditMode"
                                     >
-                                    <HalfWidth
-                                        
-                                    >
+                                    <CustomHalfWidth>
                                         <div style={{display: 'flex'}}>
                                             <h3>
                                                 {requestTranslation('rating')}
@@ -524,7 +522,7 @@ const  RatingModalPreviewEditMode = ({
                                         {/* <SpaceBetween> */}
                                             {/* <p style={{marginTop: '12px'}}>{requestTranslation('IntructionsForNamingAxis')}</p> */}
                                         {/* </SpaceBetween> */}
-                                    </HalfWidth>
+                                    </CustomHalfWidth>
                                     
 
                                     {ratingsOn && (
@@ -602,10 +600,13 @@ const  RatingModalPreviewEditMode = ({
                                                 />
                                         </SpaceBetween>
                                         <RatingGroupBtn style={{marginTop: '150px'}}>
-                                            <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openClearAllFieldsModal} >{requestTranslation('clearAllFieldsBtn')}</HandleRatingsBtn>
-                                            <HandleRatingsBtn className="btn btn-outline-secondary" onClick={handleFlipHorizontalAndVerticalChangeInRatingEditChartMode}>{requestTranslation('FlipHorizontalVertical')}</HandleRatingsBtn>
-                                            <HandleRatingsBtnActive className="btn btn-outline-secondary">{requestTranslation('editManuallyBtn')}</HandleRatingsBtnActive>
-                                            <button className="btn btn-primary" onClick={() => handleDoneBtn(isCustomVertical, isCustomHorozol)}>DONE</button>
+                                            <RatingHandleBtnGroup>
+                                                <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openClearAllFieldsModal} >{requestTranslation('clearAllFieldsBtn')}</HandleRatingsBtn>
+                                                <HandleRatingsBtn className="btn btn-outline-secondary" onClick={handleFlipHorizontalAndVerticalChangeInRatingEditChartMode}>{requestTranslation('FlipHorizontalVertical')}</HandleRatingsBtn>
+                                                <HandleRatingsBtnActive className="btn btn-outline-secondary">{requestTranslation('editManuallyBtn')}</HandleRatingsBtnActive>   
+                                            </RatingHandleBtnGroup>
+                                        <HandleDoneBtn className="btn btn-primary " onClick={() => handleDoneBtn(isCustomVertical, isCustomHorozol)}>DONE</HandleDoneBtn>
+                                            
                                         </RatingGroupBtn>
                                         <ConfirmationModalForRatings 
                                             ConfirmationModalNote= 'Are you sure to clear all fields?'
@@ -694,6 +695,10 @@ const HandleRatingsBtn = styled.button`
     margin-bottom: 10px;
 `
 
+const HandleDoneBtn = styled.button`
+    margin-bottom: 10px;
+`
+
 const HandleRatingsBtnActive = styled.button`
     background: #006998 !important;
     color: white !important;
@@ -705,8 +710,28 @@ flex-direction: column;
 
     @media (min-width: ${breakpoint}) {
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
         // align-items: flex-start;
         flex-direction: row;
     }
+`
+const CustomHalfWidth = styled.div`
+@media (min-width: ${breakpoint}) {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+`
+
+const RatingHandleBtnGroup = styled.div`
+display: flex;
+flex-direction: column;
+
+    @media (min-width: ${breakpoint}) {
+        width: 83%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+    }   
+
 `
