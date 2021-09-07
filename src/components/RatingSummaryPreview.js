@@ -27,17 +27,17 @@ const AxisX = ({
   rightEnd,
   containerWidth
 }) => {
-  const cellStyle = { fontSize: 12, height: 16, whiteSpace: 'nowrap', color: '#979797' }
+  const cellStyle = { fontSize: 12, height: 16, fontFamily: 'L10',whiteSpace: 'nowrap', color: '#637282' }
   return (
     <>
       <table cellPadding='0' cellSpacing='0' align='center' style={{ width: axisWidth, margin: 0, border: 'none' }}>
         <tbody style={{ border: 'none' }}>
           <tr style={{ border: 'none' }}>
             <td style={{ ...cellStyle, textAlign: 'left' }}>
-              <div style={{ width: containerWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis' }}>{leftEnd}</div>
+              <div style={{ width: containerWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{leftEnd}</div>
             </td>
             <td style={{ ...cellStyle, textAlign: 'right' }}>
-              <div style={{ width: containerWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis' }}>{rightEnd}</div>
+              <div style={{ width: containerWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{rightEnd}</div>
             </td>
           </tr>
         </tbody>
@@ -45,9 +45,9 @@ const AxisX = ({
 
       <table cellPadding='0' cellSpacing='0' align='center' style={{ width: axisWidth, margin: 0 }}>
         <tbody style={{ border: 'none' }}>
-          <tr style={{ border: 'none' }}>
+          <tr style={{ border: 'none', fontSize: 16, fontWeight: 500 }}>
             <td style={{ ...cellStyle, textAlign: 'center' }}>
-              <div style={{ width: containerWidth, overflow: 'hidden', textOverflow: 'ellipsis' }}>{horizontalAxisName}</div>
+              <div style={{ width: containerWidth, overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{horizontalAxisName}</div>
             </td>
           </tr>
         </tbody>
@@ -66,15 +66,16 @@ const AxisY = ({
   const cellStyle = {
     fontSize: 12,
     whiteSpace: 'nowrap',
-    color: '#979797'
+    color: '#637282',
+    fontFamily: 'L10'
   }
   return (
     <>
       <table cellPadding='0' cellSpacing='0' style={{ height: axisHeight }}>
         <tbody style={{ border: 'none' }}>
-          <tr style={{ ...cellStyle, border: 'none' }}>
+          <tr style={{ ...cellStyle, border: 'none', fontSize: 16, fontWeight: 500 }}>
             <td style={{ border: 'none' }}>
-              <div style={{ width: 16, writingMode: 'vertical-lr', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight, textAlign: 'center' }}>{verticalAxisName}</div>
+              <div style={{ width: 18, writingMode: 'vertical-lr', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight, textAlign: 'center', fontFamily: 'L10' }}>{verticalAxisName}</div>
             </td>
           </tr>
           
@@ -85,13 +86,13 @@ const AxisY = ({
         <tbody style={{ border: 'none' }}>
           <tr style={{ ...cellStyle, border: 'none' }}>
             <td style={{ border: 'none' }}>
-              <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 10, textAlign: 'right' }}>{topEnd}</div>
+              <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 10, textAlign: 'right', fontFamily: 'L10' }}>{topEnd}</div>
             </td>
           </tr>
 
           <tr style={{ ...cellStyle, border: 'none' }}>
             <td style={{ border: 'none' }}>
-              <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 10, textAlign: 'left' }}>{lowEnd}</div>
+              <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 10, textAlign: 'left', fontFamily: 'L10' }}>{lowEnd}</div>
             </td>
           </tr>
           
@@ -132,7 +133,7 @@ const RatingSummaryPreview = ({
   }
 
   const drawText = ({ x, y, text }) => {
-    axisContext.font = 'italic 14px Arial'
+    axisContext.font = 'italic 14px L10'
     axisContext.strokeStyle = 'rgb(224, 222, 222)'
     axisContext.fillStyle = 'rgb(224, 222, 222)'
     axisContext.textAlign = 'center'
@@ -175,10 +176,10 @@ const RatingSummaryPreview = ({
     <>
       <HeaderContainer>{bottomHeader}</HeaderContainer>
       {/* <Spacing customHeight={10}/> */}
-      <div style={{ display: 'flex', width: `${containerWidth}px` }}>
+      <div style={{ display: 'flex', width: `${containerWidth}px`, fontFamily: 'L10' }}>
         <AxisY containerHeight={containerHeight} axisHeight={containerHeight} verticalAxisName={verticalAxisName} topEnd={topEnd} lowEnd={lowEnd}/>
-        <div style={{ width: containerWidth, height: containerHeight }}>
-          <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'white' }}>
+        <div style={{ width: containerWidth, height: containerHeight, fontFamily: 'L10' }}>
+          <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'white', fontFamily: 'L10' }}>
             <CanvasContainer id='axis'/>
           </div>
           <AxisX containerWidth={containerWidth} axisWidth={containerWidth} horizontalAxisName={horizontalAxisName} leftEnd={leftEnd} rightEnd={rightEnd}/>

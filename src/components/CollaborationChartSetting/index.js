@@ -127,7 +127,7 @@ const AxisX = ({
   containerWidth,
   onEdit
 }) => {
-  const cellStyle = { fontSize: 12, height: 16, whiteSpace: 'nowrap', color: '#637282' }
+  const cellStyle = { fontSize: 12, height: 16, whiteSpace: 'nowrap', color: 'rgb(99, 114, 130)' }
 
   return (
     <>
@@ -469,7 +469,7 @@ const CollaborationChartSetting = ({
   }
 
   const drawText = ({ x, y, text }) => {
-    axisContext.font = 'italic 16px Arial'
+    axisContext.font = 'italic 16px L10'
     axisContext.fillStyle = 'rgb(224, 222, 222)'
     axisContext.textAlign = 'center'
     axisContext.fillText(text, x, y)

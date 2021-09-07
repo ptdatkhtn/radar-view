@@ -1359,7 +1359,7 @@ class CreateRadarForm extends PureComponent {
                         style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}> 
                         <RatingSummaryPreview
                                     // bottomHeader = 'Preview for rating result and summary view'
-                                    containerWidth = {+this.state.widthContentWidth - 50 - 16 + 32}
+                                    containerWidth = {+this.state.widthContentWidth - 50 - 16 + 32 - 2}
                                     containerHeight = {+this.state.widthContentWidth * 0.60}
                                     // containerWidth = {320}
                                     // containerHeight = {200}
@@ -1406,7 +1406,7 @@ class CreateRadarForm extends PureComponent {
                             RatingAnchorEl={RatingAnchorEl}
                             RatingDescriptionDisplayed={RatingDescriptionDisplayed}
                             openClearAllFields={this.state.openClearAllFields}
-                            widthContentWidth={+this.state.widthContentWidth  -(16 + 12) - (16 + 8) -16}
+                            widthContentWidth={+this.state.widthContentWidth  -(16 + 12) - (16 + 8) -16 -3}
                             onHoverRatingIcon={onHoverRatingIcon}
                             onLeaveRatingIcon={onLeaveRatingIcon}
                             handleDisplayVericalAxisRatingChange={handleDisplayVericalAxisRatingChange}
