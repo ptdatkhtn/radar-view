@@ -63,8 +63,8 @@ const InformationModal = ({
           <div style={{ marginTop: "48px", display: 'flex', flexDirection:'column', width: '60%' }}>
             <p>Learn more from the HUB: </p>
             <div style={{display: 'flex', flexDirection: 'column'}}>
-              <button
-                onClick={() => handleOpenGuideLinkModal(LearnMoreLink)}
+              <button handleOpenLearnMoreLinkModal
+                onClick={() => handleOpenLearnMoreLinkModal(LearnMoreLink)}
                 className="btn btn-sm btn-outline-secondary"
               >
                 {LearnMoreBtn}
@@ -72,7 +72,7 @@ const InformationModal = ({
               <button
                 className="btn btn-sm btn-outline-secondary"
                 style={{marginTop: '17px'}}
-                onClick={() => handleOpenLearnMoreLinkModal(GuideLink)}
+                onClick={() => handleOpenGuideLinkModal(GuideLink)}
               >
                 {GuideBtn}
               </button>
