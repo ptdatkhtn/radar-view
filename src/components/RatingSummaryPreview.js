@@ -45,8 +45,8 @@ const AxisX = ({
 
       <table cellPadding='0' cellSpacing='0' align='center' style={{ width: axisWidth, margin: 0 }}>
         <tbody style={{ border: 'none' }}>
-          <tr style={{ border: 'none', fontSize: 16, fontWeight: 500 }}>
-            <td style={{ ...cellStyle, textAlign: 'center' }}>
+          <tr style={{ ...cellStyle, border: 'none', fontSize: 16, fontWeight: 500 }}>
+            <td style={{ ...cellStyle, textAlign: 'center', fontSize: 16, fontWeight: 500 }}>
               <div style={{ width: containerWidth, overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{horizontalAxisName}</div>
             </td>
           </tr>
