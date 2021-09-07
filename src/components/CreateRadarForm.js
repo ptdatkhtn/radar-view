@@ -63,123 +63,123 @@ const RATING_ARROWS_ENABLED = false
 // ]
 export const mockData= [
     {
-        title: 'Time: near term/long term',
-        label: 'Time: near term/long term',
+        title: 'Time: Near term/Long term',
+        label: 'Time: Near term/Long term',
         nameAxis: 'Time',
-        leftAttr: 'near term',
-        rightAttr: 'long term'
+        leftAttr: 'Near term',
+        rightAttr: 'Long term'
     },
     {
-        title: 'Probability: low/high ',
-        label: 'Probability: low/high',
+        title: 'Probability: Low/High ',
+        label: 'Probability: Low/High',
         nameAxis: 'Probability',
-        leftAttr: 'low',
-        rightAttr: 'high'
+        leftAttr: 'Low',
+        rightAttr: 'High'
     },
     {
-        title: 'Fit with current strategy: near term/long term',
-        label: 'Fit with current strategy: near term/long term',
+        title: 'Fit with current strategy: Near term/long term',
+        label: 'Fit with current strategy: Near term/Long term',
         nameAxis: 'Fit with current strategy',
-        leftAttr: 'near term',
-        rightAttr: 'long term'
+        leftAttr: 'Near term',
+        rightAttr: 'Long term'
     },
     {
-        title: 'Fit with new strategy: weak/strong',
-        label: 'Fit with new strategy: weak/strong',
+        title: 'Fit with new strategy: Weak/Strong',
+        label: 'Fit with new strategy: Weak/Strong',
         nameAxis: 'Fit with new strategy',
-        leftAttr: 'weak',
-        rightAttr: 'strong'
+        leftAttr: 'Weak',
+        rightAttr: 'Strong'
     },
     {
-        title: 'Direction of the trend: weakening/increasing',
-        label: 'Direction of the trend: weakening/increasing',
+        title: 'Direction of the trend: Weakening/Increasing',
+        label: 'Direction of the trend: Weakening/Increasing',
         nameAxis: 'Direction of the trend',
-        leftAttr: 'weakening',
-        rightAttr: 'increasing'
+        leftAttr: 'Weakening',
+        rightAttr: 'Increasing'
     },
     {
-        title: 'Importance: low/high',
-        label: 'Importance: low/high',
+        title: 'Importance: Low/High',
+        label: 'Importance: Low/High',
         nameAxis: 'Importance',
-        leftAttr: 'low',
-        rightAttr: 'high'
+        leftAttr: 'Low',
+        rightAttr: 'High'
     },
     {
-        title: 'Impact1: moderate/huge',
-        label: 'Impact: moderate/huge',
+        title: 'Impact1: Moderate/Huge',
+        label: 'Impact: Moderate/Huge',
         nameAxis: 'Impact',
-        leftAttr: 'moderate',
-        rightAttr: 'huge'
+        leftAttr: 'Moderate',
+        rightAttr: 'Huge'
     },
     {
-        title: 'Impact2: local/global',
-        label: 'Impact: local/global',
+        title: 'Impact2: Local/Global',
+        label: 'Impact: Local/Global',
         nameAxis: 'Impact',
-        leftAttr: 'local',
-        rightAttr: 'global'
+        leftAttr: 'Local',
+        rightAttr: 'Global'
     },
     {
-        title: 'Nature1: threat/opportunity',
-        label: 'Nature: threat/opportunity',
+        title: 'Nature1: Threat/Opportunity',
+        label: 'Nature: Threat/Opportunity',
         nameAxis: 'Nature',
-        leftAttr: 'threat',
-        rightAttr: 'opportunity'
+        leftAttr: 'Threat',
+        rightAttr: 'Opportunity'
     },
     {
-        title: 'Nature2: long term trend/emergent',
-        label: 'Nature: long term trend/emergent',
+        title: 'Nature2: long term Trend/Emergent',
+        label: 'Nature: long term Trend/Emergent',
         nameAxis: 'Nature',
-        leftAttr: 'long term trend',
-        rightAttr: 'emergent'
+        leftAttr: 'Long term trend',
+        rightAttr: 'Emergent'
     },
     {
-        title: 'Speed of change: gradual/tsunami',
-        label: 'Speed of change: gradual/tsunami',
+        title: 'Speed of change: Gradual/Tsunami',
+        label: 'Speed of change: Gradual/Tsunami',
         nameAxis: 'Speed of change',
-        leftAttr: 'gradual',
-        rightAttr: 'tsunami'
+        leftAttr: 'Gradual',
+        rightAttr: 'Tsunami'
     },
     {
-        title: 'Size of threat/risk: moderate/huge',
-        label: 'Size of threat/risk: moderate/huge',
+        title: 'Size of threat/risk: Moderate/Huge',
+        label: 'Size of threat/risk: Moderate/Huge',
         nameAxis: 'Size of threat/risk',
-        leftAttr: 'moderate',
-        rightAttr: 'huge'
+        leftAttr: 'Moderate',
+        rightAttr: 'Huge'
     },
     {
-        title: 'Size of opportunity: moderate/huge',
-        label: 'Size of opportunity: moderate/huge',
+        title: 'Size of opportunity: Moderate/Huge',
+        label: 'Size of opportunity: Moderate/Huge',
         nameAxis: 'Size of opportunity',
-        leftAttr: 'moderate',
-        rightAttr: 'huge'
+        leftAttr: 'Moderate',
+        rightAttr: 'Huge'
     },
     {
-        title: 'Nature3: non-disrupting/disrupting',
-        label: 'Nature: non-disrupting/disrupting',
+        title: 'Nature3: Non-disrupting/Disrupting',
+        label: 'Nature: Non-disrupting/Disrupting',
         nameAxis: 'Nature',
-        leftAttr: 'non-disrupting',
-        rightAttr: 'disrupting'
+        leftAttr: 'Non-disrupting',
+        rightAttr: 'Disrupting'
     },
     {
-        title: 'Fit with existing capabilities: weak/strong',
-        label: 'Fit with existing capabilities: weak/strong',
+        title: 'Fit with existing capabilities: Weak/Strong',
+        label: 'Fit with existing capabilities: Weak/Strong',
         nameAxis: 'Fit with existing capabilities',
-        leftAttr: 'weak',
-        rightAttr: 'strong'
+        leftAttr: 'Weak',
+        rightAttr: 'Strong'
     },
     {
-        title: 'Magnitude of actions required: minor/huge',
-        label: 'Magnitude of actions required: minor/huge',
+        title: 'Magnitude of actions required: Minor/Huge',
+        label: 'Magnitude of actions required: Minor/Huge',
         nameAxis: 'Magnitude of actions required',
-        leftAttr: 'minor',
-        rightAttr: 'huge'
+        leftAttr: 'Minor',
+        rightAttr: 'Huge'
     },
     {
         title: 'Custom',
         label: 'Custom',
         nameAxis: 'Custom',
-        leftAttr: 'x',
-        rightAttr: 'y'
+        leftAttr: 'X',
+        rightAttr: 'Y'
     },
 ]
 
