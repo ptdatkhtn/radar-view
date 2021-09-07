@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/radar-app/precache-manifest.ed808914e80cb6a5963a6bdbc0620086.js"
+  "/radar-app/precache-manifest.b9968e64a699f13dfb1cb612beab073a.js"
 );
 
 self.addEventListener('message', (event) => {
