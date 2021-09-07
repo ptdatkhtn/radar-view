@@ -28,6 +28,10 @@ import EditSectorMenu from './EditSectorMenu'
 import Phenomenon from './Phenomenon'
 import { modalStyles, paddingModalStyles } from '@sangre-fp/ui'
 import { centerRadiusPercentage, getWebSocketHeaders, timerangeColors, radarBorderWidth } from '../config'
+import fullscreen from '../components/CollaborationChartSetting/fullscreen.svg'
+import edit2 from '../components/CollaborationChartSetting/edit2.svg'
+import ReactDOM from "react-dom";
+import {Fullscreen} from '@styled-icons/boxicons-regular'
 
 class RadarPage extends PureComponent {
     constructor(props) {
@@ -59,6 +63,8 @@ class RadarPage extends PureComponent {
             },
             phenomenaDragged: false
         }
+
+        this.elmRadar = React.createRef()
     }
 
     componentDidMount() {
@@ -82,6 +88,7 @@ class RadarPage extends PureComponent {
         this.attachEvents()
     }
 
+    
     componentDidUpdate(prevProps) {
         if (this.shouldRadarRender() && !this.shouldRadarRender(prevProps)) {
             this.attachEvents()
@@ -897,15 +904,78 @@ class RadarPage extends PureComponent {
         return null
     }
 
+    getParentByTag = (elem, lookingFor) => {
+        lookingFor = lookingFor.toUpperCase();
+        while (elem = elem.parentNode) if (elem.tagName === lookingFor) return elem;
+    }
+
+    // allowfullscreen
+    handleFullscreen = () => {
+        var isInFullScreen = (document.fullScreenElement && document.fullScreenElement !==     null) ||    // alternative standard method  
+        (document.mozFullScreen || document.webkitIsFullScreen);
+
+        const node = ReactDOM.findDOMNode(this);
+        // var docElm = document.documentElement;
+        const docElm = this.getParentByTag(node, 'iframe')
+                || this.getParentByTag(node, 'embed')
+                || this.getParentByTag(node, 'object')
+                || this.getParentByTag(node, 'body')
+
+        try {
+            // if (this.getParentByTag(node, 'iframe')) {
+            //     this.getParentByTag(node, 'iframe').setAttribute("allowfullscreen", "true")
+            // }
+            // else if (this.getParentByTag(node, 'embed')) {
+            //     this.getParentByTag(node, 'embed').setAttribute("allowfullscreen", "true")
+            // }
+            // else if (this.getParentByTag(node, 'object')) {
+            //     this.getParentByTag(node, 'object').setAttribute("allowfullscreen", "true")
+            // }
+            
+            if (!isInFullScreen) {
+                if (docElm.requestFullscreen) {
+                    docElm.requestFullscreen();
+                }
+                else if (docElm.mozRequestFullScreen) {
+                    docElm.mozRequestFullScreen();
+                    alert("Mozilla entering fullscreen!");
+                }
+                else if (docElm.webkitRequestFullScreen) {
+                    docElm.webkitRequestFullScreen();
+                    alert("Webkit entering fullscreen!");
+                }
+            } else {
+                document.exitFullscreen()
+                .then(() => console.log("Document Exited from Full screen mode"))
+                .catch((err) => console.error(err))
+            }
+        } catch (error) {
+            
+        }
+    }
+
     render() {
         const { loading, returnUri } = this.props
-
+        // console.log('this.elmRadar', this.elmRadar)
         return (
-            <Container style={{ pointerEvents: loading.length ? 'none' : 'all' }}>
+            <Container 
+                style={{ pointerEvents: loading.length ? 'none' : 'all' }}
+                ref={this.elmRadar}
+                >
                 <Loading shown={loading.length} color={'white'}/>
                 {this.renderTitle()}
                 {this.renderBottomLeftNav()}
                 <SideNav returnUri={returnUri} radarSettings={this.props.radarSettings}/>
+                <div>jhaahaha</div>
+                {
+                    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
+                        ? <FullscreenBtn onClick={this.handleFullscreen}>
+                            {/* <img src={fullscreen} /> */}
+                            {/* <i class="fas fa-expand"></i> */}
+                       
+                        </FullscreenBtn> : '')
+                }
+                
                 {this.renderEditSectorMenu()}
                 {this.renderRadar()}
                 {this.renderSectorEditor()}
@@ -923,6 +993,30 @@ class RadarPage extends PureComponent {
         )
     }
 }
+
+// const FullscreenBtn = styled.div`
+//     color: white;
+//     position: absolute;
+//     bottom: 8px;
+//     right: 30px;
+//     background: white;
+//     width: 40px;
+//     height: 40px;
+//     cursor: pointer;
+//     z-index: 999;
+// `
+
+const FullscreenBtn = styled(Fullscreen)`
+    color: white;
+    position: absolute;
+    bottom: 8px;
+    right: 18px;
+    // background: white;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 999;
+`
 
 const RadarTitle = styled.h1`
     color: white;
