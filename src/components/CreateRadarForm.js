@@ -1523,7 +1523,7 @@ class CreateRadarForm extends PureComponent {
                         {/* <SpaceBetween> */}
                             <div>
                                 <div style={{display: 'flex'}}>
-                                    <h3 className='mb-0'>
+                                    <h3 className='mb-0' style={{paddingBottom: '12.6px'}}>
                                         {requestTranslation('discussion')}
                                     </h3>
                                     <InformationIcon 
