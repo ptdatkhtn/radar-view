@@ -298,14 +298,14 @@ export const mockDataEn= [
         leftAttr: 'Minor',
         rightAttr: 'Huge'
     },
-    {
-        title: 'Custom',
-        label: 'Custom',
-        nameAxis: 'Custom',
-        leftAttr: 'X',
-        rightAttr: 'Y'
-    },
-]
+    
+].sort((a, b) => a.label.localeCompare(b.label)).concat({
+    title: 'Custom',
+    label: 'Custom',
+    nameAxis: 'Custom',
+    leftAttr: 'X',
+    rightAttr: 'Y'
+})
 
 export const mockDataFin= [
     {
@@ -420,15 +420,14 @@ export const mockDataFin= [
         nameAxis: 'Vaadittu toimenpiteiden taso',
         leftAttr: 'Vähäinen',
         rightAttr: 'Suuri'
-    },
-    {
-        title: 'Muokattu',
-        label: 'Muokattu',
-        nameAxis: 'Muokattu',
-        leftAttr: 'X',
-        rightAttr: 'Y'
-    },
-]
+    }
+].sort((a, b) => a.label.localeCompare(b.label)).concat({
+    title: 'Muokattu',
+    label: 'Muokattu',
+    nameAxis: 'Muokattu',
+    leftAttr: 'X',
+    rightAttr: 'Y'
+},)
 
 const useStyles = theme => ({
     popover: {
@@ -1575,10 +1574,10 @@ class CreateRadarForm extends PureComponent {
                                             value={inputVerticalAxisValue}
                                             options={
                                                 getLanguage() === 'en' ?
-                                                    (mockDataEn?.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
+                                                    (mockDataEn?.map(i => ({
                                                         label: i.label, value: i.title
                                                     }))) : 
-                                                    (mockDataFin?.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
+                                                    (mockDataFin?.map(i => ({
                                                         label: i.label, value: i.title
                                                     })))
                                             }
@@ -1603,10 +1602,10 @@ class CreateRadarForm extends PureComponent {
                                             onChange={handleDisplayHorizontalAxisRatingChange}
                                             options={
                                                 getLanguage() === 'en' ?
-                                                    (mockDataEn?.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
+                                                    (mockDataEn?.map(i => ({
                                                         label: i.label, value: i.title
                                                     }))) : 
-                                                    (mockDataFin?.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
+                                                    (mockDataFin?.map(i => ({
                                                         label: i.label, value: i.title
                                                     })))
                                             }
