@@ -282,7 +282,7 @@ class CreateRadarForm extends PureComponent {
         const { getRadarSets, getUserGroups, existingRadarPage, axisYTitle, axisXTitle, axisYMin, axisYMax, axisXMin, axisXMax } = this.props
 
         this.setState({
-            widthContentWidth: +this.editorMode?.current?.offsetWidth
+            widthContentWidth: +this.editorMode?.current?.offsetWidth -50 -50
         })
         if (window) {
             window.addEventListener("resize", debounce(this.handleResize, 150));
@@ -359,7 +359,7 @@ class CreateRadarForm extends PureComponent {
 
     handleResize = () => {
         this.setState({
-            widthContentWidth: +this.editorMode?.current?.offsetWidth
+            widthContentWidth: +this.editorMode?.current?.offsetWidth -100
         })
     }
 
@@ -1244,7 +1244,7 @@ class CreateRadarForm extends PureComponent {
                     }
                 </div>
 
-                <div className='modal-form-section'>
+                <div className='modal-form-section' ref={this.editorMode}>
                     <CustomHalfWidth>
                         <div style={{display: 'flex'}}>
                             <h3>
@@ -1311,7 +1311,7 @@ class CreateRadarForm extends PureComponent {
                     
 
                     {ratingsOn && (
-                    <FullWidthBgContainer ref={this.editorMode} style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0, marginTop: '20px' }}>
+                    <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0, marginTop: '20px' }}>
                         <SpaceBetween>
                             <HalfWidth>
                                 <h4>

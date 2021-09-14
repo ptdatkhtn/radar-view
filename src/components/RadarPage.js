@@ -956,7 +956,7 @@ class RadarPage extends PureComponent {
 
     render() {
         const { loading, returnUri } = this.props
-        // console.log('this.elmRadar', this.elmRadar)
+
         return (
             <Container 
                 style={{ pointerEvents: loading.length ? 'none' : 'all' }}
