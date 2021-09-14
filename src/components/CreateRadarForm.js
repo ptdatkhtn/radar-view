@@ -176,9 +176,9 @@ export const mockData= [
         rightAttr: getLanguage() === 'en' ?'Huge':'Suuri'
     },
     {
-        title: getLanguage() === 'en' ?'Custom':'Muokattui',
-        label: getLanguage() === 'en' ?'Custom':'Muokattui',
-        nameAxis: getLanguage() === 'en' ?'Custom':'Muokattui',
+        title: getLanguage() === 'en' ?'Custom':'',
+        label: getLanguage() === 'en' ?'Custom':'Muokattu',
+        nameAxis: getLanguage() === 'en' ?'Custom':'Muokattu',
         leftAttr: 'X',
         rightAttr: 'Y'
     },
@@ -422,9 +422,9 @@ export const mockDataFin= [
         rightAttr: 'Suuri'
     },
     {
-        title: 'Muokattui',
-        label: 'Muokattui',
-        nameAxis: 'Muokattui',
+        title: 'Muokattu',
+        label: 'Muokattu',
+        nameAxis: 'Muokattu',
         leftAttr: 'X',
         rightAttr: 'Y'
     },
@@ -570,7 +570,7 @@ class CreateRadarForm extends PureComponent {
                 } 
             else {
                 this.setState({ 
-                    axisYSelect: getLanguage() === 'en' ?'Custom':'Muokattui',
+                    axisYSelect: getLanguage() === 'en' ?'Custom':'Muokattu',
                 })
             }
         })
@@ -596,7 +596,7 @@ class CreateRadarForm extends PureComponent {
                 } 
             else {
                 this.setState({ 
-                    axisXSelect: getLanguage() === 'en' ?'Custom':'Muokattui',
+                    axisXSelect: getLanguage() === 'en' ?'Custom':'Muokattu',
                 })
             }
         })
@@ -1054,7 +1054,7 @@ class CreateRadarForm extends PureComponent {
                 isCustomVertical: isCustom,
             })
             mockData.some(i => {
-                if ((String(value) === 'Custom') || (String(value) === 'Muokattui')  ) {
+                if ((String(value) === 'Custom') || (String(value) === 'Muokattu')  ) {
                     this.setState({ 
                         axisYSelect: value
                     })
@@ -1075,7 +1075,7 @@ class CreateRadarForm extends PureComponent {
                 isCustomHorozol: isCustom,
             })
             mockData.some(i => {
-                if ((String(value) === 'Custom') || (String(value) === 'Muokattui')) {
+                if ((String(value) === 'Custom') || (String(value) === 'Muokattu')) {
                     this.setState({ 
                         axisXSelect: value
                     })
@@ -1357,8 +1357,8 @@ class CreateRadarForm extends PureComponent {
             }
         }
 
-        const inputVerticalAxisValue = String(axisYSelect) !== '' ? (this.state.isCustomVertical ? (getLanguage() === 'en' ?'Custom':'Muokattui') : axisYSelect) : ''
-        const inputHorozoltalAxisValue = String(axisXSelect) !== '' ? (this.state.isCustomHorozol ? (getLanguage() === 'en' ?'Custom':'Muokattui') : axisXSelect) : ''
+        const inputVerticalAxisValue = String(axisYSelect) !== '' ? (this.state.isCustomVertical ? (getLanguage() === 'en' ?'Custom':'Muokattu') : axisYSelect) : ''
+        const inputHorozoltalAxisValue = String(axisXSelect) !== '' ? (this.state.isCustomHorozol ? (getLanguage() === 'en' ?'Custom':'Muokattu') : axisXSelect) : ''
         return (
             <div className='modal-form-sections'>
                 <div className='modal-form-section modal-form-header'>
@@ -1567,7 +1567,7 @@ class CreateRadarForm extends PureComponent {
                                     <Column>
                                         <Select
                                             // placeholder={requestTranslation('selectValue')}
-                                            placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
+                                            // placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
                                             searchable={false}
                                             name='group'
                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
@@ -1595,7 +1595,7 @@ class CreateRadarForm extends PureComponent {
                                     <Column>
                                         <Select
                                             // placeholder={requestTranslation('selectValue')}
-                                            placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
+                                            // placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
                                             searchable={false}
                                             name='group'
                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }

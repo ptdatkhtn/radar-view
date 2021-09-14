@@ -325,7 +325,7 @@ const  RatingModalPreviewEditMode = ({
         const handleDisplayVericalAxisRatingChangeOnRatingModalPreviewEditMode = ({value}) => {
             // handleDisplayVericalAxisRatingChange({value})
             mockData.some(i => {
-                if ((String(value) === 'Custom') || (String(value) === 'Muokattui')  ) {
+                if ((String(value) === 'Custom') || (String(value) === 'Muokattu')  ) {
                     setIsCustomVertical(true)
                     handleDisplayVericalAxisRatingChange({value}, true)
                     return true
@@ -346,7 +346,7 @@ const  RatingModalPreviewEditMode = ({
         const handleDisplayHorizontalAxisRatingChangeOnRatingModalPreviewEditMode = ({value}) => {
             // handleDisplayHorizontalAxisRatingChange({value})
             mockData.some(i => {
-                if ((String(value) === 'Custom') || (String(value) === 'Muokattui')  ) {
+                if ((String(value) === 'Custom') || (String(value) === 'Muokattu')  ) {
                     setIsCustomHorozol(true)
                     handleDisplayHorizontalAxisRatingChange({value}, true)
                     return true
@@ -561,12 +561,12 @@ const  RatingModalPreviewEditMode = ({
                                                     <Column>
                                                         <Select
                                                             defaultValue='Select'
-                                                            placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
+                                                            // placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
                                                             searchable={false}
                                                             name='group'
                                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
                                                             onChange={handleDisplayVericalAxisRatingChangeOnRatingModalPreviewEditMode}
-                                                            value={isCustomVertical ? getLanguage() === 'en' ?'Custom':'Muokattui' : axisYSelectValue}
+                                                            value={isCustomVertical ? getLanguage() === 'en' ?'Custom':'Muokattu' : axisYSelectValue}
                                                             options={
                                                                 getLanguage() === 'en' ?
                                                                     (mockDataEn?.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
@@ -590,9 +590,9 @@ const  RatingModalPreviewEditMode = ({
                                                         <Select
                                                             searchable={false}
                                                             name='group'
-                                                            placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
+                                                            // placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
                                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
-                                                            value={isCustomHorozol ? getLanguage() === 'en' ?'Custom':'Muokattui' : axisXSelectValue}
+                                                            value={isCustomHorozol ? getLanguage() === 'en' ?'Custom':'Muokattu' : axisXSelectValue}
                                                             onChange={handleDisplayHorizontalAxisRatingChangeOnRatingModalPreviewEditMode}
                                                             options={
                                                                 getLanguage() === 'en' ?
@@ -630,8 +630,8 @@ const  RatingModalPreviewEditMode = ({
                                                 lowEnd = {lowEnd}
                                                 passisCustomToRatingModalPreviewModeVertical={receivedCheckDataFromCollaborationChartSettingVertical}
                                                 passisCustomToRatingModalPreviewModeHoronzal={receivedCheckDataFromCollaborationChartSettingHoronzal}
-                                                inputSelectedX={isCustomHorozol? getLanguage() === 'en' ?'Custom':'Muokattui' : axisXSelectValue}
-                                                inputSelectedY={isCustomVertical? getLanguage() === 'en' ?'Custom':'Muokattui' : axisYSelectValue}
+                                                inputSelectedX={isCustomHorozol? getLanguage() === 'en' ?'Custom':'Muokattu' : axisXSelectValue}
+                                                inputSelectedY={isCustomVertical? getLanguage() === 'en' ?'Custom':'Muokattu' : axisYSelectValue}
                                                 isCustomHorozol={isCustomHorozol}
                                                 isCustomVertical={isCustomVertical}
                                                 // passDataFromPreviewEditModeToPreivewMore={passDataFromPreviewEditModeToPreivewMore}
