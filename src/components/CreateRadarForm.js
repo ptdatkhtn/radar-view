@@ -1221,7 +1221,7 @@ class CreateRadarForm extends PureComponent {
                                         />
                             </SpaceBetween>
                         {this.state.votingHaloOn &&
-                        <SpaceBetween style={{ marginTop: '20px', marginRight: '-29px'}}>
+                        <SpaceBetween style={{ marginTop: '20px', marginRight: '-34px'}}>
                             <p style={{ width: '66%'}}>{requestTranslation('upvotesForHaloDescription')}</p> 
                             {/* <div style={{marginLeft: '30px'}}> */}
                                 <Select

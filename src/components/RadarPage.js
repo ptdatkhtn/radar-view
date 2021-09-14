@@ -966,14 +966,13 @@ class RadarPage extends PureComponent {
                 {this.renderTitle()}
                 {this.renderBottomLeftNav()}
                 <SideNav returnUri={returnUri} radarSettings={this.props.radarSettings}/>
-                <div>jhaahaha</div>
                 {
-                    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
-                        ? <FullscreenBtn onClick={this.handleFullscreen}>
-                            {/* <img src={fullscreen} /> */}
-                            {/* <i class="fas fa-expand"></i> */}
+                    // (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
+                    //     ? <FullscreenBtn onClick={this.handleFullscreen}>
+                    //         {/* <img src={fullscreen} /> */}
+                    //         {/* <i class="fas fa-expand"></i> */}
                        
-                        </FullscreenBtn> : '')
+                    //     </FullscreenBtn> : '')
                 }
                 
                 {this.renderEditSectorMenu()}
