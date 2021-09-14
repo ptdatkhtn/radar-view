@@ -324,7 +324,7 @@ const  RatingModalPreviewEditMode = ({
 
         const handleDisplayVericalAxisRatingChangeOnRatingModalPreviewEditMode = ({value}) => {
             // handleDisplayVericalAxisRatingChange({value})
-            mockData.some(i => {
+            getLanguage() ==='en' ?  mockDataEn.some(i => {
                 if ((String(value) === 'Custom') || (String(value) === 'Muokattu')  ) {
                     setIsCustomVertical(true)
                     handleDisplayVericalAxisRatingChange({value}, true)
@@ -339,13 +339,29 @@ const  RatingModalPreviewEditMode = ({
                     handleDisplayVericalAxisRatingChange({value}, false)
                     return true
                 }
-            })
+            }) : 
+            (mockDataFin.some(i => {
+                if ((String(value) === 'Custom') || (String(value) === 'Muokattu')  ) {
+                    setIsCustomVertical(true)
+                    handleDisplayVericalAxisRatingChange({value}, true)
+                    return true
+                }
+                else if(String(value) === String(i.title)) {
+                    setTopEnd(i.rightAttr)
+                    setLowEnd(i.leftAttr)
+                    setYname(i.nameAxis)
+                    setaxisYSelect(i.title)
+                    setIsCustomVertical(false)
+                    handleDisplayVericalAxisRatingChange({value}, false)
+                    return true
+                }
+            }))
             
         }
 
         const handleDisplayHorizontalAxisRatingChangeOnRatingModalPreviewEditMode = ({value}) => {
             // handleDisplayHorizontalAxisRatingChange({value})
-            mockData.some(i => {
+            getLanguage() ==='en' ? mockDataEn.some(i => {
                 if ((String(value) === 'Custom') || (String(value) === 'Muokattu')  ) {
                     setIsCustomHorozol(true)
                     handleDisplayHorizontalAxisRatingChange({value}, true)
@@ -360,7 +376,23 @@ const  RatingModalPreviewEditMode = ({
                     handleDisplayHorizontalAxisRatingChange({value}, false)
                     return true
                 }
-            })
+            }): 
+            (mockDataFin.some(i => {
+                if ((String(value) === 'Custom') || (String(value) === 'Muokattu')  ) {
+                    setIsCustomHorozol(true)
+                    handleDisplayHorizontalAxisRatingChange({value}, true)
+                    return true
+                }
+                else if(String(value) === String(i.title)) {
+                    setRightEnd(i.rightAttr)
+                    setLeftEnd(i.leftAttr)
+                    setXName(i.nameAxis)
+                    setaxisXSelect(i.title)
+                    setIsCustomHorozol(false)
+                    handleDisplayHorizontalAxisRatingChange({value}, false)
+                    return true
+                }
+            }))
             
         }
 
