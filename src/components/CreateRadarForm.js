@@ -126,11 +126,11 @@ export const mockData= [
         rightAttr: getLanguage() === 'en' ?'Opportunity': 'Mahdollisuus'
     },
     {
-        title: getLanguage() === 'en' ? 'Nature2: long term Trend/Emergent' : 'Luonne2: Pitkä tähtäin/Nouseva',
-        label: getLanguage() === 'en' ? 'Nature: long term Trend/Emergent' : 'Luonne: Pitkä tähtäin/Nouseva',
+        title: getLanguage() === 'en' ? 'Nature2: long term Trend/Emergent' : 'Luonne2: Pitkä tähtäin/Kehittyvä',
+        label: getLanguage() === 'en' ? 'Nature: long term Trend/Emergent' : 'Luonne: Pitkä tähtäin/Kehittyvä',
         nameAxis: getLanguage() === 'en' ?'Nature':'Luonne',
         leftAttr: getLanguage() === 'en' ?'Long term trend':'Pitkä tähtäin',
-        rightAttr: getLanguage() === 'en' ?'Emergent':'Nouseva'
+        rightAttr: getLanguage() === 'en' ?'Emergent':'Kehittyvä'
     },
     {
         title: getLanguage() === 'en' ? 'Speed of change: Gradual/Tsunami' : 'Muutoksen nopeus: Asteittainen/Yhdellä kertaa',
@@ -184,6 +184,251 @@ export const mockData= [
     },
 ]
 
+export const mockDataEn= [
+    {
+        title: 'Time: Near term/Long term',
+        label: 'Time: Near term/Long term' ,
+        nameAxis: 'Time',
+        leftAttr: 'Near term',
+        rightAttr: 'Long term',
+    },
+    {
+        title: 'Probability: Low/High',
+        label: 'Probability: Low/High',
+        nameAxis: 'Probability',
+        leftAttr: 'Low',
+        rightAttr: 'High'
+    },
+    {
+        title: 'Fit with current strategy: Near term/Long term',
+        label:  'Fit with current strategy: Near term/Long term' ,
+        nameAxis: 'Fit with current strategy',
+        leftAttr: 'Near term',
+        rightAttr: 'Long term'
+    },
+    {
+        title:  'Fit with new strategy: Weak/Strong',
+        label:  'Fit with new strategy: Weak/Strong',
+        nameAxis:  'Fit with new strategy',
+        leftAttr:  'Weak',
+        rightAttr:  'Strong'
+    },
+    {
+        title:  'Direction of the trend: Weakening/Increasing',
+        label:  'Direction of the trend: Weakening/Increasing',
+        nameAxis: 'Direction of the trend',
+        leftAttr: 'Weakening',
+        rightAttr: 'Increasing'
+    },
+    {
+        title:  'Importance: Low/High',
+        label:  'Importance: Low/High',
+        nameAxis: 'Importance',
+        leftAttr: 'Low',
+        rightAttr: 'High'
+    },
+    {
+        title:  'Impact1: Moderate/Huge' ,
+        label:  'Impact: Moderate/Huge',
+        nameAxis:  'Impact',
+        leftAttr:  'Moderate',
+        rightAttr:  'Huge'
+    },
+    {
+        title:  'Impact2: Local/Global',
+        label:  'Impact: Local/Global',
+        nameAxis:  'Impact',
+        leftAttr:  'Local',
+        rightAttr:  'Global'
+    },
+    {
+        title:  'Nature1: Threat/Opportunity',
+        label:  'Nature: Threat/Opportunity' ,
+        nameAxis: 'Nature',
+        leftAttr: 'Threat',
+        rightAttr: 'Opportunity'
+    },
+    {
+        title:  'Nature2: long term Trend/Emergent' ,
+        label:  'Nature: long term Trend/Emergent',
+        nameAxis: 'Nature',
+        leftAttr: 'Long term trend',
+        rightAttr: 'Emergent'
+    },
+    {
+        title:  'Speed of change: Gradual/Tsunami',
+        label:  'Speed of change: Gradual/Tsunami',
+        nameAxis: 'Speed of change',
+        leftAttr: 'Gradual',
+        rightAttr: 'Tsunami'
+    },
+    {
+        title:  'Size of threat/risk: Moderate/Huge',
+        label:  'Size of threat/risk: Moderate/Huge',
+        nameAxis: 'Size of threat/risk',
+        leftAttr: 'Moderate',
+        rightAttr: 'Huge'
+    },
+    {
+        title:  'Size of opportunity: Moderate/Huge',
+        label: 'Size of opportunity: Moderate/Huge',
+        nameAxis: 'Size of opportunity',
+        leftAttr: 'Moderate',
+        rightAttr: 'Huge'
+    },
+    {
+        title:  'Nature3: Non-disrupting/Disrupting',
+        label:  'Nature: Non-disrupting/Disrupting',
+        nameAxis: 'Nature',
+        leftAttr: 'Non-disrupting',
+        rightAttr: 'Disrupting'
+    },
+    {
+        title:  'Fit with existing capabilities: Weak/Strong',
+        label:  'Fit with existing capabilities: Weak/Strong',
+        nameAxis: 'Fit with existing capabilities',
+        leftAttr: 'Weak',
+        rightAttr: 'Strong'
+    },
+    {
+        //Vaadittu toimenpiteiden taso: Vähäinen/Suuri
+        title: 'Magnitude of actions required: Minor/Huge',
+        label: 'Magnitude of actions required: Minor/Huge',
+        nameAxis: 'Magnitude of actions required',
+        leftAttr: 'Minor',
+        rightAttr: 'Huge'
+    },
+    {
+        title: 'Custom',
+        label: 'Custom',
+        nameAxis: 'Custom',
+        leftAttr: 'X',
+        rightAttr: 'Y'
+    },
+]
+
+export const mockDataFin= [
+    {
+        title: 'Aikajakso: Lyhyt tähtäin/Pitkä tähtäin',
+        label: 'Aikajakso: Lyhyt tähtäin/Pitkä tähtäin',
+        nameAxis: 'Aikajakso',
+        leftAttr:'Lyhyt tähtäin',
+        rightAttr: 'Pitkä tähtäin',
+    },
+    {
+        title:   'Todennäköisyys: Matala/Korkea',
+        label:   'Todennäköisyys: Matala/Korkea',
+        nameAxis: 'Todennäköisyys',
+        leftAttr:   'Matala',
+        rightAttr:  'Korkea'
+    },
+    {
+        title:  'Sopii nykyiseen strategiaan: Lyhyt tähtäin/Pitkä tähtäin',
+        label:  'Sopii nykyiseen strategiaan: Lyhyt tähtäin/Pitkä tähtäin',
+        nameAxis: 'Sopii nykyiseen strategiaan',
+        leftAttr: 'Lyhyt tähtäin',
+        rightAttr: 'Pitkä tähtäin'
+    },
+    {
+        title:  'Sopii nykyiseen strategiaan: Huonosti/Hyvin',
+        label:  'Sopii nykyiseen strategiaan: Huonosti/Hyvin',
+        nameAxis:  'Sopii nykyiseen strategiaan',
+        leftAttr:  'Huonosti',
+        rightAttr:  'Hyvin'
+    },
+    {
+        title:  'Trendin kehityssuunta: Heikkenevä/Vahvistuva',
+        label:  'Trendin kehityssuunta: Heikkenevä/Vahvistuva',
+        nameAxis: 'Trendin kehityssuunta',
+        leftAttr:'Heikkenevä',
+        rightAttr: 'Vahvistuva'
+    },
+    {
+        title:  'Tärkeys: Matala/Korkea',
+        label:  'Tärkeys: Matala/Korkea',
+        nameAxis: 'Tärkeys',
+        leftAttr: 'Matala',
+        rightAttr:  'Korkea'
+    },
+    {
+        title:   'Vaikutus1: Maltillinen/Valtava',
+        label:  'Vaikutus: Maltillinen/Valtava',
+        nameAxis:  'Vaikutus',
+        leftAttr:  'Maltillinen',
+        rightAttr:  'Valtava'
+    },
+    {
+        title:   'Vaikutus2: Paikallinen/Globaali',
+        label:   'Vaikutus: Paikallinen/Globaali',
+        nameAxis:   'Vaikutus',
+        leftAttr:  'Paikallinen',
+        rightAttr:  'Globaali'
+    },
+    {
+        title:   'Luonne1: Uhka/Mahdollisuus',
+        label:  'Luonne: Uhka/Mahdollisuus',
+        nameAxis:'Luonne',
+        leftAttr:  'Uhka',
+        rightAttr: 'Mahdollisuus'
+    },
+    {
+        title:  'Luonne2: Pitkä tähtäin/Kehittyvä',
+        label:  'Luonne: Pitkä tähtäin/Kehittyvä',
+        nameAxis: 'Luonne',
+        leftAttr: 'Pitkä tähtäin',
+        rightAttr: 'Kehittyvä'
+    },
+    {
+        title:  'Muutoksen nopeus: Asteittainen/Yhdellä kertaa',
+        label:  'Muutoksen nopeus: Asteittainen/Yhdellä kertaa',
+        nameAxis: 'Muutoksen nopeus',
+        leftAttr:'Asteittainen',
+        rightAttr: 'Yhdellä kertaa'
+    },
+    {
+        title: 'Uhka: Maltillinen/Suuri',
+        label: 'Uhka: Maltillinen/Suuri',
+        nameAxis: 'Uhka',
+        leftAttr: 'Maltillinen',
+        rightAttr:'Suuri'
+    },
+    {
+        title: 'Mahdollisuus: Maltillinen/Suuri',
+        label:'Mahdollisuus: Maltillinen/Suuri',
+        nameAxis: 'Mahdollisuus',
+        leftAttr:'Maltillinen',
+        rightAttr:'Suuri'
+    },
+    {
+        title:  'Luonne3: Häiriötön/Häiriöitä aiheuttava',
+        label:  'Luonne: Häiriötön/Häiriöitä aiheuttava',
+        nameAxis: 'Luonne3',
+        leftAttr: 'Häiriötön',
+        rightAttr: 'Häiriöitä aiheuttava'
+    },
+    {
+        title: 'Sopii nykyisiin kyvykkyyksiin: Huonosti/Hyvin',
+        label: 'Sopii nykyisiin kyvykkyyksiin: Huonosti/Hyvin',
+        nameAxis: 'Sopii nykyisiin kyvykkyyksiin',
+        leftAttr: 'Huonosti',
+        rightAttr: 'Hyvin'
+    },
+    {
+        //Vaadittu toimenpiteiden taso: Vähäinen/Suuri
+        title:'Vaadittu toimenpiteiden taso: Vähäinen/Suuri',
+        label:'Vaadittu toimenpiteiden taso: Vähäinen/Suuri',
+        nameAxis: 'Vaadittu toimenpiteiden taso',
+        leftAttr: 'Vähäinen',
+        rightAttr: 'Suuri'
+    },
+    {
+        title: 'Muokattui',
+        label: 'Muokattui',
+        nameAxis: 'Muokattui',
+        leftAttr: 'X',
+        rightAttr: 'Y'
+    },
+]
 
 const useStyles = theme => ({
     popover: {
@@ -1327,9 +1572,15 @@ class CreateRadarForm extends PureComponent {
                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
                                             onChange={handleDisplayVericalAxisRatingChange}
                                             value={inputVerticalAxisValue}
-                                            options={mockData.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
-                                                label: i.label, value: i.title
-                                            }))}
+                                            options={
+                                                getLanguage() === 'en' ?
+                                                    (mockDataEn?.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
+                                                        label: i.label, value: i.title
+                                                    }))) : 
+                                                    (mockDataFin?.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
+                                                        label: i.label, value: i.title
+                                                    })))
+                                            }
                                             clearable={false}
                                         />
                                     </Column>
@@ -1348,9 +1599,15 @@ class CreateRadarForm extends PureComponent {
                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
                                             value={inputHorozoltalAxisValue}
                                             onChange={handleDisplayHorizontalAxisRatingChange}
-                                            options={mockData.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
-                                                label: i.label, value: i.title
-                                            }))}
+                                            options={
+                                                getLanguage() === 'en' ?
+                                                    (mockDataEn?.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
+                                                        label: i.label, value: i.title
+                                                    }))) : 
+                                                    (mockDataFin?.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
+                                                        label: i.label, value: i.title
+                                                    })))
+                                            }
                                             clearable={false}
                                         />
                                     </Column>

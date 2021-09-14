@@ -26,7 +26,7 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from '../CreateRadarForm.module.css'
 import ConfirmationModalForRatings from '../ConfirmationModalForRatings/ConfirmationModalForRatings'
 import CollaborationChartSetting from '../CollaborationChartSetting'
-import {mockData} from '../CreateRadarForm'
+import {mockDataEn, mockDataFin, mockData} from '../CreateRadarForm'
 import InformationModal from '../InformationModal/InformationModal'
 import { getLanguage } from '@sangre-fp/i18n'
 
@@ -566,9 +566,15 @@ const  RatingModalPreviewEditMode = ({
                                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
                                                             onChange={handleDisplayVericalAxisRatingChangeOnRatingModalPreviewEditMode}
                                                             value={isCustomVertical ? getLanguage() === 'en' ?'Custom':'Muokattui' : axisYSelectValue}
-                                                            options={mockData.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
-                                                                label: i.label, value: i.title
-                                                            }))}
+                                                            options={
+                                                                getLanguage() === 'en' ?
+                                                                    (mockDataEn?.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
+                                                                        label: i.label, value: i.title
+                                                                    }))) : 
+                                                                    (mockDataFin?.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
+                                                                        label: i.label, value: i.title
+                                                                    })))
+                                                            }
                                                             clearable={false}
                                                         />
                                                     </Column>
@@ -586,9 +592,15 @@ const  RatingModalPreviewEditMode = ({
                                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
                                                             value={isCustomHorozol ? getLanguage() === 'en' ?'Custom':'Muokattui' : axisXSelectValue}
                                                             onChange={handleDisplayHorizontalAxisRatingChangeOnRatingModalPreviewEditMode}
-                                                            options={mockData.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
-                                                                label: i.label, value: i.title
-                                                            }))}
+                                                            options={
+                                                                getLanguage() === 'en' ?
+                                                                    (mockDataEn?.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
+                                                                        label: i.label, value: i.title
+                                                                    }))) : 
+                                                                    (mockDataFin?.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
+                                                                        label: i.label, value: i.title
+                                                                    })))
+                                                            }
                                                             clearable={false}
                                                         />
                                                     </Column>
