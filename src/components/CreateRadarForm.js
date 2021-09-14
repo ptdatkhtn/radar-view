@@ -1102,10 +1102,13 @@ class CreateRadarForm extends PureComponent {
             this.setState({
                 isCustomVertical: isCustom,
             })
-            mockData.some(i => {
+            getLanguage() === 'en' ? mockDataEn.some(i => {
                 if ((String(value) === 'Custom') || (String(value) === 'Muokattu')  ) {
                     this.setState({ 
-                        axisYSelect: value
+                        axisYSelect: value,
+                        axisYTitle: i.nameAxis,
+                        axisYMin: i.leftAttr,
+                        axisYMax: i.rightAttr,
                     })
                     return true
                 }
@@ -1117,16 +1120,38 @@ class CreateRadarForm extends PureComponent {
                         axisYMax: i.rightAttr,
                     })
                 }
-            })
+            }) :
+            (mockDataFin.some(i => {
+                if ((String(value) === 'Custom') || (String(value) === 'Muokattu')  ) {
+                    this.setState({ 
+                        axisYSelect: value,
+                        axisYTitle: i.nameAxis,
+                        axisYMin: i.leftAttr,
+                        axisYMax: i.rightAttr,
+                    })
+                    return true
+                }
+                else if(String(value) === String(i.title)) {
+                    this.setState({ 
+                        axisYSelect: value,
+                        axisYTitle: i.nameAxis,
+                        axisYMin: i.leftAttr,
+                        axisYMax: i.rightAttr,
+                    })
+                }
+            }))
         }
         const handleDisplayHorizontalAxisRatingChange = ({ value }, isCustom) => {
             this.setState({
                 isCustomHorozol: isCustom,
             })
-            mockData.some(i => {
+            getLanguage() === 'en' ? mockDataEn.some(i => {
                 if ((String(value) === 'Custom') || (String(value) === 'Muokattu')) {
                     this.setState({ 
-                        axisXSelect: value
+                        axisXSelect: value,
+                        axisXTitle: i.nameAxis,
+                        axisXMin: i.leftAttr,
+                        axisXMax: i.rightAttr,
                     })
                     return true
                 }
@@ -1138,7 +1163,26 @@ class CreateRadarForm extends PureComponent {
                         axisXMax: i.rightAttr,
                     })
                 }
-            })
+            }) :
+            (mockDataFin.some(i => {
+                if ((String(value) === 'Custom') || (String(value) === 'Muokattu')) {
+                    this.setState({ 
+                        axisXSelect: value,
+                        axisXTitle: i.nameAxis,
+                        axisXMin: i.leftAttr,
+                        axisXMax: i.rightAttr,
+                    })
+                    return true
+                }
+                else if(String(value) === String(i.title)) {
+                    this.setState({ 
+                        axisXSelect: value,
+                        axisXTitle: i.nameAxis,
+                        axisXMin: i.leftAttr,
+                        axisXMax: i.rightAttr,
+                    })
+                }
+            }))
     }
 
     const handleFlipHorizontalAndVerticalChange = () => {
