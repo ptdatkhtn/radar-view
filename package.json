@@ -1,6 +1,6 @@
 {
   "name": "radar",
-  "version": "2.6.16",
+  "version": "2.6.17",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.4",
