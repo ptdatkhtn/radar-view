@@ -569,10 +569,10 @@ const  RatingModalPreviewEditMode = ({
                                                             value={isCustomVertical ? getLanguage() === 'en' ?'Custom':'Muokattu' : axisYSelectValue}
                                                             options={
                                                                 getLanguage() === 'en' ?
-                                                                    (mockData?.map(i => ({
+                                                                    (mockDataEn?.map(i => ({
                                                                         label: i.label, value: i.title
                                                                     }))) : 
-                                                                    (mockData?.map(i => ({
+                                                                    (mockDataFin?.map(i => ({
                                                                         label: i.label, value: i.title
                                                                     })))
                                                             }
@@ -596,10 +596,10 @@ const  RatingModalPreviewEditMode = ({
                                                             onChange={handleDisplayHorizontalAxisRatingChangeOnRatingModalPreviewEditMode}
                                                             options={
                                                                 getLanguage() === 'en' ?
-                                                                    (mockData?.map(i => ({
+                                                                    (mockDataEn?.map(i => ({
                                                                         label: i.label, value: i.title
                                                                     }))) : 
-                                                                    (mockData?.map(i => ({
+                                                                    (mockDataFin?.map(i => ({
                                                                         label: i.label, value: i.title
                                                                     })))
                                                             }

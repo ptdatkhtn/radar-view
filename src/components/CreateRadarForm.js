@@ -175,14 +175,14 @@ export const mockData= [
         leftAttr: getLanguage() === 'en' ?'Minor':'Vähäinen',
         rightAttr: getLanguage() === 'en' ?'Huge':'Suuri'
     },
-    
-].sort((a, b) => a.label.localeCompare(b.label)).concat({
-    title: getLanguage() === 'en' ?'Custom':'Muokattu',
-    label: getLanguage() === 'en' ?'Custom':'Muokattu',
-    nameAxis: getLanguage() === 'en' ?'Custom':'Muokattu',
-    leftAttr: 'X',
-    rightAttr: 'Y'
-})
+    {
+        title: getLanguage() === 'en' ?'Custom':'',
+        label: getLanguage() === 'en' ?'Custom':'Muokattu',
+        nameAxis: getLanguage() === 'en' ?'Custom':'Muokattu',
+        leftAttr: 'X',
+        rightAttr: 'Y'
+    },
+]
 
 export const mockDataEn= [
     {
@@ -549,10 +549,10 @@ class CreateRadarForm extends PureComponent {
                 votingHaloOn: false
             })
         }
-        mockData.some(i => {
-            if (String(axisYTitle) === requestTranslation('verticalAxisName')
+         getLanguage() === 'en' ? mockDataEn.some(i => {
+            if ((String(axisYTitle) === requestTranslation('verticalAxisName')
                     && String(axisYMin) === requestTranslation('lowEnd')
-                    && String(axisYMax) === requestTranslation('highEnd')) {
+                    && String(axisYMax) === requestTranslation('highEnd'))) {
                 this.setState({ 
                     axisYSelect: '',
                 })
@@ -572,9 +572,34 @@ class CreateRadarForm extends PureComponent {
                     axisYSelect: getLanguage() === 'en' ?'Custom':'Muokattu',
                 })
             }
-        })
+        }) : 
+        (mockDataFin.some(i => {
+            if ((String(axisYTitle) === requestTranslation('verticalAxisName')
+                    && String(axisYMin) === requestTranslation('lowEnd')
+                    && String(axisYMax) === requestTranslation('highEnd'))) {
+                this.setState({ 
+                    axisYSelect: '',
+                })
+                return true
+            }
+            else if((String(axisYTitle) === String(i.nameAxis) || String(axisYTitle) === String(i.title))
+                    && String(axisYMin) === String(i.leftAttr)
+                    && String(axisYMax) === String(i.rightAttr)) {
+                    this.setState({ 
+                        axisYSelect: i?.title,
+                        axisYTitle: i?.nameAxis
+                    })
+                    return true
+                } 
+            else {
+                this.setState({ 
+                    axisYSelect: getLanguage() === 'en' ?'Custom':'Muokattu',
+                })
+            }
+        }))
 
-        mockData.some(i => {
+        
+        getLanguage() === 'en' ? mockDataEn.some(i => {
             if (String(axisXTitle) === requestTranslation('HorizontalAxisName')
                         && String(axisXMin) === requestTranslation('leftEnd')
                         && String(axisXMax) ===requestTranslation('rightEnd')) {
@@ -598,7 +623,32 @@ class CreateRadarForm extends PureComponent {
                     axisXSelect: getLanguage() === 'en' ?'Custom':'Muokattu',
                 })
             }
-        })
+        }) :
+        (mockDataFin.some(i => {
+            if (String(axisXTitle) === requestTranslation('HorizontalAxisName')
+                        && String(axisXMin) === requestTranslation('leftEnd')
+                        && String(axisXMax) ===requestTranslation('rightEnd')) {
+                    this.setState({ 
+                        axisXSelect: '',
+                    })
+                    return true
+            }
+            else if((String(axisXTitle) === String(i.nameAxis) || String(axisXTitle) === String(i.title))
+                    && String(axisXMin) === String(i.leftAttr)
+                    && String(axisXMax) === String(i.rightAttr)) {
+                    this.setState({ 
+                        axisXSelect: i?.title,
+                        axisXTitle: i?.nameAxis
+                        
+                    })
+                    return true
+                } 
+            else {
+                this.setState({ 
+                    axisXSelect: getLanguage() === 'en' ?'Custom':'Muokattu',
+                })
+            }
+        }))
 
     }
 
@@ -1574,10 +1624,10 @@ class CreateRadarForm extends PureComponent {
                                             value={inputVerticalAxisValue}
                                             options={
                                                 getLanguage() === 'en' ?
-                                                    (mockData?.map(i => ({
+                                                    (mockDataEn?.map(i => ({
                                                         label: i.label, value: i.title
                                                     }))) : 
-                                                    (mockData?.map(i => ({
+                                                    (mockDataFin?.map(i => ({
                                                         label: i.label, value: i.title
                                                     })))
                                             }
@@ -1602,10 +1652,10 @@ class CreateRadarForm extends PureComponent {
                                             onChange={handleDisplayHorizontalAxisRatingChange}
                                             options={
                                                 getLanguage() === 'en' ?
-                                                    (mockData?.map(i => ({
+                                                    (mockDataEn?.map(i => ({
                                                         label: i.label, value: i.title
                                                     }))) : 
-                                                    (mockData?.map(i => ({
+                                                    (mockDataFin?.map(i => ({
                                                         label: i.label, value: i.title
                                                     })))
                                             }
