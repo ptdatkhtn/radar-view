@@ -1566,7 +1566,8 @@ class CreateRadarForm extends PureComponent {
                                 <Columns>
                                     <Column>
                                         <Select
-                                            placeholder={requestTranslation('selectValue')}
+                                            // placeholder={requestTranslation('selectValue')}
+                                            placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
                                             searchable={false}
                                             name='group'
                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
@@ -1593,7 +1594,8 @@ class CreateRadarForm extends PureComponent {
                                 <Columns>
                                     <Column>
                                         <Select
-                                            placeholder={requestTranslation('selectValue')}
+                                            // placeholder={requestTranslation('selectValue')}
+                                            placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
                                             searchable={false}
                                             name='group'
                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }

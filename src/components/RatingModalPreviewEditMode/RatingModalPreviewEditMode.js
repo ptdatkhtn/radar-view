@@ -561,6 +561,7 @@ const  RatingModalPreviewEditMode = ({
                                                     <Column>
                                                         <Select
                                                             defaultValue='Select'
+                                                            placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
                                                             searchable={false}
                                                             name='group'
                                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
@@ -589,6 +590,7 @@ const  RatingModalPreviewEditMode = ({
                                                         <Select
                                                             searchable={false}
                                                             name='group'
+                                                            placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
                                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
                                                             value={isCustomHorozol ? getLanguage() === 'en' ?'Custom':'Muokattui' : axisXSelectValue}
                                                             onChange={handleDisplayHorizontalAxisRatingChangeOnRatingModalPreviewEditMode}
