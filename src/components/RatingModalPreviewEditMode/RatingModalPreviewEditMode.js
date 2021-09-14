@@ -596,10 +596,10 @@ const  RatingModalPreviewEditMode = ({
                                                             onChange={handleDisplayHorizontalAxisRatingChangeOnRatingModalPreviewEditMode}
                                                             options={
                                                                 getLanguage() === 'en' ?
-                                                                    (mockDataEn?.map(i => ({
+                                                                    (mockData?.map(i => ({
                                                                         label: i.label, value: i.title
                                                                     }))) : 
-                                                                    (mockDataFin?.map(i => ({
+                                                                    (mockData?.map(i => ({
                                                                         label: i.label, value: i.title
                                                                     })))
                                                             }

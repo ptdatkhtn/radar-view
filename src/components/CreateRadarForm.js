@@ -175,14 +175,14 @@ export const mockData= [
         leftAttr: getLanguage() === 'en' ?'Minor':'Vähäinen',
         rightAttr: getLanguage() === 'en' ?'Huge':'Suuri'
     },
-    {
-        title: getLanguage() === 'en' ?'Custom':'',
-        label: getLanguage() === 'en' ?'Custom':'Muokattu',
-        nameAxis: getLanguage() === 'en' ?'Custom':'Muokattu',
-        leftAttr: 'X',
-        rightAttr: 'Y'
-    },
-]
+    
+].sort((a, b) => a.label.localeCompare(b.label)).concat({
+    title: getLanguage() === 'en' ?'Custom':'Muokattu',
+    label: getLanguage() === 'en' ?'Custom':'Muokattu',
+    nameAxis: getLanguage() === 'en' ?'Custom':'Muokattu',
+    leftAttr: 'X',
+    rightAttr: 'Y'
+})
 
 export const mockDataEn= [
     {
@@ -1574,10 +1574,10 @@ class CreateRadarForm extends PureComponent {
                                             value={inputVerticalAxisValue}
                                             options={
                                                 getLanguage() === 'en' ?
-                                                    (mockDataEn?.map(i => ({
+                                                    (mockData?.map(i => ({
                                                         label: i.label, value: i.title
                                                     }))) : 
-                                                    (mockDataFin?.map(i => ({
+                                                    (mockData?.map(i => ({
                                                         label: i.label, value: i.title
                                                     })))
                                             }
@@ -1602,10 +1602,10 @@ class CreateRadarForm extends PureComponent {
                                             onChange={handleDisplayHorizontalAxisRatingChange}
                                             options={
                                                 getLanguage() === 'en' ?
-                                                    (mockDataEn?.map(i => ({
+                                                    (mockData?.map(i => ({
                                                         label: i.label, value: i.title
                                                     }))) : 
-                                                    (mockDataFin?.map(i => ({
+                                                    (mockData?.map(i => ({
                                                         label: i.label, value: i.title
                                                     })))
                                             }
