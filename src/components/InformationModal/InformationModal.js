@@ -54,16 +54,16 @@ const InformationModal = ({
             {InfoModalNote}
           </p>
           
-            <ul style={{listStyleType: 'none'}}>
-              <li>{InfoModalDescription}</li>
-              <li>{InfoModalDescription2}</li>
-              <li>{InfoModalDescription3}</li>
-              <li>{InfoModalDescription4}</li>
-              <li>{InfoModalDescription5}</li>
-              <li>{InfoModalDescription6}</li>
-              <li>{InfoModalDescription7}</li>
+            <InformationUl>
+              {InfoModalDescription && <InformationLi>{InfoModalDescription}</InformationLi>}
+              {InfoModalDescription2 && <InformationLi>{InfoModalDescription2}</InformationLi>}
+              {InfoModalDescription3 && <InformationLi>{InfoModalDescription3}</InformationLi>}
+              {InfoModalDescription4 && <InformationLi>{InfoModalDescription4}</InformationLi>}
+              {InfoModalDescription5 && <InformationLi>{InfoModalDescription5}</InformationLi>}
+              {InfoModalDescription6 && <InformationLi>{InfoModalDescription6}</InformationLi>}
+              {InfoModalDescription7 && <InformationLi>{InfoModalDescription7}</InformationLi>}
 
-            </ul>
+            </InformationUl>
 
           {/* <div style={{ marginTop: "48px", display: 'flex', flexDirection:'column', width: '60%' }}>
             <p>{requestTranslation('LearnMoreFromHUB')}</p>
@@ -109,4 +109,10 @@ const InformationIcon = styled(InfoCircle)`
   color: #00C3FF;
   width: 45px;
   height: 45px;
+`;
+const InformationUl = styled.ul`
+  line-height: 2
+`;
+const InformationLi = styled.li`
+  line-height: 1.5
 `;

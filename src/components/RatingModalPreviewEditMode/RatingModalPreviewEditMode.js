@@ -24,12 +24,11 @@ import {InfoCircle} from '@styled-icons/boxicons-regular'
 import Popover from '@material-ui/core/Popover';
 import { withStyles } from '@material-ui/core/styles';
 import styles from '../CreateRadarForm.module.css'
-import RatingSummaryPreview from '../RatingSummaryPreview';
-import debounce from 'lodash/debounce'
 import ConfirmationModalForRatings from '../ConfirmationModalForRatings/ConfirmationModalForRatings'
-import { SettingsInputAntennaTwoTone } from '@material-ui/icons'
 import CollaborationChartSetting from '../CollaborationChartSetting'
 import {mockData} from '../CreateRadarForm'
+import InformationModal from '../InformationModal/InformationModal'
+import { getLanguage } from '@sangre-fp/i18n'
 
 const URL = window.URL || window.webkitURL
 
@@ -220,7 +219,16 @@ const  RatingModalPreviewEditMode = ({
         const [fourFieldsBottomRightValue, setfourFieldsBottomRightValue] = React.useState(fourFieldsBottomRight)
         const [axisXSelectValue, setaxisXSelect] = React.useState(axisXSelect)
         const [axisYSelectValue, setaxisYSelect] = React.useState(axisYSelect)
+        const [openRatingInformationModal, setOpenRatingInformationModal] = React.useState(false)
 
+
+        const openRatingInformationModalHandle = () => {
+            setOpenRatingInformationModal(true)
+        }
+    
+        const closeRatingInformationModalHandle = () => {
+            setOpenRatingInformationModal(false)
+        } 
         const getDataFromLocalStorageThenSaveToLocalState = () => {
             const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
 
@@ -317,7 +325,7 @@ const  RatingModalPreviewEditMode = ({
         const handleDisplayVericalAxisRatingChangeOnRatingModalPreviewEditMode = ({value}) => {
             // handleDisplayVericalAxisRatingChange({value})
             mockData.some(i => {
-                if (String(value) === 'Custom') {
+                if ((String(value) === 'Custom') || (String(value) === 'Muokattui')  ) {
                     setIsCustomVertical(true)
                     handleDisplayVericalAxisRatingChange({value}, true)
                     return true
@@ -338,7 +346,7 @@ const  RatingModalPreviewEditMode = ({
         const handleDisplayHorizontalAxisRatingChangeOnRatingModalPreviewEditMode = ({value}) => {
             // handleDisplayHorizontalAxisRatingChange({value})
             mockData.some(i => {
-                if (String(value) === 'Custom') {
+                if ((String(value) === 'Custom') || (String(value) === 'Muokattui')  ) {
                     setIsCustomHorozol(true)
                     handleDisplayHorizontalAxisRatingChange({value}, true)
                     return true
@@ -488,6 +496,7 @@ const  RatingModalPreviewEditMode = ({
                                             <InformationIcon 
                                                 onMouseEnter={onHoverRatingIcon}
                                                 onMouseLeave={onLeaveRatingIcon}
+                                                onClick={openRatingInformationModalHandle}
                                             />
                                             <Popover 
                                                 className={classes.popover}
@@ -507,8 +516,24 @@ const  RatingModalPreviewEditMode = ({
                                                 onClose={onLeaveRatingIcon}
                                                 disableRestoreFocus
                                             >
-                                                <HoverBox>{requestTranslation('InfoIconHover')}</HoverBox>
+                                                <HoverBox>{requestTranslation('InfoIconHoverRating')}</HoverBox>
                                             </Popover> 
+                                            <InformationModal 
+                                    InfoModalHeader={requestTranslation('RatingTool')}
+                                    InfoModalNote={requestTranslation('InfoModalRatingNote')}
+                                    InfoModalOpen={openRatingInformationModal}
+                                    InfoModalClose={closeRatingInformationModalHandle}
+                                    LearnMoreBtn={requestTranslation('LearnMoreRatingBtn')}
+                                    GuideBtn={requestTranslation('GuideRatingBtn')}
+                                    LearnMoreLink='https://info.futuresplatform.com/hub/how-to-rate'
+                                    GuideLink='https://info.futuresplatform.com/hub/most-commonly-used-axis-for-rating'
+                                    InfoModalDescription={requestTranslation('InfoModalRatingContent')}
+                                    InfoModalDescription2={requestTranslation('InfoModalRatingContent2')}
+                                    InfoModalDescription3={requestTranslation('InfoModalRatingContent3')}
+                                    InfoModalDescription4={requestTranslation('InfoModalRatingContent4')}
+                                    InfoModalDescription5={requestTranslation('InfoModalRatingContent5')}
+                                    InfoModalDescription6={requestTranslation('InfoModalRatingContent6')}
+                                />
                                         </div>
                                         <SpaceBetween>
                                             <p>
@@ -526,8 +551,7 @@ const  RatingModalPreviewEditMode = ({
                                     
 
                                     {ratingsOn && (
-                                    <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}>
-                                        <p style={{marginTop: '12px'}}>{requestTranslation('IntructionsForNamingAxis')}</p>
+                                    <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0, marginTop: '20px' }}>
                                         <SpaceBetween>
                                             <HalfWidth>
                                                 <h4>
@@ -541,8 +565,8 @@ const  RatingModalPreviewEditMode = ({
                                                             name='group'
                                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
                                                             onChange={handleDisplayVericalAxisRatingChangeOnRatingModalPreviewEditMode}
-                                                            value={isCustomVertical ? 'Custom' : axisYSelectValue}
-                                                            options={mockData.map(i => ({
+                                                            value={isCustomVertical ? getLanguage() === 'en' ?'Custom':'Muokattui' : axisYSelectValue}
+                                                            options={mockData.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
                                                                 label: i.label, value: i.title
                                                             }))}
                                                             clearable={false}
@@ -560,9 +584,9 @@ const  RatingModalPreviewEditMode = ({
                                                             searchable={false}
                                                             name='group'
                                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
-                                                            value={isCustomHorozol ? 'Custom' : axisXSelectValue}
+                                                            value={isCustomHorozol ? getLanguage() === 'en' ?'Custom':'Muokattui' : axisXSelectValue}
                                                             onChange={handleDisplayHorizontalAxisRatingChangeOnRatingModalPreviewEditMode}
-                                                            options={mockData.map(i => ({
+                                                            options={mockData.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
                                                                 label: i.label, value: i.title
                                                             }))}
                                                             clearable={false}
@@ -592,8 +616,8 @@ const  RatingModalPreviewEditMode = ({
                                                 lowEnd = {lowEnd}
                                                 passisCustomToRatingModalPreviewModeVertical={receivedCheckDataFromCollaborationChartSettingVertical}
                                                 passisCustomToRatingModalPreviewModeHoronzal={receivedCheckDataFromCollaborationChartSettingHoronzal}
-                                                inputSelectedX={isCustomHorozol? 'Custom' : axisXSelectValue}
-                                                inputSelectedY={isCustomVertical? 'Custom' : axisYSelectValue}
+                                                inputSelectedX={isCustomHorozol? getLanguage() === 'en' ?'Custom':'Muokattui' : axisXSelectValue}
+                                                inputSelectedY={isCustomVertical? getLanguage() === 'en' ?'Custom':'Muokattui' : axisYSelectValue}
                                                 isCustomHorozol={isCustomHorozol}
                                                 isCustomVertical={isCustomVertical}
                                                 // passDataFromPreviewEditModeToPreivewMore={passDataFromPreviewEditModeToPreivewMore}
@@ -605,7 +629,7 @@ const  RatingModalPreviewEditMode = ({
                                                 <HandleRatingsBtn className="btn btn-outline-secondary" onClick={handleFlipHorizontalAndVerticalChangeInRatingEditChartMode}>{requestTranslation('FlipHorizontalVertical')}</HandleRatingsBtn>
                                                 <HandleRatingsBtnActive className="btn btn-outline-secondary">{requestTranslation('editManuallyBtn')}</HandleRatingsBtnActive>   
                                             </RatingHandleBtnGroup>
-                                        <HandleDoneBtn className="btn btn-primary " onClick={() => handleDoneBtn(isCustomVertical, isCustomHorozol)}>DONE</HandleDoneBtn>
+                                        <HandleDoneBtn className="btn btn-primary " onClick={() => handleDoneBtn(isCustomVertical, isCustomHorozol)}>{requestTranslation('DoneBtn')}</HandleDoneBtn>
                                             
                                         </RatingGroupBtn>
                                         <ConfirmationModalForRatings 
@@ -702,7 +726,8 @@ const HandleDoneBtn = styled.button`
 const HandleRatingsBtnActive = styled.button`
     background: #006998 !important;
     color: white !important;
-    margin-bottom: 10px;
+    margin-bottom:import InformationModal from '../InformationModal/InformationModal';
+ 10px;
 `
 const RatingGroupBtn = styled.div`
 display: flex;

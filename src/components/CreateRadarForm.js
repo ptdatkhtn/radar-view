@@ -8,7 +8,7 @@ import {
     Radiobox,
     Checkbox
 } from '@sangre-fp/ui'
-import { requestTranslation } from '@sangre-fp/i18n'
+import { requestTranslation,getLanguage } from '@sangre-fp/i18n'
 import { radarLanguages, initialCommentTopics, customQuillModules } from '../config'
 import { PUBLIC_URL } from '../env'
 import ReactQuill from 'react-quill'
@@ -63,121 +63,122 @@ const RATING_ARROWS_ENABLED = false
 // ]
 export const mockData= [
     {
-        title: 'Time: Near term/Long term',
-        label: 'Time: Near term/Long term',
-        nameAxis: 'Time',
-        leftAttr: 'Near term',
-        rightAttr: 'Long term'
+        title: getLanguage() === 'en' ? 'Time: Near term/Long term' : 'Aikajakso: Lyhyt tähtäin/Pitkä tähtäin',
+        label: getLanguage() === 'en' ? 'Time: Near term/Long term' : 'Aikajakso: Lyhyt tähtäin/Pitkä tähtäin',
+        nameAxis: getLanguage() === 'en' ? 'Time' : 'Aikajakso',
+        leftAttr: getLanguage() === 'en' ? 'Near term' : 'Lyhyt tähtäin',
+        rightAttr: getLanguage() === 'en' ? 'Long term' : 'Pitkä tähtäin',
     },
     {
-        title: 'Probability: Low/High ',
-        label: 'Probability: Low/High',
-        nameAxis: 'Probability',
-        leftAttr: 'Low',
-        rightAttr: 'High'
+        title: getLanguage() === 'en' ? 'Probability: Low/High' : 'Todennäköisyys: Matala/Korkea',
+        label: getLanguage() === 'en' ? 'Probability: Low/High' : 'Todennäköisyys: Matala/Korkea',
+        nameAxis: getLanguage() === 'en' ? 'Probability': 'Todennäköisyys',
+        leftAttr: getLanguage() === 'en' ? 'Low': 'Matala',
+        rightAttr: getLanguage() === 'en' ? 'High': 'Korkea'
     },
     {
-        title: 'Fit with current strategy: Near term/long term',
-        label: 'Fit with current strategy: Near term/Long term',
-        nameAxis: 'Fit with current strategy',
-        leftAttr: 'Near term',
-        rightAttr: 'Long term'
+        title: getLanguage() === 'en' ? 'Fit with current strategy: Near term/Long term' : 'Sopii nykyiseen strategiaan: Lyhyt tähtäin/Pitkä tähtäin',
+        label: getLanguage() === 'en' ? 'Fit with current strategy: Near term/Long term' : 'Sopii nykyiseen strategiaan: Lyhyt tähtäin/Pitkä tähtäin',
+        nameAxis: getLanguage() === 'en' ?'Fit with current strategy':'Sopii nykyiseen strategiaan',
+        leftAttr: getLanguage() === 'en' ?'Near term':'Lyhyt tähtäin',
+        rightAttr: getLanguage() === 'en' ?'Long term':'Pitkä tähtäin'
     },
     {
-        title: 'Fit with new strategy: Weak/Strong',
-        label: 'Fit with new strategy: Weak/Strong',
-        nameAxis: 'Fit with new strategy',
-        leftAttr: 'Weak',
-        rightAttr: 'Strong'
+        title: getLanguage() === 'en' ? 'Fit with new strategy: Weak/Strong' : 'Sopii nykyiseen strategiaan: Huonosti/Hyvin',
+        label: getLanguage() === 'en' ? 'Fit with new strategy: Weak/Strong' : 'Sopii nykyiseen strategiaan: Huonosti/Hyvin',
+        nameAxis: getLanguage() === 'en'? 'Fit with new strategy':'Sopii nykyiseen strategiaan',
+        leftAttr: getLanguage() === 'en'? 'Weak':'Huonosti',
+        rightAttr: getLanguage() === 'en'? 'Strong':'Hyvin'
     },
     {
-        title: 'Direction of the trend: Weakening/Increasing',
-        label: 'Direction of the trend: Weakening/Increasing',
-        nameAxis: 'Direction of the trend',
-        leftAttr: 'Weakening',
-        rightAttr: 'Increasing'
+        title: getLanguage() === 'en' ? 'Direction of the trend: Weakening/Increasing' : 'Trendin kehityssuunta: Heikkenevä/Vahvistuva',
+        label: getLanguage() === 'en' ? 'Direction of the trend: Weakening/Increasing' : 'Trendin kehityssuunta: Heikkenevä/Vahvistuva',
+        nameAxis: getLanguage() === 'en' ?'Direction of the trend': 'Trendin kehityssuunta',
+        leftAttr: getLanguage() === 'en' ?'Weakening': 'Heikkenevä',
+        rightAttr: getLanguage() === 'en' ?'Increasing':'Vahvistuva'
     },
     {
-        title: 'Importance: Low/High',
-        label: 'Importance: Low/High',
-        nameAxis: 'Importance',
-        leftAttr: 'Low',
-        rightAttr: 'High'
+        title: getLanguage() === 'en' ? 'Importance: Low/High' : 'Tärkeys: Matala/Korkea',
+        label: getLanguage() === 'en' ? 'Importance: Low/High' : 'Tärkeys: Matala/Korkea',
+        nameAxis: getLanguage() === 'en' ?'Importance': 'Tärkeys',
+        leftAttr: getLanguage() === 'en' ?'Low' : 'Matala',
+        rightAttr: getLanguage() === 'en' ?'High': 'Korkea'
     },
     {
-        title: 'Impact1: Moderate/Huge',
-        label: 'Impact: Moderate/Huge',
-        nameAxis: 'Impact',
-        leftAttr: 'Moderate',
-        rightAttr: 'Huge'
+        title: getLanguage() === 'en' ? 'Impact1: Moderate/Huge' : 'Vaikutus1: Maltillinen/Valtava',
+        label: getLanguage() === 'en' ? 'Impact: Moderate/Huge' : 'Vaikutus: Maltillinen/Valtava',
+        nameAxis: getLanguage() === 'en' ? 'Impact':'Vaikutus',
+        leftAttr: getLanguage() === 'en' ? 'Moderate':'Maltillinen',
+        rightAttr: getLanguage() === 'en' ? 'Huge':'Valtava'
     },
     {
-        title: 'Impact2: Local/Global',
-        label: 'Impact: Local/Global',
-        nameAxis: 'Impact',
-        leftAttr: 'Local',
-        rightAttr: 'Global'
+        title: getLanguage() === 'en' ? 'Impact2: Local/Global' : 'Vaikutus2: Paikallinen/Globaali',
+        label: getLanguage() === 'en' ? 'Impact: Local/Global' : 'Vaikutus: Paikallinen/Globaali',
+        nameAxis: getLanguage() === 'en' ? 'Impact': 'Vaikutus',
+        leftAttr: getLanguage() === 'en' ? 'Local': 'Paikallinen',
+        rightAttr: getLanguage() === 'en' ? 'Global':'Globaali'
     },
     {
-        title: 'Nature1: Threat/Opportunity',
-        label: 'Nature: Threat/Opportunity',
-        nameAxis: 'Nature',
-        leftAttr: 'Threat',
-        rightAttr: 'Opportunity'
+        title: getLanguage() === 'en' ? 'Nature1: Threat/Opportunity' : 'Luonne1: Uhka/Mahdollisuus',
+        label: getLanguage() === 'en' ? 'Nature: Threat/Opportunity' : 'Luonne: Uhka/Mahdollisuus',
+        nameAxis: getLanguage() === 'en' ?'Nature': 'Luonne',
+        leftAttr: getLanguage() === 'en' ?'Threat': 'Uhka',
+        rightAttr: getLanguage() === 'en' ?'Opportunity': 'Mahdollisuus'
     },
     {
-        title: 'Nature2: long term Trend/Emergent',
-        label: 'Nature: long term Trend/Emergent',
-        nameAxis: 'Nature',
-        leftAttr: 'Long term trend',
-        rightAttr: 'Emergent'
+        title: getLanguage() === 'en' ? 'Nature2: long term Trend/Emergent' : 'Luonne2: Pitkä tähtäin/Nouseva',
+        label: getLanguage() === 'en' ? 'Nature: long term Trend/Emergent' : 'Luonne: Pitkä tähtäin/Nouseva',
+        nameAxis: getLanguage() === 'en' ?'Nature':'Luonne',
+        leftAttr: getLanguage() === 'en' ?'Long term trend':'Pitkä tähtäin',
+        rightAttr: getLanguage() === 'en' ?'Emergent':'Nouseva'
     },
     {
-        title: 'Speed of change: Gradual/Tsunami',
-        label: 'Speed of change: Gradual/Tsunami',
-        nameAxis: 'Speed of change',
-        leftAttr: 'Gradual',
-        rightAttr: 'Tsunami'
+        title: getLanguage() === 'en' ? 'Speed of change: Gradual/Tsunami' : 'Muutoksen nopeus: Asteittainen/Yhdellä kertaa',
+        label: getLanguage() === 'en' ? 'Speed of change: Gradual/Tsunami' : 'Muutoksen nopeus: Asteittainen/Yhdellä kertaa',
+        nameAxis: getLanguage() === 'en' ?'Speed of change':'Muutoksen nopeus',
+        leftAttr:getLanguage() === 'en' ? 'Gradual':'Asteittainen',
+        rightAttr: getLanguage() === 'en' ?'Tsunami':'Yhdellä kertaa'
     },
     {
-        title: 'Size of threat/risk: Moderate/Huge',
-        label: 'Size of threat/risk: Moderate/Huge',
-        nameAxis: 'Size of threat/risk',
-        leftAttr: 'Moderate',
-        rightAttr: 'Huge'
+        title: getLanguage() === 'en' ? 'Size of threat/risk: Moderate/Huge' : 'Uhka: Maltillinen/Suuri',
+        label: getLanguage() === 'en' ? 'Size of threat/risk: Moderate/Huge' : 'Uhka: Maltillinen/Suuri',
+        nameAxis: getLanguage() === 'en' ?'Size of threat/risk':'Uhka',
+        leftAttr: getLanguage() === 'en' ?'Moderate':'Maltillinen',
+        rightAttr:getLanguage() === 'en' ? 'Huge':'Suuri'
     },
     {
-        title: 'Size of opportunity: Moderate/Huge',
-        label: 'Size of opportunity: Moderate/Huge',
-        nameAxis: 'Size of opportunity',
-        leftAttr: 'Moderate',
-        rightAttr: 'Huge'
+        title: getLanguage() === 'en' ? 'Size of opportunity: Moderate/Huge':'Mahdollisuus: Maltillinen/Suuri',
+        label:getLanguage() === 'en' ? 'Size of opportunity: Moderate/Huge':'Mahdollisuus: Maltillinen/Suuri',
+        nameAxis:getLanguage() === 'en' ? 'Size of opportunity': 'Mahdollisuus',
+        leftAttr:getLanguage() === 'en' ? 'Moderate':'Maltillinen',
+        rightAttr:getLanguage() === 'en' ? 'Huge':'Suuri'
     },
     {
-        title: 'Nature3: Non-disrupting/Disrupting',
-        label: 'Nature: Non-disrupting/Disrupting',
-        nameAxis: 'Nature',
-        leftAttr: 'Non-disrupting',
-        rightAttr: 'Disrupting'
+        title: getLanguage() === 'en' ? 'Nature3: Non-disrupting/Disrupting':'Luonne3: Häiriötön/Häiriöitä aiheuttava',
+        label: getLanguage() === 'en' ? 'Nature: Non-disrupting/Disrupting':'Luonne: Häiriötön/Häiriöitä aiheuttava',
+        nameAxis: getLanguage() === 'en' ?'Nature':'Luonne3',
+        leftAttr: getLanguage() === 'en' ?'Non-disrupting':'Häiriötön',
+        rightAttr:getLanguage() === 'en' ? 'Disrupting':'Häiriöitä aiheuttava'
     },
     {
-        title: 'Fit with existing capabilities: Weak/Strong',
-        label: 'Fit with existing capabilities: Weak/Strong',
-        nameAxis: 'Fit with existing capabilities',
-        leftAttr: 'Weak',
-        rightAttr: 'Strong'
+        title: getLanguage() === 'en' ? 'Fit with existing capabilities: Weak/Strong':'Sopii nykyisiin kyvykkyyksiin: Huonosti/Hyvin',
+        label: getLanguage() === 'en' ? 'Fit with existing capabilities: Weak/Strong':'Sopii nykyisiin kyvykkyyksiin: Huonosti/Hyvin',
+        nameAxis: getLanguage() === 'en' ?'Fit with existing capabilities':'Sopii nykyisiin kyvykkyyksiin',
+        leftAttr: getLanguage() === 'en' ?'Weak':'Huonosti',
+        rightAttr: getLanguage() === 'en' ?'Strong':'Hyvin'
     },
     {
-        title: 'Magnitude of actions required: Minor/Huge',
-        label: 'Magnitude of actions required: Minor/Huge',
-        nameAxis: 'Magnitude of actions required',
-        leftAttr: 'Minor',
-        rightAttr: 'Huge'
+        //Vaadittu toimenpiteiden taso: Vähäinen/Suuri
+        title: getLanguage() === 'en' ?'Magnitude of actions required: Minor/Huge':'Vaadittu toimenpiteiden taso: Vähäinen/Suuri',
+        label: getLanguage() === 'en' ?'Magnitude of actions required: Minor/Huge':'Vaadittu toimenpiteiden taso: Vähäinen/Suuri',
+        nameAxis: getLanguage() === 'en' ?'Magnitude of actions required':'Vaadittu toimenpiteiden taso',
+        leftAttr: getLanguage() === 'en' ?'Minor':'Vähäinen',
+        rightAttr: getLanguage() === 'en' ?'Huge':'Suuri'
     },
     {
-        title: 'Custom',
-        label: 'Custom',
-        nameAxis: 'Custom',
+        title: getLanguage() === 'en' ?'Custom':'Muokattui',
+        label: getLanguage() === 'en' ?'Custom':'Muokattui',
+        nameAxis: getLanguage() === 'en' ?'Custom':'Muokattui',
         leftAttr: 'X',
         rightAttr: 'Y'
     },
@@ -324,7 +325,7 @@ class CreateRadarForm extends PureComponent {
                 } 
             else {
                 this.setState({ 
-                    axisYSelect: 'Custom',
+                    axisYSelect: getLanguage() === 'en' ?'Custom':'Muokattui',
                 })
             }
         })
@@ -350,7 +351,7 @@ class CreateRadarForm extends PureComponent {
                 } 
             else {
                 this.setState({ 
-                    axisXSelect: 'Custom',
+                    axisXSelect: getLanguage() === 'en' ?'Custom':'Muokattui',
                 })
             }
         })
@@ -808,7 +809,7 @@ class CreateRadarForm extends PureComponent {
                 isCustomVertical: isCustom,
             })
             mockData.some(i => {
-                if (String(value) === 'Custom') {
+                if ((String(value) === 'Custom') || (String(value) === 'Muokattui')  ) {
                     this.setState({ 
                         axisYSelect: value
                     })
@@ -829,7 +830,7 @@ class CreateRadarForm extends PureComponent {
                 isCustomHorozol: isCustom,
             })
             mockData.some(i => {
-                if (String(value) === 'Custom') {
+                if ((String(value) === 'Custom') || (String(value) === 'Muokattui')) {
                     this.setState({ 
                         axisXSelect: value
                     })
@@ -1111,8 +1112,8 @@ class CreateRadarForm extends PureComponent {
             }
         }
 
-        const inputVerticalAxisValue = String(axisYSelect) !== '' ? (this.state.isCustomVertical ? 'Custom' : axisYSelect) : ''
-        const inputHorozoltalAxisValue = String(axisXSelect) !== '' ? (this.state.isCustomHorozol ? 'Custom' : axisXSelect) : ''
+        const inputVerticalAxisValue = String(axisYSelect) !== '' ? (this.state.isCustomVertical ? (getLanguage() === 'en' ?'Custom':'Muokattui') : axisYSelect) : ''
+        const inputHorozoltalAxisValue = String(axisXSelect) !== '' ? (this.state.isCustomHorozol ? (getLanguage() === 'en' ?'Custom':'Muokattui') : axisXSelect) : ''
         return (
             <div className='modal-form-sections'>
                 <div className='modal-form-section modal-form-header'>
@@ -1326,7 +1327,7 @@ class CreateRadarForm extends PureComponent {
                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
                                             onChange={handleDisplayVericalAxisRatingChange}
                                             value={inputVerticalAxisValue}
-                                            options={mockData.map(i => ({
+                                            options={mockData.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
                                                 label: i.label, value: i.title
                                             }))}
                                             clearable={false}
@@ -1347,7 +1348,7 @@ class CreateRadarForm extends PureComponent {
                                             className= {`${styles['custom-react-select-margin-bottom-att']}` }
                                             value={inputHorozoltalAxisValue}
                                             onChange={handleDisplayHorizontalAxisRatingChange}
-                                            options={mockData.map(i => ({
+                                            options={mockData.sort((a, b) => a.label.localeCompare(b.label)).map(i => ({
                                                 label: i.label, value: i.title
                                             }))}
                                             clearable={false}
@@ -1560,7 +1561,7 @@ class CreateRadarForm extends PureComponent {
                                         <HoverBox>{requestTranslation('InfoIconHoverDiscussion')}</HoverBox>
                                     </Popover>
                                     <InformationModal 
-                                        InfoModalHeader={requestTranslation('discussion')}
+                                        InfoModalHeader={requestTranslation('DiscussionAreaTool')}
                                         InfoModalNote={requestTranslation('InfoModalDiscussionNote')}
                                         InfoModalOpen={openDiscussionInformationModal}
                                         InfoModalClose={closeDiscussionInformationModalHandle}
