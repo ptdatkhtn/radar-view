@@ -1106,9 +1106,9 @@ class CreateRadarForm extends PureComponent {
                 if ((String(value) === 'Custom') || (String(value) === 'Muokattu')  ) {
                     this.setState({ 
                         axisYSelect: value,
-                        axisYTitle: i.nameAxis,
-                        axisYMin: i.leftAttr,
-                        axisYMax: i.rightAttr,
+                        axisYTitle: 'Custom',
+                        axisYMin: 'X',
+                        axisYMax: 'Y',
                     })
                     return true
                 }
@@ -1125,9 +1125,9 @@ class CreateRadarForm extends PureComponent {
                 if ((String(value) === 'Custom') || (String(value) === 'Muokattu')  ) {
                     this.setState({ 
                         axisYSelect: value,
-                        axisYTitle: i.nameAxis,
-                        axisYMin: i.leftAttr,
-                        axisYMax: i.rightAttr,
+                        axisYTitle: 'Muokattu',
+                        axisYMin: 'X',
+                        axisYMax: 'Y',
                     })
                     return true
                 }
@@ -1149,9 +1149,9 @@ class CreateRadarForm extends PureComponent {
                 if ((String(value) === 'Custom') || (String(value) === 'Muokattu')) {
                     this.setState({ 
                         axisXSelect: value,
-                        axisXTitle: i.nameAxis,
-                        axisXMin: i.leftAttr,
-                        axisXMax: i.rightAttr,
+                        axisXTitle: 'Custom',
+                        axisXMin: 'X',
+                        axisXMax: 'Y',
                     })
                     return true
                 }
@@ -1168,9 +1168,9 @@ class CreateRadarForm extends PureComponent {
                 if ((String(value) === 'Custom') || (String(value) === 'Muokattu')) {
                     this.setState({ 
                         axisXSelect: value,
-                        axisXTitle: i.nameAxis,
-                        axisXMin: i.leftAttr,
-                        axisXMax: i.rightAttr,
+                        axisXTitle: 'Muokattu',
+                        axisXMin: 'X',
+                        axisXMax: 'Y',
                     })
                     return true
                 }

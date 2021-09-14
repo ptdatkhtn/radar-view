@@ -281,6 +281,9 @@ const CollaborationChartSetting = ({
     [SETTING_VALUE.VERTICAL]: verticalAxisName
   })
 
+  console.log(
+    verticalAxisName, topEnd, lowEnd
+  )
   const [isEditHorizontal, setIsEditHorizontal] = useState(isCustomHorozol)
   const [isVerticalEdit, setIsVerticalEdit] = useState(isCustomVertical)
   const [inputSelectedXValue, setinputSelectedXValue] = useState(inputSelectedX)
@@ -391,21 +394,21 @@ const CollaborationChartSetting = ({
   ])
 
   useEffect (() => {
-    const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+    // const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
     
     setState(prevState => {
       return {
         ...prevState,
-        [SETTING_VALUE.LEFT_END]: retrievedObject ? retrievedObject.leftEndValue : leftEnd,
-        [SETTING_VALUE.RIGHT_END]: retrievedObject ? retrievedObject.rightEndValue : rightEnd,
-        [SETTING_VALUE.TOP_END]: retrievedObject ? retrievedObject.topEndValue : topEnd,
-        [SETTING_VALUE.LOW_END]: retrievedObject ? retrievedObject.lowEndValue : lowEnd,
-        [SETTING_VALUE.HORIZONTAL]: retrievedObject ? retrievedObject.horizontalAxisNameValue : horizontalAxisName,
-        [SETTING_VALUE.VERTICAL]: retrievedObject ? retrievedObject.verticalAxisNameValue : verticalAxisName,
-        [SETTING_VALUE.TOP_LEFT]: retrievedObject ? retrievedObject.topLeftValue : topLeft,
-        [SETTING_VALUE.TOP_RIGHT]: retrievedObject ? retrievedObject.topRightValue : topRight,
-        [SETTING_VALUE.BOTTOM_LEFT]: retrievedObject ? retrievedObject.bottomLeftValue : bottomLeft,
-        [SETTING_VALUE.BOTTOM_RIGHT]: retrievedObject ? retrievedObject.bottomRightValue : bottomRight,
+        [SETTING_VALUE.LEFT_END]: leftEnd,
+        [SETTING_VALUE.RIGHT_END]: rightEnd,
+        [SETTING_VALUE.TOP_END]: topEnd,
+        [SETTING_VALUE.LOW_END]: lowEnd,
+        [SETTING_VALUE.HORIZONTAL]: horizontalAxisName,
+        [SETTING_VALUE.VERTICAL]: verticalAxisName,
+        [SETTING_VALUE.TOP_LEFT]: topLeft,
+        [SETTING_VALUE.TOP_RIGHT]: topRight,
+        [SETTING_VALUE.BOTTOM_LEFT]: bottomLeft,
+        [SETTING_VALUE.BOTTOM_RIGHT]: bottomRight,
       }
     })
     setIsEditHorizontal(isCustomHorozol)
