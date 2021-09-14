@@ -11,6 +11,8 @@ const InformationModal = ({
   InfoModalDescription3,
   InfoModalDescription4,
   InfoModalDescription5,
+  InfoModalDescription6,
+  InfoModalDescription7,
   InfoModalNote,
   InfoModalOpen,
   InfoModalClose,
@@ -58,10 +60,13 @@ const InformationModal = ({
               <li>{InfoModalDescription3}</li>
               <li>{InfoModalDescription4}</li>
               <li>{InfoModalDescription5}</li>
+              <li>{InfoModalDescription6}</li>
+              <li>{InfoModalDescription7}</li>
+
             </ul>
 
-          <div style={{ marginTop: "48px", display: 'flex', flexDirection:'column', width: '60%' }}>
-            <p>Learn more from the HUB: </p>
+          {/* <div style={{ marginTop: "48px", display: 'flex', flexDirection:'column', width: '60%' }}>
+            <p>{requestTranslation('LearnMoreFromHUB')}</p>
             <div style={{display: 'flex', flexDirection: 'column'}}>
               <button handleOpenLearnMoreLinkModal
                 onClick={() => handleOpenLearnMoreLinkModal(LearnMoreLink)}
@@ -77,9 +82,9 @@ const InformationModal = ({
                 {GuideBtn}
               </button>
             </div>
-          </div>
+          </div> */}
           <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-            <button className='btn btn-sm btn-primary' onClick={InfoModalClose}>GOT IT</button>
+            <button className='btn btn-sm btn-primary' onClick={InfoModalClose}>{requestTranslation('GotItBtn')}</button>
           </div>
         </div>
       </div>

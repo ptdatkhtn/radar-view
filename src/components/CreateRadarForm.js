@@ -1151,7 +1151,7 @@ class CreateRadarForm extends PureComponent {
                                       onClose={onLeaveVotingIcon}
                                       disableRestoreFocus
                                 >
-                                    <HoverBox>{requestTranslation('InfoIconHover')}</HoverBox>
+                                    <HoverBox>{requestTranslation('InfoIconHoverVoting')}</HoverBox>
                                 </Popover> 
                                 
                                 <InformationModal 
@@ -1168,6 +1168,8 @@ class CreateRadarForm extends PureComponent {
                                     InfoModalDescription3={requestTranslation('InfoModalVotingContent3')}
                                     InfoModalDescription4={requestTranslation('InfoModalVotingContent4')}
                                     InfoModalDescription5={requestTranslation('InfoModalVotingContent5')}
+                                    InfoModalDescription6={requestTranslation('InfoModalVotingContent6')}
+                                    InfoModalDescription7={requestTranslation('InfoModalVotingContent7')}
 
                                 />
                             </div>
@@ -1219,17 +1221,20 @@ class CreateRadarForm extends PureComponent {
                                         />
                             </SpaceBetween>
                         {this.state.votingHaloOn &&
-                        <SpaceBetween style={{ marginTop: '15px'}}>
-                            <p style={{ marginRight: '30px'}}>{requestTranslation('upvotesForHaloDescription')}</p> 
-                            <Select
-                                searchable={false}
-                                name='group'
-                                className= {` ${styles['custom-react-select-height-att']} ${styles['custom-react-select-width-att']}` }
-                                value={displayHaloWhenRating}
-                                onChange={this.handleDisplayHaloWhenRatingChange}
-                                options={times(20, value => ({ label: value + 1, value: value + 1 }))}
-                                clearable={false}
-                            />
+                        <SpaceBetween style={{ marginTop: '20px', marginRight: '-29px'}}>
+                            <p style={{ width: '66%'}}>{requestTranslation('upvotesForHaloDescription')}</p> 
+                            {/* <div style={{marginLeft: '30px'}}> */}
+                                <Select
+                                    searchable={false}
+                                    name='group'
+                                    className= {` ${styles['custom-react-select-height-att']} ${styles['custom-react-select-width-att']}` }
+                                    value={displayHaloWhenRating}
+                                    onChange={this.handleDisplayHaloWhenRatingChange}
+                                    options={times(20, value => ({ label: value + 1, value: value + 1 }))}
+                                    clearable={false}
+                                />
+                            {/* </div> */}
+                            
                             
                         </SpaceBetween>
                         }
@@ -1269,7 +1274,7 @@ class CreateRadarForm extends PureComponent {
                                 onClose={onLeaveRatingIcon}
                                 disableRestoreFocus
                             >
-                                <HoverBox>{requestTranslation('InfoIconHover')} </HoverBox>
+                                <HoverBox>{requestTranslation('InfoIconHoverRating')} </HoverBox>
                             </Popover> 
                             <InformationModal 
                                     InfoModalHeader={requestTranslation('RatingTool')}
@@ -1285,6 +1290,7 @@ class CreateRadarForm extends PureComponent {
                                     InfoModalDescription3={requestTranslation('InfoModalRatingContent3')}
                                     InfoModalDescription4={requestTranslation('InfoModalRatingContent4')}
                                     InfoModalDescription5={requestTranslation('InfoModalRatingContent5')}
+                                    InfoModalDescription6={requestTranslation('InfoModalRatingContent6')}
                                 />
                         </div>
                         <SpaceBetween>
@@ -1305,7 +1311,7 @@ class CreateRadarForm extends PureComponent {
                     
 
                     {ratingsOn && (
-                    <FullWidthBgContainer ref={this.editorMode} style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}>
+                    <FullWidthBgContainer ref={this.editorMode} style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0, marginTop: '20px' }}>
                         <SpaceBetween>
                             <HalfWidth>
                                 <h4>
@@ -1460,7 +1466,7 @@ class CreateRadarForm extends PureComponent {
                                     onClose={onLeaveCommentingIcon}
                                     disableRestoreFocus
                                 >
-                                    <HoverBox>{requestTranslation('InfoIconHover')}</HoverBox>
+                                    <HoverBox>{requestTranslation('InfoIconHoverCommenting')}</HoverBox>
                                 </Popover>
                                 <InformationModal 
                                     InfoModalHeader={requestTranslation('CommentingTool')}
@@ -1474,6 +1480,7 @@ class CreateRadarForm extends PureComponent {
                                     InfoModalDescription={requestTranslation('InfoModalCommentingContent')}
                                     InfoModalDescription2={requestTranslation('InfoModalCommentingContent2')}
                                     InfoModalDescription3={requestTranslation('InfoModalCommentingContent3')}
+                                    InfoModalDescription4={requestTranslation('InfoModalCommentingContent4')}
                                 />
                             </div>
                             <SpaceBetween>
@@ -1550,7 +1557,7 @@ class CreateRadarForm extends PureComponent {
                                         onClose={onLeaveDiscussionIcon}
                                         disableRestoreFocus
                                     >
-                                        <HoverBox>{requestTranslation('InfoIconHover')}</HoverBox>
+                                        <HoverBox>{requestTranslation('InfoIconHoverDiscussion')}</HoverBox>
                                     </Popover>
                                     <InformationModal 
                                         InfoModalHeader={requestTranslation('discussion')}

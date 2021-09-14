@@ -317,46 +317,81 @@ const localTranslations = {
         en:`EDIT MANUALLY`,
         fi:`MUOKKAA KÄSIN`
     },
-    InfoIconHover: {
-        en:`Click for more info.`,
-        fi:`Avaa lisätiedot klikkaamalla.`
+    InfoIconHoverVoting: {
+        en:`More information on Voting`,
+        fi:`Lisätietoja äänestämisestä`
+    },
+    InfoIconHoverRating: {
+        en:`More information on Rating`,
+        fi:`Lisätietoja arvioinnista`
+    },
+    InfoIconHoverCommenting: {
+        en:`More information on Commenting`,
+        fi:`Lisätietoja kommentoinnista`
+    },
+    InfoIconHoverDiscussion: {
+        en:`More information on Discussion area`,
+        fi:`Lisätietoja keskustelualueesta`
     },
     InfoModalVotingNote: {
-        en: `The Voting tool enables prioritisation of the radar content together with your team.`,
-        fi:`The Voting tool enables prioritisation of the radar content together with your team.`
+        en: `The Voting tool enables voting of the content on the radar together with your team or with other stakeholders.`,
+        fi:`Voit äänestää kartalla olevaa sisältöä yhdessä tiimisi kanssa tai osallistamalla muita sidosryhmiäsi.`
         
     },
 
     InfoModalVotingContent: {
         en:`
-        • It activates ‘up’ and ‘down’ arrows on the top-right corner of Content cards`,
+        • After activating the Voting tool, anyone with access to the radar can vote on the content cards.`,
         fi:`
-        • It activates ‘up’ and ‘down’ arrows on the top-right corner of Content cards`
+        • Aktivoituasi äänestyksen kaikki, joilla on pääsy kartalle, voivat äänestää ennakointikartalla olevaa sisältöä.`
     },
     InfoModalVotingContent2: {
         en:`
-        • The 'halo' effect can be activated to display a light circle around the content dot on the radar screen, when the set threshold is reached.`,
+        • It activates ‘up’ and ‘down’ arrows on the top-right corner of Content cards.
+        `,
         fi:`
-        • The 'halo' effect can be activated to display a light circle around the content dot on the radar screen, when the set threshold is reached.`
+        • Äänestyksessä jokaisen sisältökortin oikeaan yläkulmaan ilmestyvät nuolet ylös- ja alaspäin.
+        `
     },
     InfoModalVotingContent3: {
         en:`
-        • Voting summary can be found from the radar centre`,
+        • You are able to decide the voted question, e.g. prioritising the "10 most impactful" or "5 least important".`,
         fi:`
-        • Voting summary can be found from the radar centre`
+        • Voit päättää kysymyksen asettelun osallistujille, esimerkiksi priorisoiden "10 vaikuttavinta" tai "5 vähiten tärkeintä".`
     },
     InfoModalVotingContent4: {
         en:`
-        • Remember to Save your settings!`,
+        • When the set threshold of votes for the 'halo' effect is reached, it displays a light circle around the content dot on the radar.`,
         fi:`
-        • Remember to Save your settings!`
+        • Halutessasi voit määrittää rajan sille, kuinka monta ääntä sisältökortti tarvitsee, jotta se saa karttanäkymässä ympärilleen sädekehän.`
     },
     InfoModalVotingContent5: {
         en:`
-        • If you wish to discard the changes you made, click Cancel`,
+        •  After the voting activity, results of the voting can be found by clicking the centre of the radar.`,
         fi:`
-        • If you wish to discard the changes you made, click Cancel`
+        • Äänestyksen jälkeen löydät äänestyksen tulokset painamalla kartan keskustaa.`
     },
+    InfoModalVotingContent6: {
+        en:`
+        •  A summary of votes can be exported from the results view.`,
+        fi:`
+        • Äänestys-sivulta voit ladata äänestyksen yhteenvedon jatkohyödyntämistä varten.`
+    },
+    InfoModalVotingContent7: {
+        en:`
+        • Remember to Save your settings after you have made changes. If you wish to discard the changes you made, click Cancel.
+        `,
+        fi:`
+        •  Muistathan tallentaa tekemäsi valinnat. Mikäli haluat poistua tallentamatta, paina Peruuta.`
+    },
+    LearnMoreFromHUB: {
+        en:`
+        • Learn more from the HUB:
+        `,
+        fi:`
+        •  Lisätietoja HUBista (sisältö englanniksi):`
+    },
+    
     LearnMoreVotingBtn: {
         en:`How the Voting system works in Futures Platform?`,
         fi: `How the Voting system works in Futures Platform?`
@@ -366,38 +401,48 @@ const localTranslations = {
         fi: `How to organise a Voting session in practise, and why?`
     },
     InfoModalRatingNote: {
-        en:`The Rating tool enables evaluation of the radar content by two axis, and displays the results in a fourfold table.`,
-        fi: `The Rating tool enables evaluation of the radar content by two axis, and displays the results in a fourfold table.`
+        en:`The Rating tool enables evaluation and assessment of the content on the radar via two axis, and displays the results in a fourfold table.`,
+        fi: `Arviointityökalu mahdollistaa sisällön arvioinnin kahdella akselilla visualisoiden arvioinnin tulokset nelikentässä.
+        `
     },
     InfoModalRatingContent: {
         en:`
-        • It activates the 'axis sliders' on each content card`,
+        • After activating the Rating tool, anyone with access to the radar can rate on the content cards.`,
         fi:`
-        • It activates the 'axis sliders' on each content card`
+        • Aktivoituasi arvioinnin kaikki, joilla on pääsy kartalle, voivat arvioida ennakointikartalla olevaa sisältöä.`
     },
     InfoModalRatingContent2: {
         en:`
-        • Easily select some of the commonly used axis from the dropdown menu, and/or fill in any custom values manually`,
+        • Activating Rating tool activates two 'axis sliders' on each content card.`,
         fi:`
-        • Easily select some of the commonly used axis from the dropdown menu, and/or fill in any custom values manually`
+        • Arvioinnissa jokaiselle sisältökortille ilmestyy kaksi liukusäädintä.`
     },
     InfoModalRatingContent3: {
         en:`
-        • Rating summary can be found from the radar centre`,
+        • Access some of the most commonly used axis from the dropdown menu, and/or fill in custom axis names manually.`,
         fi:`
-        • Rating summary can be found from the radar centre`
+        • Voit hyödyntää pudostusvalikosta löytyviä usein käytettyjä akseleita ja/tai voit nimetä akselit vapaasti itse.`
     },
     InfoModalRatingContent4: {
         en:`
-        • Remember to Save your settings!`,
+        •  After the rating activity, results can be found by clicking the centre of the radar.`,
         fi:`
-        • Remember to Save your settings!`
+        • Arvioinnin jälkeen löydät arvioinnin tulokset painamalla kartan keskustaa.`
     },
     InfoModalRatingContent5: {
         en:`
-        • If you wish to discard the changes you made, click Cancel`,
+        • A summary of ratings can be exported from the results view.
+        `,
         fi:`
-        • If you wish to discard the changes you made, click Cancel`
+        • Arviointi-sivulta voit ladata arviointien yhteenvedon jatkohyödyntämistä varten.`
+    },
+    InfoModalRatingContent6: {
+        en:`
+        • Remember to Save your settings after you have made changes. If you wish to discard the changes you made, click Cancel.
+        `,
+        fi:`
+        • Muistathan tallentaa tekemäsi valinnat. Mikäli haluat poistua tallentamatta, paina Peruuta.
+        `
     },
     LearnMoreRatingBtn: {
         en:`How the Rating system works in Futures Platform?`,
@@ -408,28 +453,34 @@ const localTranslations = {
         fi: `How to organise a Rating session in practise, and why?`
     },
     InfoModalCommentingNote: {
-        en:`The Commenting tool enables all team members to leave their notes on the radar content. `,
-        fi: `The Commenting tool enables all team members to leave their notes on the radar content. `
+        en:`The Commenting tool enables collection of insights, ideas and thoughts on the content cards. `,
+        fi: `Kommentointi mahdollistaa havaintojen, ideoiden sekä ajatusten keräämisen sisältökorteille.`
     },
     InfoModalCommentingContent: {
         en:`
-        • It activates three commenting fields on the content cards: Opportunities, Threats and Actions.
+        • After activating the Commenting tool, anyone with access to the radar can leave their comments on the content cards..
         `,
         fi: `
-        • It activates three commenting fields on the content cards: Opportunities, Threats and Actions.
+        • Aktivoituasi kommentoinnin kaikki, joilla on pääsy kartalle, voivat kommentoida ennakointikartalla olevaa sisältöä.
         `
     },
     InfoModalCommentingContent2: {
         en:`
-        • All comments are gathered to the summary views that you can access by clicking the radar centre.`,
+        • It activates three commenting fields on the content cards: Opportunities, Threats and Actions.`,
         fi: `
-        • All comments are gathered to the summary views that you can access by clicking the radar centre.`
+        • Kommentteja voi kirjoittaa kolmeen kenttään: Mahdollisuudet, Uhat ja Toimenpiteet.`
     },
     InfoModalCommentingContent3: {
         en:`
-        • A summary of content specific comments can be exported.`,
+        • All comments are gathered to the results view which you can access by clicking the centre of the radar.`,
         fi: `
-        • A summary of content specific comments can be exported.`
+        • Kaikki kommentit koostetaan Kommentit-sivulle, jolle pääset painamalla kartan keskustaa.`
+    },
+    InfoModalCommentingContent4: {
+        en:`
+        • A summary of comments can be exported from the results view.`,
+        fi: `
+        •  Kommentit-sivulta voit ladata kommenttien yhteenvedon jatkohyödyntämistä varten.`
     },
     LearnMoreCommentingBtn: {
         en:`How the Commenting system works in Futures Platform?`,
@@ -440,28 +491,29 @@ const localTranslations = {
         fi: `How to organise a Commenting session in practise, and why?`
     },
     InfoModalDiscussionNote: {
-        en:`The Discussion area allows free conversation, collecting feedback, or e.g. easily collecting participant answers during a foresight workshop.`,
-        fi: `The Discussion area allows free conversation, collecting feedback, or e.g. easily collecting participant answers during a foresight workshop.`
+        en:`Allow free conversation, ask for feedback, or collect other notes regarding the foresight radar / topic you are working with.`,
+        fi: `Keskustelupalsta on paikka vapaalle keskustelulle, palautteen keräämiselle tai muiden havaintojen tallentamiselle.
+        `
     },
     InfoModalDiscussionContent: {
         en:`
-        • It activates the discussion board on the Collaboration results view. 
+        • Activate the discussion board on the Collaboration results view which you can access by clicking the centre of the radar.
         `,
         fi: `
-        • It activates the discussion board on the Collaboration results view. 
+        • Voit aktivoida keskustelupalstan tulosten yhteenvetonäkymän vasempaan laitaan, johon pääset painamalla kartan keskustaa.
         `
     },
     InfoModalDiscussionContent2: {
         en:`
-        • Can be used to discuss on Voting, Rating and Commenting results.`,
+        • The discussion area can be used to discuss on Voting, Rating and Commenting results, or to collect any other kind of notes regarding the radar.`,
         fi: `
-        • Can be used to discuss on Voting, Rating and Commenting results.`
+        • Keskustelupalstalla voi keskustella äänestämisen, arvioinnin tai kommentoinnin tuloksista, ja siihen voi kerätä vapaasti kommentteja ja ajatuksia.`
     },
     InfoModalDiscussionContent3: {
         en:`        
-        • The Discussion area can be exported as PDF / PPT summary.`,
+        • The discussion on the Discussion area can be exported from the results view.`,
         fi: `
-        • The Discussion area can be exported as PDF / PPT summary.`
+        • Tulosten yhteenvetonäkymästä voit ladata keskustelut jatkohyödyntämistä varten.`
     },
     LearnMoreDiscussionBtn: {
         en:`How the Discussion area works in Futures Platform?`,
@@ -489,19 +541,19 @@ const localTranslations = {
     },
     activateUsers: {
         en:`Collaboration tools`,
-        fi: `Aktiviteetit`
+        fi: `Toiminnot`
     },
     createFormVotingDescription: {
         en:`Enable Voting on Content cards.`,
         fi: `Salli äänestys sisältökorteilla.`
     },
     upvotesForHalo: {
-        en:`Enable 'halo' effect on Radar screen.`,
+        en:`Enable 'halo' effect on the Radar.`,
         fi: `Salli sädekehät karttanäkymässä.`
     },
     createFormRatingDescription: {
         en:`Enable two axis Rating on Content cards (fourfold table).`,
-        fi: `Aktivoi arviointiakselit sisältökorteilla (nelikenttä).`
+        fi: `Aktivoi arviointi sisältökorteilla (nelikenttä).`
     },
     selectValue: {
         en:`Select...`,
@@ -546,7 +598,11 @@ const localTranslations = {
     allowLikeCommenting: {
         en:`Enable Liking other users’ comments.`,
         fi: `Salli käyttäjien tykätä toistensa kommenteista.`
-    }
+    },
+    GotItBtn: {
+        en:`GOT IT`,
+        fi: `GOT IT`
+    },
    
     
     
