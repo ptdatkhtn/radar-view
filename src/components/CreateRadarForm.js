@@ -1124,7 +1124,7 @@ class CreateRadarForm extends PureComponent {
                 isCustomVertical: isCustom,
             })
             getLanguage() === 'en' ? mockDataEn.some(i => {
-                if ((String(value) === 'Custom') || (String(value) === 'Muokattu')  ) {
+                if ((String(value) === 'Custom')) {
                     this.setState({ 
                         axisYSelect: value,
                         axisYTitle: 'Custom',
@@ -1178,7 +1178,7 @@ class CreateRadarForm extends PureComponent {
                 }
             }) :
             (mockDataFin.some(i => {
-                if ((String(value) === 'Custom') || (String(value) === 'Muokattu')  ) {
+                if ( (String(value) === 'Muokattu')  ) {
                     this.setState({ 
                         axisYSelect: value,
                         axisYTitle: 'Muokattu',
@@ -1195,12 +1195,12 @@ class CreateRadarForm extends PureComponent {
                         bottomLeftValue, 
                         bottomRightValue,
                         inputSelectedXValue,
-                        inputSelectedYValue: 'Custom',
+                        inputSelectedYValue: 'Muokattu',
                         isVerticalEdit: true,
                         isEditHorizontal,
                         topEndValue: 'Y', 
                         lowEndValue: 'X', 
-                        verticalAxisNameValue: 'Custom'
+                        verticalAxisNameValue: 'Muokattu'
                       }));
                     return true
                 }
@@ -1356,7 +1356,7 @@ class CreateRadarForm extends PureComponent {
                     }
                 }) :
                 (mockDataFin.some(i => {
-                    if ((String(value) === 'Custom') || (String(value) === 'Muokattu')) {
+                    if ( (String(value) === 'Muokattu')) {
                         this.setState({ 
                             axisXSelect: value,
                             axisXTitle: 'Muokattu',
@@ -1372,13 +1372,13 @@ class CreateRadarForm extends PureComponent {
                             topRightValue, 
                             bottomLeftValue, 
                             bottomRightValue,
-                            inputSelectedXValue: 'Custom',
+                            inputSelectedXValue: 'Muokattu',
                             inputSelectedYValue,
                             isVerticalEdit,
                             isEditHorizontal: true,
                             leftEndValue: 'X', 
                             rightEndValue: 'Y', 
-                            horizontalAxisNameValue: 'Custom', 
+                            horizontalAxisNameValue: 'Muokattu', 
                         }));
 
                         return true

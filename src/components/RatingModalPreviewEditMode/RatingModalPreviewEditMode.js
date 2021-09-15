@@ -438,7 +438,7 @@ const  RatingModalPreviewEditMode = ({
                         isEditHorizontal,
                         topEndValue: 'Y', 
                         lowEndValue: 'X', 
-                        verticalAxisNameValue: 'Custom'
+                        verticalAxisNameValue: 'Muokattu'
                       }));
                     return true
                 }
@@ -589,7 +589,7 @@ const  RatingModalPreviewEditMode = ({
                         isEditHorizontal: true,
                         leftEndValue: 'X', 
                         rightEndValue: 'Y', 
-                        horizontalAxisNameValue: 'Custom', 
+                        horizontalAxisNameValue: 'Muokattu', 
                       }));
                     return true
                 }
