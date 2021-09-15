@@ -1884,6 +1884,7 @@ class CreateRadarForm extends PureComponent {
                             <p style={{ width: '66%'}}>{requestTranslation('upvotesForHaloDescription')}</p> 
                             <div style={{width: '85px'}}>
                                 <Select
+                                    placeholder={requestTranslation('selectValue')}
                                     searchable={false}
                                     name='group'
                                     className= {` ${styles['custom-react-select-height-att']} ${styles['custom-react-select-width-att']}` }
@@ -1979,7 +1980,7 @@ class CreateRadarForm extends PureComponent {
                                 <Columns>
                                     <Column>
                                         <Select
-                                            // placeholder={requestTranslation('selectValue')}
+                                            placeholder={requestTranslation('selectValue')}
                                             // placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
                                             searchable={false}
                                             name='group'
@@ -2007,7 +2008,7 @@ class CreateRadarForm extends PureComponent {
                                 <Columns>
                                     <Column>
                                         <Select
-                                            // placeholder={requestTranslation('selectValue')}
+                                            placeholder={requestTranslation('selectValue')}
                                             // placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
                                             searchable={false}
                                             name='group'

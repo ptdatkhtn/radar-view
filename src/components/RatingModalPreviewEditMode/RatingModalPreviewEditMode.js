@@ -830,6 +830,7 @@ const  RatingModalPreviewEditMode = ({
                                                 <Columns>
                                                     <Column>
                                                         <Select
+                                                            placeholder={requestTranslation('selectValue')}
                                                             defaultValue='Select'
                                                             // placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
                                                             searchable={false}
@@ -858,6 +859,7 @@ const  RatingModalPreviewEditMode = ({
                                                 <Columns>
                                                     <Column>
                                                         <Select
+                                                            placeholder={requestTranslation('selectValue')}
                                                             searchable={false}
                                                             name='group'
                                                             // placeholder={getLanguage() === 'en' ? 'Select...' : 'Valitse...'}
