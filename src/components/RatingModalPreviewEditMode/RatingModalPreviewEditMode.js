@@ -196,7 +196,8 @@ const  RatingModalPreviewEditMode = ({
     emitFlagToRefetchDataOfChart,
     handleUpdateStateWhenClickedDoneBtnInCreateRadarForm,
     isCustomVerticalProp,
-    isCustomHorozontalProp
+    isCustomHorozontalProp,
+    closedModal
 }) => {
         // const { classes } = props;
         
@@ -277,6 +278,21 @@ const  RatingModalPreviewEditMode = ({
             
         }
 
+        const passisCustomToRatingModalPreviewModeOther = (a, b) => {
+            if (String(a) === 'topLeftValue') {
+                setfourFieldsTopLeftValue(b)
+            }
+            else if (String(a) === 'topRightValue') {
+                setfourFieldsTopRight(b)
+            } 
+            else if (String(a) === 'bottomLeftValue') {
+                setfourFieldsBottomLeftValue(b)
+            }
+            else if (String(a) === 'bottomRightValue') {
+                setfourFieldsBottomRightValue(b)
+            }
+        }
+
         const receivedCheckDataFromCollaborationChartSettingHoronzal = (isHorizontal) => {
             setIsCustomHorozol(isHorizontal)
             // getDataFromLocalStorageThenSaveToLocalState()
@@ -296,13 +312,14 @@ const  RatingModalPreviewEditMode = ({
             .then(() => { 
                 
                 // localStorage.removeItem("chartData")
-                setLowEnd(() => requestTranslation('lowEnd'))
-                setTopEnd(() => requestTranslation('highEnd'))
+                closedModal()
+                setLowEnd(requestTranslation('lowEnd') )
+                setTopEnd(requestTranslation('highEnd'))
                 setLeftEnd(() => requestTranslation('leftEnd'))
                 setRightEnd(() =>requestTranslation('rightEnd'))
                 setXName(() => requestTranslation('HorizontalAxisName'))
                 setYname(() => requestTranslation('verticalAxisName'))
-                setfourFieldsTopLeftValue(() => requestTranslation('topLeft'))
+                setfourFieldsTopLeftValue(requestTranslation('topLeft').toString().slice() )
                 setfourFieldsTopRight((() => requestTranslation('topRight')))
                 setfourFieldsBottomLeftValue(() => requestTranslation('bottomLeft'))
                 setfourFieldsBottomRightValue(() => requestTranslation('bottomRight'))
@@ -311,18 +328,35 @@ const  RatingModalPreviewEditMode = ({
                 
                 setIsCustomHorozol(false)
                 setIsCustomVertical(false)
-
                 }
             )
             .then(() => {
-                localStorage.removeItem("chartData")
-                clearAllFieldsBtn()
+                
+                
+                
             })
-            
-           
         }
 
         const handleDisplayVericalAxisRatingChangeOnRatingModalPreviewEditMode = ({value}) => {
+            const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+                    const {
+                        leftEndValue, 
+                        rightEndValue, 
+                        topEndValue, 
+                        lowEndValue, 
+                        horizontalAxisNameValue, 
+                        verticalAxisNameValue,
+                        topLeftValue, 
+                        topRightValue, 
+                        bottomLeftValue, 
+                        bottomRightValue,
+                        inputSelectedXValue,
+                        inputSelectedYValue,
+                        isEditHorizontal,
+                        isVerticalEdit
+
+                    } = retrievedObject
+
             // handleDisplayVericalAxisRatingChange({value})
             getLanguage() ==='en' ?  mockDataEn.some(i => {
                 if ((String(value) === 'Custom') ) {
@@ -332,6 +366,24 @@ const  RatingModalPreviewEditMode = ({
                     setLowEnd('X')
                     setYname('Custom')
                     setaxisYSelect('Custom')
+
+                    localStorage.setItem('chartData', JSON.stringify({
+                        leftEndValue, 
+                        rightEndValue, 
+                        horizontalAxisNameValue,
+                        topLeftValue, 
+                        topRightValue, 
+                        bottomLeftValue, 
+                        bottomRightValue,
+                        inputSelectedXValue,
+                        inputSelectedYValue: 'Custom',
+                        isVerticalEdit,
+                        isEditHorizontal,
+                        topEndValue: 'Y', 
+                        lowEndValue: 'X', 
+                        verticalAxisNameValue: 'Custom'
+                      }));
+
                     return true
                 }
                 else if(String(value) === String(i.title)) {
@@ -341,6 +393,23 @@ const  RatingModalPreviewEditMode = ({
                     setaxisYSelect(i.title)
                     setIsCustomVertical(false)
                     handleDisplayVericalAxisRatingChange({value}, false)
+
+                    localStorage.setItem('chartData', JSON.stringify({
+                        leftEndValue, 
+                        rightEndValue, 
+                        horizontalAxisNameValue,
+                        topLeftValue, 
+                        topRightValue, 
+                        bottomLeftValue, 
+                        bottomRightValue,
+                        inputSelectedXValue,
+                        inputSelectedYValue: i.title,
+                        isVerticalEdit,
+                        isEditHorizontal,
+                        topEndValue: i.rightAttr, 
+                        lowEndValue: i.leftAttr, 
+                        verticalAxisNameValue: i.nameAxis
+                      }));
                     return true
                 }
             }) : 
@@ -352,6 +421,25 @@ const  RatingModalPreviewEditMode = ({
                     setLowEnd('X')
                     setYname('Muokattu')
                     setaxisYSelect('Muokattu')
+
+                    
+
+                    localStorage.setItem('chartData', JSON.stringify({
+                        leftEndValue, 
+                        rightEndValue, 
+                        horizontalAxisNameValue,
+                        topLeftValue, 
+                        topRightValue, 
+                        bottomLeftValue, 
+                        bottomRightValue,
+                        inputSelectedXValue,
+                        inputSelectedYValue: 'Muokattu',
+                        isVerticalEdit,
+                        isEditHorizontal,
+                        topEndValue: 'Y', 
+                        lowEndValue: 'X', 
+                        verticalAxisNameValue: 'Custom'
+                      }));
                     return true
                 }
                 else if(String(value) === String(i.title)) {
@@ -361,13 +449,66 @@ const  RatingModalPreviewEditMode = ({
                     setaxisYSelect(i.title)
                     setIsCustomVertical(false)
                     handleDisplayVericalAxisRatingChange({value}, false)
+
+                    localStorage.setItem('chartData', JSON.stringify({
+                        leftEndValue, 
+                        rightEndValue, 
+                        horizontalAxisNameValue,
+                        topLeftValue, 
+                        topRightValue, 
+                        bottomLeftValue, 
+                        bottomRightValue,
+                        inputSelectedXValue,
+                        inputSelectedYValue: i.title,
+                        isVerticalEdit,
+                        isEditHorizontal,
+                        topEndValue: i.rightAttr, 
+                        lowEndValue: i.leftAttr, 
+                        verticalAxisNameValue: i.nameAxis
+                      }));
                     return true
                 }
             }))
+
+            // localStorage.setItem('chartData', JSON.stringify({
+            //     leftEndValue: leftEnd, 
+            //     rightEndValue: rightEnd, 
+            //     topEndValue: topEnd, 
+            //     lowEndValue: lowEnd, 
+            //     horizontalAxisNameValue: xName, 
+            //     verticalAxisNameValue: yName,
+            //     topLeftValue: fourFieldsTopLeftValue, 
+            //     topRightValue: fourFieldsTopRightValue, 
+            //     bottomLeftValue: fourFieldsBottomLeftValue, 
+            //     bottomRightValue: fourFieldsBottomRightValue,
+            //     inputSelectedXValue: axisXSelectValue,
+            //     inputSelectedYValue: axisYSelectValue,
+            //     isVerticalEdit: isCustomVertical,
+            //     isEditHorizontal: isCustomHorozol
+            //   }));
             
         }
 
         const handleDisplayHorizontalAxisRatingChangeOnRatingModalPreviewEditMode = ({value}) => {
+            const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+                    const {
+                        leftEndValue, 
+                        rightEndValue, 
+                        topEndValue, 
+                        lowEndValue, 
+                        horizontalAxisNameValue, 
+                        verticalAxisNameValue,
+                        topLeftValue, 
+                        topRightValue, 
+                        bottomLeftValue, 
+                        bottomRightValue,
+                        inputSelectedXValue,
+                        inputSelectedYValue,
+                        isEditHorizontal,
+                        isVerticalEdit
+                    } = retrievedObject
+
+
             // handleDisplayHorizontalAxisRatingChange({value})
             getLanguage() ==='en' ? mockDataEn.some(i => {
                 if ((String(value) === 'Custom')) {
@@ -377,6 +518,24 @@ const  RatingModalPreviewEditMode = ({
                     setXName('Custom')
                     setaxisXSelect('Custom')
                     handleDisplayHorizontalAxisRatingChange({value}, true)
+
+                    localStorage.setItem('chartData', JSON.stringify({
+                        topEndValue, 
+                        lowEndValue, 
+                        verticalAxisNameValue,
+                        topLeftValue, 
+                        topRightValue, 
+                        bottomLeftValue, 
+                        bottomRightValue,
+                        inputSelectedXValue: 'Custom',
+                        inputSelectedYValue,
+                        isVerticalEdit,
+                        isEditHorizontal,
+                        leftEndValue: 'X', 
+                        rightEndValue: 'Y', 
+                        horizontalAxisNameValue: 'Custom', 
+                      }));
+
                     return true
                 }
                 else if(String(value) === String(i.title)) {
@@ -386,26 +545,83 @@ const  RatingModalPreviewEditMode = ({
                     setaxisXSelect(i.title)
                     setIsCustomHorozol(false)
                     handleDisplayHorizontalAxisRatingChange({value}, false)
+
+                    localStorage.setItem('chartData', JSON.stringify({
+                        topEndValue, 
+                        lowEndValue, 
+                        verticalAxisNameValue,
+                        topLeftValue, 
+                        topRightValue, 
+                        bottomLeftValue, 
+                        bottomRightValue,
+                        inputSelectedXValue: i.title,
+                        inputSelectedYValue,
+                        isVerticalEdit,
+                        isEditHorizontal: false,
+                        leftEndValue: i.leftAttr, 
+                        rightEndValue: i.rightAttr, 
+                        horizontalAxisNameValue: i.nameAxis, 
+                      }));
+
                     return true
                 }
             }): 
             (mockDataFin.some(i => {
                 if ((String(value) === 'Muokattu')  ) {
                     setIsCustomHorozol(true)
-                    handleDisplayHorizontalAxisRatingChange({value}, true)
-                    return true
-                }
-                else if(String(value) === String(i.title)) {
                     setRightEnd('Y')
                     setLeftEnd('X')
                     setXName('Muokattu')
                     setaxisXSelect('Muokattu')
+                    handleDisplayHorizontalAxisRatingChange({value}, true)
+
+                    localStorage.setItem('chartData', JSON.stringify({
+                        topEndValue, 
+                        lowEndValue, 
+                        verticalAxisNameValue,
+                        topLeftValue, 
+                        topRightValue, 
+                        bottomLeftValue, 
+                        bottomRightValue,
+                        inputSelectedXValue: 'Muokattu',
+                        inputSelectedYValue,
+                        isVerticalEdit,
+                        isEditHorizontal,
+                        leftEndValue: 'X', 
+                        rightEndValue: 'Y', 
+                        horizontalAxisNameValue: 'Custom', 
+                      }));
+                    return true
+                }
+                else if(String(value) === String(i.title)) {
+                    setRightEnd(i.rightAttr)
+                    setLeftEnd(i.leftAttr)
+                    setXName(i.nameAxis)
+                    setaxisXSelect(i.title)
                     setIsCustomHorozol(false)
                     handleDisplayHorizontalAxisRatingChange({value}, false)
+
+                    localStorage.setItem('chartData', JSON.stringify({
+                        topEndValue, 
+                        lowEndValue, 
+                        verticalAxisNameValue,
+                        topLeftValue, 
+                        topRightValue, 
+                        bottomLeftValue, 
+                        bottomRightValue,
+                        inputSelectedXValue: i.title,
+                        inputSelectedYValue,
+                        isVerticalEdit,
+                        isEditHorizontal: false,
+                        leftEndValue: i.leftAttr, 
+                        rightEndValue: i.rightAttr, 
+                        horizontalAxisNameValue: i.nameAxis, 
+                      }));
+
                     return true
                 }
             }))
-            
+        
         }
 
         const handleFlipHorizontalAndVerticalChangeInRatingEditChartMode = () => {
@@ -659,7 +875,8 @@ const  RatingModalPreviewEditMode = ({
                                 {ratingsOn && (
                                     <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}> 
                                         <SpaceBetween>
-                                            <CollaborationChartSetting 
+                                            <CollaborationChartSetting
+                                            passisCustomToRatingModalPreviewModeOther={passisCustomToRatingModalPreviewModeOther}
                                                 containerWidth = {widthContentWidth}
                                                 containerHeight = {widthContentWidth * 0.65}
                                                 topLeft = {fourFieldsTopLeftValue}

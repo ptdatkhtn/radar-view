@@ -262,8 +262,10 @@ const CollaborationChartSetting = ({
   inputSelectedX,
   inputSelectedY,
   isCustomHorozol,
-  isCustomVertical
+  isCustomVertical,
+  passisCustomToRatingModalPreviewModeOther
 }) => {
+
   const [appContext, setAppContext] = useState({})
   const [state, setState] = useState({
     showModal: false,
@@ -281,9 +283,6 @@ const CollaborationChartSetting = ({
     [SETTING_VALUE.VERTICAL]: verticalAxisName
   })
 
-  console.log(
-    verticalAxisName, topEnd, lowEnd
-  )
   const [isEditHorizontal, setIsEditHorizontal] = useState(isCustomHorozol)
   const [isVerticalEdit, setIsVerticalEdit] = useState(isCustomVertical)
   const [inputSelectedXValue, setinputSelectedXValue] = useState(inputSelectedX)
@@ -317,12 +316,13 @@ const CollaborationChartSetting = ({
 
   const onSaveModal = async() => {
     Promise.resolve()
-      .then(() => { setState(prevState => {
-      return {
-        ...prevState,
-        showModal: false,
-        [currentSettingIndex]: inputValueModal.trim()
-      }
+      .then(() => { 
+        setState(prevState => {
+          return {
+            ...prevState,
+            showModal: false,
+            [currentSettingIndex]: inputValueModal.trim()
+          }
     })})
       .then(() => {
         if (currentSettingIndex === 'topEndValue' 
@@ -336,27 +336,10 @@ const CollaborationChartSetting = ({
         || currentSettingIndex === 'horizontalAxisNameValue') {
           // setIsEditHorizontal(true)
           passisCustomToRatingModalPreviewModeHoronzal(true)
+        } else {
+          passisCustomToRatingModalPreviewModeOther(currentSettingIndex, inputValueModal.trim())
         }
       })
-
-    
-
-    
-
-    // localStorage.setItem('chartData', JSON.stringify({
-    //   leftEndValue, 
-    //   rightEndValue, 
-    //   topEndValue, 
-    //   lowEndValue, 
-    //   horizontalAxisNameValue, 
-    //   verticalAxisNameValue,
-    //   topLeftValue, 
-    //   topRightValue, 
-    //   bottomLeftValue, 
-    //   bottomRightValue,
-    //   inputSelectedXValue: inputSelectedXValue,
-    //   inputSelectedYValue: inputSelectedYValue
-    // }));
   }
 
   useEffect (() => {
@@ -376,6 +359,7 @@ const CollaborationChartSetting = ({
       isEditHorizontal,
       isVerticalEdit
     }));
+    
   }, [
     leftEndValue, 
     rightEndValue, 
@@ -394,42 +378,27 @@ const CollaborationChartSetting = ({
   ])
 
   useEffect (() => {
-    // const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
-    
+    const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+
     setState(prevState => {
       return {
         ...prevState,
-        [SETTING_VALUE.LEFT_END]: leftEnd,
-        [SETTING_VALUE.RIGHT_END]: rightEnd,
-        [SETTING_VALUE.TOP_END]: topEnd,
-        [SETTING_VALUE.LOW_END]: lowEnd,
-        [SETTING_VALUE.HORIZONTAL]: horizontalAxisName,
-        [SETTING_VALUE.VERTICAL]: verticalAxisName,
-        [SETTING_VALUE.TOP_LEFT]: topLeft,
-        [SETTING_VALUE.TOP_RIGHT]: topRight,
-        [SETTING_VALUE.BOTTOM_LEFT]: bottomLeft,
-        [SETTING_VALUE.BOTTOM_RIGHT]: bottomRight,
+        [SETTING_VALUE.LEFT_END]: retrievedObject ? retrievedObject.leftEndValue : leftEnd,
+        [SETTING_VALUE.RIGHT_END]: retrievedObject ? retrievedObject.rightEndValue : rightEnd,
+        [SETTING_VALUE.TOP_END]: retrievedObject ? retrievedObject.topEndValue : topEnd,
+        [SETTING_VALUE.LOW_END]: retrievedObject ? retrievedObject.lowEndValue : lowEnd,
+        [SETTING_VALUE.HORIZONTAL]: retrievedObject ? retrievedObject.horizontalAxisNameValue : horizontalAxisName,
+        [SETTING_VALUE.VERTICAL]: retrievedObject ? retrievedObject.verticalAxisNameValue : verticalAxisName,
+        [SETTING_VALUE.TOP_LEFT]: retrievedObject ? retrievedObject.topLeftValue : topLeft,
+        [SETTING_VALUE.TOP_RIGHT]: retrievedObject ? retrievedObject.topRightValue : topRight,
+        [SETTING_VALUE.BOTTOM_LEFT]: retrievedObject ? retrievedObject.bottomLeftValue : bottomLeft,
+        [SETTING_VALUE.BOTTOM_RIGHT]: retrievedObject ? retrievedObject.bottomRightValue : bottomRight,
       }
     })
     setIsEditHorizontal(isCustomHorozol)
     setIsVerticalEdit(isCustomVertical)
     setinputSelectedXValue(inputSelectedX)
     setinputSelectedYValue(inputSelectedY)
-
-    // localStorage.setItem('chartData', JSON.stringify({
-    //   leftEndValue: leftEnd, 
-    //   rightEndValue: rightEnd, 
-    //   topEndValue: topEnd, 
-    //   lowEndValue: lowEnd, 
-    //   horizontalAxisNameValue: horizontalAxisName, 
-    //   verticalAxisNameValue: verticalAxisName,
-    //   topLeftValue: topLeft, 
-    //   topRightValue: topRight, 
-    //   bottomLeftValue: bottomLeft, 
-    //   bottomRightValue: bottomRight,
-    //   inputSelectedXValue: inputSelectedX,
-    //   inputSelectedYValue: inputSelectedY
-    // }));
   }, [
     horizontalAxisName,
     leftEnd,
@@ -452,7 +421,7 @@ const CollaborationChartSetting = ({
     setinputSelectedYValue
   ])
 
-  
+
   const onChangeInputModal = (e) => {
     e.persist()
     setState(prevState => {

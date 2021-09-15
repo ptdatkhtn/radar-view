@@ -1341,10 +1341,49 @@ class CreateRadarForm extends PureComponent {
             isCustomHorozol: false,
             isCustomVertical: false
         })
-
-        localStorage.removeItem('chartData')
+        if (localStorage.getItem('chartData') !== null)
+            localStorage.removeItem('chartData')
         
     }
+
+
+    const closedModal = () => {
+        this.setState({
+            axisXTitle: requestTranslation('HorizontalAxisName'),
+            axisYTitle: requestTranslation('verticalAxisName'),
+            axisXMin: requestTranslation('leftEnd'),
+            axisYMin:requestTranslation('lowEnd'),
+            axisXMax: requestTranslation('rightEnd'),
+            axisYMax: requestTranslation('highEnd'),
+            fourFieldsTopLeft: requestTranslation('topLeft'),
+            fourFieldsTopRight: requestTranslation('topRight'),
+            fourFieldsBottomLeft: requestTranslation('bottomLeft'),
+            fourFieldsBottomRight: requestTranslation('bottomRight'),
+            openClearAllFields: false,
+            axisXSelect: '',
+            axisYSelect: '',
+            isCustomHorozol: false,
+            isCustomVertical: false
+        })
+
+        localStorage.setItem('chartData', JSON.stringify({
+            leftEndValue: requestTranslation('leftEnd'), 
+            rightEndValue: requestTranslation('rightEnd'), 
+            topEndValue: requestTranslation('highEnd'), 
+            lowEndValue: requestTranslation('lowEnd'), 
+            horizontalAxisNameValue: requestTranslation('HorizontalAxisName'), 
+            verticalAxisNameValue: requestTranslation('verticalAxisName'),
+            topLeftValue: requestTranslation('topLeft'), 
+            topRightValue: requestTranslation('topRight'), 
+            bottomLeftValue: requestTranslation('topLeft'), 
+            bottomRightValue: requestTranslation('bottomRight'),
+            inputSelectedXValue: '',
+            inputSelectedYValue: '',
+            isVerticalEdit: false,
+            isEditHorizontal: false
+        }));        
+    }
+
         const { classes } = this.props;
 
         const handleRatingOffParantComp = (value) => {
@@ -1781,6 +1820,7 @@ class CreateRadarForm extends PureComponent {
                             handleUpdateStateWhenClickedDoneBtnInCreateRadarForm={handleUpdateStateWhenClickedDoneBtnInCreateRadarForm}
                             isCustomVerticalProp={this.state.isCustomVertical}
                             isCustomHorozontalProp={this.state.isCustomHorozol}
+                            closedModal={closedModal}
                         />
                     </FullWidthBgContainer>
                 )}
