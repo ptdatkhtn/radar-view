@@ -2050,7 +2050,7 @@ class CreateRadarForm extends PureComponent {
                             </RatingHandleBtnGroup>
                         </RatingGroupBtn>
                         <ConfirmationModalForRatings 
-                            ConfirmationModalNote= 'Are you sure to clear all fields?'
+                            ConfirmationModalNote= {requestTranslation('ConfirmationClearAllModal')}
                             confirmationModal= {this.state.openClearAllFields}
                             confirmationModalClose = {closeClearAllFieldsModal}
                             confirmationModalHandleBtn = {clearAllFieldsBtn}

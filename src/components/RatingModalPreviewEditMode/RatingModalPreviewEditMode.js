@@ -908,7 +908,7 @@ const  RatingModalPreviewEditMode = ({
                                             
                                         </RatingGroupBtn>
                                         <ConfirmationModalForRatings 
-                                            ConfirmationModalNote= 'Are you sure to clear all fields?'
+                                            ConfirmationModalNote= {requestTranslation('ConfirmationClearAllModal')}
                                             confirmationModal= {openClearAllFields}
                                             confirmationModalClose = {closeClearAllFieldsModal}
                                             confirmationModalHandleBtn = {handleOpenClearAllFieldsModal}

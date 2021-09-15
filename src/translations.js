@@ -615,8 +615,10 @@ const localTranslations = {
         en:`DONE`,
         fi: `VALMIS`
     },
-
-    
+    ConfirmationClearAllModal: {
+        en:`Are you sure to clear all fields ?`,
+        fi: `Haluatko varmasti tyhjentää kaikki kentät ?`
+    },
    
     
     
