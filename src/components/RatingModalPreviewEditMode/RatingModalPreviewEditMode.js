@@ -873,7 +873,7 @@ const  RatingModalPreviewEditMode = ({
                                 )}
 
                                 {ratingsOn && (
-                                    <FullWidthBgContainer style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}> 
+                                    <FullWidthBgContainer style={{ padding: 0 }}> 
                                         <SpaceBetween>
                                             <CollaborationChartSetting
                                             passisCustomToRatingModalPreviewModeOther={passisCustomToRatingModalPreviewModeOther}
@@ -898,7 +898,7 @@ const  RatingModalPreviewEditMode = ({
                                                 // passDataFromPreviewEditModeToPreivewMore={passDataFromPreviewEditModeToPreivewMore}
                                                 />
                                         </SpaceBetween>
-                                        <RatingGroupBtn style={{marginTop: '150px'}}>
+                                        <RatingGroupBtn style={{marginTop: '97px'}}>
                                             <RatingHandleBtnGroup>
                                                 <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openClearAllFieldsModal} >{requestTranslation('clearAllFieldsBtn')}</HandleRatingsBtn>
                                                 <HandleRatingsBtn className="btn btn-outline-secondary" onClick={handleFlipHorizontalAndVerticalChangeInRatingEditChartMode}>{requestTranslation('FlipHorizontalVertical')}</HandleRatingsBtn>

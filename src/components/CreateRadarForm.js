@@ -2022,9 +2022,7 @@ class CreateRadarForm extends PureComponent {
                 )}
 
                 {ratingsOn && (
-                    <FullWidthBgContainer 
-                        
-                        style={{ paddingTop: 0, paddingRight: 0, paddingLeft: 0 }}> 
+                    <FullWidthBgContainer style={{ padding: 0 }}> 
                         <RatingSummaryPreview
                                     // bottomHeader = 'Preview for rating result and summary view'
                                     containerWidth = {+this.state.widthContentWidth - 50 - 16 + 32 - 2}
@@ -2042,7 +2040,7 @@ class CreateRadarForm extends PureComponent {
                                     topEnd = {axisYMax}
                                     lowEnd = {axisYMin}
                                 />
-                        <RatingGroupBtn style={{marginTop: '62px'}}>
+                        <RatingGroupBtn style={{marginTop: '75px'}}>
                             <RatingHandleBtnGroup>
                                 <HandleRatingsBtn className="btn btn-outline-secondary" onClick={openClearAllFieldsModal} >{requestTranslation('clearAllFieldsBtn')}</HandleRatingsBtn>
                                 <HandleRatingsBtn className="btn btn-outline-secondary" onClick={handleFlipHorizontalAndVerticalChange}>{requestTranslation('FlipHorizontalVertical')}</HandleRatingsBtn>

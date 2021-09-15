@@ -29,7 +29,7 @@ const ButtonModalStyled = styled.button`
   background-color: ${({ primary }) => !!primary ? '#6FBF40' : 'rgba(0,0,0,0)'};
   border: none;
   border-radius: 26px;
-  width: 86px;
+  width: 95px;
   color: ${({ primary }) => !!primary ? 'white' : '#666'};
   font-weight: 700;
   font-size: 16px;
@@ -46,9 +46,11 @@ const ButtonModalActions = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-top: 30px;
+  margin-bottom: 18px;
 `
 const ModalContent = styled.div`
-  padding: 12px 16px;
+  padding: 12px 30px;
 `
 
 const customStyles = {
@@ -82,7 +84,8 @@ const ModalInputHint = styled.div`
   color: #121212;
   font-weight: 400;
   font-size: 14px;
-  margin: 24px 0;
+  // margin: 24px 0;
+  margin-top: 10px;
 `
 const ModalInputValue = styled.input`
   width: 100%;
@@ -106,6 +109,7 @@ const SETTING_VALUE = {
 }
 const SETTING_VALUE_TITLE = {
   [SETTING_VALUE.TOP_LEFT]: getLanguage() === 'en' ? 'Fourfold table – top left' : 'Nelikenttä – vasen yläosa',
+  // [SETTING_VALUE.TOP_LEFT]: requestTranslation('abc'),
   [SETTING_VALUE.TOP_RIGHT]: getLanguage() === 'en' ? 'Fourfold table – top right' : 'Nelikenttä – oikea yläosa',
   [SETTING_VALUE.BOTTOM_LEFT]: getLanguage() === 'en' ? 'Fourfold table – bottom left' : 'Nelikenttä – vasen alaosa',
   [SETTING_VALUE.BOTTOM_RIGHT]:  getLanguage() === 'en' ? 'Fourfold table – bottom right' : 'Nelikenttä – oikea alaosa',
@@ -117,6 +121,30 @@ const SETTING_VALUE_TITLE = {
   [SETTING_VALUE.VERTICAL]:  getLanguage() === 'en'? 'Vertical axis - vertical':'Pystyakseli',
 }
 
+const SETTING_VALUE_TITLEEng = {
+  [SETTING_VALUE.TOP_LEFT]:'Fourfold table – top left',
+  [SETTING_VALUE.TOP_RIGHT]:  'Fourfold table – top right',
+  [SETTING_VALUE.BOTTOM_LEFT]:  'Fourfold table – bottom left',
+  [SETTING_VALUE.BOTTOM_RIGHT]:   'Fourfold table – bottom right' ,
+  [SETTING_VALUE.LEFT_END]:   'Horizontal axis – Left end',
+  [SETTING_VALUE.RIGHT_END]:  'Horizontal axis – Right end',
+  [SETTING_VALUE.TOP_END]:  'Vertical axis – High end',
+  [SETTING_VALUE.LOW_END]:  'Vertical axis – Low end' ,
+  [SETTING_VALUE.HORIZONTAL]:  'Horizontal axis - horizontal',
+  [SETTING_VALUE.VERTICAL]:  'Vertical axis - vertical',
+}
+const SETTING_VALUE_TITLEFin = {
+  [SETTING_VALUE.TOP_LEFT]: 'Nelikenttä – vasen yläosa',
+  [SETTING_VALUE.TOP_RIGHT]:  'Nelikenttä – oikea yläosa',
+  [SETTING_VALUE.BOTTOM_LEFT]:  'Nelikenttä – vasen alaosa',
+  [SETTING_VALUE.BOTTOM_RIGHT]:    'Nelikenttä – oikea alaosa',
+  [SETTING_VALUE.LEFT_END]:   'Vaaka-akseli – vasen',
+  [SETTING_VALUE.RIGHT_END]:  'Vaaka-akseli – oikea',
+  [SETTING_VALUE.TOP_END]:   'Pystyakseli –  ylä',
+  [SETTING_VALUE.LOW_END]:  'Pystyakseli – ala',
+  [SETTING_VALUE.HORIZONTAL]:   'Vaaka-akseli',
+  [SETTING_VALUE.VERTICAL]:  'Pystyakseli',
+}
 const ICON_SPACING = 30
 
 const AxisX = ({
@@ -560,13 +588,13 @@ const CollaborationChartSetting = ({
           ariaHideApp={false}
         >
           <ModalContent style={{ zIndex: 2 }}>
-            <ModalTitle>{SETTING_VALUE_TITLE[currentSettingIndex]}</ModalTitle>
+            <ModalTitle>{getLanguage() === 'en' ? SETTING_VALUE_TITLEEng[currentSettingIndex] : SETTING_VALUE_TITLEFin[currentSettingIndex]}</ModalTitle>
             <ModalInputValue value={inputValueModal} maxLength={20} onChange={onChangeInputModal} />
             <ModalInputHint>{requestTranslation('max20Chars')}</ModalInputHint>
 
             <ButtonModalActions>
-              <ButtonModalStyled marginRight={12} onClick={onCloseModal}>Cancel</ButtonModalStyled>
-              <ButtonModalStyled primary disabled={!inputValueModal} onClick={onSaveModal}>SAVE</ButtonModalStyled>
+              <ButtonModalStyled marginRight={12} onClick={onCloseModal}>{requestTranslation('cancel')}</ButtonModalStyled>
+              <ButtonModalStyled primary disabled={!inputValueModal} onClick={onSaveModal}>{requestTranslation('save')}</ButtonModalStyled>
             </ButtonModalActions>
           </ModalContent>
         </Modal>

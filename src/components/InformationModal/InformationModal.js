@@ -84,7 +84,7 @@ const InformationModal = ({
             </div>
           </div> */}
           <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-            <button className='btn btn-sm btn-primary' onClick={InfoModalClose}>{requestTranslation('GotItBtn')}</button>
+            <button className='btn btn-lg btn-primary' onClick={InfoModalClose}>{requestTranslation('GotItBtn')}</button>
           </div>
         </div>
       </div>
