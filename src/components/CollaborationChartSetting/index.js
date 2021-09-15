@@ -562,7 +562,7 @@ const CollaborationChartSetting = ({
           <ModalContent style={{ zIndex: 2 }}>
             <ModalTitle>{SETTING_VALUE_TITLE[currentSettingIndex]}</ModalTitle>
             <ModalInputValue value={inputValueModal} maxLength={20} onChange={onChangeInputModal} />
-            <ModalInputHint>(max. 20 characters)</ModalInputHint>
+            <ModalInputHint>{requestTranslation('max20Chars')}</ModalInputHint>
 
             <ButtonModalActions>
               <ButtonModalStyled marginRight={12} onClick={onCloseModal}>Cancel</ButtonModalStyled>

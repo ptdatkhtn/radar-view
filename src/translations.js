@@ -619,7 +619,10 @@ const localTranslations = {
         en:`Are you sure to clear all fields ?`,
         fi: `Haluatko varmasti tyhjentää kaikki kentät ?`
     },
-   
+    max20Chars: {
+        en: `(max. 20 characters)`,
+        fi: `(Enintään 20 merkkiä)`
+    }
     
     
 }
