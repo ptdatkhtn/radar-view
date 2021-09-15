@@ -29,6 +29,7 @@ import CollaborationChartSetting from '../CollaborationChartSetting'
 import {mockDataEn, mockDataFin, mockData} from '../CreateRadarForm'
 import InformationModal from '../InformationModal/InformationModal'
 import { getLanguage } from '@sangre-fp/i18n'
+import {ratingApi} from '../../helpers/fetcher'
 
 const URL = window.URL || window.webkitURL
 
@@ -197,7 +198,9 @@ const  RatingModalPreviewEditMode = ({
     handleUpdateStateWhenClickedDoneBtnInCreateRadarForm,
     isCustomVerticalProp,
     isCustomHorozontalProp,
-    closedModal
+    closedModal,
+    radarid,
+    groupid
 }) => {
         // const { classes } = props;
         
@@ -624,7 +627,14 @@ const  RatingModalPreviewEditMode = ({
         
         }
 
-        const handleFlipHorizontalAndVerticalChangeInRatingEditChartMode = () => {
+        const handleFlipHorizontalAndVerticalChangeInRatingEditChartMode = async () => {
+            const {data } = await ratingApi.getFlipAxisAfterSaved( groupid, radarid)
+            if(!!data.isFlip) {
+                await ratingApi.changeFlipAxis(groupid, radarid, {isFlip: false})
+            } else if(!data.isFlip){
+                await ratingApi.changeFlipAxis(groupid, radarid, {isFlip: true})
+            }
+
             const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
             const {
                     leftEndValue, 

@@ -30,6 +30,7 @@ import {HeaderContainer, Spacing} from './RatingSummaryPreview';
 import RatingModalPreviewEditMode from './RatingModalPreviewEditMode/RatingModalPreviewEditMode'
 import InformationModal from './InformationModal/InformationModal'
 import CollaborationChartSetting from './CollaborationChartSetting/index';
+import {ratingApi} from '../helpers/fetcher'
 
 const URL = window.URL || window.webkitURL
 
@@ -862,7 +863,7 @@ class CreateRadarForm extends PureComponent {
         })
     }
 
-    handleNextClick = () => {
+    handleNextClick = async () => {
         const {
             addRadarFormPage,
             changeRadarLanguage,
@@ -915,6 +916,9 @@ class CreateRadarForm extends PureComponent {
             imageTitleFile,
             displayHaloWhenRating
         } = this.state
+
+        const getDataChangeFlip = await ratingApi.getFlipAxis( this.props.group.id, this.props['radar_id'])
+        await ratingApi.changeFlipAxisAfterSaved( this.props.group.id, this.props['radar_id'], {'isFlip': getDataChangeFlip?.data.isFlip})
 
         if (this.validate()) {
             // todo make these in a pagely manner:)
@@ -1455,7 +1459,14 @@ class CreateRadarForm extends PureComponent {
             }
     }
 
-    const handleFlipHorizontalAndVerticalChange = () => {
+    const handleFlipHorizontalAndVerticalChange = async () => {
+        const {data } = await ratingApi.getFlipAxisAfterSaved( this.props.group.id, this.props['radar_id'])
+        if(!!data.isFlip) {
+            await ratingApi.changeFlipAxis(this.props.group.id, this.props['radar_id'], {isFlip: false})
+        } else if(!data.isFlip){
+            await ratingApi.changeFlipAxis(this.props.group.id, this.props['radar_id'], {isFlip: true})
+        }
+        
         const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
            if (retrievedObject) {
                 const {
@@ -2089,6 +2100,8 @@ class CreateRadarForm extends PureComponent {
                             isCustomVerticalProp={this.state.isCustomVertical}
                             isCustomHorozontalProp={this.state.isCustomHorozol}
                             closedModal={closedModal}
+                            groupid={this.props.group.id || 0}
+                            radarid={this.props['radar_id']}
                         />
                     </FullWidthBgContainer>
                 )}
