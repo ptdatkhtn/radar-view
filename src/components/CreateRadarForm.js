@@ -1099,6 +1099,27 @@ class CreateRadarForm extends PureComponent {
         // }
         // label: i.label, value: i.title
         const handleDisplayVericalAxisRatingChange = ({ value }, isCustom) => {
+            if (localStorage.getItem('chartData')) {
+                const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+                    const {
+                        leftEndValue, 
+                        rightEndValue, 
+                        topEndValue, 
+                        lowEndValue, 
+                        horizontalAxisNameValue, 
+                        verticalAxisNameValue,
+                        topLeftValue, 
+                        topRightValue, 
+                        bottomLeftValue, 
+                        bottomRightValue,
+                        inputSelectedXValue,
+                        inputSelectedYValue,
+                        isEditHorizontal,
+                        isVerticalEdit
+
+                    } = retrievedObject
+
+
             this.setState({
                 isCustomVertical: isCustom,
             })
@@ -1110,6 +1131,24 @@ class CreateRadarForm extends PureComponent {
                         axisYMin: 'X',
                         axisYMax: 'Y',
                     })
+
+                    localStorage.setItem('chartData', JSON.stringify({
+                        leftEndValue, 
+                        rightEndValue, 
+                        horizontalAxisNameValue,
+                        topLeftValue, 
+                        topRightValue, 
+                        bottomLeftValue, 
+                        bottomRightValue,
+                        inputSelectedXValue,
+                        inputSelectedYValue: 'Custom',
+                        isVerticalEdit: true,
+                        isEditHorizontal,
+                        topEndValue: 'Y', 
+                        lowEndValue: 'X', 
+                        verticalAxisNameValue: 'Custom'
+                      }));
+
                     return true
                 }
                 else if(String(value) === String(i.title)) {
@@ -1119,6 +1158,23 @@ class CreateRadarForm extends PureComponent {
                         axisYMin: i.leftAttr,
                         axisYMax: i.rightAttr,
                     })
+
+                    localStorage.setItem('chartData', JSON.stringify({
+                        leftEndValue, 
+                        rightEndValue, 
+                        horizontalAxisNameValue,
+                        topLeftValue, 
+                        topRightValue, 
+                        bottomLeftValue, 
+                        bottomRightValue,
+                        inputSelectedXValue,
+                        inputSelectedYValue: i.title,
+                        isVerticalEdit: false,
+                        isEditHorizontal,
+                        topEndValue: i.rightAttr, 
+                        lowEndValue: i.leftAttr, 
+                        verticalAxisNameValue: i.nameAxis
+                      }));
                 }
             }) :
             (mockDataFin.some(i => {
@@ -1129,6 +1185,23 @@ class CreateRadarForm extends PureComponent {
                         axisYMin: 'X',
                         axisYMax: 'Y',
                     })
+
+                    localStorage.setItem('chartData', JSON.stringify({
+                        leftEndValue, 
+                        rightEndValue, 
+                        horizontalAxisNameValue,
+                        topLeftValue, 
+                        topRightValue, 
+                        bottomLeftValue, 
+                        bottomRightValue,
+                        inputSelectedXValue,
+                        inputSelectedYValue: 'Custom',
+                        isVerticalEdit: true,
+                        isEditHorizontal,
+                        topEndValue: 'Y', 
+                        lowEndValue: 'X', 
+                        verticalAxisNameValue: 'Custom'
+                      }));
                     return true
                 }
                 else if(String(value) === String(i.title)) {
@@ -1138,51 +1211,248 @@ class CreateRadarForm extends PureComponent {
                         axisYMin: i.leftAttr,
                         axisYMax: i.rightAttr,
                     })
+
+                    localStorage.setItem('chartData', JSON.stringify({
+                        leftEndValue, 
+                        rightEndValue, 
+                        horizontalAxisNameValue,
+                        topLeftValue, 
+                        topRightValue, 
+                        bottomLeftValue, 
+                        bottomRightValue,
+                        inputSelectedXValue,
+                        inputSelectedYValue: i.title,
+                        isVerticalEdit: false,
+                        isEditHorizontal,
+                        topEndValue: i.rightAttr, 
+                        lowEndValue: i.leftAttr, 
+                        verticalAxisNameValue: i.nameAxis
+                      }));
                 }
             }))
+            } else {
+                this.setState({
+                    isCustomVertical: isCustom,
+                })
+                getLanguage() === 'en' ? mockDataEn.some(i => {
+                    if ((String(value) === 'Custom') || (String(value) === 'Muokattu')  ) {
+                        this.setState({ 
+                            axisYSelect: value,
+                            axisYTitle: 'Custom',
+                            axisYMin: 'X',
+                            axisYMax: 'Y',
+                        })
+                        return true
+                    }
+                    else if(String(value) === String(i.title)) {
+                        this.setState({ 
+                            axisYSelect: value,
+                            axisYTitle: i.nameAxis,
+                            axisYMin: i.leftAttr,
+                            axisYMax: i.rightAttr,
+                        })
+                    }
+                }) :
+                (mockDataFin.some(i => {
+                    if ((String(value) === 'Custom') || (String(value) === 'Muokattu')  ) {
+                        this.setState({ 
+                            axisYSelect: value,
+                            axisYTitle: 'Muokattu',
+                            axisYMin: 'X',
+                            axisYMax: 'Y',
+                        })
+                        return true
+                    }
+                    else if(String(value) === String(i.title)) {
+                        this.setState({ 
+                            axisYSelect: value,
+                            axisYTitle: i.nameAxis,
+                            axisYMin: i.leftAttr,
+                            axisYMax: i.rightAttr,
+                        })
+                    }
+                }))
+            }
+
+
+
         }
         const handleDisplayHorizontalAxisRatingChange = ({ value }, isCustom) => {
-            this.setState({
-                isCustomHorozol: isCustom,
-            })
-            getLanguage() === 'en' ? mockDataEn.some(i => {
-                if ((String(value) === 'Custom') || (String(value) === 'Muokattu')) {
-                    this.setState({ 
-                        axisXSelect: value,
-                        axisXTitle: 'Custom',
-                        axisXMin: 'X',
-                        axisXMax: 'Y',
-                    })
-                    return true
-                }
-                else if(String(value) === String(i.title)) {
-                    this.setState({ 
-                        axisXSelect: value,
-                        axisXTitle: i.nameAxis,
-                        axisXMin: i.leftAttr,
-                        axisXMax: i.rightAttr,
-                    })
-                }
-            }) :
-            (mockDataFin.some(i => {
-                if ((String(value) === 'Custom') || (String(value) === 'Muokattu')) {
-                    this.setState({ 
-                        axisXSelect: value,
-                        axisXTitle: 'Muokattu',
-                        axisXMin: 'X',
-                        axisXMax: 'Y',
-                    })
-                    return true
-                }
-                else if(String(value) === String(i.title)) {
-                    this.setState({ 
-                        axisXSelect: value,
-                        axisXTitle: i.nameAxis,
-                        axisXMin: i.leftAttr,
-                        axisXMax: i.rightAttr,
-                    })
-                }
-            }))
+            if (localStorage.getItem('chartData')) {
+                    const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+                        const {
+                            leftEndValue, 
+                            rightEndValue, 
+                            topEndValue, 
+                            lowEndValue, 
+                            horizontalAxisNameValue, 
+                            verticalAxisNameValue,
+                            topLeftValue, 
+                            topRightValue, 
+                            bottomLeftValue, 
+                            bottomRightValue,
+                            inputSelectedXValue,
+                            inputSelectedYValue,
+                            isEditHorizontal,
+                            isVerticalEdit
+                        } = retrievedObject
+
+                this.setState({
+                    isCustomHorozol: isCustom,
+                })
+                getLanguage() === 'en' ? mockDataEn.some(i => {
+                    if ((String(value) === 'Custom') || (String(value) === 'Muokattu')) {
+                        this.setState({ 
+                            axisXSelect: value,
+                            axisXTitle: 'Custom',
+                            axisXMin: 'X',
+                            axisXMax: 'Y',
+                        })
+
+                        localStorage.setItem('chartData', JSON.stringify({
+                            topEndValue, 
+                            lowEndValue, 
+                            verticalAxisNameValue,
+                            topLeftValue, 
+                            topRightValue, 
+                            bottomLeftValue, 
+                            bottomRightValue,
+                            inputSelectedXValue: 'Custom',
+                            inputSelectedYValue,
+                            isVerticalEdit,
+                            isEditHorizontal: true,
+                            leftEndValue: 'X', 
+                            rightEndValue: 'Y', 
+                            horizontalAxisNameValue: 'Custom', 
+                        }));
+
+                        return true
+                    }
+                    else if(String(value) === String(i.title)) {
+                        this.setState({ 
+                            axisXSelect: value,
+                            axisXTitle: i.nameAxis,
+                            axisXMin: i.leftAttr,
+                            axisXMax: i.rightAttr,
+                        })
+
+                        localStorage.setItem('chartData', JSON.stringify({
+                            topEndValue, 
+                            lowEndValue, 
+                            verticalAxisNameValue,
+                            topLeftValue, 
+                            topRightValue, 
+                            bottomLeftValue, 
+                            bottomRightValue,
+                            inputSelectedXValue: i.title,
+                            inputSelectedYValue,
+                            isVerticalEdit,
+                            isEditHorizontal: false,
+                            leftEndValue: i.leftAttr, 
+                            rightEndValue: i.rightAttr, 
+                            horizontalAxisNameValue: i.nameAxis, 
+                        }));
+
+                    }
+                }) :
+                (mockDataFin.some(i => {
+                    if ((String(value) === 'Custom') || (String(value) === 'Muokattu')) {
+                        this.setState({ 
+                            axisXSelect: value,
+                            axisXTitle: 'Muokattu',
+                            axisXMin: 'X',
+                            axisXMax: 'Y',
+                        })
+
+                        localStorage.setItem('chartData', JSON.stringify({
+                            topEndValue, 
+                            lowEndValue, 
+                            verticalAxisNameValue,
+                            topLeftValue, 
+                            topRightValue, 
+                            bottomLeftValue, 
+                            bottomRightValue,
+                            inputSelectedXValue: 'Custom',
+                            inputSelectedYValue,
+                            isVerticalEdit,
+                            isEditHorizontal: true,
+                            leftEndValue: 'X', 
+                            rightEndValue: 'Y', 
+                            horizontalAxisNameValue: 'Custom', 
+                        }));
+
+                        return true
+                    }
+                    else if(String(value) === String(i.title)) {
+                        this.setState({ 
+                            axisXSelect: value,
+                            axisXTitle: i.nameAxis,
+                            axisXMin: i.leftAttr,
+                            axisXMax: i.rightAttr,
+                        })
+
+                        localStorage.setItem('chartData', JSON.stringify({
+                            topEndValue, 
+                            lowEndValue, 
+                            verticalAxisNameValue,
+                            topLeftValue, 
+                            topRightValue, 
+                            bottomLeftValue, 
+                            bottomRightValue,
+                            inputSelectedXValue: i.title,
+                            inputSelectedYValue,
+                            isVerticalEdit,
+                            isEditHorizontal: false,
+                            leftEndValue: i.leftAttr, 
+                            rightEndValue: i.rightAttr, 
+                            horizontalAxisNameValue: i.nameAxis, 
+                        }));
+
+                    }
+                }))
+            } else {
+                this.setState({
+                    isCustomHorozol: isCustom,
+                })
+                getLanguage() === 'en' ? mockDataEn.some(i => {
+                    if ((String(value) === 'Custom') || (String(value) === 'Muokattu')) {
+                        this.setState({ 
+                            axisXSelect: value,
+                            axisXTitle: 'Custom',
+                            axisXMin: 'X',
+                            axisXMax: 'Y',
+                        })
+                        return true
+                    }
+                    else if(String(value) === String(i.title)) {
+                        this.setState({ 
+                            axisXSelect: value,
+                            axisXTitle: i.nameAxis,
+                            axisXMin: i.leftAttr,
+                            axisXMax: i.rightAttr,
+                        })
+                    }
+                }) :
+                (mockDataFin.some(i => {
+                    if ((String(value) === 'Custom') || (String(value) === 'Muokattu')) {
+                        this.setState({ 
+                            axisXSelect: value,
+                            axisXTitle: 'Muokattu',
+                            axisXMin: 'X',
+                            axisXMax: 'Y',
+                        })
+                        return true
+                    }
+                    else if(String(value) === String(i.title)) {
+                        this.setState({ 
+                            axisXSelect: value,
+                            axisXTitle: i.nameAxis,
+                            axisXMin: i.leftAttr,
+                            axisXMax: i.rightAttr,
+                        })
+                    }
+                }))
+            }
     }
 
     const handleFlipHorizontalAndVerticalChange = () => {
