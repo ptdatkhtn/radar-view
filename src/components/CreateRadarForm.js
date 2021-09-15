@@ -156,7 +156,7 @@ export const mockData= [
     {
         title: getLanguage() === 'en' ? 'Nature3: Non-disrupting/Disrupting':'Luonne3: Häiriötön/Häiriöitä aiheuttava',
         label: getLanguage() === 'en' ? 'Nature: Non-disrupting/Disrupting':'Luonne: Häiriötön/Häiriöitä aiheuttava',
-        nameAxis: getLanguage() === 'en' ?'Nature':'Luonne3',
+        nameAxis: getLanguage() === 'en' ?'Nature':'Luonne',
         leftAttr: getLanguage() === 'en' ?'Non-disrupting':'Häiriötön',
         rightAttr:getLanguage() === 'en' ? 'Disrupting':'Häiriöitä aiheuttava'
     },
@@ -402,7 +402,7 @@ export const mockDataFin= [
     {
         title:  'Luonne3: Häiriötön/Häiriöitä aiheuttava',
         label:  'Luonne: Häiriötön/Häiriöitä aiheuttava',
-        nameAxis: 'Luonne3',
+        nameAxis: 'Luonne',
         leftAttr: 'Häiriötön',
         rightAttr: 'Häiriöitä aiheuttava'
     },
