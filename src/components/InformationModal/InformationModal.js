@@ -114,5 +114,7 @@ const InformationUl = styled.ul`
   line-height: 2
 `;
 const InformationLi = styled.li`
-  line-height: 1.5
+  line-height: 1.4
+  margin-top: 8px;
+  margin-bottom: 8px;
 `;

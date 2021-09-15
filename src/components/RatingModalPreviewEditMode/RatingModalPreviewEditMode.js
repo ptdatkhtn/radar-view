@@ -1001,8 +1001,7 @@ const HandleDoneBtn = styled.button`
 const HandleRatingsBtnActive = styled.button`
     background: #006998 !important;
     color: white !important;
-    margin-bottom:import InformationModal from '../InformationModal/InformationModal';
- 10px;
+    margin-bottom: 10px;
 `
 const RatingGroupBtn = styled.div`
 display: flex;
