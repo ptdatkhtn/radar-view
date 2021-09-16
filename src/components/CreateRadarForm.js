@@ -463,7 +463,7 @@ class CreateRadarForm extends PureComponent {
         openRatingInformationModal: false,
         openCommentingInformationModal: false,
         openDiscussionInformationModal: false,
-        votingHaloOn: false
+        votingHaloOn: false,
     }
     // state is getting set because we are implementing a cancel + save button
     constructor(props) {
@@ -489,7 +489,7 @@ class CreateRadarForm extends PureComponent {
             radarName, mapIntro, radarLanguage, radarSets, hideUsersFromTrial, radarImage, votingOn,
             ratingsOn, discussionOn, commentsOn, likingOn, votingUp, axisXTitle, axisXMin,
             axisXMax, axisYTitle, axisYMin, axisYMax, fourFieldsTopLeft, fourFieldsTopRight,
-            fourFieldsBottomLeft, fourFieldsBottomRight, displayHaloWhenRating, titleLogo
+            fourFieldsBottomLeft, fourFieldsBottomRight, displayHaloWhenRating, titleLogo, handleNextClickTriggered
         } = props
 
 
@@ -538,6 +538,8 @@ class CreateRadarForm extends PureComponent {
             getUserGroups()
             getRadarSets()
         }
+
+        this.props.handleNextClickTriggered(this.handleNextClick)
 
         localStorage.removeItem('chartData')
 
@@ -1039,7 +1041,7 @@ class CreateRadarForm extends PureComponent {
             openVotingInformationModal,
             openRatingInformationModal,
             openCommentingInformationModal,
-            openDiscussionInformationModal
+            openDiscussionInformationModal,
         } = this.state
 
         const onHoverVotingIcon = (event) => {
@@ -1604,6 +1606,7 @@ class CreateRadarForm extends PureComponent {
             openRatingModalEditMode: false
         })
     }
+    
     const clearAllFieldsBtn = () => {
         this.setState({
             axisXTitle: requestTranslation('HorizontalAxisName'),

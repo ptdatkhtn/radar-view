@@ -32,7 +32,7 @@ import fullscreen from '../components/CollaborationChartSetting/fullscreen.svg'
 import edit2 from '../components/CollaborationChartSetting/edit2.svg'
 import ReactDOM from "react-dom";
 import {Fullscreen} from '@styled-icons/boxicons-regular'
-
+import ConfirmationModalFoCollabTool  from './ConfirmationModalForCollabTool/ConfirmationModalForCollabTool'
 class RadarPage extends PureComponent {
     constructor(props) {
         super(props)
@@ -61,9 +61,9 @@ class RadarPage extends PureComponent {
                 sector: null,
                 time: null
             },
-            phenomenaDragged: false
+            phenomenaDragged: false,
+            openCofirmationModalCollabTool: false
         }
-
         this.elmRadar = React.createRef()
     }
 
@@ -787,16 +787,54 @@ class RadarPage extends PureComponent {
                 id,
             }
         } = this.props
+        const { openCofirmationModalCollabTool } = this.state
+        
+        const openCofirmationModalCollabToolHandle = () => {
+            this.setState({
+                openCofirmationModalCollabTool: true
+            })
+        }
+    
+        const closeCofirmationModalCollabToolHandle = () => {
+            this.setState({
+                openCofirmationModalCollabTool: false
+            })
+        }
 
+        const handleNextClickTriggered = (func) => {
+            console.log('func', func)
+            this.setState({
+                func: func
+            })
+        }
+        
         return (
             <Modal
                 isOpen={addRadarFormOpen}
                 contentLabel='Radar settings'
                 style={modalStyles}
                 ariaHideApp={false}
-                onRequestClose={id ? () => changeAddRadarFormVisibility() : null}
+                // onRequestClose={id ? () => changeAddRadarFormVisibility : null}
+                onRequestClose={id ? () => {
+                    // changeAddRadarFormVisibility();
+                    openCofirmationModalCollabToolHandle()
+                } : null}
             >
-                <CreateRadarForm />
+                <CreateRadarForm handleNextClickTriggered= {handleNextClickTriggered}/>
+                <ConfirmationModalFoCollabTool 
+                    ConfirmationModalNote= {requestTranslation('closeCollabToolNote')}
+                    confirmationModal={openCofirmationModalCollabTool}
+                    yesConfirmationHandleBtn={() => {
+                                changeAddRadarFormVisibility();
+                                closeCofirmationModalCollabToolHandle();
+                            }
+                        } 
+                    noConfirmationHandleBtn={closeCofirmationModalCollabToolHandle} 
+                    saveConfirmationHandleBtn = { () => {
+                        closeCofirmationModalCollabToolHandle();
+                        this.state.func && this.state.func()
+                    }}
+                />
             </Modal>
         )
     }

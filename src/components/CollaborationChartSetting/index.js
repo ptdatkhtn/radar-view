@@ -75,7 +75,7 @@ const EditButton = styled.img`
 `
 const ModalTitle = styled.h2`
   color: #121212;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 20px;
   margin: 0;
   margin-bottom: 24px;
@@ -593,8 +593,11 @@ const CollaborationChartSetting = ({
             <ModalInputHint>{requestTranslation('max20Chars')}</ModalInputHint>
 
             <ButtonModalActions>
-              <ButtonModalStyled marginRight={12} onClick={onCloseModal}>{requestTranslation('cancel')}</ButtonModalStyled>
-              <ButtonModalStyled primary disabled={!inputValueModal} onClick={onSaveModal}>{requestTranslation('save')}</ButtonModalStyled>
+              <button onClick={onCloseModal} className="btn btn-lg btn-plain-gray">{requestTranslation('cancel')}</button>
+              <button onClick={onCloseModal} className="btn btn-lg btn-primary">{requestTranslation('done')}</button>
+           
+              {/* <ButtonModalStyled marginRight={12} onClick={onCloseModal}>{requestTranslation('cancel')}</ButtonModalStyled> */}
+              {/* <ButtonModalStyled primary disabled={!inputValueModal} onClick={onSaveModal}>{requestTranslation('done')}</ButtonModalStyled> */}
             </ButtonModalActions>
           </ModalContent>
         </Modal>

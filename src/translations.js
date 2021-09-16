@@ -622,7 +622,19 @@ const localTranslations = {
     max20Chars: {
         en: `(max. 20 characters)`,
         fi: `(Enintään 20 merkkiä)`
-    }
+    },
+    yesBtn: {
+        en: `YES`,
+        fi: `KYLLÄ`
+    },
+    noBtn: {
+        en: `NO`,
+        fi: `EN`
+    },
+    closeCollabToolNote: {
+        en: `Do you really want to close this window without saving?`,
+        fi: `Haluatko varmasti sulkea tämän ikkunan tallentamatta muutoksia?`
+    },
     
     
 }

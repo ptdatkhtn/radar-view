@@ -888,7 +888,7 @@ const  RatingModalPreviewEditMode = ({
                                     <FullWidthBgContainer style={{ padding: 0 }}> 
                                         <SpaceBetween>
                                             <CollaborationChartSetting
-                                            passisCustomToRatingModalPreviewModeOther={passisCustomToRatingModalPreviewModeOther}
+                                                passisCustomToRatingModalPreviewModeOther={passisCustomToRatingModalPreviewModeOther}
                                                 containerWidth = {widthContentWidth}
                                                 containerHeight = {widthContentWidth * 0.65}
                                                 topLeft = {fourFieldsTopLeftValue}
