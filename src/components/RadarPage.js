@@ -790,9 +790,52 @@ class RadarPage extends PureComponent {
         const { openCofirmationModalCollabTool } = this.state
         
         const openCofirmationModalCollabToolHandle = () => {
-            this.setState({
-                openCofirmationModalCollabTool: true
-            })
+            const currentStates = JSON.parse(localStorage.getItem('state'))
+            const chartData = JSON.parse(localStorage.getItem('chartData'))
+            let fourFieldsBottomLeft = chartData ? String(chartData?.bottomLeftValue): String(currentStates.fourFieldsBottomLeft)
+            let fourFieldsBottomRight = chartData ? String(chartData?.bottomRightValue): String(currentStates.fourFieldsBottomRight)
+            let fourFieldsTopLeft = chartData ? String(chartData?.topLeftValue): String(currentStates.fourFieldsTopLeft)
+            let fourFieldsTopRight = chartData ? String(chartData?.topRightValue): String(currentStates.fourFieldsTopRight)
+            let axisXTitle  = chartData ? String(chartData?.horizontalAxisNameValue): String(currentStates.axisXTitle)
+            let axisYTitle = chartData ? String(chartData?.verticalAxisNameValue): String(currentStates.axisYTitle)
+            let axisXMin = chartData ? String(chartData?.leftEndValue): String(currentStates.axisXMin)
+            let axisXMax = chartData ? String(chartData?.rightEndValue): String(currentStates.axisXMax)
+            let axisYMin = chartData ? String(chartData?.lowEndValue): String(currentStates.axisYMin)
+            let axisYMax = chartData ? String(chartData?.topEndValue): String(currentStates.axisYMax)
+
+            if ((this.props.radarSettings.displayHaloWhenRating !== currentStates.displayHaloWhenRating)
+                || (this.props.radarSettings.discussionOn !== currentStates.discussionOn)
+                || (this.props.radarSettings.votingOn !== currentStates.votingOn)
+                || (this.props.radarSettings.ratingsOn !== currentStates.ratingsOn)
+                // || (this.props.radarSettings.votingHaloOn !== currentStates.votingHaloOn)
+                || (this.props.radarSettings.likingOn !== currentStates.discussionOn)
+                || (this.props.radarSettings.commentsOn !== currentStates.commentsOn)
+
+                || this.props.radarSettings.fourFieldsBottomLeft !== fourFieldsBottomLeft
+                || this.props.radarSettings.fourFieldsBottomRight !== fourFieldsBottomRight
+                || this.props.radarSettings.fourFieldsTopLeft !== fourFieldsTopLeft
+                || this.props.radarSettings.fourFieldsTopRight !== fourFieldsTopRight
+                || this.props.radarSettings.axisXTitle !== axisXTitle
+                || this.props.radarSettings.axisXMin !== axisXMin
+                || this.props.radarSettings.axisYTitle !== axisYTitle
+                || this.props.radarSettings.axisXMax !== axisXMax
+                || this.props.radarSettings.axisYMin !== axisYMin
+                || this.props.radarSettings.axisYMax !== axisYMax
+            ) {
+               // in case data modified
+                this.setState({
+                    openCofirmationModalCollabTool: true
+                })
+            } else {
+                // in case data NOT modified
+                this.setState({
+                    openCofirmationModalCollabTool: false
+                })
+                changeAddRadarFormVisibility();
+
+            }
+
+            
         }
     
         const closeCofirmationModalCollabToolHandle = () => {
@@ -817,6 +860,7 @@ class RadarPage extends PureComponent {
                 onRequestClose={id ? () => {
                     // changeAddRadarFormVisibility();
                     openCofirmationModalCollabToolHandle()
+                    
                 } : null}
             >
                 <CreateRadarForm handleNextClickTriggered= {handleNextClickTriggered}/>

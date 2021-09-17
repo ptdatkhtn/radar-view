@@ -328,8 +328,6 @@ const CollaborationChartSetting = ({
     const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
     const oldData = JSON.parse(localStorage.getItem('old-data-edit-manually'))
 
-    console.log('123456', state[currentSettingIndex], inputValueModal.trim())
-    console.log('oldData', oldData)
     if (String(oldData?.[currentSettingIndex]) !== String(state[currentSettingIndex], inputValueModal.trim())) {
       setIsFieldChange(true)
     } else {
@@ -372,7 +370,6 @@ const CollaborationChartSetting = ({
 }
 
 React.useEffect(() => {
-  console.log('useEffect...')
   isFieldChange && setOpenCofirmationModalForEachField(true)
   return () => {
     setIsFieldChange(false)
@@ -384,8 +381,6 @@ React.useEffect(() => {
 
     const a = oldData?.[currentSettingIndex].toString()
     const b = state[currentSettingIndex].toString()
-    
-    console.log(a === b)
 
     // Identifying which key is changed
     let keyFieldChanged = null
@@ -395,9 +390,6 @@ React.useEffect(() => {
         return true
       }
     })
-
-    console.log('a',  String(oldData[keyFieldChanged]))
-    console.log('b',  inputValueModal.trim())
 
     if (String(oldData[keyFieldChanged]) !== String(inputValueModal.trim())) {
       setIsFieldChange(true)
@@ -462,16 +454,6 @@ React.useEffect(() => {
       })
   }
 
-//   React.useEffect(() => {
-//     console.log('dataaaaa')
-//     const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
-//     console.log('retrievedObject', retrievedObject)
-//     localStorage.setItem('old-data-edit-manually', JSON.stringify({...retrievedObject}))
-
-//     return () => {
-//         localStorage.removeItem('old-data-edit-manually')
-//     }
-// }, [])
 
 useEffect(() => {
   localStorage.setItem('chartData', JSON.stringify({
@@ -711,12 +693,7 @@ useEffect(() => {
           setOpenCofirmationModalForEachField(false)
 
       }
-    //   const openCofirmationModalForEachFieldHandle =() => {
-
-    //     isFieldChangeChecked()
-        
-    // }
-console.log('data1111', dataOriginal)
+      
   return (
     <>
       <GlobalStyle />

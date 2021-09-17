@@ -648,14 +648,7 @@ const  RatingModalPreviewEditMode = ({
         }
         const openCofirmationModalForRatingEditModeHandle =() => {
             // setIsFieldChange(true)
-            isFieldChangeChecked()
-
-            // if (!isFieldChange) {
-            //     console.log('isFieldChecked false', isFieldChange)
-            //     setOpenCofirmationModalForRatingEditMode(false);
-            //     handleRatingPreviewEditModeClose()
-            // }
-            
+            isFieldChangeChecked()           
         }
 
         const closeCofirmationModalForRatingEditModeHandle = () => {

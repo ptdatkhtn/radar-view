@@ -539,11 +539,14 @@ class CreateRadarForm extends PureComponent {
             getRadarSets()
         }
 
+        
         this.props.handleNextClickTriggered(this.handleNextClick)
 
         localStorage.removeItem('chartData')
         localStorage.removeItem('old-data-edit-manually')
       
+        localStorage.setItem('state', JSON.stringify({ ...this.state}))
+
         if (this.state.displayHaloWhenRating <= 20) {
             this.setState({
                 votingHaloOn: true
@@ -782,10 +785,23 @@ class CreateRadarForm extends PureComponent {
         }
         this.setState({ phenomenaSet: value, imageUrl })
     }
-    handleDisplayHaloWhenRatingChange = ({ value }) => this.setState({ displayHaloWhenRating: value })
+    handleDisplayHaloWhenRatingChange = ({ value }) => {
+        this.setState({ displayHaloWhenRating: value }, () => {
+            localStorage.setItem('state', JSON.stringify({ ...this.state}))
+        })
+    }
     handleGroupChange = ({ value }) => this.setState({ group: value }, () => this.validateGroup())
-    handleDiscussionOnChange = () => this.setState({ discussionOn: !this.state.discussionOn })
-    handleVotingOnChange = () => this.setState({ votingOn: !this.state.votingOn })
+    handleDiscussionOnChange = () => {
+        this.setState({ discussionOn: !this.state.discussionOn }, () => {
+            localStorage.setItem('state', JSON.stringify({ ...this.state}))
+        })
+    }
+    handleVotingOnChange = () => {
+        this.setState({ votingOn: !this.state.votingOn }, () => {
+            localStorage.setItem('state', JSON.stringify({ ...this.state}))
+        })
+        
+    }
     handleVotingHaloOnChange = () => {
 
         return this.setState({ 
@@ -794,14 +810,22 @@ class CreateRadarForm extends PureComponent {
             if (!this.state.votingHaloOn) {
                 this.setState({ 
                     displayHaloWhenRating: 999
+                }, () => {
+                    localStorage.setItem('state', JSON.stringify({...this.state}))
                 })
             }
         })
+
+        
     }
-    handleRatingsOnChange = () => this.setState({ ratingsOn: !this.state.ratingsOn })
-    handleLikingOnChange = () => this.setState({ likingOn: !this.state.likingOn })
-    handleCommentsOnChange = () => this.setState({ commentsOn: !this.state.commentsOn })
-    handleVotingSelection = () => this.setState({ votingUp: !this.state.votingUp })
+    handleRatingsOnChange = () => {
+        this.setState({ ratingsOn: !this.state.ratingsOn }, () => {
+            localStorage.setItem('state', JSON.stringify({...this.state}))
+        })
+    }
+    handleLikingOnChange = () => this.setState({ likingOn: !this.state.likingOn }, () => localStorage.setItem('state', JSON.stringify({...this.state})))
+    handleCommentsOnChange = () => this.setState({ commentsOn: !this.state.commentsOn }, () => localStorage.setItem('state', JSON.stringify({...this.state})))
+    handleVotingSelection = () => this.setState({ votingUp: !this.state.votingUp }, ()=> localStorage.setItem('state', JSON.stringify({...this.state})))
     handleHideUsersFromTrialClick = () =>
         this.setState({ hideUsersFromTrial: !this.state.hideUsersFromTrial })
 
@@ -1248,6 +1272,8 @@ class CreateRadarForm extends PureComponent {
                             axisYTitle: 'Custom',
                             axisYMin: 'X',
                             axisYMax: 'Y',
+                        }, () => {
+                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                         return true
                     }
@@ -1257,6 +1283,8 @@ class CreateRadarForm extends PureComponent {
                             axisYTitle: i.nameAxis,
                             axisYMin: i.leftAttr,
                             axisYMax: i.rightAttr,
+                        }, () => {
+                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                     }
                 }) :
@@ -1267,6 +1295,8 @@ class CreateRadarForm extends PureComponent {
                             axisYTitle: 'Muokattu',
                             axisYMin: 'X',
                             axisYMax: 'Y',
+                        }, () => {
+                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                         return true
                     }
@@ -1276,6 +1306,8 @@ class CreateRadarForm extends PureComponent {
                             axisYTitle: i.nameAxis,
                             axisYMin: i.leftAttr,
                             axisYMax: i.rightAttr,
+                        }, () => {
+                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                     }
                 }))
@@ -1428,6 +1460,8 @@ class CreateRadarForm extends PureComponent {
                             axisXTitle: 'Custom',
                             axisXMin: 'X',
                             axisXMax: 'Y',
+                        }, () => {
+                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                         return true
                     }
@@ -1437,6 +1471,8 @@ class CreateRadarForm extends PureComponent {
                             axisXTitle: i.nameAxis,
                             axisXMin: i.leftAttr,
                             axisXMax: i.rightAttr,
+                        }, () => {
+                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                     }
                 }) :
@@ -1447,6 +1483,8 @@ class CreateRadarForm extends PureComponent {
                             axisXTitle: 'Muokattu',
                             axisXMin: 'X',
                             axisXMax: 'Y',
+                        }, () => {
+                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                         return true
                     }
@@ -1456,6 +1494,8 @@ class CreateRadarForm extends PureComponent {
                             axisXTitle: i.nameAxis,
                             axisXMin: i.leftAttr,
                             axisXMax: i.rightAttr,
+                        }, () => {
+                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                     }
                 }))
@@ -1573,6 +1613,8 @@ class CreateRadarForm extends PureComponent {
                 axisYMax: axisXMax,
                 axisXSelect: axisYSelect,
                 axisYSelect: axisXSelect
+            }, () => {
+                localStorage.setItem('state', JSON.stringify({ ...this.state}))
             })
         }
     }
@@ -1669,6 +1711,8 @@ class CreateRadarForm extends PureComponent {
             axisYSelect: '',
             isCustomHorozol: false,
             isCustomVertical: false
+        }, () => {
+            localStorage.setItem('state', JSON.stringify({ ...this.state}))
         })
         if (localStorage.getItem('chartData') !== null)
             localStorage.removeItem('chartData')
@@ -1820,6 +1864,9 @@ class CreateRadarForm extends PureComponent {
 
         const inputVerticalAxisValue = String(axisYSelect) !== '' ? (this.state.isCustomVertical ? (getLanguage() === 'en' ?'Custom':'Muokattu') : axisYSelect) : ''
         const inputHorozoltalAxisValue = String(axisXSelect) !== '' ? (this.state.isCustomHorozol ? (getLanguage() === 'en' ?'Custom':'Muokattu') : axisXSelect) : ''
+
+        
+
         return (
             <div className='modal-form-sections'>
                 <div className='modal-form-section modal-form-header'>
@@ -1884,6 +1931,7 @@ class CreateRadarForm extends PureComponent {
                                 <p>
                                     {requestTranslation('createFormVotingDescription')}
                                 </p>
+                                {/* votingOn */}
                                 <Toggle
                                     icons={false}
                                     defaultChecked={votingOn}
