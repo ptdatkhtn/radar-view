@@ -1127,7 +1127,6 @@ class CreateRadarForm extends PureComponent {
 
                     } = retrievedObject
 
-console.log('retrievedObject2222', retrievedObject)
             this.setState({
                 isCustomVertical: isCustom,
             })
@@ -1465,7 +1464,6 @@ console.log('retrievedObject2222', retrievedObject)
 
     const syncChartData = () => {
         const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
-        console.log('aaaaa', retrievedObject)
         if (retrievedObject) {
             const {
                 leftEndValue, 
@@ -1645,7 +1643,6 @@ console.log('retrievedObject2222', retrievedObject)
 
         // console.log('dataaaaa')
         const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
-        console.log('retrievedObject', retrievedObject)
         localStorage.setItem('old-data-edit-manually', JSON.stringify({...retrievedObject}))
     }
 
