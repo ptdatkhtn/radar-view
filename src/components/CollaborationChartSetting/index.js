@@ -370,6 +370,44 @@ const CollaborationChartSetting = ({
       })
   }
 
+//   React.useEffect(() => {
+//     console.log('dataaaaa')
+//     const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+//     console.log('retrievedObject', retrievedObject)
+//     localStorage.setItem('old-data-edit-manually', JSON.stringify({...retrievedObject}))
+
+//     return () => {
+//         localStorage.removeItem('old-data-edit-manually')
+//     }
+// }, [])
+
+useEffect(() => {
+  localStorage.setItem('chartData', JSON.stringify({
+    leftEndValue, 
+    rightEndValue, 
+    topEndValue, 
+    lowEndValue, 
+    horizontalAxisNameValue, 
+    verticalAxisNameValue,
+    topLeftValue, 
+    topRightValue, 
+    bottomLeftValue, 
+    bottomRightValue,
+    inputSelectedXValue: inputSelectedXValue,
+    inputSelectedYValue: inputSelectedYValue,
+    isEditHorizontal,
+    isVerticalEdit
+  }));
+
+  const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+    localStorage.setItem('old-data-edit-manually', JSON.stringify({...retrievedObject}))
+
+    return () => {
+        localStorage.removeItem('old-data-edit-manually')
+    }
+}, [])
+
+
   useEffect (() => {
     localStorage.setItem('chartData', JSON.stringify({
       leftEndValue, 
@@ -387,7 +425,6 @@ const CollaborationChartSetting = ({
       isEditHorizontal,
       isVerticalEdit
     }));
-    
   }, [
     leftEndValue, 
     rightEndValue, 
@@ -594,7 +631,7 @@ const CollaborationChartSetting = ({
 
             <ButtonModalActions>
               <button onClick={onCloseModal} className="btn btn-lg btn-plain-gray">{requestTranslation('cancel')}</button>
-              <button onClick={onCloseModal} className="btn btn-lg btn-primary">{requestTranslation('done')}</button>
+              <button onClick={onSaveModal} className="btn btn-lg btn-primary">{requestTranslation('done')}</button>
            
               {/* <ButtonModalStyled marginRight={12} onClick={onCloseModal}>{requestTranslation('cancel')}</ButtonModalStyled> */}
               {/* <ButtonModalStyled primary disabled={!inputValueModal} onClick={onSaveModal}>{requestTranslation('done')}</ButtonModalStyled> */}

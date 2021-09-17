@@ -802,7 +802,6 @@ class RadarPage extends PureComponent {
         }
 
         const handleNextClickTriggered = (func) => {
-            console.log('func', func)
             this.setState({
                 func: func
             })
@@ -834,6 +833,7 @@ class RadarPage extends PureComponent {
                         closeCofirmationModalCollabToolHandle();
                         this.state.func && this.state.func()
                     }}
+                    isSaveConfirmationHandleBtnExist={true}
                 />
             </Modal>
         )

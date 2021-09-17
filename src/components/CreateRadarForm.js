@@ -542,7 +542,8 @@ class CreateRadarForm extends PureComponent {
         this.props.handleNextClickTriggered(this.handleNextClick)
 
         localStorage.removeItem('chartData')
-
+        localStorage.removeItem('old-data-edit-manually')
+      
         if (this.state.displayHaloWhenRating <= 20) {
             this.setState({
                 votingHaloOn: true
@@ -665,6 +666,7 @@ class CreateRadarForm extends PureComponent {
         if (window) {
             window.removeEventListener("resize", this.handleResize);
             localStorage.removeItem('chartData')
+            localStorage.removeItem('old-data-edit-manually')
         }
     }
 
@@ -1125,7 +1127,7 @@ class CreateRadarForm extends PureComponent {
 
                     } = retrievedObject
 
-
+console.log('retrievedObject2222', retrievedObject)
             this.setState({
                 isCustomVertical: isCustom,
             })
@@ -1279,10 +1281,10 @@ class CreateRadarForm extends PureComponent {
                     }
                 }))
             }
-
-
-
         }
+
+
+
         const handleDisplayHorizontalAxisRatingChange = ({ value }, isCustom) => {
             if (localStorage.getItem('chartData')) {
                     const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
@@ -1461,6 +1463,47 @@ class CreateRadarForm extends PureComponent {
             }
     }
 
+    const syncChartData = () => {
+        const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+        console.log('aaaaa', retrievedObject)
+        if (retrievedObject) {
+            const {
+                leftEndValue, 
+                rightEndValue, 
+                topEndValue, 
+                lowEndValue, 
+                horizontalAxisNameValue, 
+                verticalAxisNameValue,
+                topLeftValue, 
+                topRightValue, 
+                bottomLeftValue, 
+                bottomRightValue,
+                inputSelectedXValue,
+                inputSelectedYValue,
+                isEditHorizontal,
+                isVerticalEdit
+            } = retrievedObject
+
+            this.setState({
+                axisXTitle: horizontalAxisNameValue,
+                axisYTitle: verticalAxisNameValue,
+                axisXMin: leftEndValue,
+                axisYMin: lowEndValue,
+                axisXMax: rightEndValue,
+                axisYMax: topEndValue,
+                axisXSelect: inputSelectedXValue,
+                axisYSelect: inputSelectedYValue,
+                isCustomHorozol: isEditHorizontal,
+                isCustomVertical: isVerticalEdit,
+                fourFieldsBottomLeft: bottomLeftValue,
+                fourFieldsBottomRight: bottomRightValue,
+                fourFieldsTopLeft: topLeftValue,
+                fourFieldsTopRight: topRightValue
+            })
+
+        }
+    }
+
     const handleFlipHorizontalAndVerticalChange = async () => {
         const {data } = await ratingApi.getFlipAxisAfterSaved( this.props.group.id, this.props['radar_id'])
         if(!!data.isFlip) {
@@ -1599,6 +1642,11 @@ class CreateRadarForm extends PureComponent {
         this.setState({
             openRatingModalEditMode: true
         })
+
+        // console.log('dataaaaa')
+        const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+        console.log('retrievedObject', retrievedObject)
+        localStorage.setItem('old-data-edit-manually', JSON.stringify({...retrievedObject}))
     }
 
     const closeRatingModalEditModeModal = () => {
@@ -2068,7 +2116,9 @@ class CreateRadarForm extends PureComponent {
                             confirmationModalClose = {closeClearAllFieldsModal}
                             confirmationModalHandleBtn = {clearAllFieldsBtn}
                         />
-                        <RatingModalPreviewEditMode 
+                        <RatingModalPreviewEditMode
+                            syncChartData={syncChartData}
+                            dataOriginal={this.props}
                             isRatingPreviewEditOpen={openRatingModalEditMode}
                             handleRatingOff={handleRatingOffParantComp}
                             ratingsOn={this.state.ratingsOn}

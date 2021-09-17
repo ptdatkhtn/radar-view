@@ -30,7 +30,7 @@ import {mockDataEn, mockDataFin, mockData} from '../CreateRadarForm'
 import InformationModal from '../InformationModal/InformationModal'
 import { getLanguage } from '@sangre-fp/i18n'
 import {ratingApi} from '../../helpers/fetcher'
-
+import ConfirmationModalFoCollabTool from '../ConfirmationModalForCollabTool/ConfirmationModalForCollabTool'
 const URL = window.URL || window.webkitURL
 
 export const PAGE_HEADER_AND_LANGUAGE = 1
@@ -43,111 +43,6 @@ const COMMENT_TOPICS_ENABLED = false
 const RATING_ARROWS_ENABLED = false
 
 export const CustomModalStyles = { content: { ...paddingModalStyles.content}, overlay: { ...paddingModalStyles.overlay} }
-// export const mockData= [
-//     {
-//         title: 'Time',
-//         label: 'Time',
-//         leftAttr: 'near term',
-//         rightAttr: 'long term'
-//     },
-//     {
-//         title: 'Probability',
-//         label: 'Probability',
-//         leftAttr: 'low',
-//         rightAttr: 'high'
-//     },
-//     {
-//         title: 'Fit with current strategy',
-//         label: 'Fit with current strategy',
-//         leftAttr: 'near term',
-//         rightAttr: 'long term'
-//     },
-//     {
-//         title: 'Fit with new strategy',
-//         label: 'Fit with new strategy',
-//         leftAttr: 'weak',
-//         rightAttr: 'strong'
-//     },
-//     {
-//         title: 'Direction of the trend',
-//         label: 'Direction of the trend',
-//         leftAttr: 'weakening',
-//         rightAttr: 'increasing'
-//     },
-//     {
-//         title: 'Importance',
-//         label: 'Importance',
-//         leftAttr: 'low',
-//         rightAttr: 'high'
-//     },
-//     {
-//         title: 'Impact1',
-//         label: 'Impact',
-//         leftAttr: 'moderate',
-//         rightAttr: 'huge'
-//     },
-//     {
-//         title: 'Impact2',
-//         label: 'Impact',
-//         leftAttr: 'local',
-//         rightAttr: 'global'
-//     },
-//     {
-//         title: 'Nature1',
-//         label: 'Nature',
-//         leftAttr: 'threat',
-//         rightAttr: 'opportunity'
-//     },
-//     {
-//         title: 'Nature2',
-//         label: 'Nature',
-//         leftAttr: 'long term trend',
-//         rightAttr: 'emergent'
-//     },
-//     {
-//         title: 'Speed of change',
-//         label: 'Speed of change',
-//         leftAttr: 'gradual',
-//         rightAttr: 'tsunami'
-//     },
-//     {
-//         title: 'Size of threat/risk',
-//         label: 'Size of threat/risk',
-//         leftAttr: 'moderate',
-//         rightAttr: 'huge'
-//     },
-//     {
-//         title: 'Size of opportunity',
-//         label: 'Size of opportunity',
-//         leftAttr: 'moderate',
-//         rightAttr: 'huge'
-//     },
-//     {
-//         title: 'Nature3',
-//         label: 'Nature',
-//         leftAttr: 'non-disrupting',
-//         rightAttr: 'disrupting'
-//     },
-//     {
-//         title: 'Fit with existing capabilities',
-//         label: 'Fit with existing capabilities',
-//         leftAttr: 'weak',
-//         rightAttr: 'strong'
-//     },
-//     {
-//         title: 'Magnitude of actions required',
-//         label: 'Magnitude of actions required',
-//         leftAttr: 'minor',
-//         rightAttr: 'huge'
-//     },
-//     {
-//         title: 'Custom',
-//         label: 'Custom',
-//         leftAttr: 'x',
-//         rightAttr: 'y'
-//     },
-// ]
-
 
 const useStyles = theme => ({
     popover: {
@@ -200,10 +95,11 @@ const  RatingModalPreviewEditMode = ({
     isCustomHorozontalProp,
     closedModal,
     radarid,
-    groupid
+    groupid,
+    dataOriginal,
+    syncChartData
 }) => {
         // const { classes } = props;
-        
         const handleRatingsOnChange = (e) => {
             handleRatingOff(e)
         }
@@ -224,7 +120,49 @@ const  RatingModalPreviewEditMode = ({
         const [axisXSelectValue, setaxisXSelect] = React.useState(axisXSelect)
         const [axisYSelectValue, setaxisYSelect] = React.useState(axisYSelect)
         const [openRatingInformationModal, setOpenRatingInformationModal] = React.useState(false)
+        const [openCofirmationModalForRatingEditMode, setOpenCofirmationModalForRatingEditMode] = React.useState(false)
+        const [isFieldChange, setIsFieldChange] = React.useState(false)
 
+        const isFieldChangeChecked = () => {
+            const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+            const oldData = JSON.parse(localStorage.getItem('old-data-edit-manually'))
+
+            let bottomLeft = oldData ? String(oldData?.bottomLeftValue): String(dataOriginal.fourFieldsBottomLeft)
+            let bottomRight = oldData ? String(oldData?.bottomRightValue): String(dataOriginal.fourFieldsBottomRight)
+            let TopLeft = oldData ? String(oldData?.topLeftValue): String(dataOriginal.fourFieldsTopLeft)
+            let topRight = oldData ? String(oldData?.topRightValue): String(dataOriginal.fourFieldsTopRight)
+            let axisXTitle  = oldData ? String(oldData?.horizontalAxisNameValue): String(dataOriginal.axisXTitle)
+            let axisYTitle = oldData ? String(oldData?.verticalAxisNameValue): String(dataOriginal.axisYTitle)
+            let axisXMin = oldData ? String(oldData?.leftEndValue): String(dataOriginal.axisXMin)
+            let axisXMax = oldData ? String(oldData?.rightEndValue): String(dataOriginal.axisXMax)
+            let axisYMin = oldData ? String(oldData?.lowEndValue): String(dataOriginal.axisYMin)
+            let axisYMax = oldData ? String(oldData?.topEndValue): String(dataOriginal.axisYMax)
+
+            if(retrievedObject && (
+                String(retrievedObject.bottomLeftValue) !== bottomLeft
+                ||String(retrievedObject.bottomRightValue) !== bottomRight
+                ||String(retrievedObject.topLeftValue) !== TopLeft
+                ||String(retrievedObject.topRightValue) !== topRight
+                ||String(retrievedObject.horizontalAxisNameValue) !== axisXTitle
+                ||String(retrievedObject.verticalAxisNameValue) !== axisYTitle
+                ||String(retrievedObject.leftEndValue) !== axisXMin
+                ||String(retrievedObject.rightEndValue) !== axisXMax
+                ||String(retrievedObject.lowEndValue) !== axisYMin
+                ||String(retrievedObject.topEndValue) !== axisYMax
+                )
+            ){
+                 setIsFieldChange(true)
+            
+            } else {
+                // setIsFieldChange(false)
+                setOpenCofirmationModalForRatingEditMode(false); 
+                handleRatingPreviewEditModeClose()
+
+            }
+            
+        }
+    
+        
 
         const openRatingInformationModalHandle = () => {
             setOpenRatingInformationModal(true)
@@ -694,10 +632,37 @@ const  RatingModalPreviewEditMode = ({
             )
         }
 
+        React.useEffect(() => {
+            if(isFieldChange) {
+                setOpenCofirmationModalForRatingEditMode(true);
+            }
+            return () => {
+                setIsFieldChange(false)
+            }
+        }, [isFieldChange])
+
+
         const handleDoneBtn = (isCustomVertical, isCustomHorozol) => {
             handleBothClickedDoneAndPassCheckedCustomData(isCustomVertical, isCustomHorozol)
             handleUpdateStateWhenClickedDoneBtnInCreateRadarForm()
         }
+        const openCofirmationModalForRatingEditModeHandle =() => {
+            // setIsFieldChange(true)
+            isFieldChangeChecked()
+
+            // if (!isFieldChange) {
+            //     console.log('isFieldChecked false', isFieldChange)
+            //     setOpenCofirmationModalForRatingEditMode(false);
+            //     handleRatingPreviewEditModeClose()
+            // }
+            
+        }
+
+        const closeCofirmationModalForRatingEditModeHandle = () => {
+            setOpenCofirmationModalForRatingEditMode(false)
+
+        }
+
 
         useEffect(() => {
             setRightEnd(axisXMax)
@@ -747,6 +712,7 @@ const  RatingModalPreviewEditMode = ({
         return (
         ratingsOn && (
             <Modal
+                onRequestClose={openCofirmationModalForRatingEditModeHandle}
                 isOpen={isRatingPreviewEditOpen}
                 contentLabel="radar-modal"
                 ariaHideApp={false}
@@ -929,6 +895,20 @@ const  RatingModalPreviewEditMode = ({
                                 )}
                                 </div>
                             {/* </div> */}
+                            <ConfirmationModalFoCollabTool 
+                                ConfirmationModalNote= {requestTranslation('closeCollabToolNote')}
+                                confirmationModal={openCofirmationModalForRatingEditMode}
+                                yesConfirmationHandleBtn={() => {
+                                    const oldDataStorage = JSON.parse(localStorage.getItem('old-data-edit-manually'))
+                                    localStorage.setItem('chartData', JSON.stringify({...oldDataStorage}))
+                                    
+                                    handleRatingPreviewEditModeClose()
+                                    closeCofirmationModalForRatingEditModeHandle() // close confirmation small Modal
+                                    syncChartData()
+                                }}
+                                noConfirmationHandleBtn={closeCofirmationModalForRatingEditModeHandle} 
+                                
+                            />
                             </Modal>
                         )
                     )

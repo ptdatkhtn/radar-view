@@ -7,7 +7,8 @@ const ConfirmationModalFoCollabTool = ({
   confirmationModal,
   yesConfirmationHandleBtn,
   noConfirmationHandleBtn,
-  saveConfirmationHandleBtn
+  saveConfirmationHandleBtn,
+  isSaveConfirmationHandleBtnExist = false
 }) => {
   return (
     <Modal
@@ -37,13 +38,13 @@ const ConfirmationModalFoCollabTool = ({
           >
             {requestTranslation("noBtn").toUpperCase()}
           </button>
-          <button
+          {isSaveConfirmationHandleBtnExist && <button
           style={{marginRight: '10px'}}
             className="btn btn-lg btn-primary"
             onClick={saveConfirmationHandleBtn}
           >
             {requestTranslation("save").toUpperCase()}
-          </button>
+          </button>}
         </div>
       </div>
     </Modal>
