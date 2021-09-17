@@ -10,7 +10,7 @@ import {
     Modal, 
     confirmDialogModalStyles
 } from '@sangre-fp/ui'
-
+import ConfirmationModalFoCollabTool from '../ConfirmationModalForCollabTool/ConfirmationModalForCollabTool'
 import { mockData } from '../CreateRadarForm'
 
 const GlobalStyle = createGlobalStyle`
@@ -291,9 +291,11 @@ const CollaborationChartSetting = ({
   inputSelectedY,
   isCustomHorozol,
   isCustomVertical,
-  passisCustomToRatingModalPreviewModeOther
+  passisCustomToRatingModalPreviewModeOther,
+  dataOriginal
 }) => {
-
+  const [isFieldChange, setIsFieldChange] = React.useState(false)
+  const [openCofirmationModalForEachField, setOpenCofirmationModalForEachField] = React.useState(false)
   const [appContext, setAppContext] = useState({})
   const [state, setState] = useState({
     showModal: false,
@@ -321,14 +323,104 @@ const CollaborationChartSetting = ({
   // areaDraw 3, 4 from the second row left to right
   const { axis, axisContext } = appContext
 
+  //check if any fields change
+  const isFieldChangeChecked = () => {
+    const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+    const oldData = JSON.parse(localStorage.getItem('old-data-edit-manually'))
+
+    console.log('123456', state[currentSettingIndex], inputValueModal.trim())
+    console.log('oldData', oldData)
+    if (String(oldData?.[currentSettingIndex]) !== String(state[currentSettingIndex], inputValueModal.trim())) {
+      setIsFieldChange(true)
+    } else {
+      setOpenCofirmationModalForEachField(false)
+      onCloseModal()
+    }
+    // let bottomLeft = oldData ? String(oldData?.bottomLeftValue): String(dataOriginal.fourFieldsBottomLeft)
+    // let bottomRight = oldData ? String(oldData?.bottomRightValue): String(dataOriginal.fourFieldsBottomRight)
+    // let TopLeft = oldData ? String(oldData?.topLeftValue): String(dataOriginal.fourFieldsTopLeft)
+    // let topRight = oldData ? String(oldData?.topRightValue): String(dataOriginal.fourFieldsTopRight)
+    // let axisXTitle  = oldData ? String(oldData?.horizontalAxisNameValue): String(dataOriginal.axisXTitle)
+    // let axisYTitle = oldData ? String(oldData?.verticalAxisNameValue): String(dataOriginal.axisYTitle)
+    // let axisXMin = oldData ? String(oldData?.leftEndValue): String(dataOriginal.axisXMin)
+    // let axisXMax = oldData ? String(oldData?.rightEndValue): String(dataOriginal.axisXMax)
+    // let axisYMin = oldData ? String(oldData?.lowEndValue): String(dataOriginal.axisYMin)
+    // let axisYMax = oldData ? String(oldData?.topEndValue): String(dataOriginal.axisYMax)
+
+    // if(retrievedObject && (
+    //     String(retrievedObject.bottomLeftValue) !== bottomLeft
+    //     ||String(retrievedObject.bottomRightValue) !== bottomRight
+    //     ||String(retrievedObject.topLeftValue) !== TopLeft
+    //     ||String(retrievedObject.topRightValue) !== topRight
+    //     ||String(retrievedObject.horizontalAxisNameValue) !== axisXTitle
+    //     ||String(retrievedObject.verticalAxisNameValue) !== axisYTitle
+    //     ||String(retrievedObject.leftEndValue) !== axisXMin
+    //     ||String(retrievedObject.rightEndValue) !== axisXMax
+    //     ||String(retrievedObject.lowEndValue) !== axisYMin
+    //     ||String(retrievedObject.topEndValue) !== axisYMax
+    //     )
+    // ){
+    //      setIsFieldChange(true)
+    
+    // } else {
+    //     // setIsFieldChange(false)
+    //     //  setOpenCofirmationModalForEachField(false)
+    //     // handleRatingPreviewEditModeClose()
+
+    // }
+    
+}
+
+React.useEffect(() => {
+  console.log('useEffect...')
+  isFieldChange && setOpenCofirmationModalForEachField(true)
+  return () => {
+    setIsFieldChange(false)
+  }
+}, [isFieldChange, setIsFieldChange])
+
   const onCloseModal = () => {
-    setState(prevState => {
-      return {
-        ...prevState,
-        showModal: false,
-        currentSettingIndex: null
+    const oldData = JSON.parse(localStorage.getItem('old-data-edit-manually'))
+
+    const a = oldData?.[currentSettingIndex].toString()
+    const b = state[currentSettingIndex].toString()
+    
+    console.log(a === b)
+
+    // Identifying which key is changed
+    let keyFieldChanged = null
+    Object.keys(oldData).some(key => {
+      if(key === currentSettingIndex ) {
+        keyFieldChanged = key
+        return true
       }
     })
+
+    console.log('a',  String(oldData[keyFieldChanged]))
+    console.log('b',  inputValueModal.trim())
+
+    if (String(oldData[keyFieldChanged]) !== String(inputValueModal.trim())) {
+      setIsFieldChange(true)
+    } else {
+      setOpenCofirmationModalForEachField(false)
+      
+      setState(prevState => {
+        return {
+          ...prevState,
+          showModal: false,
+          currentSettingIndex: null
+        }
+      })
+
+    }
+    
+    // setState(prevState => {
+    //   return {
+    //     ...prevState,
+    //     showModal: false,
+    //     currentSettingIndex: null
+    //   }
+    // })
   }
 
   const onEditSetting = (value) => {
@@ -614,6 +706,17 @@ useEffect(() => {
     }
   }, [])
 
+        
+        const closeCofirmationModalForEachFieldHandle = () => {
+          setOpenCofirmationModalForEachField(false)
+
+      }
+    //   const openCofirmationModalForEachFieldHandle =() => {
+
+    //     isFieldChangeChecked()
+        
+    // }
+console.log('data1111', dataOriginal)
   return (
     <>
       <GlobalStyle />
@@ -632,11 +735,29 @@ useEffect(() => {
             <ButtonModalActions>
               <button onClick={onCloseModal} className="btn btn-lg btn-plain-gray">{requestTranslation('cancel')}</button>
               <button onClick={onSaveModal} className="btn btn-lg btn-primary">{requestTranslation('done')}</button>
-           
-              {/* <ButtonModalStyled marginRight={12} onClick={onCloseModal}>{requestTranslation('cancel')}</ButtonModalStyled> */}
-              {/* <ButtonModalStyled primary disabled={!inputValueModal} onClick={onSaveModal}>{requestTranslation('done')}</ButtonModalStyled> */}
             </ButtonModalActions>
           </ModalContent>
+
+          <ConfirmationModalFoCollabTool 
+            ConfirmationModalNote= {requestTranslation('closeCollabToolNote')}
+            confirmationModal={openCofirmationModalForEachField}
+            yesConfirmationHandleBtn={() => {
+              const oldDataStorage = JSON.parse(localStorage.getItem('old-data-edit-manually'))
+              localStorage.setItem('chartData', JSON.stringify({...oldDataStorage}))
+              closeCofirmationModalForEachFieldHandle()
+              setState(prevState => {
+                return {
+                  ...prevState,
+                  showModal: false,
+                  currentSettingIndex: null
+                }
+              })
+              // handleRatingPreviewEditModeClose()
+              // closeCofirmationModalForRatingEditModeHandle() // close confirmation small Modal
+              // syncChartData()
+          }}
+          noConfirmationHandleBtn={closeCofirmationModalForEachFieldHandle} 
+          />
         </Modal>
       )}
 

@@ -873,6 +873,7 @@ const  RatingModalPreviewEditMode = ({
                                                 inputSelectedY={isCustomVertical? getLanguage() === 'en' ?'Custom':'Muokattu' : axisYSelectValue}
                                                 isCustomHorozol={isCustomHorozol}
                                                 isCustomVertical={isCustomVertical}
+                                                dataOriginal={dataOriginal}
                                                 // passDataFromPreviewEditModeToPreivewMore={passDataFromPreviewEditModeToPreivewMore}
                                                 />
                                         </SpaceBetween>
