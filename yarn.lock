@@ -1640,10 +1640,10 @@
   dependencies:
     lodash "^4.17.15"
 
-"@sangre-fp/i18n@^2.1.6":
-  version "2.1.6"
-  resolved "https://npm.sangre.dev/@sangre-fp%2fi18n/-/i18n-2.1.6.tgz#bbf8d719742b43e7b66f8d3cc6cde6e5cf723204"
-  integrity sha512-mqeswvYc9d0/tlUeErh+NA2d4cLlSz7mIVDWgR3GTYEtlhdukbF0mnksbLTkLQbaegjNVFk5E3wKaDrKCUQWWg==
+"@sangre-fp/i18n@^2.1.8":
+  version "2.1.8"
+  resolved "https://npm.sangre.dev/@sangre-fp%2fi18n/-/i18n-2.1.8.tgz#c230c2fe61f4136470353a66b66ab5dcf9bb0180"
+  integrity sha512-Uuu0phubVh9Mc8MENA1HvYrKivMGTrU5xfsZbASIJ/V6ixo6nnHHPNOXQumKxPKL8VBQSuMqBfwtUnEARU43QQ==
   dependencies:
     lodash "^4.17.15"
 
