@@ -377,7 +377,7 @@ React.useEffect(() => {
 }, [isFieldChange, setIsFieldChange])
 
   const onCloseModal = () => {
-    const oldData = JSON.parse(localStorage.getItem('old-data-edit-manually'))
+    const oldData = JSON.parse(localStorage.getItem('old-inputFieldChanged'))
 
     const a = oldData?.[currentSettingIndex].toString()
     const b = state[currentSettingIndex].toString()
@@ -416,6 +416,11 @@ React.useEffect(() => {
   }
 
   const onEditSetting = (value) => {
+    const currentData = JSON.parse(localStorage.getItem('chartData'))
+    localStorage.setItem('old-inputFieldChanged', JSON.stringify({
+      ...currentData
+    }));
+
     setState(prevState => {
       return {
         ...prevState,
