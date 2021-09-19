@@ -70,16 +70,11 @@ export const Filters = props => {
     const activeFilters = [...activeFilter, ...activeTagFilter].length
 
     return (
-        <div style={{ zIndex: 2 }}>
-            {!hideInfoButton && <div className='radar-nav' id='radar-nav-bottomleft' style={{zIndex: 1}}>
-                    <HubLink className='btn-round btn-lg d-flex align-items-center justify-content-center' target='_blank'
-                             rel='noopener noreferrer' href={requestTranslation('infoUrl')}>
-                        <span className='af-custom-info'/>
-                        <span className='sr-only'>Info</span>
-                    </HubLink>
-                </div> }
-            <FiltersButton
+        <div style={{ zIndex: 2, position: 'absolute', left: '0px', bottom: '0px' }}>
+
+<FiltersButton
               className={`btn-round btn-lg d-flex align-items-center justify-content-center ${activeFilters ? '' : 'inactive'}`}
+              style={{ marginLeft: '15px', marginBottom: '10px'}}
               onClick={toggleFilter}
             >
                 <i className='material-icons' style={{transform: 'rotate(-90deg)', fontWeight: 'bold'}}>tune</i>
@@ -88,6 +83,15 @@ export const Filters = props => {
                       className='d-flex justify-content-center align-items-center'>{activeFilters}</ActiveFiltersIndicator>
                 )}
             </FiltersButton>
+            
+            {!hideInfoButton && <div className='radar-nav' id='radar-nav-bottomleft' style={{zIndex: 1, position: 'relative', left: 0, bottom: '0px'}}>
+                    <HubLink className='btn-round btn-lg d-flex align-items-center justify-content-center' target='_blank'
+                             rel='noopener noreferrer' href={requestTranslation('infoUrl')} style={{position: 'relative !important'}}>
+                        <span className='af-custom-info'/>
+                        <span className='sr-only'>Info</span>
+                    </HubLink>
+                </div> }
+            
             {filtersVisible && (
                 <LegendContainer className='pb-4'>
                     <button className={'btn-close-modal'} onClick={toggleFilter}>
@@ -132,7 +136,6 @@ const LegendContainer = styled.div`
 `
 
 const FiltersButton = styled.button`
-  position: absolute;
   bottom: 65px;
   left: 15px;
   /*background-color: rgb(242,244,244) !important;*/
@@ -188,6 +191,7 @@ const PhenomenaState = styled.div`
 const HubLink = styled.a`
   background-color: transparent;
   border: 2px solid white;
+  position: relative !important;
   &:hover {
     background-color: transparent;
   }
