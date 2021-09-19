@@ -2890,7 +2890,7 @@ const InformationIcon = styled(InfoCircle)`
     margin-left: 18px;
     &:hover {
         cursor: pointer;
-        color: black;
+        color: red;
     }
 `
 
