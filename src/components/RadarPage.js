@@ -1003,33 +1003,28 @@ class RadarPage extends PureComponent {
                 || this.getParentByTag(node, 'object')
                 || this.getParentByTag(node, 'body')
 
-        try {
-            // if (this.getParentByTag(node, 'iframe')) {
-            //     this.getParentByTag(node, 'iframe').setAttribute("allowfullscreen", "true")
-            // }
-            // else if (this.getParentByTag(node, 'embed')) {
-            //     this.getParentByTag(node, 'embed').setAttribute("allowfullscreen", "true")
-            // }
-            // else if (this.getParentByTag(node, 'object')) {
-            //     this.getParentByTag(node, 'object').setAttribute("allowfullscreen", "true")
-            // }
-            
+        try {            
             if (!isInFullScreen) {
                 if (docElm.requestFullscreen) {
                     docElm.requestFullscreen();
                 }
                 else if (docElm.mozRequestFullScreen) {
                     docElm.mozRequestFullScreen();
-                    // alert("Mozilla entering fullscreen!");
                 }
                 else if (docElm.webkitRequestFullScreen) {
                     docElm.webkitRequestFullScreen();
-                    // alert("Webkit entering fullscreen!");
+                } else if (docElm.msRequestFullscreen) { /* IE11 */
+                    docElm.msRequestFullscreen();
                 }
+
             } else {
-                document.exitFullscreen()
-                .then(() => console.log("Document Exited from Full screen mode"))
-                .catch((err) => console.error(err))
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) { /* Safari */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE11 */
+                    document.msExitFullscreen();
+                }
             }
         } catch (error) {
             
