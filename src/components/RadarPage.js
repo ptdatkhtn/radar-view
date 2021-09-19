@@ -28,13 +28,12 @@ import EditSectorMenu from './EditSectorMenu'
 import Phenomenon from './Phenomenon'
 import { modalStyles, paddingModalStyles } from '@sangre-fp/ui'
 import { centerRadiusPercentage, getWebSocketHeaders, timerangeColors, radarBorderWidth } from '../config'
-import fullscreen from '../components/CollaborationChartSetting/fullscreen.svg'
-import exitfullscreen from '../components/CollaborationChartSetting/fullscreen.svg'
 import edit2 from '../components/CollaborationChartSetting/edit2.svg'
 import ReactDOM from "react-dom";
 import {ExitFullscreen, Fullscreen} from '@styled-icons/boxicons-regular'
 import ConfirmationModalFoCollabTool  from './ConfirmationModalForCollabTool/ConfirmationModalForCollabTool'
-
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 
 class RadarPage extends PureComponent {
     constructor(props) {
@@ -1079,13 +1078,13 @@ class RadarPage extends PureComponent {
                 {
                     (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
                         && !!isNotInFullScreen)
-                        ? <button onClick={this.handleFullscreen} style={{color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '40px', zIndex: 999}}> <i class="fas fa-expand"></i></button> : ''
+                        ? <FullscreenIcon onClick={this.handleFullscreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '54px', zIndex: 999}}></FullscreenIcon> : ''
                 }
                 
                 {
                     (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
                     && !isNotInFullScreen)
-                    ? <button onClick={this.handleExitFullScreen} style={{color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '40px', zIndex: 999}}> <i class="fas fa-compress"></i></button> : ''
+                    ? <FullscreenExitIcon onClick={this.handleExitFullScreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '54px', zIndex: 999}}></FullscreenExitIcon> : ''
                 }
 
                 {this.renderEditSectorMenu()}
