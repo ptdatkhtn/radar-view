@@ -2883,14 +2883,14 @@ const Column = styled.div`
 `
 const InformationIcon = styled(InfoCircle)`
     background-color: ${props => props.background ? '#f1f3f3': 'white'};
-    color: #6d5858;
+    color: #666;
     width: 18px;
     height: 18px;
     margin-top: 4px;
     margin-left: 18px;
     &:hover {
         cursor: pointer;
-        color: red;
+        color: #64cdef;
     }
 `
 
