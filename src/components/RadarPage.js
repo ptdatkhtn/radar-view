@@ -29,10 +29,13 @@ import Phenomenon from './Phenomenon'
 import { modalStyles, paddingModalStyles } from '@sangre-fp/ui'
 import { centerRadiusPercentage, getWebSocketHeaders, timerangeColors, radarBorderWidth } from '../config'
 import fullscreen from '../components/CollaborationChartSetting/fullscreen.svg'
+import exitfullscreen from '../components/CollaborationChartSetting/fullscreen.svg'
 import edit2 from '../components/CollaborationChartSetting/edit2.svg'
 import ReactDOM from "react-dom";
-import {Fullscreen} from '@styled-icons/boxicons-regular'
+import {ExitFullscreen, Fullscreen} from '@styled-icons/boxicons-regular'
 import ConfirmationModalFoCollabTool  from './ConfirmationModalForCollabTool/ConfirmationModalForCollabTool'
+
+
 class RadarPage extends PureComponent {
     constructor(props) {
         super(props)
@@ -993,14 +996,14 @@ class RadarPage extends PureComponent {
 
     // allowfullscreen
     handleFullscreen = () => {
-        var isInFullScreen = (document.fullScreenElement && document.fullScreenElement !==     null) ||    // alternative standard method  
-        (document.mozFullScreen || document.webkitIsFullScreen);
+        const isNotInFullScreen = (!document.fullScreenElement) &&    // alternative standard method  
+        (!document.mozFullScreen) && (!document.webkitIsFullScreen) && (!document.msRequestFullscreen);
 
         const node = ReactDOM.findDOMNode(this);
         // var docElm = document.documentElement;
         const docElm = this.getParentByTag(node, 'div')
         try {            
-            if (!isInFullScreen) {
+            if (!!isNotInFullScreen) {
                 if (docElm.requestFullscreen) {
                     docElm.requestFullscreen();
                 }
@@ -1009,7 +1012,8 @@ class RadarPage extends PureComponent {
                 }
                 else if (docElm.webkitRequestFullScreen) {
                     docElm.webkitRequestFullScreen();
-                } else if (docElm.msRequestFullscreen) { /* IE11 */
+                } 
+                else if (docElm.msRequestFullscreen) { /* IE11 */
                     docElm.msRequestFullscreen();
                 }
 
@@ -1020,7 +1024,37 @@ class RadarPage extends PureComponent {
                     document.webkitExitFullscreen();
                 } else if (document.msExitFullscreen) { /* IE11 */
                     document.msExitFullscreen();
+                } else if (document.cancelFullScreen) { /* Safari */
+                    document.cancelFullScreen();
+                } else if (document.mozCancelFullScreen) { /* Safari */
+                    document.mozCancelFullScreen();
+                } else if (document.cancelFullScreen) { /* Safari */
+                    document.cancelFullScreen();
+                } else if (document.webkitCancelFullScreen) { /* Safari */
+                    document.webkitCancelFullScreen();
                 }
+            }
+        } catch (error) {
+            
+        }
+    }
+
+    handleExitFullScreen = () => {
+        try {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { /* Safari */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE11 */
+                document.msExitFullscreen();
+            } else if (document.cancelFullScreen) { /* Safari */
+                document.cancelFullScreen();
+            } else if (document.mozCancelFullScreen) { /* Safari */
+                document.mozCancelFullScreen();
+            } else if (document.cancelFullScreen) { /* Safari */
+                document.cancelFullScreen();
+            } else if (document.webkitCancelFullScreen) { /* Safari */
+                document.webkitCancelFullScreen();
             }
         } catch (error) {
             
@@ -1029,6 +1063,9 @@ class RadarPage extends PureComponent {
 
     render() {
         const { loading, returnUri } = this.props
+
+        const isNotInFullScreen = (!document.fullScreenElement) &&    // alternative standard method  
+        (!document.mozFullScreen && !document.webkitIsFullScreen);
 
         return (
             <Container 
@@ -1041,13 +1078,16 @@ class RadarPage extends PureComponent {
                 <SideNav returnUri={returnUri} radarSettings={this.props.radarSettings}/>
                 {
                     (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
-                        ? <FullscreenBtn onClick={this.handleFullscreen}>
-                            {/* <img src={fullscreen} /> */}
-                            {/* <i class="fas fa-expand"></i> */}
-                       
-                        </FullscreenBtn> : '')
+                        && !!isNotInFullScreen)
+                        ? <button onClick={this.handleFullscreen} style={{color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '40px', zIndex: 999}}> <i class="fas fa-expand"></i></button> : ''
                 }
                 
+                {
+                    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
+                    && !isNotInFullScreen)
+                    ? <button onClick={this.handleExitFullScreen} style={{color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '40px', zIndex: 999}}> <i class="fas fa-compress"></i></button> : ''
+                }
+
                 {this.renderEditSectorMenu()}
                 {this.renderRadar()}
                 {this.renderSectorEditor()}
@@ -1079,6 +1119,18 @@ class RadarPage extends PureComponent {
 // `
 
 const FullscreenBtn = styled(Fullscreen)`
+    color: white;
+    position: absolute;
+    bottom: 8px;
+    right: 18px;
+    // background: white;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 999;
+`
+
+const ExitFullscreenBtn = styled(ExitFullscreen)`
     color: white;
     position: absolute;
     bottom: 8px;
