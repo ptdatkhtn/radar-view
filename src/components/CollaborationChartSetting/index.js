@@ -73,7 +73,7 @@ const EditButton = styled.img`
     opacity: 0.8;
   }
 `
-const ModalTitle = styled.h2`
+const ModalTitle = styled.h3`
   color: #121212;
   font-weight: 500;
   font-size: 20px;
