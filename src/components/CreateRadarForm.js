@@ -2137,16 +2137,16 @@ class CreateRadarForm extends PureComponent {
                                     containerHeight = {+this.state.widthContentWidth * 0.60}
                                     // containerWidth = {320}
                                     // containerHeight = {200}
-                                    topLeft = {fourFieldsTopLeft}
-                                    topRight = {fourFieldsTopRight}
-                                    bottomLeft = {fourFieldsBottomLeft}
-                                    bottomRight = {fourFieldsBottomRight}
-                                    horizontalAxisName = {axisXTitle}
-                                    leftEnd = {axisXMin}
-                                    rightEnd = {axisXMax}
-                                    verticalAxisName = {axisYTitle}
-                                    topEnd = {axisYMax}
-                                    lowEnd = {axisYMin}
+                                    topLeft = {fourFieldsTopLeft || getLanguage() === 'en' ? 'top left' : 'Vasen ylä'}
+                                    topRight = {fourFieldsTopRight || getLanguage() === 'en' ? 'Top right' : 'Oikea ylä'}
+                                    bottomLeft = {fourFieldsBottomLeft || getLanguage() === 'en' ? 'Bottom left' : 'Vasen ala'}
+                                    bottomRight = {fourFieldsBottomRight || getLanguage() === 'en' ? 'Bottom right' : 'Oikea ala'}
+                                    horizontalAxisName = {axisXTitle || getLanguage() === 'en'? 'Horizontal axis name': 'Vaaka-akseli'}
+                                    leftEnd = {axisXMin || getLanguage() === 'en' ? 'Left end' : 'Vasen'}
+                                    rightEnd = {axisXMax || getLanguage() === 'en' ? 'Right end' : 'Oikea'}
+                                    verticalAxisName = {axisYTitle || getLanguage() === 'en'? 'Vertical axis name' : 'Pystyakselin nimi'}
+                                    topEnd = {axisYMax || getLanguage() === 'en' ? 'High end' : 'Ylä'}
+                                    lowEnd = {axisYMin || getLanguage() === 'en' ? 'Low end' : 'Ala'}
                                 />
                         <RatingGroupBtn style={{marginTop: '75px'}}>
                             <RatingHandleBtnGroup>
