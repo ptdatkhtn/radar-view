@@ -556,130 +556,58 @@ class CreateRadarForm extends PureComponent {
                 votingHaloOn: false
             })
         }
-        const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
-
          getLanguage() === 'en' ? mockDataEn.some(i => {
-            if (!retrievedObject) {
-                if (((String(axisYTitle) === requestTranslation('verticalAxisName') || String(axisYTitle) === '')
-                    && (String(axisYMin) === requestTranslation('lowEnd') || String(axisYMin) === '')
-                    && (String(axisYMax) === requestTranslation('highEnd') || String(axisYMax) === '' ))) {
-                    this.setState({ 
-                        axisYSelect: '',
-                    })
-                    return true
-                }
-            } else {
-                if ((String(axisYTitle) === requestTranslation('verticalAxisName')
+            if ((String(axisYTitle) === requestTranslation('verticalAxisName')
                     && String(axisYMin) === requestTranslation('lowEnd')
                     && String(axisYMax) === requestTranslation('highEnd'))) {
+                this.setState({ 
+                    axisYSelect: '',
+                })
+                return true
+            }
+            else if((String(axisYTitle) === String(i.nameAxis) || String(axisYTitle) === String(i.title))
+                    && String(axisYMin) === String(i.leftAttr)
+                    && String(axisYMax) === String(i.rightAttr)) {
                     this.setState({ 
-                        axisYSelect: '',
+                        axisYSelect: i?.title,
+                        axisYTitle: i?.nameAxis
                     })
                     return true
-                }
-                else if((String(axisYTitle) === String(i.nameAxis) || String(axisYTitle) === String(i.title))
-                        && String(axisYMin) === String(i.leftAttr)
-                        && String(axisYMax) === String(i.rightAttr)) {
-                        this.setState({ 
-                            axisYSelect: i?.title,
-                            axisYTitle: i?.nameAxis
-                        })
-                        return true
-                    } 
-                else {
-                    this.setState({ 
-                        axisYSelect: getLanguage() === 'en' ?'Custom':'Muokattu',
-                    })
-                }
+                } 
+            else {
+                this.setState({ 
+                    axisYSelect: getLanguage() === 'en' ?'Custom':'Muokattu',
+                })
             }
-            
         }) : 
         (mockDataFin.some(i => {
-            if (!retrievedObject) {
-                if (((String(axisYTitle) === requestTranslation('verticalAxisName') || String(axisYTitle) === '')
-                    && (String(axisYMin) === requestTranslation('lowEnd') || String(axisYMin) === '')
-                    && (String(axisYMax) === requestTranslation('highEnd') || String(axisYMax) === '' ))) {
-                    this.setState({ 
-                        axisYSelect: '',
-                    })
-                    return true
-                }
-            }
-            else {
-                if ((String(axisYTitle) === requestTranslation('verticalAxisName')
+            if ((String(axisYTitle) === requestTranslation('verticalAxisName')
                     && String(axisYMin) === requestTranslation('lowEnd')
                     && String(axisYMax) === requestTranslation('highEnd'))) {
+                this.setState({ 
+                    axisYSelect: '',
+                })
+                return true
+            }
+            else if((String(axisYTitle) === String(i.nameAxis) || String(axisYTitle) === String(i.title))
+                    && String(axisYMin) === String(i.leftAttr)
+                    && String(axisYMax) === String(i.rightAttr)) {
                     this.setState({ 
-                        axisYSelect: '',
+                        axisYSelect: i?.title,
+                        axisYTitle: i?.nameAxis
                     })
                     return true
-                }
-                else if((String(axisYTitle) === String(i.nameAxis) || String(axisYTitle) === String(i.title))
-                        && String(axisYMin) === String(i.leftAttr)
-                        && String(axisYMax) === String(i.rightAttr)) {
-                        this.setState({ 
-                            axisYSelect: i?.title,
-                            axisYTitle: i?.nameAxis
-                        })
-                        return true
-                    } 
-                else {
-                    this.setState({ 
-                        axisYSelect: getLanguage() === 'en' ?'Custom':'Muokattu',
-                    })
-                }
+                } 
+            else {
+                this.setState({ 
+                    axisYSelect: getLanguage() === 'en' ?'Custom':'Muokattu',
+                })
             }
         }))
 
         
         getLanguage() === 'en' ? mockDataEn.some(i => {
-            if (!retrievedObject) {
-                if ((String(axisXTitle) === requestTranslation('HorizontalAxisName') && String(axisXTitle) === '')
-                    && (String(axisXMin) === requestTranslation('leftEnd') && String(axisXMin) === '' )
-                    && (String(axisXMax) === requestTranslation('rightEnd') && String(axisXMax) === '')) {
-                    this.setState({ 
-                        axisXSelect: '',
-                    })
-                    return true
-                }
-            } else {
-                if (String(axisXTitle) === requestTranslation('HorizontalAxisName')
-                        && String(axisXMin) === requestTranslation('leftEnd')
-                        && String(axisXMax) ===requestTranslation('rightEnd')) {
-                    this.setState({ 
-                        axisXSelect: '',
-                    })
-                    return true
-                }
-                else if((String(axisXTitle) === String(i.nameAxis) || String(axisXTitle) === String(i.title))
-                        && String(axisXMin) === String(i.leftAttr)
-                        && String(axisXMax) === String(i.rightAttr)) {
-                        this.setState({ 
-                            axisXSelect: i?.title,
-                            axisXTitle: i?.nameAxis
-                            
-                        })
-                        return true
-                    } 
-                else {
-                    this.setState({ 
-                        axisXSelect: getLanguage() === 'en' ?'Custom':'Muokattu',
-                    })
-                }
-            }
-        }) :
-        (mockDataFin.some(i => {
-            if (!retrievedObject) {
-                if ((String(axisXTitle) === requestTranslation('HorizontalAxisName') && String(axisXTitle) === '')
-                    && (String(axisXMin) === requestTranslation('leftEnd') && String(axisXMin) === '' )
-                    && (String(axisXMax) === requestTranslation('rightEnd') && String(axisXMax) === '')) {
-                    this.setState({ 
-                        axisXSelect: '',
-                    })
-                    return true
-                }
-            } else {
-                if (String(axisXTitle) === requestTranslation('HorizontalAxisName')
+            if (String(axisXTitle) === requestTranslation('HorizontalAxisName')
                         && String(axisXMin) === requestTranslation('leftEnd')
                         && String(axisXMax) ===requestTranslation('rightEnd')) {
                     this.setState({ 
@@ -702,6 +630,30 @@ class CreateRadarForm extends PureComponent {
                     axisXSelect: getLanguage() === 'en' ?'Custom':'Muokattu',
                 })
             }
+        }) :
+        (mockDataFin.some(i => {
+            if (String(axisXTitle) === requestTranslation('HorizontalAxisName')
+                        && String(axisXMin) === requestTranslation('leftEnd')
+                        && String(axisXMax) ===requestTranslation('rightEnd')) {
+                    this.setState({ 
+                        axisXSelect: '',
+                    })
+                    return true
+            }
+            else if((String(axisXTitle) === String(i.nameAxis) || String(axisXTitle) === String(i.title))
+                    && String(axisXMin) === String(i.leftAttr)
+                    && String(axisXMax) === String(i.rightAttr)) {
+                    this.setState({ 
+                        axisXSelect: i?.title,
+                        axisXTitle: i?.nameAxis
+                        
+                    })
+                    return true
+                } 
+            else {
+                this.setState({ 
+                    axisXSelect: getLanguage() === 'en' ?'Custom':'Muokattu',
+                })
             }
         }))
 
