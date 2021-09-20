@@ -547,6 +547,38 @@ class CreateRadarForm extends PureComponent {
       
         localStorage.setItem('state', JSON.stringify({ ...this.state}))
 
+
+        if (!axisYTitle) {
+            this.setState({axisYTitle: requestTranslation('verticalAxisName')})
+        }
+        if (!axisXTitle) {
+            this.setState({axisXTitle: requestTranslation('HorizontalAxisName')})
+        }
+        if (!axisYMin) {
+            this.setState({axisYMin: requestTranslation('lowEnd')})
+        }
+        if (!axisYMax) {
+            this.setState({axisYMax: requestTranslation('highEnd')})
+        }
+        if (!axisXMin) {
+            this.setState({axisXMin: requestTranslation('leftEnd')})
+        }
+        if (!axisXMax) {
+            this.setState({axisXMax: requestTranslation('rightEnd')})
+        }
+        // if (this.state.fourFieldsTopLeft) {
+            
+        // }
+        // if (fourFieldsTopRight) {
+            
+        // }
+        // if (fourFieldsBottomLeft) {
+            
+        // }
+        // if (fourFieldsBottomRight) {
+            
+        // }
+
          getLanguage() === 'en' ? mockDataEn.some(i => {
             if ((axisYTitle === null
                 && axisYMin === null
