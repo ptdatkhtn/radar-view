@@ -178,18 +178,12 @@ const RatingSummaryPreview = ({
       <HeaderContainer>{bottomHeader}</HeaderContainer>
       {/* <Spacing customHeight={10}/> */}
       <div style={{ display: 'flex', width: `${containerWidth}px`, fontFamily: 'L10' }}>
-        <AxisY containerHeight={containerHeight} axisHeight={containerHeight} 
-          verticalAxisName={verticalAxisName || getLanguage() === 'en'? 'Vertical axis name' : 'Pystyakselin nimi'} 
-          topEnd={topEnd || getLanguage() === 'en' ? 'High end' : 'Ylä'} 
-          lowEnd={lowEnd || getLanguage() === 'en' ? 'Low end' : 'Ala'}/>
+        <AxisY containerHeight={containerHeight} axisHeight={containerHeight} verticalAxisName={verticalAxisName} topEnd={topEnd} lowEnd={lowEnd}/>
         <div style={{ width: containerWidth, height: containerHeight, fontFamily: 'L10' }}>
           <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'white', fontFamily: 'L10' }}>
             <CanvasContainer id='axis'/>
           </div>
-          <AxisX containerWidth={containerWidth} axisWidth={containerWidth} 
-            horizontalAxisName={horizontalAxisName || getLanguage() === 'en'? 'Horizontal axis name': 'Vaaka-akseli'} 
-            leftEnd={leftEnd || getLanguage() === 'en' ? 'Left end' : 'Vasen'} 
-            rightEnd={rightEnd || getLanguage() === 'en' ? 'Right end' : 'Oikea'}/>
+          <AxisX containerWidth={containerWidth} axisWidth={containerWidth} horizontalAxisName={horizontalAxisName} leftEnd={leftEnd} rightEnd={rightEnd}/>
         </div>
       </div>
     </>

@@ -557,18 +557,18 @@ class CreateRadarForm extends PureComponent {
             })
         }
 
-        if ((String(axisYTitle) === null
-                    && String(axisYMin) === null
-                    && String(axisYMax) === null)) {
+        if ((axisYTitle === null
+                    && axisYMin === null
+                    && axisYMax === null)) {
                     
             this.setState({ 
                 axisYSelect: '',
             })
         }
 
-        if (String(axisXTitle) === null
-                        && String(axisXMin) === null
-                        && String(axisXMax) === null) {
+        if (axisXTitle === null
+                        && axisXMin === null
+                        && axisXMax === null) {
                 this.setState({ 
                     axisXSelect: '',
                 })
