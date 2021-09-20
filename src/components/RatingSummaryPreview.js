@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import AxisPreview from './AxisPreview'
-import { requestTranslation } from "@sangre-fp/i18n";
+import { requestTranslation, getLanguage } from "@sangre-fp/i18n";
+
 const LABEL_WIDTH = 16
 
 const CanvasContainer = styled.canvas`
@@ -141,10 +142,10 @@ const RatingSummaryPreview = ({
   }
 
   const drawTexts = () => {
-    drawText({ x: containerWidth / 4, y: containerHeight / 4, text: topLeft })
-    drawText({ x: containerWidth * 0.75, y: containerHeight / 4, text: topRight })
-    drawText({ x: containerWidth * 0.25, y: containerHeight * 0.75, text: bottomLeft })
-    drawText({ x: containerWidth * 0.75, y: containerHeight * 0.75, text: bottomRight })
+    drawText({ x: containerWidth / 4, y: containerHeight / 4, text: topLeft || getLanguage() === 'en' ? 'top left' : 'Vasen ylä'})
+    drawText({ x: containerWidth * 0.75, y: containerHeight / 4, text: topRight || getLanguage() === 'en' ? 'Top right' : 'Oikea ylä'})
+    drawText({ x: containerWidth * 0.25, y: containerHeight * 0.75, text: bottomLeft || getLanguage() === 'en' ? 'Bottom left' : 'Vasen ala'})
+    drawText({ x: containerWidth * 0.75, y: containerHeight * 0.75, text: bottomRight || getLanguage() === 'en' ? 'Bottom right' : 'Oikea ala'})
   }
 
   const drawNormalAxis = () => {
@@ -177,12 +178,18 @@ const RatingSummaryPreview = ({
       <HeaderContainer>{bottomHeader}</HeaderContainer>
       {/* <Spacing customHeight={10}/> */}
       <div style={{ display: 'flex', width: `${containerWidth}px`, fontFamily: 'L10' }}>
-        <AxisY containerHeight={containerHeight} axisHeight={containerHeight} verticalAxisName={verticalAxisName} topEnd={topEnd} lowEnd={lowEnd}/>
+        <AxisY containerHeight={containerHeight} axisHeight={containerHeight} 
+          verticalAxisName={verticalAxisName || getLanguage() === 'en'? 'Vertical axis name' : 'Pystyakselin nimi'} 
+          topEnd={topEnd || getLanguage() === 'en' ? 'High end' : 'Ylä'} 
+          lowEnd={lowEnd || getLanguage() === 'en' ? 'Low end' : 'Ala'}/>
         <div style={{ width: containerWidth, height: containerHeight, fontFamily: 'L10' }}>
           <div style={{ position: 'relative', width: containerWidth, height: containerHeight, background: 'white', fontFamily: 'L10' }}>
             <CanvasContainer id='axis'/>
           </div>
-          <AxisX containerWidth={containerWidth} axisWidth={containerWidth} horizontalAxisName={horizontalAxisName} leftEnd={leftEnd} rightEnd={rightEnd}/>
+          <AxisX containerWidth={containerWidth} axisWidth={containerWidth} 
+            horizontalAxisName={horizontalAxisName || getLanguage() === 'en'? 'Horizontal axis name': 'Vaaka-akseli'} 
+            leftEnd={leftEnd || getLanguage() === 'en' ? 'Left end' : 'Vasen'} 
+            rightEnd={rightEnd || getLanguage() === 'en' ? 'Right end' : 'Oikea'}/>
         </div>
       </div>
     </>
