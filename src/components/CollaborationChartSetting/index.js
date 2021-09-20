@@ -300,16 +300,16 @@ const CollaborationChartSetting = ({
     showModal: false,
     currentSettingIndex: null,
     inputValueModal: '',
-    [SETTING_VALUE.TOP_LEFT]: topLeft,
-    [SETTING_VALUE.TOP_RIGHT]: topRight,
-    [SETTING_VALUE.BOTTOM_LEFT]: bottomLeft,
-    [SETTING_VALUE.BOTTOM_RIGHT]: bottomRight,
-    [SETTING_VALUE.LEFT_END]: leftEnd,
-    [SETTING_VALUE.RIGHT_END]: rightEnd,
-    [SETTING_VALUE.TOP_END]: topEnd,
-    [SETTING_VALUE.LOW_END]: lowEnd,
-    [SETTING_VALUE.HORIZONTAL]: horizontalAxisName,
-    [SETTING_VALUE.VERTICAL]: verticalAxisName
+    [SETTING_VALUE.TOP_LEFT]: topLeft || getLanguage() === 'en' ? 'top left' : 'Vasen ylä',
+    [SETTING_VALUE.TOP_RIGHT]: topRight || getLanguage() === 'en' ? 'Top right' : 'Oikea ylä',
+    [SETTING_VALUE.BOTTOM_LEFT]: bottomLeft || getLanguage() === 'en' ? 'Bottom left' : 'Vasen ala',
+    [SETTING_VALUE.BOTTOM_RIGHT]: bottomRight || getLanguage() === 'en' ? 'Bottom right' : 'Oikea ala',
+    [SETTING_VALUE.LEFT_END]: leftEnd || getLanguage() === 'en' ? 'Left end' : 'Vasen',
+    [SETTING_VALUE.RIGHT_END]: rightEnd || getLanguage() === 'en' ? 'Right end' : 'Oikea',
+    [SETTING_VALUE.TOP_END]: topEnd || getLanguage() === 'en' ? 'High end' : 'Ylä',
+    [SETTING_VALUE.LOW_END]: lowEnd || getLanguage() === 'en' ? 'Low end' : 'Ala',
+    [SETTING_VALUE.HORIZONTAL]: horizontalAxisName || getLanguage() === 'en'? 'Horizontal axis name': 'Vaaka-akseli',
+    [SETTING_VALUE.VERTICAL]: verticalAxisName || getLanguage() === 'en'? 'Vertical axis name' : 'Pystyakselin nimi'
   })
 
   const [isEditHorizontal, setIsEditHorizontal] = useState(isCustomHorozol)
@@ -327,7 +327,7 @@ const CollaborationChartSetting = ({
     const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
     const oldData = JSON.parse(localStorage.getItem('old-data-edit-manually'))
 
-    if (String(oldData?.[currentSettingIndex]) !== String(state[currentSettingIndex], inputValueModal.trim())) {
+    if (String(oldData?.[currentSettingIndex]) !== String(state[currentSettingIndex], inputValueModal?.trim() || '')) {
       setIsFieldChange(true)
     } else {
       setOpenCofirmationModalForEachField(false)
