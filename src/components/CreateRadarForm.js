@@ -547,36 +547,16 @@ class CreateRadarForm extends PureComponent {
       
         localStorage.setItem('state', JSON.stringify({ ...this.state}))
 
-        if (this.state.displayHaloWhenRating <= 20) {
-            this.setState({
-                votingHaloOn: true
-            })
-        } else {
-            this.setState({
-                votingHaloOn: false
-            })
-        }
-
-        if ((axisYTitle === null
-                    && axisYMin === null
-                    && axisYMax === null)) {
-                    
-            this.setState({ 
-                axisYSelect: '',
-            })
-        }
-
-        if (axisXTitle === null
-                        && axisXMin === null
-                        && axisXMax === null) {
-                this.setState({ 
-                    axisXSelect: '',
-                })
-        }
-
-
          getLanguage() === 'en' ? mockDataEn.some(i => {
-            if ((String(axisYTitle) === requestTranslation('verticalAxisName')
+            if ((axisYTitle === null
+                && axisYMin === null
+                && axisYMax === null)) {
+                
+                this.setState({ 
+                    axisYSelect: '',
+                })
+            }
+            else if ((String(axisYTitle) === requestTranslation('verticalAxisName')
                     && String(axisYMin) === requestTranslation('lowEnd')
                     && String(axisYMax) === requestTranslation('highEnd'))) {
                 this.setState({ 
@@ -600,7 +580,15 @@ class CreateRadarForm extends PureComponent {
             }
         }) : 
         (mockDataFin.some(i => {
-            if ((String(axisYTitle) === requestTranslation('verticalAxisName')
+            if ((axisYTitle === null
+                && axisYMin === null
+                && axisYMax === null)) {
+                
+                this.setState({ 
+                    axisYSelect: '',
+                })
+            }
+            else if ((String(axisYTitle) === requestTranslation('verticalAxisName')
                     && String(axisYMin) === requestTranslation('lowEnd')
                     && String(axisYMax) === requestTranslation('highEnd'))) {
                 this.setState({ 
@@ -626,7 +614,14 @@ class CreateRadarForm extends PureComponent {
 
         
         getLanguage() === 'en' ? mockDataEn.some(i => {
-            if (String(axisXTitle) === requestTranslation('HorizontalAxisName')
+            if (axisXTitle === null
+                            && axisXMin === null
+                            && axisXMax === null) {
+                    this.setState({ 
+                        axisXSelect: '',
+                    })
+            }
+            else if (String(axisXTitle) === requestTranslation('HorizontalAxisName')
                         && String(axisXMin) === requestTranslation('leftEnd')
                         && String(axisXMax) ===requestTranslation('rightEnd')) {
                     this.setState({ 
@@ -651,7 +646,14 @@ class CreateRadarForm extends PureComponent {
             }
         }) :
         (mockDataFin.some(i => {
-            if (String(axisXTitle) === requestTranslation('HorizontalAxisName')
+            if (axisXTitle === null
+                && axisXMin === null
+                && axisXMax === null) {
+                    this.setState({ 
+                        axisXSelect: '',
+                    })
+            }
+            else if (String(axisXTitle) === requestTranslation('HorizontalAxisName')
                         && String(axisXMin) === requestTranslation('leftEnd')
                         && String(axisXMax) ===requestTranslation('rightEnd')) {
                     this.setState({ 
