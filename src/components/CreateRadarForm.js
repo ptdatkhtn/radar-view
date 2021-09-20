@@ -525,7 +525,9 @@ class CreateRadarForm extends PureComponent {
     }
 
     componentDidMount() {
-        const { getRadarSets, getUserGroups, existingRadarPage, axisYTitle, axisXTitle, axisYMin, axisYMax, axisXMin, axisXMax } = this.props
+        const { getRadarSets, getUserGroups, existingRadarPage, axisYTitle, axisXTitle, axisYMin, axisYMax, axisXMin, axisXMax, fourFieldsTopLeft,
+            fourFieldsTopRight, fourFieldsBottomLeft, fourFieldsBottomRight
+        } = this.props
 
         this.setState({
             widthContentWidth: +this.editorMode?.current?.offsetWidth -50 -50
@@ -547,6 +549,7 @@ class CreateRadarForm extends PureComponent {
       
         localStorage.setItem('state', JSON.stringify({ ...this.state}))
 
+        console.log('9999', this.props)
 
         if (!axisYTitle) {
             this.setState({axisYTitle: requestTranslation('verticalAxisName')})
@@ -566,18 +569,18 @@ class CreateRadarForm extends PureComponent {
         if (!axisXMax) {
             this.setState({axisXMax: requestTranslation('rightEnd')})
         }
-        // if (this.state.fourFieldsTopLeft) {
-            
-        // }
-        // if (fourFieldsTopRight) {
-            
-        // }
-        // if (fourFieldsBottomLeft) {
-            
-        // }
-        // if (fourFieldsBottomRight) {
-            
-        // }
+        if (!fourFieldsTopLeft) {
+            this.setState({fourFieldsTopLeft: requestTranslation('topLeft')})
+        }
+        if (!fourFieldsTopRight) {
+            this.setState({fourFieldsTopRight: requestTranslation('topRight')})
+        }
+        if (!fourFieldsBottomLeft) {
+            this.setState({fourFieldsBottomLeft: requestTranslation('bottomLeft')})
+        }
+        if (!fourFieldsBottomRight) {
+            this.setState({fourFieldsBottomRight: requestTranslation('bottomRight')})
+        }
 
          getLanguage() === 'en' ? mockDataEn.some(i => {
             if ((axisYTitle === null
