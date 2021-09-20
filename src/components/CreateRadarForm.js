@@ -556,6 +556,25 @@ class CreateRadarForm extends PureComponent {
                 votingHaloOn: false
             })
         }
+
+        if ((String(axisYTitle) === null
+                    && String(axisYMin) === null
+                    && String(axisYMax) === null)) {
+                    
+            this.setState({ 
+                axisYSelect: '',
+            })
+        }
+
+        if (String(axisXTitle) === null
+                        && String(axisXMin) === null
+                        && String(axisXMax) === null) {
+                this.setState({ 
+                    axisXSelect: '',
+                })
+        }
+
+
          getLanguage() === 'en' ? mockDataEn.some(i => {
             if ((String(axisYTitle) === requestTranslation('verticalAxisName')
                     && String(axisYMin) === requestTranslation('lowEnd')
