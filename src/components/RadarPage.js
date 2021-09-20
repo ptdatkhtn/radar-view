@@ -1075,7 +1075,7 @@ class RadarPage extends PureComponent {
                 {this.renderTitle()}
                 {this.renderBottomLeftNav()}
                 <SideNav returnUri={returnUri} radarSettings={this.props.radarSettings}/>
-                {
+                {/* {
                     (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
                         && !!isNotInFullScreen)
                         ? <FullscreenIcon onClick={this.handleFullscreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '54px', zIndex: 999}}></FullscreenIcon> : ''
@@ -1085,7 +1085,7 @@ class RadarPage extends PureComponent {
                     (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
                     && !isNotInFullScreen)
                     ? <FullscreenExitIcon onClick={this.handleExitFullScreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '54px', zIndex: 999}}></FullscreenExitIcon> : ''
-                }
+                } */}
 
                 {this.renderEditSectorMenu()}
                 {this.renderRadar()}
