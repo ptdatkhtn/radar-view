@@ -72,7 +72,7 @@ export const Filters = props => {
     return (
         <div style={{ zIndex: 2, position: 'absolute', left: '0px', bottom: '0px' }}>
 
-<FiltersButton
+            <FiltersButton
               className={`btn-round btn-lg d-flex align-items-center justify-content-center ${activeFilters ? '' : 'inactive'}`}
               style={{ marginLeft: '15px', marginBottom: '10px'}}
               onClick={toggleFilter}
@@ -140,6 +140,7 @@ const FiltersButton = styled.button`
   left: 15px;
   /*background-color: rgb(242,244,244) !important;*/
 
+
   &.inactive {
     background-color: transparent !important;
     border: 2px solid white;
@@ -147,6 +148,10 @@ const FiltersButton = styled.button`
     i {
       color: white;
     }
+  }
+
+  &:hover {
+    background-color: #006998 !important;
   }
 `
 
@@ -193,7 +198,7 @@ const HubLink = styled.a`
   border: 2px solid white;
   position: relative !important;
   &:hover {
-    background-color: transparent;
+    background-color: #006998;
   }
 `
 
