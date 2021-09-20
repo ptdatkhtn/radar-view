@@ -16,7 +16,7 @@ const ConfirmationModalForRatings = ({
       style={paddingModalStyles}
     >
       <div className="confirmation-modal-content pt-4 pb-4">
-        <h3 className="confirmation-modal-title" style={{fontWeight: 500}}>
+        <h3 className="confirmation-modal-title">
           {ConfirmationModalNote}
         </h3>
         {/* <p style={{textAlign: 'center'}}>{requestTranslation("sharePublicLinkConfirmationNote")}</p> */}

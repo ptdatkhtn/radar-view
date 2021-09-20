@@ -75,7 +75,6 @@ const EditButton = styled.img`
 `
 const ModalTitle = styled.h3`
   color: #121212;
-  font-weight: 500;
   font-size: 20px;
   margin: 0;
   margin-bottom: 24px;
