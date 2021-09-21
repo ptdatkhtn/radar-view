@@ -792,9 +792,11 @@ class RadarPage extends PureComponent {
         const { openCofirmationModalCollabTool } = this.state
         
         const openCofirmationModalCollabToolHandle = () => {
-            if (!this.props.radarSettings.ratingsOn) {
-                const currentStates = JSON.parse(localStorage.getItem('state'))
+            const currentStates = JSON.parse(localStorage.getItem('state'))
                 const chartData = JSON.parse(localStorage.getItem('chartData'))
+
+            if (!this.props.radarSettings.ratingsOn) {
+                
                 let fourFieldsBottomLeft = chartData ? String(chartData?.bottomLeftValue): String(currentStates.fourFieldsBottomLeft)
                 let fourFieldsBottomRight = chartData ? String(chartData?.bottomRightValue): String(currentStates.fourFieldsBottomRight)
                 let fourFieldsTopLeft = chartData ? String(chartData?.topLeftValue): String(currentStates.fourFieldsTopLeft)
@@ -841,7 +843,53 @@ class RadarPage extends PureComponent {
     
                 }
 
-            } else {
+            } 
+            
+            else if (!this.props.radarSettings?.axisYTitle && !this.props.radarSettings?.axisXMax) {
+                let fourFieldsBottomLeft = chartData ? String(chartData?.bottomLeftValue): String(currentStates.fourFieldsBottomLeft)
+                let fourFieldsBottomRight = chartData ? String(chartData?.bottomRightValue): String(currentStates.fourFieldsBottomRight)
+                let fourFieldsTopLeft = chartData ? String(chartData?.topLeftValue): String(currentStates.fourFieldsTopLeft)
+                let fourFieldsTopRight = chartData ? String(chartData?.topRightValue): String(currentStates.fourFieldsTopRight)
+                let axisXTitle  = chartData ? String(chartData?.horizontalAxisNameValue): String(currentStates.axisXTitle)
+                let axisYTitle = chartData ? String(chartData?.verticalAxisNameValue): String(currentStates.axisYTitle)
+                let axisXMin = chartData ? String(chartData?.leftEndValue): String(currentStates.axisXMin)
+                let axisXMax = chartData ? String(chartData?.rightEndValue): String(currentStates.axisXMax)
+                let axisYMin = chartData ? String(chartData?.lowEndValue): String(currentStates.axisYMin)
+                let axisYMax = chartData ? String(chartData?.topEndValue): String(currentStates.axisYMax)
+    
+                if ((this.props.radarSettings.displayHaloWhenRating !== currentStates.displayHaloWhenRating)
+                    || (this.props.radarSettings.discussionOn !== currentStates.discussionOn)
+                    || (this.props.radarSettings.votingOn !== currentStates.votingOn)
+                    || (this.props.radarSettings.ratingsOn !== currentStates.ratingsOn)
+                    // || (this.props.radarSettings.votingHaloOn !== currentStates.votingHaloOn)
+                    || (this.props.radarSettings.likingOn !== currentStates.discussionOn)
+                    || (this.props.radarSettings.commentsOn !== currentStates.commentsOn)
+    
+                    || null !== currentStates.fourFieldsBottomLeft
+                    || null !== currentStates.fourFieldsBottomRight
+                    || null !== currentStates.fourFieldsTopLeft
+                    || null !== currentStates.fourFieldsTopRight
+                    || null !== currentStates.axisXTitle
+                    || null !== currentStates.axisXMin
+                    || null !== currentStates.axisYTitle
+                    || null !== currentStates.axisXMax
+                    || null !== currentStates.axisYMin
+                    || null !== currentStates.axisYMax
+                ) {
+                   // in case data modified
+                    this.setState({
+                        openCofirmationModalCollabTool: true
+                    })
+                } else {
+                    // in case data NOT modified
+                    this.setState({
+                        openCofirmationModalCollabTool: false
+                    })
+                    changeAddRadarFormVisibility();
+    
+                }
+            }
+            else {
                 const currentStates = JSON.parse(localStorage.getItem('state'))
                 const chartData = JSON.parse(localStorage.getItem('chartData'))
                 let fourFieldsBottomLeft = chartData ? String(chartData?.bottomLeftValue): String(currentStates.fourFieldsBottomLeft)
