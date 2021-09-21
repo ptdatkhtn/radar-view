@@ -142,10 +142,10 @@ const RatingSummaryPreview = ({
   }
 
   const drawTexts = () => {
-    drawText({ x: containerWidth / 4, y: containerHeight / 4, text: topLeft || getLanguage() === 'en' ? 'top left' : 'Vasen ylä'})
-    drawText({ x: containerWidth * 0.75, y: containerHeight / 4, text: topRight || getLanguage() === 'en' ? 'Top right' : 'Oikea ylä'})
-    drawText({ x: containerWidth * 0.25, y: containerHeight * 0.75, text: bottomLeft || getLanguage() === 'en' ? 'Bottom left' : 'Vasen ala'})
-    drawText({ x: containerWidth * 0.75, y: containerHeight * 0.75, text: bottomRight || getLanguage() === 'en' ? 'Bottom right' : 'Oikea ala'})
+    drawText({ x: containerWidth / 4, y: containerHeight / 4, text: topLeft })
+    drawText({ x: containerWidth * 0.75, y: containerHeight / 4, text: topRight})
+    drawText({ x: containerWidth * 0.25, y: containerHeight * 0.75, text: bottomLeft })
+    drawText({ x: containerWidth * 0.75, y: containerHeight * 0.75, text: bottomRight })
   }
 
   const drawNormalAxis = () => {
