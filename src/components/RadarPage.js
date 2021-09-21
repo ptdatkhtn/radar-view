@@ -792,7 +792,7 @@ class RadarPage extends PureComponent {
         const { openCofirmationModalCollabTool } = this.state
         
         const openCofirmationModalCollabToolHandle = () => {
-            if (!this.props.radarSettings.ratingsOn) {
+            if (!this.props.radarSettings.ratingsOn && !this.props.radarSettings.axisYTitle && !this.props.radarSettings.axisXTitle) {
                 const currentStates = JSON.parse(localStorage.getItem('state'))
                 const chartData = JSON.parse(localStorage.getItem('chartData'))
                 let fourFieldsBottomLeft = chartData ? String(chartData?.bottomLeftValue): String(currentStates.fourFieldsBottomLeft)
@@ -814,16 +814,16 @@ class RadarPage extends PureComponent {
                     || (this.props.radarSettings.likingOn !== currentStates.discussionOn)
                     || (this.props.radarSettings.commentsOn !== currentStates.commentsOn)
     
-                    || requestTranslation('bottomLeft') !== fourFieldsBottomLeft
-                    || requestTranslation('bottomRight') !== fourFieldsBottomRight
-                    || requestTranslation('topLeft') !== fourFieldsTopLeft
-                    || requestTranslation('topRight') !== fourFieldsTopRight
-                    || requestTranslation('HorizontalAxisName') !== axisXTitle
-                    || requestTranslation('leftEnd') !== axisXMin
-                    || requestTranslation('verticalAxisName') !== axisYTitle
-                    || requestTranslation('rightEnd') !== axisXMax
-                    || requestTranslation('lowEnd') !== axisYMin
-                    || requestTranslation('highEnd') !== axisYMax
+                    || (requestTranslation('bottomLeft') !== fourFieldsBottomLeft)
+                    || (requestTranslation('bottomRight') !== fourFieldsBottomRight)
+                    || (requestTranslation('topLeft') !== fourFieldsTopLeft)
+                    || (requestTranslation('topRight') !== fourFieldsTopRight)
+                    || (requestTranslation('HorizontalAxisName') !== axisXTitle)
+                    || (requestTranslation('leftEnd') !== axisXMin)
+                    || (requestTranslation('verticalAxisName') !== axisYTitle)
+                    || (requestTranslation('rightEnd') !== axisXMax)
+                    || (requestTranslation('lowEnd') !== axisYMin)
+                    || (requestTranslation('highEnd') !== axisYMax)
 
 
                     
