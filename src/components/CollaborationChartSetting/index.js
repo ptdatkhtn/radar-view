@@ -327,7 +327,7 @@ const CollaborationChartSetting = ({
     const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
     const oldData = JSON.parse(localStorage.getItem('old-data-edit-manually'))
 
-    if (String(oldData?.[currentSettingIndex]) !== String(state[currentSettingIndex], inputValueModal || '')) {
+    if (String(oldData?.[currentSettingIndex]) !== String(state[currentSettingIndex], inputValueModal?.trim() || '')) {
       setIsFieldChange(true)
     } else {
       setOpenCofirmationModalForEachField(false)
@@ -378,9 +378,6 @@ React.useEffect(() => {
   const onCloseModal = () => {
     const oldData = JSON.parse(localStorage.getItem('old-inputFieldChanged'))
 
-    const a = oldData?.[currentSettingIndex].toString()
-    const b = state[currentSettingIndex].toString()
-
     // Identifying which key is changed
     let keyFieldChanged = null
     Object.keys(oldData).some(key => {
@@ -390,8 +387,7 @@ React.useEffect(() => {
       }
     })
 
-    console.log('String(inputValueModal)', String(inputValueModal))
-    if (String(oldData[keyFieldChanged]) !== String(inputValueModal)) {
+    if (String(oldData[keyFieldChanged]) !== String(inputValueModal.trim())) {
       setIsFieldChange(true)
     } else {
       setOpenCofirmationModalForEachField(false)
@@ -438,7 +434,7 @@ React.useEffect(() => {
           return {
             ...prevState,
             showModal: false,
-            [currentSettingIndex]: inputValueModal
+            [currentSettingIndex]: inputValueModal.trim()
           }
     })})
       .then(() => {
@@ -454,7 +450,7 @@ React.useEffect(() => {
           // setIsEditHorizontal(true)
           passisCustomToRatingModalPreviewModeHoronzal(true)
         } else {
-          passisCustomToRatingModalPreviewModeOther(currentSettingIndex, inputValueModal)
+          passisCustomToRatingModalPreviewModeOther(currentSettingIndex, inputValueModal.trim())
         }
       })
   }
@@ -645,7 +641,7 @@ useEffect(() => {
         setState(prevState => {
           return {
             ...prevState,
-            [currentSettingIndex]: inputValueModal
+            [currentSettingIndex]: inputValueModal.trim()
           }
         })
 
@@ -673,7 +669,7 @@ useEffect(() => {
         setState(prevState => {
           return {
             ...prevState,
-            [currentSettingIndex]: inputValueModal
+            [currentSettingIndex]: inputValueModal.trim()
           }
         })
 
