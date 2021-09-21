@@ -327,7 +327,7 @@ const CollaborationChartSetting = ({
     const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
     const oldData = JSON.parse(localStorage.getItem('old-data-edit-manually'))
 
-    if (String(oldData?.[currentSettingIndex]) !== String(state[currentSettingIndex], inputValueModal?.trim() || '')) {
+    if (String(oldData?.[currentSettingIndex]) !== String(state[currentSettingIndex], inputValueModal || '')) {
       setIsFieldChange(true)
     } else {
       setOpenCofirmationModalForEachField(false)
@@ -390,7 +390,8 @@ React.useEffect(() => {
       }
     })
 
-    if (String(oldData[keyFieldChanged]) !== String(inputValueModal.trim())) {
+    console.log('String(inputValueModal)', String(inputValueModal))
+    if (String(oldData[keyFieldChanged]) !== String(inputValueModal)) {
       setIsFieldChange(true)
     } else {
       setOpenCofirmationModalForEachField(false)
@@ -437,7 +438,7 @@ React.useEffect(() => {
           return {
             ...prevState,
             showModal: false,
-            [currentSettingIndex]: inputValueModal.trim()
+            [currentSettingIndex]: inputValueModal
           }
     })})
       .then(() => {
@@ -453,7 +454,7 @@ React.useEffect(() => {
           // setIsEditHorizontal(true)
           passisCustomToRatingModalPreviewModeHoronzal(true)
         } else {
-          passisCustomToRatingModalPreviewModeOther(currentSettingIndex, inputValueModal.trim())
+          passisCustomToRatingModalPreviewModeOther(currentSettingIndex, inputValueModal)
         }
       })
   }
@@ -644,7 +645,7 @@ useEffect(() => {
         setState(prevState => {
           return {
             ...prevState,
-            [currentSettingIndex]: inputValueModal.trim()
+            [currentSettingIndex]: inputValueModal
           }
         })
 
@@ -672,7 +673,7 @@ useEffect(() => {
         setState(prevState => {
           return {
             ...prevState,
-            [currentSettingIndex]: inputValueModal.trim()
+            [currentSettingIndex]: inputValueModal
           }
         })
 
