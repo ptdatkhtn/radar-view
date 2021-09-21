@@ -119,7 +119,8 @@ export default (state = initialState, { type, payload }) => {
             const account = payload.account
             const role = account ? account.role : false
             const canDeleteRadar = role === 'owner' || role === 'manager' || String(account.userId) === String(payload.ownerId)
-            const canEditRadar = role === 'owner' || role === 'editor' || role === 'manager' || isFpEditor
+            console.table(window.fpSession.userRoles)
+            const canEditRadar = role === 'owner' || role === 'editor' || role === 'manager' || isFpEditor()
             const isVisitor = role === 'visitor'
             const canShareRadar = role === 'owner' || role === 'manager'
 

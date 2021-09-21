@@ -71,7 +71,7 @@ export const makeGroup = group => {
     }
 }
 
-export const isFpEditor = publicEditorRole(getUserRoles())
+export const isFpEditor = () => publicEditorRole(getUserRoles()?.[0])
 
 export const arrayMoveMutate = (array, from, to) => {
     array.splice(to < 0 ? array.length + to : to, 0, array.splice(from, 1)[0])
