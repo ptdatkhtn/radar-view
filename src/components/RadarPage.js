@@ -32,8 +32,6 @@ import edit2 from '../components/CollaborationChartSetting/edit2.svg'
 import ReactDOM from "react-dom";
 import {ExitFullscreen, Fullscreen} from '@styled-icons/boxicons-regular'
 import ConfirmationModalFoCollabTool  from './ConfirmationModalForCollabTool/ConfirmationModalForCollabTool'
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 
 class RadarPage extends PureComponent {
     constructor(props) {
@@ -1182,6 +1180,22 @@ class RadarPage extends PureComponent {
                     (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
                     && !isNotInFullScreen)
                     ? <FullscreenExitIcon onClick={this.handleExitFullScreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '54px', zIndex: 999}}></FullscreenExitIcon> : ''
+                } */}
+
+                {/* {
+                    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
+                        && !!isNotInFullScreen)
+                        ? <span 
+                            className='af-custom-fullscreen'
+                            onClick={this.handleFullscreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '50px', zIndex: 999}}></span> : ''
+                }
+
+                {
+                    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
+                    && !isNotInFullScreen)
+                    ? <span 
+                        className='af-custom-fullscreen_exit'
+                        onClick={this.handleExitFullScreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '50px', zIndex: 999}}></span> : ''
                 } */}
 
                 {this.renderEditSectorMenu()}

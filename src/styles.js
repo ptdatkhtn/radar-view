@@ -21,4 +21,24 @@ export const RadarStyles = createGlobalStyle`
   .fp-wysiwyg .ql-editor img {
     margin-bottom: 20px;
   }
+
+  .af-custom-fullscreen_exit:before {
+    content: "";
+}
+
+.af-custom-fullscreen:before {
+    content: "";
+}
+
+.af-custom-fullscreen {
+  &:hover {
+    color: #006998 !important;
+  }
+}
+
+.af-custom-fullscreen_exit {
+  &:hover {
+    color: #006998 !important;
+  }
+}
 `
