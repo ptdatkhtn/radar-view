@@ -1187,7 +1187,7 @@ class RadarPage extends PureComponent {
                         && !!isNotInFullScreen)
                         ? <span 
                             className='af-custom-fullscreen'
-                            onClick={this.handleFullscreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '50px', zIndex: 999}}></span> : ''
+                            onClick={this.handleFullscreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '32px', zIndex: 999}}></span> : ''
                 }
 
                 {
@@ -1195,7 +1195,7 @@ class RadarPage extends PureComponent {
                     && !isNotInFullScreen)
                     ? <span 
                         className='af-custom-fullscreen_exit'
-                        onClick={this.handleExitFullScreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '50px', zIndex: 999}}></span> : ''
+                        onClick={this.handleExitFullScreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '32px', zIndex: 999}}></span> : ''
                 } */}
 
                 {this.renderEditSectorMenu()}
