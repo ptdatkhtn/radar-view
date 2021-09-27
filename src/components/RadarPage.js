@@ -1182,21 +1182,41 @@ class RadarPage extends PureComponent {
                     ? <FullscreenExitIcon onClick={this.handleExitFullScreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '54px', zIndex: 999}}></FullscreenExitIcon> : ''
                 } */}
 
+                {
+                    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
+                        && !!isNotInFullScreen)
+                        ? <button 
+                            onClick={this.handleFullscreen}
+                            className="btn-fullscreen-custom">
+                            {/* <span>Fullscreen</span> */}
+                        </button> : ''
+                }
+
                 {/* {
                     (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
                         && !!isNotInFullScreen)
                         ? <span 
                             className='af-custom-fullscreen'
                             onClick={this.handleFullscreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '32px', zIndex: 999}}></span> : ''
-                }
+                } */}
 
-                {
+                {/* {
                     (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
                     && !isNotInFullScreen)
                     ? <span 
                         className='af-custom-fullscreen_exit'
                         onClick={this.handleExitFullScreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '32px', zIndex: 999}}></span> : ''
                 } */}
+
+                {
+                    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
+                    && !isNotInFullScreen)
+                    ? <button 
+                        onClick={this.handleExitFullScreen}
+                        className="btn-fullscreen-custom-exit">
+                        {/* <span>Fullscreen</span> */}
+                    </button> : ''
+                }
 
                 {this.renderEditSectorMenu()}
                 {this.renderRadar()}
