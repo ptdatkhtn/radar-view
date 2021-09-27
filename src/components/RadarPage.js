@@ -1182,7 +1182,7 @@ class RadarPage extends PureComponent {
                     ? <FullscreenExitIcon onClick={this.handleExitFullScreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '54px', zIndex: 999}}></FullscreenExitIcon> : ''
                 } */}
 
-                {
+                {/* {
                     (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
                         && !!isNotInFullScreen)
                         ? <span 
@@ -1196,7 +1196,7 @@ class RadarPage extends PureComponent {
                     ? <span 
                         className='af-custom-fullscreen_exit'
                         onClick={this.handleExitFullScreen} style={{cursor: 'pointer', color: 'white', position: 'absolute', bottom: 0, right: '15px', fontSize: '50px', zIndex: 999}}></span> : ''
-                }
+                } */}
 
                 {this.renderEditSectorMenu()}
                 {this.renderRadar()}
