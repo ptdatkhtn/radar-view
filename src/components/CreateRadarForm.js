@@ -493,6 +493,7 @@ class CreateRadarForm extends PureComponent {
         } = props
 
 
+        console.log('props', props)
         this.state = {
             errors: [],
             phenomenaSet: radarSets.length ? radarSets[0].value : false,
@@ -530,7 +531,8 @@ class CreateRadarForm extends PureComponent {
         } = this.props
 
         this.setState({
-            widthContentWidth: +this.editorMode?.current?.offsetWidth -50 -50
+            widthContentWidth: +this.editorMode?.current?.offsetWidth -50 -50,
+            votingHaloOn: (this.props.displayHaloWhenRating > 0 && this.props.displayHaloWhenRating < 21) ? true : false
         })
         if (window) {
             window.addEventListener("resize", debounce(this.handleResize, 150));
