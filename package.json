@@ -1,6 +1,6 @@
 {
   "name": "radar",
-  "version": "2.6.40",
+  "version": "2.6.41",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.4.1",
