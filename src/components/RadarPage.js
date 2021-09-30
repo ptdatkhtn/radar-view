@@ -1085,7 +1085,7 @@ class RadarPage extends PureComponent {
 
     getParentByTag = (elem, lookingFor) => {
         lookingFor = lookingFor.toUpperCase();
-        while (elem = elem.parentNode) if (elem.tagName === lookingFor && elem.id === "fp-radar-page") return elem;
+        while (elem = elem.parentNode) if (elem.tagName === lookingFor) return elem;
     }
 
     // allowfullscreen
@@ -1095,7 +1095,7 @@ class RadarPage extends PureComponent {
 
         const node = ReactDOM.findDOMNode(this);
         // var docElm = document.documentElement;
-        const docElm = this.getParentByTag(node, 'div')
+        const docElm = this.getParentByTag(node, 'body')
         try {            
             if (!!isNotInFullScreen) {
                 if (docElm.requestFullscreen) {
