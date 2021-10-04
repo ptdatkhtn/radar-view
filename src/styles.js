@@ -4,6 +4,7 @@ export const RadarStyles = createGlobalStyle`
    html, body {
       overflow: hidden !important;
       font-family: 'L10' !important;
+      background-color: rgba(0,0,0,0) !important;
   }
   
   .radar-widget-title {

@@ -70,7 +70,7 @@ export const Filters = props => {
     const activeFilters = [...activeFilter, ...activeTagFilter].length
 
     return (
-        <div style={{ zIndex: 2, position: 'absolute', left: '0px', bottom: '0px' }}>
+        <div style={{ zIndex: 2, position: 'absolute', left: '0px', bottom: '0px', position: 'fixed' }}>
 
             <FiltersButton
               className={`btn-round btn-lg d-flex align-items-center justify-content-center ${activeFilters ? '' : 'inactive'}`}

@@ -62,7 +62,9 @@ class RadarPage extends PureComponent {
                 time: null
             },
             phenomenaDragged: false,
-            openCofirmationModalCollabTool: false
+            openCofirmationModalCollabTool: false,
+            isInFullScreen: (document.fullScreenElement) ||    // alternative standard method  
+            (document.mozFullScreen)  || (document.webkitIsFullScreen)
         }
         this.elmRadar = React.createRef()
     }
@@ -1090,7 +1092,10 @@ class RadarPage extends PureComponent {
 
     // allowfullscreen
     handleFullscreen = () => {
-        const isNotInFullScreen = (!document.fullScreenElement) &&    // alternative standard method  
+        this.setState({
+            isInFullScreen: true
+        }, () => {
+            const isNotInFullScreen = (!document.fullScreenElement) &&    // alternative standard method  
         (!document.mozFullScreen) && (!document.webkitIsFullScreen) && (!document.msRequestFullscreen);
 
         const node = ReactDOM.findDOMNode(this);
@@ -1131,36 +1136,42 @@ class RadarPage extends PureComponent {
         } catch (error) {
             
         }
+        })
+        
     }
 
     handleExitFullScreen = () => {
-        try {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) { /* Safari */
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) { /* IE11 */
-                document.msExitFullscreen();
-            } else if (document.cancelFullScreen) { /* Safari */
-                document.cancelFullScreen();
-            } else if (document.mozCancelFullScreen) { /* Safari */
-                document.mozCancelFullScreen();
-            } else if (document.cancelFullScreen) { /* Safari */
-                document.cancelFullScreen();
-            } else if (document.webkitCancelFullScreen) { /* Safari */
-                document.webkitCancelFullScreen();
+        this.setState({
+            isInFullScreen: false
+        }, () => {
+            try {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) { /* Safari */
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) { /* IE11 */
+                    document.msExitFullscreen();
+                } else if (document.cancelFullScreen) { /* Safari */
+                    document.cancelFullScreen();
+                } else if (document.mozCancelFullScreen) { /* Safari */
+                    document.mozCancelFullScreen();
+                } else if (document.cancelFullScreen) { /* Safari */
+                    document.cancelFullScreen();
+                } else if (document.webkitCancelFullScreen) { /* Safari */
+                    document.webkitCancelFullScreen();
+                }
+            } catch (error) {
+                
             }
-        } catch (error) {
-            
-        }
+        })
+        
     }
 
     render() {
         const { loading, returnUri } = this.props
 
-        const isNotInFullScreen = (!document.fullScreenElement) &&    // alternative standard method  
-        (!document.mozFullScreen && !document.webkitIsFullScreen);
-
+        const {isInFullScreen} = this.state
+        console.log('isInFullScreen', isInFullScreen)
         return (
             <Container 
                 style={{ pointerEvents: loading.length ? 'none' : 'all' }}
@@ -1184,12 +1195,14 @@ class RadarPage extends PureComponent {
 
                 {
                     (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
-                        && !!isNotInFullScreen)
+                        && isInFullScreen === false)
                         ? <button 
                             onClick={this.handleFullscreen}
-                            className="btn-fullscreen-custom">
+                            className="btn-fullscreen-custom"
+                            style={{position:'fixed'}}
+                            >
                             {/* <span>Fullscreen</span> */}
-                        </button> : ''
+                        </button> : null
                 }
 
                 {/* {
@@ -1210,12 +1223,14 @@ class RadarPage extends PureComponent {
 
                 {
                     (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
-                    && !isNotInFullScreen)
+                    && isInFullScreen === true)
                     ? <button 
                         onClick={this.handleExitFullScreen}
-                        className="btn-fullscreen-custom-exit">
+                        className="btn-fullscreen-custom-exit"
+                        style={{position:'fixed'}}
+                        >
                         {/* <span>Fullscreen</span> */}
-                    </button> : ''
+                    </button> : null
                 }
 
                 {this.renderEditSectorMenu()}
