@@ -140,11 +140,11 @@ export default async function generatePPTX(radarId, groupId) {
     const slide = addSlide()
     addHeading(radarName, slide)
     addTitle(tr('pptxTopVotedContent'), slide)
-    
+
     // const votedPhenFiltered = phenomena.filter(p => )
-    const rows = phenomena.map(({ content: { short_title, type }, vote_sum }) => (
+    const rows = phenomena.map(({ content: { short_title, title, type }, vote_sum }) => (
       [
-        { text: short_title, options: { bold: true } },
+        { text: short_title || title, options: { bold: true } },
         { text: `${phenomenonTypeTitlesById[type]}` },
         { text: typeof vote_sum === 'number' ? vote_sum : '-' }
       ]
@@ -179,9 +179,9 @@ export default async function generatePPTX(radarId, groupId) {
     let xOffset = 0.4;
     [xPhenomena, yPhenomena].forEach(({ title, axis, phenomena }) => {
       slide.addText(title, { x: xOffset, y: 1.4, fontSize: 18, w: 13, h: 0.35, bold: true })
-      const rows = phenomena.map(({ content: { short_title, type }, rating_avg }) => {
+      const rows = phenomena.map(({ content: { short_title, title, type }, rating_avg }) => {
         return [
-          { text: short_title, options: { bold: true } },
+          { text: short_title || title, options: { bold: true } },
           { text: `${phenomenonTypeTitlesById[type]}` },
           { text: rating_avg && typeof rating_avg[axis] === 'number' ? (rating_avg[axis] / 100).toFixed(2) : '-' }
         ]
