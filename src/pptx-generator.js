@@ -142,13 +142,26 @@ export default async function generatePPTX(radarId, groupId) {
     addTitle(tr('pptxTopVotedContent'), slide)
 
     // const votedPhenFiltered = phenomena.filter(p => )
-    const rows = phenomena.map(({ content: { short_title, title, type }, vote_sum }) => (
-      [
-        { text: short_title || title, options: { bold: true } },
-        { text: `${phenomenonTypeTitlesById[type]}` },
-        { text: vote_sum !== null ? vote_sum : '-' }
-      ]
-    ))
+    const rows = phenomena.map(({ content: { short_title, title, type }, vote_sum }) => {
+      if ( Number(vote_sum) === 0) {
+        return (
+          [
+            { text: short_title || title, options: { bold: true } },
+            { text: `${phenomenonTypeTitlesById[type]}` },
+            { text: "0"}
+          ]
+        )
+      } else {
+        return (
+          [
+            { text: short_title || title, options: { bold: true } },
+            { text: `${phenomenonTypeTitlesById[type]}` },
+            { text: typeof vote_sum === 'number' ? vote_sum : '-' }
+          ]
+        )
+      }
+      
+    })
     slide.addTable(rows, { x: 0.5, y: 1.3, w: 12, h: 5, colW: [8, 1.5, 1.5], valign: 'top' })
   }
 
