@@ -143,7 +143,7 @@ export default async function generatePPTX(radarId, groupId) {
 
     // const votedPhenFiltered = phenomena.filter(p => )
     const rows = phenomena.map(({ content: { short_title, title, type }, vote_sum }) => {
-      if ( Number(vote_sum) === 0) {
+      if ( vote_sum !== null && Number(vote_sum) === 0) {
         return (
           [
             { text: short_title || title, options: { bold: true } },
