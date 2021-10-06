@@ -116,6 +116,8 @@ export default async function generatePPTX(radarId, groupId) {
     addHeading(tr('pptxSectorContent').toUpperCase(), slide)
     addTitle(title, slide)
     let xOffset = 0
+    
+
     // TODO: Replace time with crowdsourced
     phenomena.forEach(({ content: { short_title, type, summary, time_range }, time }) => {
       const yearMin = time_range?.min
@@ -138,6 +140,8 @@ export default async function generatePPTX(radarId, groupId) {
     const slide = addSlide()
     addHeading(radarName, slide)
     addTitle(tr('pptxTopVotedContent'), slide)
+    
+    // const votedPhenFiltered = phenomena.filter(p => )
     const rows = phenomena.map(({ content: { short_title, type }, vote_sum }) => (
       [
         { text: short_title, options: { bold: true } },
@@ -224,11 +228,26 @@ export default async function generatePPTX(radarId, groupId) {
       return bVoteSum-aVoteSum
     })
 
-    const topVotedPageCount = Math.ceil(sortedPhenomena.length % 15)
+    const votedPhenFitlered = sortedPhenomena.length > 0 && 
+      sortedPhenomena.filter(p => p.vote_sum)
+      .sort((a, b) => {
+        return Number(b.vote_sum) - Number(a.vote_sum)
+      })
+      .sort((a, b) =>{
+        if (Number(b.vote_sum) - Number(a.vote_sum) == 0) 
+            return a.content?.title.localeCompare(b.content?.title)
+      })
+
+      
+    const nonVotedPhenFitlered = sortedPhenomena.length > 0 && sortedPhenomena.filter(p => !p.vote_sum)
+      .sort((a, b) => a.content?.title.localeCompare(b.content?.title))
+
+    const sortedPhenFinally = votedPhenFitlered.concat(nonVotedPhenFitlered)
+    const topVotedPageCount = Math.ceil(sortedPhenFinally.length % 15)
     let topVotedPageNum = 1
     do {
-      addTopVotedContentSlide(sortedPhenomena.splice(0, 15), topVotedPageCount, topVotedPageNum++, topVotedPageCount)
-    } while (sortedPhenomena.length > 0)
+      addTopVotedContentSlide(sortedPhenFinally.splice(0, 15), topVotedPageCount, topVotedPageNum++, topVotedPageCount)
+    } while (sortedPhenFinally.length > 0)
   }
 
   // Content Rating
