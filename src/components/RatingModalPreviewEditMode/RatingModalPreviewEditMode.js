@@ -1,46 +1,28 @@
-import React, { useState, useRef, useLayoutEffect, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import _ from 'lodash'
 import Select from 'react-select'
 import Toggle from 'react-toggle'
 import {
-    Loading,
-    Radiobox,
-    Checkbox,
     Modal, 
     paddingModalStyles
 } from '@sangre-fp/ui'
 import { requestTranslation } from '@sangre-fp/i18n'
-import { radarLanguages, initialCommentTopics, customQuillModules } from '../../config'
-import { PUBLIC_URL } from '../../env'
-import ReactQuill from 'react-quill'
-import filter from 'lodash/filter'
-import find from 'lodash/find'
-import first from 'lodash/first'
-import times from 'lodash/times'
-import { formats } from '../../quill'
-import classNames from 'classnames'
 import {InfoCircle} from '@styled-icons/boxicons-regular'
 import Popover from '@material-ui/core/Popover';
 import { withStyles } from '@material-ui/core/styles';
 import styles from '../CreateRadarForm.module.css'
 import ConfirmationModalForRatings from '../ConfirmationModalForRatings/ConfirmationModalForRatings'
 import CollaborationChartSetting from '../CollaborationChartSetting'
-import {mockDataEn, mockDataFin, mockData} from '../CreateRadarForm'
+import {mockDataEn, mockDataFin} from '../CreateRadarForm'
 import InformationModal from '../InformationModal/InformationModal'
 import { getLanguage } from '@sangre-fp/i18n'
 import {ratingApi} from '../../helpers/fetcher'
 import ConfirmationModalFoCollabTool from '../ConfirmationModalForCollabTool/ConfirmationModalForCollabTool'
-const URL = window.URL || window.webkitURL
 
 export const PAGE_HEADER_AND_LANGUAGE = 1
 export const PAGE_BASIC_SETTINGS = 2
 export const PAGE_USER_OPTIONS = 3
 export const PAGE_CONCLUSIONS = 4
-
-// TODO enable when implemented
-const COMMENT_TOPICS_ENABLED = false
-const RATING_ARROWS_ENABLED = false
 
 export const CustomModalStyles = { content: { ...paddingModalStyles.content}, overlay: { ...paddingModalStyles.overlay} }
 
@@ -171,47 +153,6 @@ const  RatingModalPreviewEditMode = ({
         const closeRatingInformationModalHandle = () => {
             setOpenRatingInformationModal(false)
         } 
-        const getDataFromLocalStorageThenSaveToLocalState = () => {
-            const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
-
-            Promise.resolve()
-            .then(() => {
-                const {
-                    leftEndValue, 
-                    rightEndValue, 
-                    topEndValue, 
-                    lowEndValue, 
-                    horizontalAxisNameValue, 
-                    verticalAxisNameValue,
-                    topLeftValue, 
-                    topRightValue, 
-                    bottomLeftValue, 
-                    bottomRightValue,
-                    inputSelectedXValue,
-                    inputSelectedYValue,
-                    isEditHorizontal,
-                    isVerticalEdit
-            } = retrievedObject
-
-                if (retrievedObject) {
-                    setLowEnd(retrievedObject.lowEndValue)
-                    setTopEnd(retrievedObject.topEndValue)
-                    setLeftEnd(retrievedObject.leftEndValue)
-                    setRightEnd(retrievedObject.rightEndValue)
-                    setXName(retrievedObject.horizontalAxisNameValue)
-                    setYname(retrievedObject.verticalAxisName)
-                    setfourFieldsTopLeftValue(() => retrievedObject.topLeftValue)
-                    setfourFieldsTopRight((() => retrievedObject.topRightValue))
-                    setfourFieldsBottomLeftValue(() => retrievedObject.bottomLeftValue)
-                    setfourFieldsBottomRightValue(() => retrievedObject.bottomRightValue)
-                    setaxisXSelect(prestate => retrievedObject.inputSelectedXValue)
-                    setaxisYSelect(prestate => retrievedObject.inputSelectedYValue)
-                    setIsCustomVertical(pre => isVerticalEdit)
-                    setIsCustomHorozol( pre => isEditHorizontal)
-                }
-            }
-            )
-        }
 
         const receivedCheckDataFromCollaborationChartSettingVertical = (isVertical) => {
             setIsCustomVertical(isVertical)
@@ -249,33 +190,22 @@ const  RatingModalPreviewEditMode = ({
         }
 
         const handleOpenClearAllFieldsModal = () => {
-            Promise.resolve()
-            .then(() => { 
-                
-                // localStorage.removeItem("chartData")
-                closedModal()
-                setLowEnd(requestTranslation('lowEnd') )
-                setTopEnd(requestTranslation('highEnd'))
-                setLeftEnd(() => requestTranslation('leftEnd'))
-                setRightEnd(() =>requestTranslation('rightEnd'))
-                setXName(() => requestTranslation('HorizontalAxisName'))
-                setYname(() => requestTranslation('verticalAxisName'))
-                setfourFieldsTopLeftValue(requestTranslation('topLeft').toString().slice() )
-                setfourFieldsTopRight((() => requestTranslation('topRight')))
-                setfourFieldsBottomLeftValue(() => requestTranslation('bottomLeft'))
-                setfourFieldsBottomRightValue(() => requestTranslation('bottomRight'))
-                setaxisXSelect(()=> '')
-                setaxisYSelect(() => '')
-                
-                setIsCustomHorozol(false)
-                setIsCustomVertical(false)
-                }
-            )
-            .then(() => {
-                
-                
-                
-            })
+            closedModal()
+            setLowEnd(requestTranslation('lowEnd') )
+            setTopEnd(requestTranslation('highEnd'))
+            setLeftEnd(() => requestTranslation('leftEnd'))
+            setRightEnd(() =>requestTranslation('rightEnd'))
+            setXName(() => requestTranslation('HorizontalAxisName'))
+            setYname(() => requestTranslation('verticalAxisName'))
+            setfourFieldsTopLeftValue(requestTranslation('topLeft').toString().slice() )
+            setfourFieldsTopRight((() => requestTranslation('topRight')))
+            setfourFieldsBottomLeftValue(() => requestTranslation('bottomLeft'))
+            setfourFieldsBottomRightValue(() => requestTranslation('bottomRight'))
+            setaxisXSelect(()=> '')
+            setaxisYSelect(() => '')
+            
+            setIsCustomHorozol(false)
+            setIsCustomVertical(false)
         }
 
         const handleDisplayVericalAxisRatingChangeOnRatingModalPreviewEditMode = ({value}) => {
@@ -283,19 +213,14 @@ const  RatingModalPreviewEditMode = ({
                     const {
                         leftEndValue, 
                         rightEndValue, 
-                        topEndValue, 
-                        lowEndValue, 
                         horizontalAxisNameValue, 
-                        verticalAxisNameValue,
                         topLeftValue, 
                         topRightValue, 
                         bottomLeftValue, 
                         bottomRightValue,
                         inputSelectedXValue,
-                        inputSelectedYValue,
                         isEditHorizontal,
                         isVerticalEdit
-
                     } = retrievedObject
 
             // handleDisplayVericalAxisRatingChange({value})
@@ -433,19 +358,14 @@ const  RatingModalPreviewEditMode = ({
         const handleDisplayHorizontalAxisRatingChangeOnRatingModalPreviewEditMode = ({value}) => {
             const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
                     const {
-                        leftEndValue, 
-                        rightEndValue, 
                         topEndValue, 
                         lowEndValue, 
-                        horizontalAxisNameValue, 
                         verticalAxisNameValue,
                         topLeftValue, 
                         topRightValue, 
                         bottomLeftValue, 
                         bottomRightValue,
-                        inputSelectedXValue,
                         inputSelectedYValue,
-                        isEditHorizontal,
                         isVerticalEdit
                     } = retrievedObject
 

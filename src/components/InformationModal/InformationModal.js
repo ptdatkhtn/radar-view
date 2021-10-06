@@ -16,21 +16,20 @@ const InformationModal = ({
   InfoModalNote,
   InfoModalOpen,
   InfoModalClose,
-  LearnMoreBtn,
-  GuideBtn,
   LearnMoreLink,
   GuideLink,
 }) => {
   const [openEmbedLinkModalGuideLink, setOpenEmbedLinkModalGuideLink ] = React.useState(false)
   const [openEmbedLinkModalLearnMoreLink, setOpenEmbedLinkModalLearnMoreLink] = React.useState(false)
-  const handleOpenGuideLinkModal = (link) => {
-    setOpenEmbedLinkModalGuideLink(true)
-    // window.open(link);
-  };
-  const handleOpenLearnMoreLinkModal = (link) => {
-    setOpenEmbedLinkModalLearnMoreLink(true)
-    // window.open(link);
-  };
+  
+  // const handleOpenGuideLinkModal = (link) => {
+  //   setOpenEmbedLinkModalGuideLink(true)
+  //   // window.open(link);
+  // };
+  // const handleOpenLearnMoreLinkModal = (link) => {
+  //   setOpenEmbedLinkModalLearnMoreLink(true)
+  //   // window.open(link);
+  // };
   return (
     <Modal
       onRequestClose={InfoModalClose}

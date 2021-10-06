@@ -23,13 +23,10 @@ import Popover from '@material-ui/core/Popover';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './CreateRadarForm.module.css'
 import RatingSummaryPreview from './RatingSummaryPreview';
-import AxisPreview from './AxisPreview';
 import debounce from 'lodash/debounce'
 import ConfirmationModalForRatings from './ConfirmationModalForRatings/ConfirmationModalForRatings'
-import {HeaderContainer, Spacing} from './RatingSummaryPreview';
 import RatingModalPreviewEditMode from './RatingModalPreviewEditMode/RatingModalPreviewEditMode'
 import InformationModal from './InformationModal/InformationModal'
-import CollaborationChartSetting from './CollaborationChartSetting/index';
 import {ratingApi} from '../helpers/fetcher'
 
 const URL = window.URL || window.webkitURL
@@ -492,8 +489,6 @@ class CreateRadarForm extends PureComponent {
             fourFieldsBottomLeft, fourFieldsBottomRight, displayHaloWhenRating, titleLogo, handleNextClickTriggered
         } = props
 
-
-        console.log('props', props)
         this.state = {
             errors: [],
             phenomenaSet: radarSets.length ? radarSets[0].value : false,
@@ -551,7 +546,6 @@ class CreateRadarForm extends PureComponent {
       
         localStorage.setItem('state', JSON.stringify({ ...this.state}))
 
-        console.log('9999', this.props)
 
         if (!axisYTitle) {
             this.setState({axisYTitle: requestTranslation('verticalAxisName')})
@@ -1194,19 +1188,13 @@ class CreateRadarForm extends PureComponent {
                     const {
                         leftEndValue, 
                         rightEndValue, 
-                        topEndValue, 
-                        lowEndValue, 
                         horizontalAxisNameValue, 
-                        verticalAxisNameValue,
                         topLeftValue, 
                         topRightValue, 
                         bottomLeftValue, 
                         bottomRightValue,
                         inputSelectedXValue,
-                        inputSelectedYValue,
-                        isEditHorizontal,
-                        isVerticalEdit
-
+                        isEditHorizontal
                     } = retrievedObject
 
             this.setState({
@@ -1378,19 +1366,14 @@ class CreateRadarForm extends PureComponent {
             if (localStorage.getItem('chartData')) {
                     const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
                         const {
-                            leftEndValue, 
-                            rightEndValue, 
                             topEndValue, 
-                            lowEndValue, 
-                            horizontalAxisNameValue, 
+                            lowEndValue,
                             verticalAxisNameValue,
                             topLeftValue, 
                             topRightValue, 
                             bottomLeftValue, 
                             bottomRightValue,
-                            inputSelectedXValue,
                             inputSelectedYValue,
-                            isEditHorizontal,
                             isVerticalEdit
                         } = retrievedObject
 
@@ -1741,7 +1724,6 @@ class CreateRadarForm extends PureComponent {
             openRatingModalEditMode: true
         })
 
-        // console.log('dataaaaa')
         const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
         localStorage.setItem('old-data-edit-manually', JSON.stringify({...retrievedObject}))
     }
@@ -2923,11 +2905,6 @@ flex-direction: column;
     }
 `
 
-
-const Label = styled.label`
-    white-space: nowrap;
-`
-
 const columnPadding = 10
 const Columns = styled.div`
     width: ${({ width }) => width ? width : 'auto'};
@@ -2949,12 +2926,6 @@ const InformationIcon = styled(InfoCircle)`
     &:hover {
         cursor: pointer;
         color: #64cdef;
-    }
-`
-
-const DisplayFlex = styled.div`
-    @media (min-width: ${breakpoint}) {
-        display: flex;
     }
 `
 

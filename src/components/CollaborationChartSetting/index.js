@@ -1,12 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
-import edit1 from './edit1.svg'
 import edit2 from './edit2.svg'
 import { requestTranslation, getLanguage } from '@sangre-fp/i18n'
 import {
-    Loading,
-    Radiobox,
-    Checkbox,
     Modal, 
     confirmDialogModalStyles
 } from '@sangre-fp/ui'
@@ -23,25 +19,6 @@ const GlobalStyle = createGlobalStyle`
 const CanvasContainer = styled.canvas`
   border: 1px solid #979797;
 `
-const ButtonModalStyled = styled.button`
-  cursor: pointer;
-  height: 46px;
-  background-color: ${({ primary }) => !!primary ? '#6FBF40' : 'rgba(0,0,0,0)'};
-  border: none;
-  border-radius: 26px;
-  width: 95px;
-  color: ${({ primary }) => !!primary ? 'white' : '#666'};
-  font-weight: 700;
-  font-size: 16px;
-  margin-right: ${({ marginRight }) => !!marginRight ? marginRight : 0}px;
-  :hover {
-    opacity: 0.9;
-  }
-  :disabled {
-    opacity: 0.5;
-    cursor: unset;
-  }
-`
 const ButtonModalActions = styled.div`
   display: flex;
   align-items: center;
@@ -52,21 +29,6 @@ const ButtonModalActions = styled.div`
 const ModalContent = styled.div`
   padding: 12px 30px;
 `
-
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    width: 450,
-    height: 276,
-    boxSizing: 'border-box',
-    zIndex: 10
-  },
-}
 const EditButton = styled.img`
   cursor: pointer;
   :hover {
@@ -106,19 +68,19 @@ const SETTING_VALUE = {
   HORIZONTAL: 'horizontalAxisNameValue',
   VERTICAL: 'verticalAxisNameValue'
 }
-const SETTING_VALUE_TITLE = {
-  [SETTING_VALUE.TOP_LEFT]: getLanguage() === 'en' ? 'Fourfold table – top left' : 'Nelikenttä – vasen yläosa',
-  // [SETTING_VALUE.TOP_LEFT]: requestTranslation('abc'),
-  [SETTING_VALUE.TOP_RIGHT]: getLanguage() === 'en' ? 'Fourfold table – top right' : 'Nelikenttä – oikea yläosa',
-  [SETTING_VALUE.BOTTOM_LEFT]: getLanguage() === 'en' ? 'Fourfold table – bottom left' : 'Nelikenttä – vasen alaosa',
-  [SETTING_VALUE.BOTTOM_RIGHT]:  getLanguage() === 'en' ? 'Fourfold table – bottom right' : 'Nelikenttä – oikea alaosa',
-  [SETTING_VALUE.LEFT_END]:  getLanguage() === 'en' ? 'Horizontal axis – Left end' : 'Vaaka-akseli – vasen',
-  [SETTING_VALUE.RIGHT_END]: getLanguage() === 'en' ? 'Horizontal axis – Right end' : 'Vaaka-akseli – oikea',
-  [SETTING_VALUE.TOP_END]: getLanguage() === 'en' ? 'Vertical axis – High end' : 'Pystyakseli –  ylä',
-  [SETTING_VALUE.LOW_END]: getLanguage() === 'en' ? 'Vertical axis – Low end' : 'Pystyakseli – ala',
-  [SETTING_VALUE.HORIZONTAL]:  getLanguage() === 'en'? 'Horizontal axis - horizontal': 'Vaaka-akseli',
-  [SETTING_VALUE.VERTICAL]:  getLanguage() === 'en'? 'Vertical axis - vertical':'Pystyakseli',
-}
+// const SETTING_VALUE_TITLE = {
+//   [SETTING_VALUE.TOP_LEFT]: getLanguage() === 'en' ? 'Fourfold table – top left' : 'Nelikenttä – vasen yläosa',
+//   // [SETTING_VALUE.TOP_LEFT]: requestTranslation('abc'),
+//   [SETTING_VALUE.TOP_RIGHT]: getLanguage() === 'en' ? 'Fourfold table – top right' : 'Nelikenttä – oikea yläosa',
+//   [SETTING_VALUE.BOTTOM_LEFT]: getLanguage() === 'en' ? 'Fourfold table – bottom left' : 'Nelikenttä – vasen alaosa',
+//   [SETTING_VALUE.BOTTOM_RIGHT]:  getLanguage() === 'en' ? 'Fourfold table – bottom right' : 'Nelikenttä – oikea alaosa',
+//   [SETTING_VALUE.LEFT_END]:  getLanguage() === 'en' ? 'Horizontal axis – Left end' : 'Vaaka-akseli – vasen',
+//   [SETTING_VALUE.RIGHT_END]: getLanguage() === 'en' ? 'Horizontal axis – Right end' : 'Vaaka-akseli – oikea',
+//   [SETTING_VALUE.TOP_END]: getLanguage() === 'en' ? 'Vertical axis – High end' : 'Pystyakseli –  ylä',
+//   [SETTING_VALUE.LOW_END]: getLanguage() === 'en' ? 'Vertical axis – Low end' : 'Pystyakseli – ala',
+//   [SETTING_VALUE.HORIZONTAL]:  getLanguage() === 'en'? 'Horizontal axis - horizontal': 'Vaaka-akseli',
+//   [SETTING_VALUE.VERTICAL]:  getLanguage() === 'en'? 'Vertical axis - vertical':'Pystyakseli',
+// }
 
 const SETTING_VALUE_TITLEEng = {
   [SETTING_VALUE.TOP_LEFT]:'Fourfold table – top left',
@@ -321,53 +283,7 @@ const CollaborationChartSetting = ({
   // areaDraw 1, 2 from the first row left to right
   // areaDraw 3, 4 from the second row left to right
   const { axis, axisContext } = appContext
-
-  //check if any fields change
-  const isFieldChangeChecked = () => {
-    const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
-    const oldData = JSON.parse(localStorage.getItem('old-data-edit-manually'))
-
-    if (String(oldData?.[currentSettingIndex]) !== String(state[currentSettingIndex], inputValueModal?.trim() || '')) {
-      setIsFieldChange(true)
-    } else {
-      setOpenCofirmationModalForEachField(false)
-      onCloseModal()
-    }
-    // let bottomLeft = oldData ? String(oldData?.bottomLeftValue): String(dataOriginal.fourFieldsBottomLeft)
-    // let bottomRight = oldData ? String(oldData?.bottomRightValue): String(dataOriginal.fourFieldsBottomRight)
-    // let TopLeft = oldData ? String(oldData?.topLeftValue): String(dataOriginal.fourFieldsTopLeft)
-    // let topRight = oldData ? String(oldData?.topRightValue): String(dataOriginal.fourFieldsTopRight)
-    // let axisXTitle  = oldData ? String(oldData?.horizontalAxisNameValue): String(dataOriginal.axisXTitle)
-    // let axisYTitle = oldData ? String(oldData?.verticalAxisNameValue): String(dataOriginal.axisYTitle)
-    // let axisXMin = oldData ? String(oldData?.leftEndValue): String(dataOriginal.axisXMin)
-    // let axisXMax = oldData ? String(oldData?.rightEndValue): String(dataOriginal.axisXMax)
-    // let axisYMin = oldData ? String(oldData?.lowEndValue): String(dataOriginal.axisYMin)
-    // let axisYMax = oldData ? String(oldData?.topEndValue): String(dataOriginal.axisYMax)
-
-    // if(retrievedObject && (
-    //     String(retrievedObject.bottomLeftValue) !== bottomLeft
-    //     ||String(retrievedObject.bottomRightValue) !== bottomRight
-    //     ||String(retrievedObject.topLeftValue) !== TopLeft
-    //     ||String(retrievedObject.topRightValue) !== topRight
-    //     ||String(retrievedObject.horizontalAxisNameValue) !== axisXTitle
-    //     ||String(retrievedObject.verticalAxisNameValue) !== axisYTitle
-    //     ||String(retrievedObject.leftEndValue) !== axisXMin
-    //     ||String(retrievedObject.rightEndValue) !== axisXMax
-    //     ||String(retrievedObject.lowEndValue) !== axisYMin
-    //     ||String(retrievedObject.topEndValue) !== axisYMax
-    //     )
-    // ){
-    //      setIsFieldChange(true)
-    
-    // } else {
-    //     // setIsFieldChange(false)
-    //     //  setOpenCofirmationModalForEachField(false)
-    //     // handleRatingPreviewEditModeClose()
-
-    // }
-    
-}
-
+ 
 React.useEffect(() => {
   isFieldChange && setOpenCofirmationModalForEachField(true)
   return () => {

@@ -28,7 +28,6 @@ import EditSectorMenu from './EditSectorMenu'
 import Phenomenon from './Phenomenon'
 import { modalStyles, paddingModalStyles } from '@sangre-fp/ui'
 import { centerRadiusPercentage, getWebSocketHeaders, timerangeColors, radarBorderWidth } from '../config'
-import edit2 from '../components/CollaborationChartSetting/edit2.svg'
 import ReactDOM from "react-dom";
 import {ExitFullscreen, Fullscreen} from '@styled-icons/boxicons-regular'
 import ConfirmationModalFoCollabTool  from './ConfirmationModalForCollabTool/ConfirmationModalForCollabTool'
@@ -796,18 +795,6 @@ class RadarPage extends PureComponent {
                 const chartData = JSON.parse(localStorage.getItem('chartData'))
 
             if (!this.props.radarSettings.ratingsOn) {
-                
-                let fourFieldsBottomLeft = chartData ? String(chartData?.bottomLeftValue): String(currentStates.fourFieldsBottomLeft)
-                let fourFieldsBottomRight = chartData ? String(chartData?.bottomRightValue): String(currentStates.fourFieldsBottomRight)
-                let fourFieldsTopLeft = chartData ? String(chartData?.topLeftValue): String(currentStates.fourFieldsTopLeft)
-                let fourFieldsTopRight = chartData ? String(chartData?.topRightValue): String(currentStates.fourFieldsTopRight)
-                let axisXTitle  = chartData ? String(chartData?.horizontalAxisNameValue): String(currentStates.axisXTitle)
-                let axisYTitle = chartData ? String(chartData?.verticalAxisNameValue): String(currentStates.axisYTitle)
-                let axisXMin = chartData ? String(chartData?.leftEndValue): String(currentStates.axisXMin)
-                let axisXMax = chartData ? String(chartData?.rightEndValue): String(currentStates.axisXMax)
-                let axisYMin = chartData ? String(chartData?.lowEndValue): String(currentStates.axisYMin)
-                let axisYMax = chartData ? String(chartData?.topEndValue): String(currentStates.axisYMax)
-    
                 if ((this.props.radarSettings.displayHaloWhenRating !== currentStates.displayHaloWhenRating)
                     || (this.props.radarSettings.discussionOn !== currentStates.discussionOn)
                     || (this.props.radarSettings.votingOn !== currentStates.votingOn)
@@ -815,20 +802,6 @@ class RadarPage extends PureComponent {
                     // || (this.props.radarSettings.votingHaloOn !== currentStates.votingHaloOn)
                     || (this.props.radarSettings.likingOn !== currentStates.discussionOn)
                     || (this.props.radarSettings.commentsOn !== currentStates.commentsOn)
-    
-                    // || (requestTranslation('bottomLeft') !== fourFieldsBottomLeft)
-                    // || (requestTranslation('bottomRight') !== fourFieldsBottomRight)
-                    // || (requestTranslation('topLeft') !== fourFieldsTopLeft)
-                    // || (requestTranslation('topRight') !== fourFieldsTopRight)
-                    // || (requestTranslation('HorizontalAxisName') !== axisXTitle)
-                    // || (requestTranslation('leftEnd') !== axisXMin)
-                    // || (requestTranslation('verticalAxisName') !== axisYTitle)
-                    // || (requestTranslation('rightEnd') !== axisXMax)
-                    // || (requestTranslation('lowEnd') !== axisYMin)
-                    // || (requestTranslation('highEnd') !== axisYMax)
-
-
-                    
                 ) {
                    // in case data modified
                     this.setState({
@@ -846,17 +819,6 @@ class RadarPage extends PureComponent {
             } 
             
             else if (!this.props.radarSettings?.axisYTitle && !this.props.radarSettings?.axisXMax) {
-                let fourFieldsBottomLeft = chartData ? String(chartData?.bottomLeftValue): String(currentStates.fourFieldsBottomLeft)
-                let fourFieldsBottomRight = chartData ? String(chartData?.bottomRightValue): String(currentStates.fourFieldsBottomRight)
-                let fourFieldsTopLeft = chartData ? String(chartData?.topLeftValue): String(currentStates.fourFieldsTopLeft)
-                let fourFieldsTopRight = chartData ? String(chartData?.topRightValue): String(currentStates.fourFieldsTopRight)
-                let axisXTitle  = chartData ? String(chartData?.horizontalAxisNameValue): String(currentStates.axisXTitle)
-                let axisYTitle = chartData ? String(chartData?.verticalAxisNameValue): String(currentStates.axisYTitle)
-                let axisXMin = chartData ? String(chartData?.leftEndValue): String(currentStates.axisXMin)
-                let axisXMax = chartData ? String(chartData?.rightEndValue): String(currentStates.axisXMax)
-                let axisYMin = chartData ? String(chartData?.lowEndValue): String(currentStates.axisYMin)
-                let axisYMax = chartData ? String(chartData?.topEndValue): String(currentStates.axisYMax)
-    
                 if ((this.props.radarSettings.displayHaloWhenRating !== currentStates.displayHaloWhenRating)
                     || (this.props.radarSettings.discussionOn !== currentStates.discussionOn)
                     || (this.props.radarSettings.votingOn !== currentStates.votingOn)
@@ -1171,7 +1133,7 @@ class RadarPage extends PureComponent {
         const { loading, returnUri } = this.props
 
         const {isInFullScreen} = this.state
-        console.log('isInFullScreen', isInFullScreen)
+
         return (
             <Container 
                 style={{ pointerEvents: loading.length ? 'none' : 'all' }}

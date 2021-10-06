@@ -4,6 +4,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { requestTranslation } from '@sangre-fp/i18n'
 import styles from './PublicLink.module.css'
 import RefreshIcon from '@material-ui/icons/Refresh';
+
 const PublicLink = ({ isModalOpen, onRequestClose, publicURL, openConfirmationModal, openDeleteConfirmationModal}) => {
   const [shareInput, setShareInput] = useState("");
   const [linkCopied, setLinkCopied] = useState(false);
