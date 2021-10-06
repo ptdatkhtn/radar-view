@@ -1157,7 +1157,7 @@ class RadarPage extends PureComponent {
 
                 {
                     (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
-                        && isInFullScreen === false)
+                        && (isInFullScreen === false || !isInFullScreen))
                         ? <button 
                             onClick={this.handleFullscreen}
                             className="btn-fullscreen-custom"
@@ -1185,7 +1185,7 @@ class RadarPage extends PureComponent {
 
                 {
                     (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
-                    && isInFullScreen === true)
+                    && (isInFullScreen === true || !!isInFullScreen))
                     ? <button 
                         onClick={this.handleExitFullScreen}
                         className="btn-fullscreen-custom-exit"
