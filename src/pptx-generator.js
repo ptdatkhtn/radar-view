@@ -146,7 +146,7 @@ export default async function generatePPTX(radarId, groupId) {
       [
         { text: short_title || title, options: { bold: true } },
         { text: `${phenomenonTypeTitlesById[type]}` },
-        { text: typeof vote_sum === 'number' ? vote_sum : '-' }
+        { text: vote_sum !== null ? vote_sum : '-' }
       ]
     ))
     slide.addTable(rows, { x: 0.5, y: 1.3, w: 12, h: 5, colW: [8, 1.5, 1.5], valign: 'top' })
