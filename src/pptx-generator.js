@@ -229,7 +229,7 @@ export default async function generatePPTX(radarId, groupId) {
     })
 
     const votedPhenFitlered = sortedPhenomena.length > 0 && 
-      sortedPhenomena.filter(p => p.vote_sum)
+      sortedPhenomena.filter(p => p.vote_sum !== null)
       .sort((a, b) => {
         return Number(b.vote_sum) - Number(a.vote_sum)
       })
@@ -239,7 +239,7 @@ export default async function generatePPTX(radarId, groupId) {
       })
 
       
-    const nonVotedPhenFitlered = sortedPhenomena.length > 0 && sortedPhenomena.filter(p => !p.vote_sum)
+    const nonVotedPhenFitlered = sortedPhenomena.length > 0 && sortedPhenomena.filter(p => p.vote_sum === null)
       .sort((a, b) => a.content?.title.localeCompare(b.content?.title))
 
     const sortedPhenFinally = votedPhenFitlered.concat(nonVotedPhenFitlered)
