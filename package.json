@@ -8,7 +8,7 @@
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@sangre-fp/connectors": "^2.1.0",
-    "@sangre-fp/content-editor": "^2.1.17",
+    "@sangre-fp/content-editor": "^2.1.19",
     "@sangre-fp/css-framework": "^0.0.9",
     "@sangre-fp/hooks": "^1.0.9",
     "@sangre-fp/i18n": "^2.1.8",

@@ -79,6 +79,7 @@ export default class AddPhenomenaSandbox extends PureComponent {
             changeAddPhenomenaVisibility,
             radarId,
             language,
+            radarLanguage,
             placing
         } = this.props
         const {
@@ -118,6 +119,7 @@ export default class AddPhenomenaSandbox extends PureComponent {
                             handleFilterChange={() => this.setState({ filtersShown: !filtersShown })}
                             resetFilters={resetFilters}
                             bumpResetFilters={this.bumpResetFilters}
+                            radarLanguage={radarLanguage}
                         />
                     </Container>
                     {filtersShown ? (
