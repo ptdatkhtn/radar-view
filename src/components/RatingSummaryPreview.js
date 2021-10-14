@@ -35,18 +35,18 @@ const AxisX = ({
       <table cellPadding='0' cellSpacing='0' align='center' style={{ width: axisWidth, margin: 0, border: 'none' }}>
         <tbody style={{ border: 'none' }}>
           <tr style={{ border: 'none' }}>
-            <td style={{ ...cellStyle, textAlign: 'left' }}>
+            <td style={{ ...cellStyle, textAlign: 'left', width: containerWidth / 2 }}>
               <Tooltip 
                   placement="bottom-start"
                   title={leftEnd}>
-                  <div style={{ width: containerWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{leftEnd}</div>
+                  <div style={{ maxWidth: containerWidth / 2, width: 'fit-content',  overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{leftEnd}</div>
                 </Tooltip>
             </td>
-            <td style={{ ...cellStyle, textAlign: 'right' }}>
+            <td style={{ ...cellStyle, textAlign: 'right', width: containerWidth / 2 }}>
               <Tooltip 
                       placement="bottom-end"
                       title={rightEnd}>
-                      <div style={{ width: containerWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{rightEnd}</div>
+                      <div style={{ marginLeft: 'auto', maxWidth: containerWidth / 2, width: 'fit-content', overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{rightEnd}</div>
                     </Tooltip>
             </td>
           </tr>
@@ -56,11 +56,11 @@ const AxisX = ({
       <table cellPadding='0' cellSpacing='0' align='center' style={{ width: axisWidth, margin: 0 }}>
         <tbody style={{ border: 'none' }}>
           <tr style={{ ...cellStyle, border: 'none', fontSize: 16, fontWeight: 500 }}>
-            <td style={{ ...cellStyle, textAlign: 'center', fontSize: 16, fontWeight: 500 }}>
+            <td style={{ ...cellStyle, textAlign: 'center', fontSize: 16, fontWeight: 500, width: containerWidth }}>
               <Tooltip 
                     // placement="bottom-start"
                     title={horizontalAxisName}>
-                    <div style={{ width: containerWidth, overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{horizontalAxisName}</div>
+                    <div style={{ margin: 'auto', width: 'fit-content', maxWidth: containerWidth, overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{horizontalAxisName}</div>
                   </Tooltip>
             </td>
           </tr>
@@ -88,11 +88,11 @@ const AxisY = ({
       <table cellPadding='0' cellSpacing='0' style={{ height: axisHeight }}>
         <tbody style={{ border: 'none' }}>
           <tr style={{ ...cellStyle, border: 'none', fontSize: 16, fontWeight: 500 }}>
-            <td style={{ border: 'none' }}>
+            <td style={{ border: 'none', height: containerHeight }}>
             <Tooltip 
                     placement="right"
                     title={verticalAxisName}>
-                    <div style={{ width: 18, writingMode: 'vertical-lr', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight, textAlign: 'center', fontFamily: 'L10' }}>{verticalAxisName}</div>
+                      <div style={{ width: 18, writingMode: 'vertical-lr', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: containerHeight, height: 'fit-content', textAlign: 'center', fontFamily: 'L10' }}>{verticalAxisName}</div>
                   </Tooltip>
               
             </td>
@@ -104,21 +104,21 @@ const AxisY = ({
       <table cellPadding='0' cellSpacing='0' style={{ height: axisHeight, border: 'none' }}>
         <tbody style={{ border: 'none' }}>
           <tr style={{ ...cellStyle, border: 'none' }}>
-            <td style={{ border: 'none' }}>
+            <td style={{ border: 'none', height: containerHeight / 2 - 10, verticalAlign: 'top' }}>
             <Tooltip 
                     placement="top"
                     title={topEnd}>
-                    <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 10, textAlign: 'right', fontFamily: 'L10' }}>{topEnd}</div>
+                      <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', maxHeight: containerHeight / 2 - 10, height: 'fit-content', textAlign: 'right', fontFamily: 'L10' }}>{topEnd}</div>
                   </Tooltip>
             </td>
           </tr>
 
           <tr style={{ ...cellStyle, border: 'none' }}>
-            <td style={{ border: 'none' }}>
+            <td style={{ border: 'none', height: containerHeight / 2 - 10, verticalAlign: 'bottom' }}>
             <Tooltip 
                     // placement="bottom-start"
                     title={lowEnd}>
-                    <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 10, textAlign: 'left', fontFamily: 'L10' }}>{lowEnd}</div>
+                    <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', maxHeight: containerHeight / 2 - 10, height: 'fit-content', textAlign: 'left', fontFamily: 'L10' }}>{lowEnd}</div>
                   </Tooltip>
             </td>
           </tr>
