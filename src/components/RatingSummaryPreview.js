@@ -92,7 +92,9 @@ const AxisY = ({
             <Tooltip 
                     placement="right"
                     title={verticalAxisName}>
-                      <div style={{ width: 18, writingMode: 'vertical-lr', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: containerHeight, height: 'fit-content', textAlign: 'center', fontFamily: 'L10' }}>{verticalAxisName}</div>
+                      <div style={{ width: 18, writingMode: 'vertical-lr', transform: 'rotate(180deg)', 
+                        // overflow: 'hidden', 
+                        textOverflow: 'ellipsis', maxWidth: containerHeight, height: 'fit-content', textAlign: 'center', fontFamily: 'L10' }}>{verticalAxisName}</div>
                   </Tooltip>
               
             </td>
