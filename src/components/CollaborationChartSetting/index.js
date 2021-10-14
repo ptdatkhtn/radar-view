@@ -8,6 +8,7 @@ import {
 } from '@sangre-fp/ui'
 import ConfirmationModalFoCollabTool from '../ConfirmationModalForCollabTool/ConfirmationModalForCollabTool'
 import { mockData } from '../CreateRadarForm'
+import Tooltip from '@mui/material/Tooltip';
 
 const GlobalStyle = createGlobalStyle`
   .ReactModal__Overlay--after-open {
@@ -140,10 +141,18 @@ const AxisX = ({
         <tbody style={{border: 'none'}}>
           <tr style={{border: 'none'}}>
             <td style={{ ...cellStyle, textAlign: 'left' }}>
-              <div style={{ width: containerWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis' }}>{leftEnd}</div>
+              <Tooltip 
+                placement="bottom-start"
+                title={leftEnd}>
+                <div style={{ width: containerWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis' }}>{leftEnd}</div>
+              </Tooltip>
             </td>
             <td style={{ ...cellStyle, textAlign: 'right' }}>
-              <div style={{ width: containerWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis' }}>{rightEnd}</div>
+              <Tooltip 
+                placement="bottom-end"
+                title={rightEnd}>
+                <div style={{ width: containerWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis' }}>{rightEnd}</div>
+              </Tooltip>
             </td>
           </tr>
         </tbody>
@@ -153,7 +162,10 @@ const AxisX = ({
       <tbody style={{border: 'none'}}>
           <tr style={{border: 'none'}}>
             <td style={{ ...cellStyle, textAlign: 'center', fontSize: 16, fontWeight: 500 }}>
+            <Tooltip title={horizontalAxisName}>
               <div style={{ width: containerWidth, overflow: 'hidden', textOverflow: 'ellipsis' }}>{horizontalAxisName}</div>
+            </Tooltip>
+              {/* <div style={{ width: containerWidth, overflow: 'hidden', textOverflow: 'ellipsis' }}>{horizontalAxisName}</div> */}
             </td>
           </tr>
         </tbody>
@@ -181,7 +193,11 @@ const AxisY = ({
         <tbody style={{border: 'none'}}>
           <tr style={{ ...cellStyle, fontSize: 16, fontWeight: 500, border: 'none' }}>
             <td style={{border: 'none'}}>
-              <div style={{ width: 18, writingMode: 'vertical-lr', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight, textAlign: 'center' }}>{verticalAxisName}</div>
+              <Tooltip
+                placement="right"
+                title={verticalAxisName}>
+                <div style={{ width: 18, writingMode: 'vertical-lr', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight, textAlign: 'center' }}>{verticalAxisName}</div>
+              </Tooltip>
             </td>
           </tr>
 
@@ -192,13 +208,20 @@ const AxisY = ({
         <tbody style={{border: 'none'}}>
           <tr style={{ ...cellStyle, border: 'none' }}>
           <td style={{border: 'none'}}>
+            <Tooltip
+              placement="top"
+              title={topEnd}>
               <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 10, textAlign: 'right' }}>{topEnd}</div>
+            </Tooltip>
             </td>
           </tr>
 
           <tr style={{ ...cellStyle, border: 'none' }}>
           <td style={{border: 'none'}}>
+            <Tooltip 
+              title={lowEnd}>
               <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 10, textAlign: 'left' }}>{lowEnd}</div>
+            </Tooltip>
             </td>
           </tr>
         </tbody>
@@ -497,10 +520,29 @@ useEffect(() => {
   }
 
   const drawText = ({ x, y, text }) => {
-    axisContext.font = 'italic 16px L10'
+    const lineHeight = 18
+    const maxWidth = containerWidth / 2
+    const words = text.split(' ')
+    let line = ''
+
+    axisContext.font = 'italic 15px L10'
     axisContext.fillStyle = 'rgb(224, 222, 222)'
     axisContext.textAlign = 'center'
-    axisContext.fillText(text, x, y)
+
+    for(let n = 0; n < words.length; n++) {
+      const testLine = line + words[n] + ' '
+      const metrics = axisContext.measureText(testLine)
+      const testWidth = metrics.width
+      if (testWidth > maxWidth && n > 0) {
+        axisContext.fillText(line, x, y)
+        line = words[n] + ' '
+        y += lineHeight
+      }
+      else {
+        line = testLine
+      }
+    }
+    axisContext.fillText(line, x, y)
   }
 
   const drawTexts = () => {
@@ -623,8 +665,8 @@ useEffect(() => {
         >
           <ModalContent style={{ zIndex: 2 }}>
             <ModalTitle>{getLanguage() === 'en' ? SETTING_VALUE_TITLEEng[currentSettingIndex] : SETTING_VALUE_TITLEFin[currentSettingIndex]}</ModalTitle>
-            <ModalInputValue value={inputValueModal} maxLength={20} onChange={onChangeInputModal} />
-            <ModalInputHint>{requestTranslation('max20Chars')}</ModalInputHint>
+            <ModalInputValue value={inputValueModal} maxLength={40} onChange={onChangeInputModal} />
+            <ModalInputHint>{requestTranslation('max40Chars')}</ModalInputHint>
 
             <ButtonModalActions>
               <button onClick={onCloseModal} className="btn btn-lg btn-plain-gray">{requestTranslation('cancel')}</button>

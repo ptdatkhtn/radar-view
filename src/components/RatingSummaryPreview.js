@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import AxisPreview from './AxisPreview'
 import { requestTranslation, getLanguage } from "@sangre-fp/i18n";
+import Tooltip from '@mui/material/Tooltip';
 
 const LABEL_WIDTH = 16
 
@@ -35,10 +36,18 @@ const AxisX = ({
         <tbody style={{ border: 'none' }}>
           <tr style={{ border: 'none' }}>
             <td style={{ ...cellStyle, textAlign: 'left' }}>
-              <div style={{ width: containerWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{leftEnd}</div>
+              <Tooltip 
+                  placement="bottom-start"
+                  title={leftEnd}>
+                  <div style={{ width: containerWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{leftEnd}</div>
+                </Tooltip>
             </td>
             <td style={{ ...cellStyle, textAlign: 'right' }}>
-              <div style={{ width: containerWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{rightEnd}</div>
+              <Tooltip 
+                      placement="bottom-end"
+                      title={rightEnd}>
+                      <div style={{ width: containerWidth / 2, overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{rightEnd}</div>
+                    </Tooltip>
             </td>
           </tr>
         </tbody>
@@ -48,7 +57,11 @@ const AxisX = ({
         <tbody style={{ border: 'none' }}>
           <tr style={{ ...cellStyle, border: 'none', fontSize: 16, fontWeight: 500 }}>
             <td style={{ ...cellStyle, textAlign: 'center', fontSize: 16, fontWeight: 500 }}>
-              <div style={{ width: containerWidth, overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{horizontalAxisName}</div>
+              <Tooltip 
+                    // placement="bottom-start"
+                    title={horizontalAxisName}>
+                    <div style={{ width: containerWidth, overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: 'L10' }}>{horizontalAxisName}</div>
+                  </Tooltip>
             </td>
           </tr>
         </tbody>
@@ -76,7 +89,12 @@ const AxisY = ({
         <tbody style={{ border: 'none' }}>
           <tr style={{ ...cellStyle, border: 'none', fontSize: 16, fontWeight: 500 }}>
             <td style={{ border: 'none' }}>
-              <div style={{ width: 18, writingMode: 'vertical-lr', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight, textAlign: 'center', fontFamily: 'L10' }}>{verticalAxisName}</div>
+            <Tooltip 
+                    placement="right"
+                    title={verticalAxisName}>
+                    <div style={{ width: 18, writingMode: 'vertical-lr', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight, textAlign: 'center', fontFamily: 'L10' }}>{verticalAxisName}</div>
+                  </Tooltip>
+              
             </td>
           </tr>
           
@@ -87,13 +105,21 @@ const AxisY = ({
         <tbody style={{ border: 'none' }}>
           <tr style={{ ...cellStyle, border: 'none' }}>
             <td style={{ border: 'none' }}>
-              <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 10, textAlign: 'right', fontFamily: 'L10' }}>{topEnd}</div>
+            <Tooltip 
+                    placement="top"
+                    title={topEnd}>
+                    <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 10, textAlign: 'right', fontFamily: 'L10' }}>{topEnd}</div>
+                  </Tooltip>
             </td>
           </tr>
 
           <tr style={{ ...cellStyle, border: 'none' }}>
             <td style={{ border: 'none' }}>
-              <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 10, textAlign: 'left', fontFamily: 'L10' }}>{lowEnd}</div>
+            <Tooltip 
+                    // placement="bottom-start"
+                    title={lowEnd}>
+                    <div style={{ width: 16, writingMode: 'vertical-rl', transform: 'rotate(180deg)', overflow: 'hidden', textOverflow: 'ellipsis', height: containerHeight / 2 - 10, textAlign: 'left', fontFamily: 'L10' }}>{lowEnd}</div>
+                  </Tooltip>
             </td>
           </tr>
           
@@ -134,11 +160,31 @@ const RatingSummaryPreview = ({
   }
 
   const drawText = ({ x, y, text }) => {
-    axisContext.font = 'italic 14px L10'
-    axisContext.strokeStyle = 'rgb(224, 222, 222)'
+    const lineHeight = 18
+    const maxWidth = containerWidth / 2
+    const words = text.split(' ')
+    let line = ''
+
+    axisContext.font = 'italic 15px L10'
     axisContext.fillStyle = 'rgb(224, 222, 222)'
     axisContext.textAlign = 'center'
-    axisContext.fillText(text, x, y)
+    // axisContext.fillText(text, x, y)
+
+    for(let n = 0; n < words.length; n++) {
+      const testLine = line + words[n] + ' '
+      const metrics = axisContext.measureText(testLine)
+      const testWidth = metrics.width
+      if (testWidth > maxWidth && n > 0) {
+        axisContext.fillText(line, x, y)
+        line = words[n] + ' '
+        y += lineHeight
+      }
+      else {
+        line = testLine
+      }
+    }
+    axisContext.fillText(line, x, y)
+
   }
 
   const drawTexts = () => {

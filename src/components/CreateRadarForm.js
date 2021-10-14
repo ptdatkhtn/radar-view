@@ -538,14 +538,12 @@ class CreateRadarForm extends PureComponent {
             getRadarSets()
         }
 
-        
         this.props.handleNextClickTriggered(this.handleNextClick)
 
         sessionStorage.removeItem('chartData')
         sessionStorage.removeItem('old-data-edit-manually')
-      
+        sessionStorage.removeItem('old-inputFieldChanged')
         sessionStorage.setItem('state', JSON.stringify({ ...this.state}))
-
 
         if (!axisYTitle) {
             this.setState({axisYTitle: requestTranslation('verticalAxisName')})
