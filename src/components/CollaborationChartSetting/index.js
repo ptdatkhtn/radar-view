@@ -292,7 +292,7 @@ React.useEffect(() => {
 }, [isFieldChange, setIsFieldChange])
 
   const onCloseModal = () => {
-    const oldData = JSON.parse(localStorage.getItem('old-inputFieldChanged'))
+    const oldData = JSON.parse(sessionStorage.getItem('old-inputFieldChanged'))
 
     // Identifying which key is changed
     let keyFieldChanged = null
@@ -328,8 +328,8 @@ React.useEffect(() => {
   }
 
   const onEditSetting = (value) => {
-    const currentData = JSON.parse(localStorage.getItem('chartData'))
-    localStorage.setItem('old-inputFieldChanged', JSON.stringify({
+    const currentData = JSON.parse(sessionStorage.getItem('chartData'))
+    sessionStorage.setItem('old-inputFieldChanged', JSON.stringify({
       ...currentData
     }));
 
@@ -373,7 +373,7 @@ React.useEffect(() => {
 
 
 useEffect(() => {
-  localStorage.setItem('chartData', JSON.stringify({
+  sessionStorage.setItem('chartData', JSON.stringify({
     leftEndValue, 
     rightEndValue, 
     topEndValue, 
@@ -390,17 +390,17 @@ useEffect(() => {
     isVerticalEdit
   }));
 
-  const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
-    localStorage.setItem('old-data-edit-manually', JSON.stringify({...retrievedObject}))
+  const retrievedObject = JSON.parse(sessionStorage.getItem('chartData'))
+  sessionStorage.setItem('old-data-edit-manually', JSON.stringify({...retrievedObject}))
 
     return () => {
-        localStorage.removeItem('old-data-edit-manually')
+      sessionStorage.removeItem('old-data-edit-manually')
     }
 }, [])
 
 
   useEffect (() => {
-    localStorage.setItem('chartData', JSON.stringify({
+    sessionStorage.setItem('chartData', JSON.stringify({
       leftEndValue, 
       rightEndValue, 
       topEndValue, 
@@ -434,7 +434,7 @@ useEffect(() => {
   ])
 
   useEffect (() => {
-    const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+    const retrievedObject = JSON.parse(sessionStorage.getItem('chartData'))
 
     setState(prevState => {
       return {
@@ -636,8 +636,8 @@ useEffect(() => {
             ConfirmationModalNote= {requestTranslation('closeCollabToolNote')}
             confirmationModal={openCofirmationModalForEachField}
             yesConfirmationHandleBtn={() => {
-              const oldDataStorage = JSON.parse(localStorage.getItem('old-data-edit-manually'))
-              localStorage.setItem('chartData', JSON.stringify({...oldDataStorage}))
+              const oldDataStorage = JSON.parse(sessionStorage.getItem('old-data-edit-manually'))
+              sessionStorage.setItem('chartData', JSON.stringify({...oldDataStorage}))
               closeCofirmationModalForEachFieldHandle()
               setState(prevState => {
                 return {

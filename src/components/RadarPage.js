@@ -791,8 +791,8 @@ class RadarPage extends PureComponent {
         const { openCofirmationModalCollabTool } = this.state
         
         const openCofirmationModalCollabToolHandle = () => {
-            const currentStates = JSON.parse(localStorage.getItem('state'))
-                const chartData = JSON.parse(localStorage.getItem('chartData'))
+            const currentStates = JSON.parse(sessionStorage.getItem('state'))
+                const chartData = JSON.parse(sessionStorage.getItem('chartData'))
 
             if (!this.props.radarSettings.ratingsOn) {
                 if ((this.props.radarSettings.displayHaloWhenRating !== currentStates.displayHaloWhenRating)
@@ -852,8 +852,8 @@ class RadarPage extends PureComponent {
                 }
             }
             else {
-                const currentStates = JSON.parse(localStorage.getItem('state'))
-                const chartData = JSON.parse(localStorage.getItem('chartData'))
+                const currentStates = JSON.parse(sessionStorage.getItem('state'))
+                const chartData = JSON.parse(sessionStorage.getItem('chartData'))
                 let fourFieldsBottomLeft = chartData ? String(chartData?.bottomLeftValue): String(currentStates.fourFieldsBottomLeft)
                 let fourFieldsBottomRight = chartData ? String(chartData?.bottomRightValue): String(currentStates.fourFieldsBottomRight)
                 let fourFieldsTopLeft = chartData ? String(chartData?.topLeftValue): String(currentStates.fourFieldsTopLeft)

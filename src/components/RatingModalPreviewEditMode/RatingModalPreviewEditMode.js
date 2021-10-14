@@ -106,8 +106,8 @@ const  RatingModalPreviewEditMode = ({
         const [isFieldChange, setIsFieldChange] = React.useState(false)
 
         const isFieldChangeChecked = () => {
-            const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
-            const oldData = JSON.parse(localStorage.getItem('old-data-edit-manually'))
+            const retrievedObject = JSON.parse(sessionStorage.getItem('chartData'))
+            const oldData = JSON.parse(sessionStorage.getItem('old-data-edit-manually'))
 
             let bottomLeft = oldData ? String(oldData?.bottomLeftValue): String(dataOriginal.fourFieldsBottomLeft)
             let bottomRight = oldData ? String(oldData?.bottomRightValue): String(dataOriginal.fourFieldsBottomRight)
@@ -184,7 +184,7 @@ const  RatingModalPreviewEditMode = ({
         const handleBothClickedDoneAndPassCheckedCustomData = async(isVertical, isHorizontal) => {
             passCheckedCustomData(isVertical, isHorizontal)
             // Retrieve the object from storage
-            const retrievedObject = await localStorage.getItem('chartData');
+            const retrievedObject = await sessionStorage.getItem('chartData');
             retrievedObject && emitFlagToRefetchDataOfChart(JSON.parse(retrievedObject));
             handleRatingPreviewEditModeClose()
         }
@@ -209,7 +209,7 @@ const  RatingModalPreviewEditMode = ({
         }
 
         const handleDisplayVericalAxisRatingChangeOnRatingModalPreviewEditMode = ({value}) => {
-            const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+            const retrievedObject = JSON.parse(sessionStorage.getItem('chartData'))
                     const {
                         leftEndValue, 
                         rightEndValue, 
@@ -233,7 +233,7 @@ const  RatingModalPreviewEditMode = ({
                     setYname('Custom')
                     setaxisYSelect('Custom')
 
-                    localStorage.setItem('chartData', JSON.stringify({
+                    sessionStorage.setItem('chartData', JSON.stringify({
                         leftEndValue, 
                         rightEndValue, 
                         horizontalAxisNameValue,
@@ -260,7 +260,7 @@ const  RatingModalPreviewEditMode = ({
                     setIsCustomVertical(false)
                     handleDisplayVericalAxisRatingChange({value}, false)
 
-                    localStorage.setItem('chartData', JSON.stringify({
+                    sessionStorage.setItem('chartData', JSON.stringify({
                         leftEndValue, 
                         rightEndValue, 
                         horizontalAxisNameValue,
@@ -290,7 +290,7 @@ const  RatingModalPreviewEditMode = ({
 
                     
 
-                    localStorage.setItem('chartData', JSON.stringify({
+                    sessionStorage.setItem('chartData', JSON.stringify({
                         leftEndValue, 
                         rightEndValue, 
                         horizontalAxisNameValue,
@@ -316,7 +316,7 @@ const  RatingModalPreviewEditMode = ({
                     setIsCustomVertical(false)
                     handleDisplayVericalAxisRatingChange({value}, false)
 
-                    localStorage.setItem('chartData', JSON.stringify({
+                    sessionStorage.setItem('chartData', JSON.stringify({
                         leftEndValue, 
                         rightEndValue, 
                         horizontalAxisNameValue,
@@ -356,7 +356,7 @@ const  RatingModalPreviewEditMode = ({
         }
 
         const handleDisplayHorizontalAxisRatingChangeOnRatingModalPreviewEditMode = ({value}) => {
-            const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+            const retrievedObject = JSON.parse(sessionStorage.getItem('chartData'))
                     const {
                         topEndValue, 
                         lowEndValue, 
@@ -380,7 +380,7 @@ const  RatingModalPreviewEditMode = ({
                     setaxisXSelect('Custom')
                     handleDisplayHorizontalAxisRatingChange({value}, true)
 
-                    localStorage.setItem('chartData', JSON.stringify({
+                    sessionStorage.setItem('chartData', JSON.stringify({
                         topEndValue, 
                         lowEndValue, 
                         verticalAxisNameValue,
@@ -407,7 +407,7 @@ const  RatingModalPreviewEditMode = ({
                     setIsCustomHorozol(false)
                     handleDisplayHorizontalAxisRatingChange({value}, false)
 
-                    localStorage.setItem('chartData', JSON.stringify({
+                    sessionStorage.setItem('chartData', JSON.stringify({
                         topEndValue, 
                         lowEndValue, 
                         verticalAxisNameValue,
@@ -436,7 +436,7 @@ const  RatingModalPreviewEditMode = ({
                     setaxisXSelect('Muokattu')
                     handleDisplayHorizontalAxisRatingChange({value}, true)
 
-                    localStorage.setItem('chartData', JSON.stringify({
+                    sessionStorage.setItem('chartData', JSON.stringify({
                         topEndValue, 
                         lowEndValue, 
                         verticalAxisNameValue,
@@ -462,7 +462,7 @@ const  RatingModalPreviewEditMode = ({
                     setIsCustomHorozol(false)
                     handleDisplayHorizontalAxisRatingChange({value}, false)
 
-                    localStorage.setItem('chartData', JSON.stringify({
+                    sessionStorage.setItem('chartData', JSON.stringify({
                         topEndValue, 
                         lowEndValue, 
                         verticalAxisNameValue,
@@ -493,7 +493,7 @@ const  RatingModalPreviewEditMode = ({
                 await ratingApi.changeFlipAxis(groupid, radarid, {isFlip: true})
             }
 
-            const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+            const retrievedObject = JSON.parse(sessionStorage.getItem('chartData'))
             const {
                     leftEndValue, 
                     rightEndValue, 
@@ -511,7 +511,7 @@ const  RatingModalPreviewEditMode = ({
                     isVerticalEdit
             } = retrievedObject
 
-            localStorage.setItem('chartData', JSON.stringify({
+            sessionStorage.setItem('chartData', JSON.stringify({
                 leftEndValue: lowEndValue, 
                 rightEndValue: topEndValue, 
                 topEndValue: rightEndValue, 
@@ -813,8 +813,8 @@ const  RatingModalPreviewEditMode = ({
                                 ConfirmationModalNote= {requestTranslation('closeCollabToolNote')}
                                 confirmationModal={openCofirmationModalForRatingEditMode}
                                 yesConfirmationHandleBtn={() => {
-                                    const oldDataStorage = JSON.parse(localStorage.getItem('old-data-edit-manually'))
-                                    localStorage.setItem('chartData', JSON.stringify({...oldDataStorage}))
+                                    const oldDataStorage = JSON.parse(sessionStorage.getItem('old-data-edit-manually'))
+                                    sessionStorage.setItem('chartData', JSON.stringify({...oldDataStorage}))
                                     
                                     handleRatingPreviewEditModeClose()
                                     closeCofirmationModalForRatingEditModeHandle() // close confirmation small Modal

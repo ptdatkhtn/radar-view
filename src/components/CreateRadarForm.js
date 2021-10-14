@@ -541,10 +541,10 @@ class CreateRadarForm extends PureComponent {
         
         this.props.handleNextClickTriggered(this.handleNextClick)
 
-        localStorage.removeItem('chartData')
-        localStorage.removeItem('old-data-edit-manually')
+        sessionStorage.removeItem('chartData')
+        sessionStorage.removeItem('old-data-edit-manually')
       
-        localStorage.setItem('state', JSON.stringify({ ...this.state}))
+        sessionStorage.setItem('state', JSON.stringify({ ...this.state}))
 
 
         if (!axisYTitle) {
@@ -720,8 +720,8 @@ class CreateRadarForm extends PureComponent {
     componentWillUnmount() {
         if (window) {
             window.removeEventListener("resize", this.handleResize);
-            localStorage.removeItem('chartData')
-            localStorage.removeItem('old-data-edit-manually')
+            sessionStorage.removeItem('chartData')
+            sessionStorage.removeItem('old-data-edit-manually')
         }
     }
 
@@ -839,18 +839,18 @@ class CreateRadarForm extends PureComponent {
     }
     handleDisplayHaloWhenRatingChange = ({ value }) => {
         this.setState({ displayHaloWhenRating: value }, () => {
-            localStorage.setItem('state', JSON.stringify({ ...this.state}))
+            sessionStorage.setItem('state', JSON.stringify({ ...this.state}))
         })
     }
     handleGroupChange = ({ value }) => this.setState({ group: value }, () => this.validateGroup())
     handleDiscussionOnChange = () => {
         this.setState({ discussionOn: !this.state.discussionOn }, () => {
-            localStorage.setItem('state', JSON.stringify({ ...this.state}))
+            sessionStorage.setItem('state', JSON.stringify({ ...this.state}))
         })
     }
     handleVotingOnChange = () => {
         this.setState({ votingOn: !this.state.votingOn }, () => {
-            localStorage.setItem('state', JSON.stringify({ ...this.state}))
+            sessionStorage.setItem('state', JSON.stringify({ ...this.state}))
         })
         
     }
@@ -863,7 +863,7 @@ class CreateRadarForm extends PureComponent {
                 this.setState({ 
                     displayHaloWhenRating: 999
                 }, () => {
-                    localStorage.setItem('state', JSON.stringify({...this.state}))
+                    sessionStorage.setItem('state', JSON.stringify({...this.state}))
                 })
             }
         })
@@ -872,12 +872,12 @@ class CreateRadarForm extends PureComponent {
     }
     handleRatingsOnChange = () => {
         this.setState({ ratingsOn: !this.state.ratingsOn }, () => {
-            localStorage.setItem('state', JSON.stringify({...this.state}))
+            sessionStorage.setItem('state', JSON.stringify({...this.state}))
         })
     }
-    handleLikingOnChange = () => this.setState({ likingOn: !this.state.likingOn }, () => localStorage.setItem('state', JSON.stringify({...this.state})))
-    handleCommentsOnChange = () => this.setState({ commentsOn: !this.state.commentsOn }, () => localStorage.setItem('state', JSON.stringify({...this.state})))
-    handleVotingSelection = () => this.setState({ votingUp: !this.state.votingUp }, ()=> localStorage.setItem('state', JSON.stringify({...this.state})))
+    handleLikingOnChange = () => this.setState({ likingOn: !this.state.likingOn }, () => sessionStorage.setItem('state', JSON.stringify({...this.state})))
+    handleCommentsOnChange = () => this.setState({ commentsOn: !this.state.commentsOn }, () => sessionStorage.setItem('state', JSON.stringify({...this.state})))
+    handleVotingSelection = () => this.setState({ votingUp: !this.state.votingUp }, ()=> sessionStorage.setItem('state', JSON.stringify({...this.state})))
     handleHideUsersFromTrialClick = () =>
         this.setState({ hideUsersFromTrial: !this.state.hideUsersFromTrial })
 
@@ -1183,8 +1183,8 @@ class CreateRadarForm extends PureComponent {
         // }
         // label: i.label, value: i.title
         const handleDisplayVericalAxisRatingChange = ({ value }, isCustom) => {
-            if (localStorage.getItem('chartData')) {
-                const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+            if (sessionStorage.getItem('chartData')) {
+                const retrievedObject = JSON.parse(sessionStorage.getItem('chartData'))
                     const {
                         leftEndValue, 
                         rightEndValue, 
@@ -1209,7 +1209,7 @@ class CreateRadarForm extends PureComponent {
                         axisYMax: 'Y',
                     })
 
-                    localStorage.setItem('chartData', JSON.stringify({
+                    sessionStorage.setItem('chartData', JSON.stringify({
                         leftEndValue, 
                         rightEndValue, 
                         horizontalAxisNameValue,
@@ -1236,7 +1236,7 @@ class CreateRadarForm extends PureComponent {
                         axisYMax: i.rightAttr,
                     })
 
-                    localStorage.setItem('chartData', JSON.stringify({
+                    sessionStorage.setItem('chartData', JSON.stringify({
                         leftEndValue, 
                         rightEndValue, 
                         horizontalAxisNameValue,
@@ -1263,7 +1263,7 @@ class CreateRadarForm extends PureComponent {
                         axisYMax: 'Y',
                     })
 
-                    localStorage.setItem('chartData', JSON.stringify({
+                    sessionStorage.setItem('chartData', JSON.stringify({
                         leftEndValue, 
                         rightEndValue, 
                         horizontalAxisNameValue,
@@ -1289,7 +1289,7 @@ class CreateRadarForm extends PureComponent {
                         axisYMax: i.rightAttr,
                     })
 
-                    localStorage.setItem('chartData', JSON.stringify({
+                    sessionStorage.setItem('chartData', JSON.stringify({
                         leftEndValue, 
                         rightEndValue, 
                         horizontalAxisNameValue,
@@ -1319,7 +1319,7 @@ class CreateRadarForm extends PureComponent {
                             axisYMin: 'X',
                             axisYMax: 'Y',
                         }, () => {
-                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
+                            sessionStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                         return true
                     }
@@ -1330,7 +1330,7 @@ class CreateRadarForm extends PureComponent {
                             axisYMin: i.leftAttr,
                             axisYMax: i.rightAttr,
                         }, () => {
-                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
+                            sessionStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                     }
                 }) :
@@ -1342,7 +1342,7 @@ class CreateRadarForm extends PureComponent {
                             axisYMin: 'X',
                             axisYMax: 'Y',
                         }, () => {
-                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
+                            sessionStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                         return true
                     }
@@ -1353,7 +1353,7 @@ class CreateRadarForm extends PureComponent {
                             axisYMin: i.leftAttr,
                             axisYMax: i.rightAttr,
                         }, () => {
-                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
+                            sessionStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                     }
                 }))
@@ -1363,8 +1363,8 @@ class CreateRadarForm extends PureComponent {
 
 
         const handleDisplayHorizontalAxisRatingChange = ({ value }, isCustom) => {
-            if (localStorage.getItem('chartData')) {
-                    const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+            if (sessionStorage.getItem('chartData')) {
+                    const retrievedObject = JSON.parse(sessionStorage.getItem('chartData'))
                         const {
                             topEndValue, 
                             lowEndValue,
@@ -1389,7 +1389,7 @@ class CreateRadarForm extends PureComponent {
                             axisXMax: 'Y',
                         })
 
-                        localStorage.setItem('chartData', JSON.stringify({
+                        sessionStorage.setItem('chartData', JSON.stringify({
                             topEndValue, 
                             lowEndValue, 
                             verticalAxisNameValue,
@@ -1416,7 +1416,7 @@ class CreateRadarForm extends PureComponent {
                             axisXMax: i.rightAttr,
                         })
 
-                        localStorage.setItem('chartData', JSON.stringify({
+                        sessionStorage.setItem('chartData', JSON.stringify({
                             topEndValue, 
                             lowEndValue, 
                             verticalAxisNameValue,
@@ -1444,7 +1444,7 @@ class CreateRadarForm extends PureComponent {
                             axisXMax: 'Y',
                         })
 
-                        localStorage.setItem('chartData', JSON.stringify({
+                        sessionStorage.setItem('chartData', JSON.stringify({
                             topEndValue, 
                             lowEndValue, 
                             verticalAxisNameValue,
@@ -1471,7 +1471,7 @@ class CreateRadarForm extends PureComponent {
                             axisXMax: i.rightAttr,
                         })
 
-                        localStorage.setItem('chartData', JSON.stringify({
+                        sessionStorage.setItem('chartData', JSON.stringify({
                             topEndValue, 
                             lowEndValue, 
                             verticalAxisNameValue,
@@ -1502,7 +1502,7 @@ class CreateRadarForm extends PureComponent {
                             axisXMin: 'X',
                             axisXMax: 'Y',
                         }, () => {
-                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
+                            sessionStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                         return true
                     }
@@ -1513,7 +1513,7 @@ class CreateRadarForm extends PureComponent {
                             axisXMin: i.leftAttr,
                             axisXMax: i.rightAttr,
                         }, () => {
-                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
+                            sessionStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                     }
                 }) :
@@ -1525,7 +1525,7 @@ class CreateRadarForm extends PureComponent {
                             axisXMin: 'X',
                             axisXMax: 'Y',
                         }, () => {
-                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
+                            sessionStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                         return true
                     }
@@ -1536,7 +1536,7 @@ class CreateRadarForm extends PureComponent {
                             axisXMin: i.leftAttr,
                             axisXMax: i.rightAttr,
                         }, () => {
-                            localStorage.setItem('state', JSON.stringify({ ...this.state}))
+                            sessionStorage.setItem('state', JSON.stringify({ ...this.state}))
                         })
                     }
                 }))
@@ -1544,7 +1544,7 @@ class CreateRadarForm extends PureComponent {
     }
 
     const syncChartData = () => {
-        const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+        const retrievedObject = JSON.parse(sessionStorage.getItem('chartData'))
         if (retrievedObject) {
             const {
                 leftEndValue, 
@@ -1591,7 +1591,7 @@ class CreateRadarForm extends PureComponent {
             await ratingApi.changeFlipAxis(this.props.group.id, this.props['radar_id'], {isFlip: true})
         }
         
-        const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
+        const retrievedObject = JSON.parse(sessionStorage.getItem('chartData'))
            if (retrievedObject) {
                 const {
                     leftEndValue, 
@@ -1610,7 +1610,7 @@ class CreateRadarForm extends PureComponent {
                     isVerticalEdit
                 } = retrievedObject
 
-                localStorage.setItem('chartData', JSON.stringify({
+                sessionStorage.setItem('chartData', JSON.stringify({
                     leftEndValue: lowEndValue, 
                     rightEndValue: topEndValue, 
                     topEndValue: rightEndValue, 
@@ -1655,7 +1655,7 @@ class CreateRadarForm extends PureComponent {
                 axisXSelect: axisYSelect,
                 axisYSelect: axisXSelect
             }, () => {
-                localStorage.setItem('state', JSON.stringify({ ...this.state}))
+                sessionStorage.setItem('state', JSON.stringify({ ...this.state}))
             })
         }
     }
@@ -1724,8 +1724,8 @@ class CreateRadarForm extends PureComponent {
             openRatingModalEditMode: true
         })
 
-        const retrievedObject = JSON.parse(localStorage.getItem('chartData'))
-        localStorage.setItem('old-data-edit-manually', JSON.stringify({...retrievedObject}))
+        const retrievedObject = JSON.parse(sessionStorage.getItem('chartData'))
+        sessionStorage.setItem('old-data-edit-manually', JSON.stringify({...retrievedObject}))
     }
 
     const closeRatingModalEditModeModal = () => {
@@ -1752,10 +1752,10 @@ class CreateRadarForm extends PureComponent {
             isCustomHorozol: false,
             isCustomVertical: false
         }, () => {
-            localStorage.setItem('state', JSON.stringify({ ...this.state}))
+            sessionStorage.setItem('state', JSON.stringify({ ...this.state}))
         })
-        if (localStorage.getItem('chartData') !== null)
-            localStorage.removeItem('chartData')
+        if (sessionStorage.getItem('chartData') !== null)
+            sessionStorage.removeItem('chartData')
         
     }
 
@@ -1779,7 +1779,7 @@ class CreateRadarForm extends PureComponent {
             isCustomVertical: false
         })
 
-        localStorage.setItem('chartData', JSON.stringify({
+        sessionStorage.setItem('chartData', JSON.stringify({
             leftEndValue: requestTranslation('leftEnd'), 
             rightEndValue: requestTranslation('rightEnd'), 
             topEndValue: requestTranslation('highEnd'), 
