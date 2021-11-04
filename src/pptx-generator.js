@@ -7,7 +7,8 @@ import htmlToText from 'html-to-text'
 import { getRadarPhenomena } from '@sangre-fp/connectors/phenomena-api'
 import { get } from 'lodash'
 import { screenshot } from '@sangre-fp/connectors/screenshot-service-api'
-export default async function generatePPTX(radarId, groupId) {
+import { ratingApi } from './helpers/fetcher';
+export default async function generatePPTX(radarId, groupId, isFlipFlag) {
   const pptx = new PptxGenJS()
   const username = getUsername()
   const reportCreatedDate = new Date()
@@ -184,7 +185,7 @@ export default async function generatePPTX(radarId, groupId) {
     }
   }
 
-  function addRatedContentAxisSlide(xPhenomena, yPhenomena) {
+  async function addRatedContentAxisSlide(xPhenomena, yPhenomena) {
     const slide = addSlide()
     addHeading(radarName, slide)
     addTitle(tr('pptxRatedContent'), slide)
@@ -193,10 +194,23 @@ export default async function generatePPTX(radarId, groupId) {
     [xPhenomena, yPhenomena].forEach(({ title, axis, phenomena }) => {
       slide.addText(title, { x: xOffset, y: 1.4, fontSize: 18, w: 13, h: 0.35, bold: true })
       const rows = phenomena.map(({ content: { short_title, title, type }, rating_avg }) => {
+        let convert_rating_avg_afterFlipping = {}
+        if (!!isFlipFlag) {
+          const z = rating_avg?.x
+          const x = rating_avg?.y
+          const y = z
+
+          convert_rating_avg_afterFlipping = {
+            x: +x,
+            y: +y
+          }
+        } else if (!isFlipFlag) {
+          convert_rating_avg_afterFlipping = rating_avg
+        }
         return [
           { text: short_title || title, options: { bold: true } },
           { text: `${phenomenonTypeTitlesById[type]}` },
-          { text: rating_avg && typeof rating_avg[axis] === 'number' ? (rating_avg[axis] / 100).toFixed(2) : '-' }
+          { text: convert_rating_avg_afterFlipping && typeof convert_rating_avg_afterFlipping[axis] === 'number' ? (convert_rating_avg_afterFlipping[axis] / 100).toFixed(2) : '-' }
         ]
 
         }

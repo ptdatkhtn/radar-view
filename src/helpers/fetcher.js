@@ -60,5 +60,5 @@ export const ratingApi = {
     },
     changeFlipAxisAfterSaved: async (gid, radarId, payload) => {
         return await httpRequestCustom(baseUrl, 'POST', `meta/rating/${gid}/radar/${radarId}/flipAxisAfterSaved/`, payload)
-    }
+    },
 }

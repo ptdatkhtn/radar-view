@@ -14,6 +14,7 @@ import {
 import { handleImageUploadIfNeeded } from '@sangre-fp/connectors/media-api'
 import { getPhenomenaTypes } from './phenomenaTypes'
 import generatePPTX from '../pptx-generator'
+import { ratingApi } from '../helpers/fetcher';
 
 export const updateRadarVersion = version => ({
     type: actionTypes.UPDATE_RADAR_VERSION,
@@ -337,7 +338,7 @@ export const addPublicPhenomenaToRadar = (phenomenon, callback) => (dispatch, ge
     callback(_.find(getState().phenomena, { id }))
 }
 
-export const generatePowerpoint = (id, groupId) => (dispatch, getState) => {
+export const generatePowerpoint = (id, groupId) => async (dispatch, getState) => {
     const { loading, success, error } = getNetworkMethods(
         actionTypes.GENERATE_POWERPOINT,
         actionTypes.GENERATE_POWERPOINT_SUCCESS,
@@ -346,7 +347,10 @@ export const generatePowerpoint = (id, groupId) => (dispatch, getState) => {
 
     dispatch(loading())
 
-    return generatePPTX(id, groupId)
+    const isFlipAxis = await ratingApi.getFlipAxisAfterSaved(groupId, id)
+    const isFlipFlag = isFlipAxis?.data?.isFlip || false
+    return generatePPTX(id, groupId, isFlipFlag)
+
         .then(() => dispatch(success()))
         .catch(err => dispatch(error(err)))
 }
