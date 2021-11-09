@@ -996,7 +996,11 @@ class CreateRadarForm extends PureComponent {
         } = this.state
 
         const getDataChangeFlip = await ratingApi.getFlipAxis( this.props.group.id, this.props['radar_id'])
-        await ratingApi.changeFlipAxisAfterSaved( this.props.group.id, this.props['radar_id'], {'isFlip': getDataChangeFlip?.data.isFlip})
+        const old_axis = JSON.parse(sessionStorage.getItem('old-axis'))
+        await ratingApi.changeFlipAxisAfterSaved( this.props.group.id, this.props['radar_id'], {
+            'isFlip': getDataChangeFlip?.data.isFlip,
+            'old_axis': old_axis
+        })
 
         if (this.validate()) {
             // todo make these in a pagely manner:)

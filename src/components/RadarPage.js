@@ -788,6 +788,13 @@ class RadarPage extends PureComponent {
                 id,
             }
         } = this.props
+        
+        const oldAxis = {
+            xAxisName: this.props.radarSettings.axisXTitle,
+            yAxisName: this.props.radarSettings.axisYTitle
+        }
+
+        sessionStorage.setItem('old-axis', JSON.stringify({ ...oldAxis}))
         const { openCofirmationModalCollabTool } = this.state
         
         const openCofirmationModalCollabToolHandle = () => {
