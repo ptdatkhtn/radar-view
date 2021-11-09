@@ -47,18 +47,16 @@ export default {
 }
 
 export const ratingApi = {
-    //delete all votes from all phenomenon by radarId
     getFlipAxis : async (gid, radarId) => {
         return await httpRequestCustom(baseUrl, 'GET', `meta/rating/${gid}/radar/${radarId}/flipaxis/`)
     },
     getFlipAxisAfterSaved : async (gid, radarId) => {
-        return await httpRequestCustom(baseUrl, 'GET', `meta/rating/${gid}/radar/${radarId}/flipAxisAfterSaved/`)
+        return await httpRequestCustom(baseUrl, 'GET', `meta/${gid}/radar/${radarId}/`)
     },
-    //add hidden phenomennon of radar
     changeFlipAxis: async (gid, radarId, payload) => {
         return await httpRequestCustom(baseUrl, 'POST', `meta/rating/${gid}/radar/${radarId}/flipaxis/`, payload)
     },
     changeFlipAxisAfterSaved: async (gid, radarId, payload) => {
-        return await httpRequestCustom(baseUrl, 'POST', `meta/rating/${gid}/radar/${radarId}/flipAxisAfterSaved/`, payload)
+        return await httpRequestCustom(baseUrl, 'POST', `meta/${gid}/radar/${radarId}/`, payload)
     },
 }
