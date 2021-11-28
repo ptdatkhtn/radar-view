@@ -9,10 +9,11 @@ export default connect(
                 group
             }
         } = state
-
+        const isRadar = true
         return {
             phenomena,
-            group
+            group,
+            isRadar
         }
     }
 )(PhenomenaSelector)
