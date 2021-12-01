@@ -102,7 +102,7 @@ export const Filters = props => {
                     </Container>
                     <Container style={{padding: '15px 10px'}}>
                         <h5 className='mb-2 mt-1 ml-2'>{requestTranslation('filterByTag')}</h5>
-                        {renderTags([...groupTags, ...fpTags])}
+                        {groupTags ? renderTags([...groupTags, ...fpTags]) : renderTags([...fpTags])}
                     </Container>
                     <Container>
                         <h5 className='mb-3 mt-1'>{requestTranslation('filterByType')}</h5>
