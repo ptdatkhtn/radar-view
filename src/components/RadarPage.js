@@ -82,6 +82,12 @@ class RadarPage extends PureComponent {
                 // work around to hide the Cookie white bar when embedded radar to another website
                     if (existingRadarPage) {
                         fetchRadar()
+                        // const cookieBar = document.getElementById('onetrust-accept-btn-handler')
+                        // if (!cookieBar) {
+                        //     localStorage.setItem('is-cookie-bar', false)
+                        // } else {
+                        //     localStorage.setItem('is-cookie-bar', true)
+                        // }
                     }
                 }
             )
@@ -94,7 +100,7 @@ class RadarPage extends PureComponent {
         if (this.shouldRadarRender() && !this.shouldRadarRender(prevProps)) {
             this.attachEvents()
         }
-        
+
         const ancestorOriginsForEmbededRadar = (window?.location.ancestorOrigins.length > 0 
             && typeof window?.location.ancestorOrigins[0] === 'string') ? true : false
         if (String(window?.location?.host) === 'go2.futuresplatform.com' 

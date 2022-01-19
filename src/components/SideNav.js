@@ -218,7 +218,11 @@ class SideNav extends PureComponent {
         this.setState({sharingModalOpen: true})
 
     }
-    
+
+    sleep  = (time) => {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+
     render() {
         const params = new URLSearchParams(window.location.search)
         let returnId = params.get('ret_id')
@@ -436,19 +440,31 @@ class SideNav extends PureComponent {
                             </button>
                             <button className='btn btn-lg btn-primary'
                                     onClick={() => {
-                                        var elementExists = document?.getElementById("onetrust-banner-sdk")
-                                        if(!!elementExists && !!elementExists?.style) {
-                                            elementExists.style.display = "none !important"
-                                            elementExists.style.opacity = 0
-                                        }
-                                        this.setState({generatingModalOpen: false})
-                                        generatePowerpoint(id, groupId)
-                                        setTimeout(() => {
-                                            if(!!elementExists && !!elementExists?.style){
-                                                elementExists.style.display = "block !important"
-                                                elementExists.style.opacity = 1
+                                        try {
+                                            const a = document?.getElementById('onetrust-accept-btn-handler')
+                                            const wrapperCookieBar = document.getElementById("onetrust-banner-sdk") ?? null;
+                                            const heightOfWrapperCookieBar = window.getComputedStyle(wrapperCookieBar, null).getPropertyValue('height') ?? null
+                                            if (!!a && !!heightOfWrapperCookieBar && String(heightOfWrapperCookieBar) !== '0px') { 
+                                                a.click()
+                                                localStorage.setItem('is-user-clicked', false)
+                                                
+
+                                                
+                                                this.sleep(25000).then(() => {
+                                                    if(!!document) {
+                                                        document.cookie = 'OptanonAlertBoxClosed' + '=; Max-Age=0'
+                                                    }     
+                                                    else if (!!window){
+                                                        window.cookie = 'OptanonAlertBoxClosed' + '=; Max-Age=0'
+                                                    }
+                                                });
+    
                                             }
-                                        }, 35000)
+                                            this.setState({generatingModalOpen: false})
+                                            generatePowerpoint(id, groupId)
+                                        } catch (error) {
+                                            
+                                        }
                                     }}>
                                 {requestTranslation('download')}
                             </button>

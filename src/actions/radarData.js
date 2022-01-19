@@ -346,17 +346,10 @@ export const generatePowerpoint = (id, groupId) => async (dispatch, getState) =>
     )
 
     dispatch(loading())
-
-    var elementExists = document?.getElementById("onetrust-banner-sdk")
-    if(!!elementExists && !!elementExists?.style) {
-        elementExists.style.display = "none !important"
-        elementExists.style.opacity = 0
-    }
     
     const isFlipAxis = await ratingApi.getFlipAxisAfterSaved(groupId, id)
     const isFlipFlag = isFlipAxis?.data?.isFlip || false
     return generatePPTX(id, groupId, isFlipFlag)
-
         .then(() => dispatch(success()))
         .catch(err => dispatch(error(err)))
 }
