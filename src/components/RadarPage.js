@@ -80,6 +80,16 @@ class RadarPage extends PureComponent {
 
         getUserGroups()
             .then(() => {
+                // work around to hide the Cookie white bar when embedded radar to another website
+                if (String(window?.location?.host) !== 'go2.futuresplatform.com' || String(window?.location?.host) !== 'access.futuresplatform.com') {
+                    try {
+                        var elementExists = document?.getElementById("onetrust-banner-sdk")
+                        elementExists.style.display = "none !important"
+                        elementExists.style.opacity = 0
+                    } catch (error) {
+                        
+                    }
+                }
                     if (existingRadarPage) {
                         fetchRadar()
                     }
