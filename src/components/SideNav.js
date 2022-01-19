@@ -436,8 +436,19 @@ class SideNav extends PureComponent {
                             </button>
                             <button className='btn btn-lg btn-primary'
                                     onClick={() => {
+                                        var elementExists = document?.getElementById("onetrust-banner-sdk")
+                                        if(!!elementExists && !!elementExists?.style) {
+                                            elementExists.style.display = "none !important"
+                                            elementExists.style.opacity = 0
+                                        }
                                         this.setState({generatingModalOpen: false})
                                         generatePowerpoint(id, groupId)
+                                        setTimeout(() => {
+                                            if(!!elementExists && !!elementExists?.style){
+                                                elementExists.style.display = "block !important"
+                                                elementExists.style.opacity = 1
+                                            }
+                                        }, 35000)
                                     }}>
                                 {requestTranslation('download')}
                             </button>

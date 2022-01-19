@@ -77,19 +77,9 @@ class RadarPage extends PureComponent {
             }
         } = this.props
 
-
         getUserGroups()
             .then(() => {
                 // work around to hide the Cookie white bar when embedded radar to another website
-                if (String(window?.location?.host) !== 'go2.futuresplatform.com' || String(window?.location?.host) !== 'access.futuresplatform.com') {
-                    try {
-                        var elementExists = document?.getElementById("onetrust-banner-sdk")
-                        elementExists.style.display = "none !important"
-                        elementExists.style.opacity = 0
-                    } catch (error) {
-                        
-                    }
-                }
                     if (existingRadarPage) {
                         fetchRadar()
                     }
@@ -103,6 +93,21 @@ class RadarPage extends PureComponent {
     componentDidUpdate(prevProps) {
         if (this.shouldRadarRender() && !this.shouldRadarRender(prevProps)) {
             this.attachEvents()
+        }
+        
+        const ancestorOriginsForEmbededRadar = (window?.location.ancestorOrigins.length > 0 
+            && typeof window?.location.ancestorOrigins[0] === 'string') ? true : false
+        if (String(window?.location?.host) === 'go2.futuresplatform.com' 
+            || (String(window?.location?.host) === 'access.futuresplatform.com'
+                    && !ancestorOriginsForEmbededRadar)) {
+        } else {
+            try {
+                var elementExists = document?.getElementById("onetrust-banner-sdk")
+                elementExists.style.display = "none !important"
+                elementExists.style.opacity = 0
+            } catch (error) {
+                
+            }
         }
     }
 
@@ -1146,11 +1151,27 @@ class RadarPage extends PureComponent {
         
     }
 
+    
     render() {
         const { loading, returnUri } = this.props
 
         const {isInFullScreen} = this.state
 
+        const ancestorOriginsForEmbededRadar = (window?.location.ancestorOrigins.length > 0 
+            && typeof window?.location.ancestorOrigins[0] === 'string') ? true : false
+        if (String(window?.location?.host) === 'go2.futuresplatform.com' 
+            || (String(window?.location?.host) === 'access.futuresplatform.com'
+                    && !ancestorOriginsForEmbededRadar)) {
+        } else {
+            try {
+                var elementExists = document?.getElementById("onetrust-banner-sdk")
+                elementExists.style.display = "none !important"
+                elementExists.style.opacity = 0
+            } catch (error) {
+                
+            }
+        }
+        
         return (
             <Container 
                 style={{ pointerEvents: loading.length ? 'none' : 'all' }}
