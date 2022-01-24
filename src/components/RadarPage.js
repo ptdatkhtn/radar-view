@@ -108,9 +108,12 @@ class RadarPage extends PureComponent {
                     && !ancestorOriginsForEmbededRadar)) {
         } else {
             try {
+                var elementWrapperCookieBarExists = document?.getElementById("onetrust-consent-sdk")
                 var elementExists = document?.getElementById("onetrust-banner-sdk")
-                elementExists.style.display = "none !important"
+                elementWrapperCookieBarExists.style.zIndex = 0
+                elementWrapperCookieBarExists.style.display = "none"
                 elementExists.style.opacity = 0
+                elementExists.style.display = "none"
             } catch (error) {
                 
             }
@@ -1170,9 +1173,12 @@ class RadarPage extends PureComponent {
                     && !ancestorOriginsForEmbededRadar)) {
         } else {
             try {
+                var elementWrapperCookieBarExists = document?.getElementById("onetrust-consent-sdk")
                 var elementExists = document?.getElementById("onetrust-banner-sdk")
-                elementExists.style.display = "none !important"
+                elementWrapperCookieBarExists.style.zIndex = 0
+                elementWrapperCookieBarExists.style.display = "none"
                 elementExists.style.opacity = 0
+                elementExists.style.display = "none"
             } catch (error) {
                 
             }

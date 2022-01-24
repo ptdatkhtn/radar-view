@@ -447,9 +447,6 @@ class SideNav extends PureComponent {
                                             if (!!a && !!heightOfWrapperCookieBar && String(heightOfWrapperCookieBar) !== '0px') { 
                                                 a.click()
                                                 localStorage.setItem('is-user-clicked', false)
-                                                
-
-                                                
                                                 this.sleep(25000).then(() => {
                                                     if(!!document) {
                                                         document.cookie = 'OptanonAlertBoxClosed' + '=; Max-Age=0'
