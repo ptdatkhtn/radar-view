@@ -443,11 +443,11 @@ class SideNav extends PureComponent {
                                         try {
                                             const a = document?.getElementById('onetrust-accept-btn-handler')
                                             const wrapperCookieBar = document.getElementById("onetrust-banner-sdk") ?? null;
-                                            const heightOfWrapperCookieBar = window.getComputedStyle(wrapperCookieBar, null).getPropertyValue('height') ?? null
+                                            const heightOfWrapperCookieBar = !!wrapperCookieBar && window?.getComputedStyle(wrapperCookieBar)?.getPropertyValue('height')
                                             if (!!a && !!heightOfWrapperCookieBar && String(heightOfWrapperCookieBar) !== '0px') { 
                                                 a.click()
                                                 localStorage.setItem('is-user-clicked', false)
-                                                this.sleep(25000).then(() => {
+                                                this.sleep(15000).then(() => {
                                                     if(!!document) {
                                                         document.cookie = 'OptanonAlertBoxClosed' + '=; Max-Age=0'
                                                     }     
@@ -457,11 +457,11 @@ class SideNav extends PureComponent {
                                                 });
     
                                             }
-                                            this.setState({generatingModalOpen: false})
-                                            generatePowerpoint(id, groupId)
                                         } catch (error) {
                                             
                                         }
+                                        this.setState({generatingModalOpen: false})
+                                        generatePowerpoint(id, groupId)
                                     }}>
                                 {requestTranslation('download')}
                             </button>
