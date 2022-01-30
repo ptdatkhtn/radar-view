@@ -101,31 +101,21 @@ class RadarPage extends PureComponent {
             this.attachEvents()
         }
 
-        try {
-            const ancestorOriginsForEmbededRadar = (document?.referrer?.includes('go2.futuresplatform.com') || 
-            document?.referrer?.includes('access.futuresplatform.com')) ?
-                true : false
-            if (String(window?.location?.host) === 'go2.futuresplatform.com' 
-                || (String(window?.location?.host) === 'access.futuresplatform.com'
-                        && !ancestorOriginsForEmbededRadar)) {
-            } else {
-                try {
-                    var elementWrapperCookieBarExists = document?.getElementById("onetrust-consent-sdk")
-                    var elementExists = document?.getElementById("onetrust-banner-sdk")
-                    if (!!elementWrapperCookieBarExists) {
-                        elementWrapperCookieBarExists.style.zIndex = 0
-                        elementWrapperCookieBarExists.style.display = "none"
-                    }
-                    if (!!elementExists) {
-                        elementExists.style.opacity = 0
-                        elementExists.style.display = "none"
-                    }
-                } catch (error) {
-                    
-                }
+        // const ancestorOriginsForEmbededRadar = (window?.location.ancestorOrigins.length > 0 
+        //     && typeof window?.location.ancestorOrigins[0] === 'string') ? true : false
+        if (String(window?.location?.host) === 'go2.futuresplatform.com' 
+            || (String(window?.location?.host) === 'access.futuresplatform.com')) {
+        } else {
+            try {
+                var elementWrapperCookieBarExists = document?.getElementById("onetrust-consent-sdk")
+                var elementExists = document?.getElementById("onetrust-banner-sdk")
+                elementWrapperCookieBarExists.style.zIndex = 0
+                elementWrapperCookieBarExists.style.display = "none"
+                elementExists.style.opacity = 0
+                elementExists.style.display = "none"
+            } catch (error) {
+                
             }
-        } catch (error) {
-            
         }
     }
 
@@ -1175,31 +1165,21 @@ class RadarPage extends PureComponent {
 
         const {isInFullScreen} = this.state
 
-        try {
-            const ancestorOriginsForEmbededRadar = (document?.referrer?.includes('go2.futuresplatform.com') || 
-            document?.referrer?.includes('access.futuresplatform.com')) ?
-                true : false
+        // const ancestorOriginsForEmbededRadar = (window?.location.ancestorOrigins.length > 0 
+        //     && typeof window?.location.ancestorOrigins[0] === 'string') ? true : false
         if (String(window?.location?.host) === 'go2.futuresplatform.com' 
-            || (String(window?.location?.host) === 'access.futuresplatform.com'
-                    && !ancestorOriginsForEmbededRadar)) {
+            || (String(window?.location?.host) === 'access.futuresplatform.com')) {
         } else {
             try {
                 var elementWrapperCookieBarExists = document?.getElementById("onetrust-consent-sdk")
                 var elementExists = document?.getElementById("onetrust-banner-sdk")
-                if (!!elementWrapperCookieBarExists) {
-                    elementWrapperCookieBarExists.style.zIndex = 0
-                    elementWrapperCookieBarExists.style.display = "none"
-                }
-                if (!!elementExists) {
-                    elementExists.style.opacity = 0
-                    elementExists.style.display = "none"
-                }
+                elementWrapperCookieBarExists.style.zIndex = 0
+                elementWrapperCookieBarExists.style.display = "none"
+                elementExists.style.opacity = 0
+                elementExists.style.display = "none"
             } catch (error) {
                 
             }
-        }
-        } catch (error) {
-            
         }
         
         return (
