@@ -32,6 +32,10 @@ import ReactDOM from "react-dom";
 import {ExitFullscreen, Fullscreen} from '@styled-icons/boxicons-regular'
 import ConfirmationModalFoCollabTool  from './ConfirmationModalForCollabTool/ConfirmationModalForCollabTool'
 
+var mainUrl = (window.location != window.parent.location)
+            ? document.referrer
+            : document.location.href;
+
 class RadarPage extends PureComponent {
     constructor(props) {
         super(props)
@@ -103,10 +107,9 @@ class RadarPage extends PureComponent {
 
         // const ancestorOriginsForEmbededRadar = (window?.location.ancestorOrigins.length > 0 
         //     && typeof window?.location.ancestorOrigins[0] === 'string') ? true : false
-        if (String(window?.location?.host) === 'go2.futuresplatform.com' 
-            || (String(window?.location?.host) === 'access.futuresplatform.com')) {
-        } else {
-            try {
+        if (!(String(mainUrl).includes('go2.futuresplatform.com')) 
+        && (!(String(mainUrl).includes('access.futuresplatform.com')))) {
+            try {  
                 var elementWrapperCookieBarExists = document?.getElementById("onetrust-consent-sdk")
                 var elementExists = document?.getElementById("onetrust-banner-sdk")
                 elementWrapperCookieBarExists.style.zIndex = 0
@@ -114,7 +117,7 @@ class RadarPage extends PureComponent {
                 elementExists.style.opacity = 0
                 elementExists.style.display = "none"
             } catch (error) {
-                
+                console.log('case error')
             }
         }
     }
@@ -1167,19 +1170,19 @@ class RadarPage extends PureComponent {
 
         // const ancestorOriginsForEmbededRadar = (window?.location.ancestorOrigins.length > 0 
         //     && typeof window?.location.ancestorOrigins[0] === 'string') ? true : false
-        if (String(window?.location?.host) === 'go2.futuresplatform.com' 
-            || (String(window?.location?.host) === 'access.futuresplatform.com')) {
-        } else {
-            try {
-                var elementWrapperCookieBarExists = document?.getElementById("onetrust-consent-sdk")
-                var elementExists = document?.getElementById("onetrust-banner-sdk")
-                elementWrapperCookieBarExists.style.zIndex = 0
-                elementWrapperCookieBarExists.style.display = "none"
-                elementExists.style.opacity = 0
-                elementExists.style.display = "none"
-            } catch (error) {
-                
-            }
+
+        if (!String(mainUrl).includes('go2.futuresplatform.com') 
+            && (!String(mainUrl).includes('access.futuresplatform.com'))) {
+                try {  
+                    var elementWrapperCookieBarExists = document?.getElementById("onetrust-consent-sdk")
+                    var elementExists = document?.getElementById("onetrust-banner-sdk")
+                    elementWrapperCookieBarExists.style.zIndex = 0
+                    elementWrapperCookieBarExists.style.display = "none"
+                    elementExists.style.opacity = 0
+                    elementExists.style.display = "none"
+                } catch (error) {
+                    console.log('case error')
+                }
         }
         
         return (
