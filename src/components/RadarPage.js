@@ -717,6 +717,7 @@ class RadarPage extends PureComponent {
                             return (
                                 <PhenomenonEditForm
                                     phenomenon={phenomenon}
+                                    createOrEditMode={true}
                                     onSubmit={(values, newsFeedChanges) => {
                                         storePhenomenon(values, newsFeedChanges, this.handleEditPhenomenonFormClose)
                                     }}
