@@ -59,6 +59,7 @@ export default class AddPhenomenaSandbox extends PureComponent {
                    onRequestClose={this.hideAddForm}
             >
                 <PhenomenonEditForm
+                    createOrEditMode={true}
                     onSubmit={(values, newsFeedChanges) => {
                         storePhenomenon(values, newsFeedChanges, phenomenon => {
                             this.hideAddForm()
