@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import  PhenomenaSelector  from './PhenomenaSelector'
+import { PhenomenaSelector } from '@sangre-fp/content-editor'
 
 export default connect(
     state => {
