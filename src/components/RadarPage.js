@@ -1208,7 +1208,7 @@ class RadarPage extends PureComponent {
                 } */}
 
                 {
-                    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
+                    (/webOS|iPhone|iPad|iPod/i.test(navigator.userAgent) !== true
                         && (isInFullScreen === false || !isInFullScreen))
                         ? <button 
                             onClick={this.handleFullscreen}
@@ -1236,7 +1236,7 @@ class RadarPage extends PureComponent {
                 } */}
 
                 {
-                    (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) !== true
+                    (/webOS|iPhone|iPad|iPod/i.test(navigator.userAgent) !== true
                     && (isInFullScreen === true || !!isInFullScreen))
                     ? <button 
                         onClick={this.handleExitFullScreen}
