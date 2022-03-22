@@ -1179,11 +1179,9 @@ class RadarPage extends PureComponent {
         const fullscreenchanged = () => {
             if ( (!isFullScreen() || !isFullScreenInSafari()) 
                 && !!this.state.isInFullScreen ) {
-                this.handleExitFullScreen()
-                setTimeout(() => {
-                     // eslint-disable-next-line no-unused-expressions
-                     document.querySelector('iframe')?.remove()
-                }, [2000])
+                    this.setState({
+                        isInFullScreen: false
+                    })
             }
         }
         document.addEventListener(prefixes + 'fullscreenchange', fullscreenchanged);
