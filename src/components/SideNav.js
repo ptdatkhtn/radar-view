@@ -442,6 +442,8 @@ class SideNav extends PureComponent {
                                     onClick={() => {
                                         try {
                                             const a = document?.getElementById('onetrust-accept-btn-handler')
+                                            const b = document?.getElementById('onetrust-consent-sdk')
+                                           
                                             const wrapperCookieBar = document.getElementById("onetrust-banner-sdk") ?? null;
                                             const heightOfWrapperCookieBar = !!wrapperCookieBar && window?.getComputedStyle(wrapperCookieBar)?.getPropertyValue('height')
                                             if (!!a && !!heightOfWrapperCookieBar && String(heightOfWrapperCookieBar) !== '0px') { 
@@ -456,6 +458,19 @@ class SideNav extends PureComponent {
                                                     }
                                                 });
     
+                                            } else if (!b) {
+                                                localStorage.setItem('is-user-clicked', false)
+                                                document.getElementById('onetrust-style').style.display ='none'
+                                                document.getElementById('onetrust-style').style.visibility ='hidden'
+                                                document.getElementById('onetrust-style').style.background ='transparent'
+                                                this.sleep(15000).then(() => {
+                                                    if(!!document) {
+                                                        document.cookie = 'OptanonAlertBoxClosed' + '=; Max-Age=0'
+                                                    }     
+                                                    else if (!!window){
+                                                        window.cookie = 'OptanonAlertBoxClosed' + '=; Max-Age=0'
+                                                    }
+                                                });
                                             }
                                         } catch (error) {
                                             

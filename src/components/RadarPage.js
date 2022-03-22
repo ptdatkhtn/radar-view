@@ -117,7 +117,7 @@ class RadarPage extends PureComponent {
                 elementExists.style.opacity = 0
                 elementExists.style.display = "none"
             } catch (error) {
-                console.log('case error')
+                // console.log('case error')
             }
         }
     }
@@ -1086,6 +1086,7 @@ class RadarPage extends PureComponent {
         while (elem = elem.parentNode) if (elem.tagName === lookingFor) return elem;
     }
 
+    
     // allowfullscreen
     handleFullscreen = () => {
         this.setState({
@@ -1163,8 +1164,30 @@ class RadarPage extends PureComponent {
         
     }
 
-    
     render() {
+        const uA = navigator.userAgent;
+        const vendor = navigator.vendor;
+        const isSafari = (/Safari/i.test(uA) && /Apple Computer/.test(vendor) && !/Mobi|Android/i.test(uA))
+        const prefixes = !!isSafari ? 'webkit' : ''
+        const isFullScreen = ( )=>  {
+            return !!(document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement)
+        }
+        const  isFullScreenInSafari = () => {
+            // eslint-disable-next-line no-restricted-globals
+            return Math.abs(screen.width - window.innerWidth) < 10; 
+        }
+        const fullscreenchanged = () => {
+            if ( (!isFullScreen() || !isFullScreenInSafari()) 
+                && !!this.state.isInFullScreen ) {
+                this.handleExitFullScreen()
+                setTimeout(() => {
+                     // eslint-disable-next-line no-unused-expressions
+                     document.querySelector('iframe')?.remove()
+                }, [2000])
+            }
+        }
+        document.addEventListener(prefixes + 'fullscreenchange', fullscreenchanged);
+
         const { loading, returnUri } = this.props
 
         const {isInFullScreen} = this.state
@@ -1182,7 +1205,7 @@ class RadarPage extends PureComponent {
                     elementExists.style.opacity = 0
                     elementExists.style.display = "none"
                 } catch (error) {
-                    console.log('case error')
+                    // console.log('case error')
                 }
         }
         
