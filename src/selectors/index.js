@@ -2,6 +2,7 @@ import { createSelector } from 'reselect'
 import { find } from 'lodash'
 
 const getRadarSettingsGroups = (state) => state.radarSettings && state.radarSettings.groups
+const getStoredPhen = (state) => state?.radarSettings?.storedPhenomenon
 
 export const isCollaborationToolsAllowed = createSelector([ getRadarSettingsGroups ], (groups) => {
     return (groupId) => {
@@ -15,4 +16,9 @@ export const isCollaborationToolsAllowed = createSelector([ getRadarSettingsGrou
         }
         return false
     }
+})
+
+export const storedPhenSelector = createSelector(getStoredPhen, storedPhenomenon => {
+    console.log('phenomenonphenomenon222', storedPhenomenon)
+    return storedPhenomenon ?? []
 })

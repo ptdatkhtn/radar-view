@@ -21,7 +21,7 @@ import { Modal, SVGIcon, Loading } from '@sangre-fp/ui'
 import { getCoordsFromAngleAndRadius, detectLeftButton } from '../helpers'
 import { PUBLIC_URL, RADAR_DATA_WEBSOCKET_URL } from '../env'
 import { requestTranslation } from '@sangre-fp/i18n'
-import { PhenomenonEditForm } from '@sangre-fp/content-editor'
+// import { PhenomenonEditForm } from './PhenomenonEditForm/PhenomenonEditForm'
 import { PhenomenonLoader } from '@sangre-fp/hooks'
 import SectorEditorForm from './SectorEditorForm'
 import EditSectorMenu from './EditSectorMenu'
@@ -620,6 +620,7 @@ class RadarPage extends PureComponent {
             if (deleting) {
                 this.setState({ deleteRadarPhenomenonOpen: phenomenon })
             } else {
+                console.log('phenomenonphenomenon999', phenomenon)
                 updatePhenomenon(phenomenon, {
                     sectorId: sector.id,
                     xOffset,
@@ -715,20 +716,21 @@ class RadarPage extends PureComponent {
                             }
 
                             return (
-                                <PhenomenonEditForm
-                                    phenomenon={phenomenon}
-                                    createOrEditMode={true}
-                                    onSubmit={(values, newsFeedChanges) => {
-                                        storePhenomenon(values, newsFeedChanges, this.handleEditPhenomenonFormClose)
-                                    }}
-                                    onCancel={this.handleEditPhenomenonFormClose}
-                                    onDelete={() => {}}
-                                    radar={{
-                                        id,
-                                        groupId: group.id,
-                                        language: radarLanguage
-                                    }}
-                                />
+                                // <PhenomenonEditForm
+                                //     phenomenon={phenomenon}
+                                //     createOrEditMode={true}
+                                //     onSubmit={(values, newsFeedChanges) => {
+                                //         storePhenomenon(values, newsFeedChanges, this.handleEditPhenomenonFormClose)
+                                //     }}
+                                //     onCancel={this.handleEditPhenomenonFormClose}
+                                //     onDelete={() => {}}
+                                //     radar={{
+                                //         id,
+                                //         groupId: group.id,
+                                //         language: radarLanguage
+                                //     }}
+                                // />
+                                <></>
                             )
                         }}
                     </PhenomenonLoader>
@@ -1067,6 +1069,7 @@ class RadarPage extends PureComponent {
         if (addPhenomenaVisible) {
             return (
                 <AddPhenomenaSandbox
+                    {...this.props}
                     onPhenomenaDrag={(...args) => {
                         this.setState({ phenomenaDragged: true })
                         this.onPhenomenaDrag(...args)

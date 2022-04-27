@@ -4,6 +4,7 @@ import phenomena from './phenomena'
 import timelines from '@sangre-fp/reducers/timelines'
 import filters from './filters'
 import signals from './signals'
+import phenomenaList from './phenomenaList'
 
 import {
     loading,
@@ -27,5 +28,6 @@ export default combineReducers({
     phenomenaTypes,
     phenomenaTypesById,
     signals,
-    confirmDialog
+    confirmDialog,
+    phenomenaList
 })

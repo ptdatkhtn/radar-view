@@ -635,8 +635,26 @@ const localTranslations = {
         en: `Do you really want to close this window without saving?`,
         fi: `Haluatko varmasti sulkea tämän ikkunan tallentamatta muutoksia?`
     },
-    
-    
+    hasTagged: {
+        en: `: Yes`,
+        fi: `: On`
+    },
+    hasNoTagged: {
+        en: `: No`,
+        fi: `: Ei ole`
+    },
+    TagsPhenomenon: {
+        en: `Tags`,
+        fi: `Tageja`
+    },
+    AddAndRemoveTags: {
+        en: `Add / remove tags`,
+        fi: `Lisää / poista tageja`
+    },
+    TagsAddedAfterContentcardCreated: {
+        en: `Tags can be added after the content card is created.`,
+        fi: `Voit lisätä sisältökortille tageja, kun olet ensin luonut (tallentanut) sen.`
+    }
 }
 
 initTranslations(localTranslations);

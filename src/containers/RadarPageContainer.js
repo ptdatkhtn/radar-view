@@ -8,7 +8,6 @@ import { centerRadiusPercentage } from '../config'
 import { getCoordsFromAngleAndRadius } from '../helpers'
 import * as d3 from 'd3'
 import _ from 'lodash'
-
 import {
     changeAddRadarFormVisibility,
     changeEditPhenomenaVisibility,
@@ -199,7 +198,8 @@ const mapStateToProps = (state, props) => {
         radarSettings,
         loading,
         phenomenaTypesById,
-        timelines
+        timelines,
+        phenomenaList: phenomenaListData,
     } = state
 
     return {
@@ -210,7 +210,8 @@ const mapStateToProps = (state, props) => {
         canEditRadar: radarSettings.canEditRadar,
         isVisitor: radarSettings.isVisitor,
         draggedPhenomenon: getDraggedPhenomenon(state),
-        timelines
+        timelines,
+        phenomenaListData
     }
 }
 

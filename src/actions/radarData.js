@@ -153,14 +153,17 @@ const phenomenaApiErrorHandler = (error, errorFunc, dispatch) => {
     }
 }
 
+export const updateStoredPhenonSelector = payload => dispatch =>
+    dispatch({ type: 'STOREDPHENOMENON', payload: payload })
+
 export const storePhenomenon = (phenomenon, newsFeedChanges, callback, archived = false) => async (dispatch) => {
     let {
         group,
         _upload: {
-          imageFile,
-          imageUrl,
-          // image // Contains image data url
-        } = {},
+            imageFile,
+            imageUrl,
+            // image // Contains image data url
+          } = {},
         ...rest
     } = phenomenon
 
@@ -187,6 +190,10 @@ export const storePhenomenon = (phenomenon, newsFeedChanges, callback, archived 
 
 
     try {
+        if(!phenomenonInput?.group || phenomenonInput?.group === undefined ) {
+            // eslint-disable-next-line no-restricted-globals
+            phenomenonInput.group = phenomenonInput?.groups[0] ?? 0
+        }
         const { storedPhenomenon, status, failedNewsFeedTitles } = await storePhenomenonWithNewsFeeds(phenomenonInput, newsFeedChanges)
 
         if (status === NEWSFEED_ERROR_PARTIAL) {
@@ -194,7 +201,10 @@ export const storePhenomenon = (phenomenon, newsFeedChanges, callback, archived 
         } else if (status === NEWSFEED_ERROR) {
             dispatch(error(new Error('News feed error'), requestTranslation(phenomenon.id ? 'newsFeedUpdateError' : 'newsFeedCreationError')))
         } else {
+            console.log('12334', storedPhenomenon)
+            dispatch({ type: 'STOREDPHENOMENON', payload: storedPhenomenon })
             dispatch(success(storedPhenomenon))
+            
             callback(storedPhenomenon)
         }
     } catch (e) {

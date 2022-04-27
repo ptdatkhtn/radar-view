@@ -74,11 +74,18 @@ const initialState = {
     isRadarTemplate: false,
     radarTitleImage: false,
     timelineLabelFormat: false,
-    draggedPhenomenonId: false
+    draggedPhenomenonId: false,
+    storedPhenomenon: null
 }
 
 export default (state = initialState, { type, payload }) => {
     switch (type) {
+        case 'STOREDPHENOMENON':
+            const storedPhenomenon = {...payload}
+            return {
+                ...state,
+                storedPhenomenon
+            }
         case SET_DRAGGED_PHENOMENON:
             return {
                 ...state,
