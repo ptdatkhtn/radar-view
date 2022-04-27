@@ -96,14 +96,14 @@ export const PhenomenonEditForm = (
     setPhenomenonToTag,
     phenomenaListData,
     handleOpenTagSelectorModal,
-    isUpdate=false
+    isUpdate
   }
 ) => {
     const phenomenon = basePhenomenon ? transformToLegacy(basePhenomenon) : null
     const getValue = makeGetValue(phenomenon)
     const [deletingModalOpen, setDeletingModalOpen] = useState(false)
     const [groupId, setGroupId] = useState(radar ? radar.groupId : getValue("group"))
-    const [isOpenTagSelectorModal, setisOpenTagSelectorModal] = useState(true)
+    const [isOpenTagSelectorModal, setisOpenTagSelectorModal] = useState(!!isUpdate ? false : true)
     const [iconTaggingSection, seticonTaggingSection] = useState('expand_more')
     const [iconRelatedNodeSection, seticonRelatedNodeSection] = useState('expand_more')
 

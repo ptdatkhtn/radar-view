@@ -766,27 +766,27 @@ class RadarPage extends PureComponent {
                                     }}
 
                                     handleOpenTagSelectorModal={this.handleOpenTagSelectorModal}
-                    editModal={this.state.editModal}
-                    storedPhenSelector={this.props.storedPhenSelector || editPhenomenaVisible || phenomenon}
-                    setPhenomenonToTag={this.props.setPhenomenonToTag}
+                                    editModal={this.state.editModal}
+                                    storedPhenSelector={this.props.storedPhenSelector || editPhenomenaVisible || phenomenon}
+                                    setPhenomenonToTag={this.props.setPhenomenonToTag}
 
-                    onSubmit={(values, newsFeedChanges) => {
-                        // eslint-disable-next-line no-unused-expressions
-                        
-                            values['tags'] = editPhenomenaVisible?.tags
-                            storePhenomenon(values, newsFeedChanges, phenomenon => {
-                                console.log('values', values, phenomenon, this.props.storedPhenSelector, this.props)
-                                this.setState({
-                                    editModal: null,
-                                    // indexForTagging: indexForTagging
-                                })
-                                console.log('valuesvalues', values, phenomenon, this.props.storedPhenSelector)
-                                this.hideAddForm()
-                                this.props.setPhenomenonToTag(false)
-                                // updateStoredPhenonSelector({...phenomenon})
-                                // changeAddPhenomenaVisibility()
-                                // onPhenomenaDrag(false, phenomenon, true)
-                            })
+                                    onSubmit={(values, newsFeedChanges) => {
+                                    // eslint-disable-next-line no-unused-expressions
+                                    
+                                        values['tags'] = editPhenomenaVisible?.tags
+                                        storePhenomenon(values, newsFeedChanges, phenomenon => {
+                                            console.log('values', values, phenomenon, this.props.storedPhenSelector, this.props)
+                                            this.setState({
+                                                editModal: null,
+                                                // indexForTagging: indexForTagging
+                                            })
+                                            console.log('valuesvalues', values, phenomenon, this.props.storedPhenSelector)
+                                            this.hideAddForm()
+                                            this.props.setPhenomenonToTag(false)
+                                            // updateStoredPhenonSelector({...phenomenon})
+                                            // changeAddPhenomenaVisibility()
+                                            // onPhenomenaDrag(false, phenomenon, true)
+                                        })
                     }}
                     // radar={radar}
                                 />

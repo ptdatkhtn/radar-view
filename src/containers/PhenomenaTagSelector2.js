@@ -13,7 +13,7 @@ const FP_TOPBAR_OFFSET = process.env.NODE_ENV === 'development' ? 0 : 112
 export const PhenomenaTagSelector = props => {
   const dispatch = useDispatch()
   console.log('this.props', props)
-  const { group, language, phenomenon, handlePhenomenaTagMod, isInEditMode, storedPhenSelector, editModal } = props
+  const { group, language, phenomenon, handlePhenomenaTagMod, isInEditMode, storedPhenSelector, editModal, phenData } = props
 
   // const elmtRef = useRef(null)
   if (!phenomenon && !storedPhenSelector) {
@@ -40,7 +40,7 @@ export const PhenomenaTagSelector = props => {
   const lang = language === 'all' ? document.querySelector('html').getAttribute('lang') || 'en' : language
 
   const checkTagStatus = tag => {
-    const { tags } = phenomenon
+    const { tags } = !!phenomenon ? phenomenon : phenData
 
     let found = false
 
