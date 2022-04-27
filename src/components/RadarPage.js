@@ -21,7 +21,8 @@ import { Modal, SVGIcon, Loading } from '@sangre-fp/ui'
 import { getCoordsFromAngleAndRadius, detectLeftButton } from '../helpers'
 import { PUBLIC_URL, RADAR_DATA_WEBSOCKET_URL } from '../env'
 import { requestTranslation } from '@sangre-fp/i18n'
-// import { PhenomenonEditForm } from './PhenomenonEditForm/PhenomenonEditForm'
+import { PhenomenonEditForm } from './PhenomenonEditForm/PhenomenonEditForm'
+// import {PhenomenonEditForm} from '@sangre-fp/content-editor'
 import { PhenomenonLoader } from '@sangre-fp/hooks'
 import SectorEditorForm from './SectorEditorForm'
 import EditSectorMenu from './EditSectorMenu'
@@ -692,12 +693,23 @@ class RadarPage extends PureComponent {
         return null
     }
 
+    hideAddForm = () => {
+        this.setState({ 
+            // createModalShown: false, 
+            editModal: null
+         }, () => {
+            this.props.updateStoredPhenonSelector(null)
+            this.props.setPhenomenonToTag(false)
+        })  
+    }
+
     renderEditPhenomenonForm() {
         const {
             radarSettings: { editPhenomenaVisible, id, group, radarLanguage },
             storePhenomenon,
         } = this.props
 
+        
         return (
             <Modal isOpen={!!editPhenomenaVisible}
                    contentLabel={'Edit phenomena'}
@@ -716,21 +728,42 @@ class RadarPage extends PureComponent {
                             }
 
                             return (
-                                // <PhenomenonEditForm
-                                //     phenomenon={phenomenon}
-                                //     createOrEditMode={true}
-                                //     onSubmit={(values, newsFeedChanges) => {
-                                //         storePhenomenon(values, newsFeedChanges, this.handleEditPhenomenonFormClose)
-                                //     }}
-                                //     onCancel={this.handleEditPhenomenonFormClose}
-                                //     onDelete={() => {}}
-                                //     radar={{
-                                //         id,
-                                //         groupId: group.id,
-                                //         language: radarLanguage
-                                //     }}
-                                // />
-                                <></>
+                                <PhenomenonEditForm
+                                    phenomenon={phenomenon}
+                                    createOrEditMode={true}
+                                    // onSubmit={(values, newsFeedChanges) => {
+                                    //     storePhenomenon(values, newsFeedChanges, this.handleEditPhenomenonFormClose)
+                                    // }}
+                                    onCancel={this.handleEditPhenomenonFormClose}
+                                    onDelete={() => {}}
+                                    radar={{
+                                        id,
+                                        groupId: group.id,
+                                        language: radarLanguage
+                                    }}
+
+                                    handleOpenTagSelectorModal={this.handleOpenTagSelectorModal}
+                    editModal={this.state.editModal}
+                    storedPhenSelector={this.props.storedPhenSelector}
+                    setPhenomenonToTag={this.props.setPhenomenonToTag}
+
+                    onSubmit={(values, newsFeedChanges) => {
+                            values['id'] = this.props.storedPhenSelector?.id
+                            storePhenomenon(values, newsFeedChanges, phenomenon => {
+                                this.setState({
+                                    editModal: null,
+                                    // indexForTagging: indexForTagging
+                                })
+                                console.log('valuesvalues', values, phenomenon, this.props.storedPhenSelector)
+                                this.hideAddForm()
+                                this.props.setPhenomenonToTag(false)
+                                // updateStoredPhenonSelector({...phenomenon})
+                                // changeAddPhenomenaVisibility()
+                                // onPhenomenaDrag(false, phenomenon, true)
+                            })
+                    }}
+                    // radar={radar}
+                                />
                             )
                         }}
                     </PhenomenonLoader>

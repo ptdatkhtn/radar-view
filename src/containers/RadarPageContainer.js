@@ -14,6 +14,7 @@ import {
     getUserGroups,
     toggleEditMenuVisiblity
 } from '../actions/radarSettings'
+
 import { addSector, deleteSector, updateSector } from '../actions/sectors'
 import {
     fetchRadar,
@@ -23,7 +24,8 @@ import {
     deleteRadarPhenomenon,
     refetchRadarData,
     storePhenomenon,
-    addPublicPhenomenaToRadar
+    addPublicPhenomenaToRadar,
+    updateStoredPhenonSelector
 } from '../actions/radarData'
 
 const getCreateTimeRanges = (thisRadius, centerRadius = thisRadius * centerRadiusPercentage) => timeRanges => {
@@ -228,7 +230,8 @@ const mapDispatchToProps = dispatch => ({
         getUserGroups,
         refetchRadarData,
         toggleEditMenuVisiblity,
-        addPublicPhenomenaToRadar
+        addPublicPhenomenaToRadar,
+        updateStoredPhenonSelector
     }, dispatch),
     setDraggedPhenomenon: phenomenon => dispatch(setDraggedPhenomenon(phenomenon.id || phenomenon.phenomenon_uuid)),
     updatePhenomenon:
