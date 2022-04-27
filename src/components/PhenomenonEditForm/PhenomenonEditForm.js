@@ -130,6 +130,10 @@ export const PhenomenonEditForm = (
     const loading = loadingGroups
     const error = errorGroups
 
+    useEffect (() => {
+      handleOpenTagSelectorModal(isOpenTagSelectorModal)
+    }, [isOpenTagSelectorModal])
+
     if (loading) {
         return <div className="py-5 text-center">Loading...</div>
     }
@@ -857,15 +861,15 @@ export const PhenomenonEditForm = (
                               }}> 
                                 <Icon
                                   // ref={itemsRef.current[indexForTagging]}
-                                  path={!!editModal && editModal?.type === 'EDIT' && !!isOpenTagSelectorModal
+                                  path={!!isOpenTagSelectorModal
                                     ? mdiTagPlus : mdiTagPlusOutline}
                                   className={`fp-text-icon ${!!editModal && editModal?.type === 'EDIT' ? 'hoverable' : ''}`}
                                   size={1}
                                   color={!!editModal && editModal?.type === 'CREATE'  ? 'gray' : '#006998'}
                                   style={{ position: 'relative', top: '1px'}}
                                   onClick={e => {
-                                    setisOpenTagSelectorModal((isOpenTagSelectorModal) => !isOpenTagSelectorModal)
-                                    handleOpenTagSelectorModal(!isOpenTagSelectorModal)
+                                    setisOpenTagSelectorModal(() => !isOpenTagSelectorModal)
+                                    
                                     console.log('isUpdateisUpdate', isUpdate, storedPhenSelector)
                                     if ( !!editModal && editModal?.type === 'EDIT' && !editModal?.uuid || !!isUpdate) {
 

@@ -46,7 +46,7 @@ class RadarPage extends PureComponent {
         const zoomExtent = (containerSize / svgDimensions) * 0.80
         this.zoom = d3.zoom().scaleExtent([(containerSize / svgDimensions) * 0.50, zoomExtent + 4]).on('zoom', this.zoomed)
         this.state = {
-            isOpenSelectorModal: true,
+            isOpenSelectorModal: false,
             isIconImgLoading: true,
             zoomExtent,
             sectorDescriptionModal: null,
@@ -735,16 +735,18 @@ class RadarPage extends PureComponent {
                                 return <div className="py-5 text-center text-danger">{error.message}</div>
                             }
 
+                            console.log('9999', this.state.isOpenSelectorModal, this.state.editModal)
                             return (
                                 <>
                                 <>
                                     {
-                                                    !!this.state.isOpenSelectorModal && !!this.state.editModal && this.state.editModal.type === 'EDIT' 
+                                                    !!this.state.isOpenSelectorModal
                                                                 && <PhenomenaTagSelector
                                                                         group={group.id || 0}
                                                                         language={radarLanguage || 'en'}
                                                                         isInEditMode={!!this.state.editModal}
                                                                         editModal={this.state.editModal}
+                                                                        phenData={editPhenomenaVisible}
                                                                     />
                                                 }
                                 </>
