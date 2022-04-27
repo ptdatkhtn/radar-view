@@ -32,6 +32,7 @@ import { centerRadiusPercentage, getWebSocketHeaders, timerangeColors, radarBord
 import ReactDOM from "react-dom";
 import {ExitFullscreen, Fullscreen} from '@styled-icons/boxicons-regular'
 import ConfirmationModalFoCollabTool  from './ConfirmationModalForCollabTool/ConfirmationModalForCollabTool'
+import PhenomenaTagSelector from '../containers/PhenomenaTagSelector';
 
 var mainUrl = (window.location != window.parent.location)
             ? document.referrer
@@ -45,6 +46,7 @@ class RadarPage extends PureComponent {
         const zoomExtent = (containerSize / svgDimensions) * 0.80
         this.zoom = d3.zoom().scaleExtent([(containerSize / svgDimensions) * 0.50, zoomExtent + 4]).on('zoom', this.zoomed)
         this.state = {
+            isOpenSelectorModal: true,
             isIconImgLoading: true,
             zoomExtent,
             sectorDescriptionModal: null,
@@ -703,6 +705,12 @@ class RadarPage extends PureComponent {
         })  
     }
 
+    handleOpenTagSelectorModal = (isOpenModal) => {
+        this.setState({
+            isOpenSelectorModal: isOpenModal
+        })
+    }
+
     renderEditPhenomenonForm() {
         const {
             radarSettings: { editPhenomenaVisible, id, group, radarLanguage },
@@ -728,6 +736,18 @@ class RadarPage extends PureComponent {
                             }
 
                             return (
+                                <>
+                                <>
+                                    {
+                                                    !!this.state.isOpenSelectorModal && !!this.state.editModal && this.state.editModal.type === 'EDIT' 
+                                                                && <PhenomenaTagSelector
+                                                                        group={group.id || 0}
+                                                                        language={radarLanguage || 'en'}
+                                                                        isInEditMode={!!this.state.editModal}
+                                                                        editModal={this.state.editModal}
+                                                                    />
+                                                }
+                                </>
                                 <PhenomenonEditForm
                                     isUpdate= {true}
                                     phenomenon={phenomenon}
@@ -768,6 +788,7 @@ class RadarPage extends PureComponent {
                     }}
                     // radar={radar}
                                 />
+                                </>
                             )
                         }}
                     </PhenomenonLoader>

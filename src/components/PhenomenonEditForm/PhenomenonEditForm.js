@@ -114,7 +114,6 @@ export const PhenomenonEditForm = (
     const { tags: tagList } =  useTags(
       !!storedPhenSelector && !!editModal && editModal?.type === 'EDIT' ? storedPhenSelector?.groups[0] : 0 )
 
-              console.log('tagListtagList', tagList)
     const {
         phenomenonTypes,
         loading: loadingPhenomenonTypes,
@@ -867,6 +866,7 @@ export const PhenomenonEditForm = (
                                   onClick={e => {
                                     setisOpenTagSelectorModal((isOpenTagSelectorModal) => !isOpenTagSelectorModal)
                                     handleOpenTagSelectorModal(!isOpenTagSelectorModal)
+                                    console.log('isUpdateisUpdate', isUpdate, storedPhenSelector)
                                     if ( !!editModal && editModal?.type === 'EDIT' && !editModal?.uuid || !!isUpdate) {
 
                                       return setPhenomenaSelectorPosition(e, undefined, storedPhenSelector)
