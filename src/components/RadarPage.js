@@ -783,6 +783,7 @@ class RadarPage extends PureComponent {
                                             console.log('valuesvalues', values, phenomenon, this.props.storedPhenSelector)
                                             this.hideAddForm()
                                             this.props.setPhenomenonToTag(false)
+                                            this.handleEditPhenomenonFormClose()
                                             // updateStoredPhenonSelector({...phenomenon})
                                             // changeAddPhenomenaVisibility()
                                             // onPhenomenaDrag(false, phenomenon, true)
