@@ -709,7 +709,7 @@ class RadarPage extends PureComponent {
             storePhenomenon,
         } = this.props
 
-        
+        console.log('thispropssss', this.props)
         return (
             <Modal isOpen={!!editPhenomenaVisible}
                    contentLabel={'Edit phenomena'}
@@ -729,6 +729,7 @@ class RadarPage extends PureComponent {
 
                             return (
                                 <PhenomenonEditForm
+                                    isUpdate= {true}
                                     phenomenon={phenomenon}
                                     createOrEditMode={true}
                                     // onSubmit={(values, newsFeedChanges) => {
@@ -744,12 +745,15 @@ class RadarPage extends PureComponent {
 
                                     handleOpenTagSelectorModal={this.handleOpenTagSelectorModal}
                     editModal={this.state.editModal}
-                    storedPhenSelector={this.props.storedPhenSelector}
+                    storedPhenSelector={this.props.storedPhenSelector || editPhenomenaVisible || phenomenon}
                     setPhenomenonToTag={this.props.setPhenomenonToTag}
 
                     onSubmit={(values, newsFeedChanges) => {
-                            values['id'] = this.props.storedPhenSelector?.id
+                        // eslint-disable-next-line no-unused-expressions
+                        
+                            values['tags'] = editPhenomenaVisible?.tags
                             storePhenomenon(values, newsFeedChanges, phenomenon => {
+                                console.log('values', values, phenomenon, this.props.storedPhenSelector, this.props)
                                 this.setState({
                                     editModal: null,
                                     // indexForTagging: indexForTagging

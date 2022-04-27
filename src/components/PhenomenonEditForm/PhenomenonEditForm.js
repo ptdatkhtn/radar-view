@@ -95,7 +95,8 @@ export const PhenomenonEditForm = (
     editModal,
     setPhenomenonToTag,
     phenomenaListData,
-    handleOpenTagSelectorModal
+    handleOpenTagSelectorModal,
+    isUpdate=false
   }
 ) => {
     const phenomenon = basePhenomenon ? transformToLegacy(basePhenomenon) : null
@@ -843,6 +844,7 @@ export const PhenomenonEditForm = (
                           <div style={{ overflow: 'hidden' }} className="row">
                             <div className="col-12 ">
                               <PhenomenaTagList
+                                isUpdate={isUpdate}
                                 phenomena={storedPhenSelector}
                                 language={'en'}
                                 tagList={tagList || []}
@@ -865,7 +867,7 @@ export const PhenomenonEditForm = (
                                   onClick={e => {
                                     setisOpenTagSelectorModal((isOpenTagSelectorModal) => !isOpenTagSelectorModal)
                                     handleOpenTagSelectorModal(!isOpenTagSelectorModal)
-                                    if ( !!editModal && editModal?.type === 'EDIT' && !editModal?.uuid) {
+                                    if ( !!editModal && editModal?.type === 'EDIT' && !editModal?.uuid || !!isUpdate) {
 
                                       return setPhenomenaSelectorPosition(e, undefined, storedPhenSelector)
                                     }
@@ -951,7 +953,7 @@ export const PhenomenonEditForm = (
                         }
                       >
                         {
-                          requestTranslation(editModal?.type === 'EDIT' ? 'update' : 'create')
+                          requestTranslation(editModal?.type === 'EDIT' || !!isUpdate ? 'update' : 'create')
                         }
                       </button>
                     </ButtonsContainer>

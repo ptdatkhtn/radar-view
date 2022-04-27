@@ -27,6 +27,7 @@ import {
     addPublicPhenomenaToRadar,
     updateStoredPhenonSelector
 } from '../actions/radarData'
+import { setPhenomenonToTag } from '../actions/phenomenaList'
 
 const getCreateTimeRanges = (thisRadius, centerRadius = thisRadius * centerRadiusPercentage) => timeRanges => {
     let previousRadius = centerRadius
@@ -231,7 +232,8 @@ const mapDispatchToProps = dispatch => ({
         refetchRadarData,
         toggleEditMenuVisiblity,
         addPublicPhenomenaToRadar,
-        updateStoredPhenonSelector
+        updateStoredPhenonSelector,
+        setPhenomenonToTag
     }, dispatch),
     setDraggedPhenomenon: phenomenon => dispatch(setDraggedPhenomenon(phenomenon.id || phenomenon.phenomenon_uuid)),
     updatePhenomenon:

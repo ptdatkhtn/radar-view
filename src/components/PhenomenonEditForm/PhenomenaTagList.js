@@ -2,9 +2,9 @@ import React from 'react'
 import _ from 'lodash'
 import { Tag } from '@sangre-fp/ui'
 import { useSelector } from 'react-redux'
-export const PhenomenaTagList = ( {language, phenomena, tagList, editModal}) => {
+export const PhenomenaTagList = ( {language, phenomena, tagList, editModal, isUpdate}) => {
 // eslint-disable-next-line react-hooks/rules-of-hooks
-const tags = (editModal?.type === 'EDIT') 
+const tags = !!isUpdate ? phenomena?.tags : (editModal?.type === 'EDIT') 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   ? useSelector(state => state?.radarSettings?.storedPhenomenon.tags)
   : []
