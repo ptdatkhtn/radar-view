@@ -178,7 +178,7 @@ export const PhenomenaTagSelector = props => {
                             active={isActive}
                             onClick={() => {
                               // dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
-                              handlePhenomenaTagMod(tag, phenomenon, group)
+                              handlePhenomenaTagMod(tag, phenomenon || storedPhenSelector, group)
                               
                             }}
                           />
@@ -198,7 +198,7 @@ export const PhenomenaTagSelector = props => {
                           active={isActive}
                           onClick={() => {
                             // dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
-                            handlePhenomenaTagMod(tag, phenomenon, group)
+                            handlePhenomenaTagMod(tag, phenomenon || storedPhenSelector, group)
                             
                           }}
                         />
