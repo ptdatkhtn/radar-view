@@ -12,7 +12,7 @@ const FP_TOPBAR_OFFSET = process.env.NODE_ENV === 'development' ? 0 : 112
 
 export const PhenomenaTagSelector = props => {
   const dispatch = useDispatch()
-  console.log('this.props', props)
+  console.log('this.props9', props)
   const { group, language, phenomenon, handlePhenomenaTagMod, isInEditMode, storedPhenSelector, editModal, phenData } = props
 
   // const elmtRef = useRef(null)
