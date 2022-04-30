@@ -1,7 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
-import { Tag } from '@sangre-fp/ui'
+// import { Tag } from '@sangre-fp/ui'
 import { useSelector } from 'react-redux'
+import Tag from '../Ui_package/Tag_sangre_ui'
 export const PhenomenaTagList = ( {language, phenomena, tagList, editModal, isUpdate}) => {
 // eslint-disable-next-line react-hooks/rules-of-hooks
 const tags = !!isUpdate ? phenomena?.tags : (editModal?.type === 'EDIT') 
@@ -31,9 +32,10 @@ const tags = !!isUpdate ? phenomena?.tags : (editModal?.type === 'EDIT')
           }
 
           const label = _.isString(tagObj.label) ? tagObj.label : tagObj.label[lang]
-
+          const tagUriSplit = tagUri?.split("/")
+          const isFPTags= tagUriSplit[1] === "theme" ? true : false
           return (
-            <Tag key={index} active onClick={null} label={label} small />
+            <Tag key={index} active onClick={null} label={label} small isFPTags={isFPTags} isNotFilter={true}/>
           )
         })}
     </div>

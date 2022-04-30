@@ -82,3 +82,7 @@ export const arrayMove = (array, from, to) => {
     arrayMoveMutate(arr, from, to)
     return arr
 }
+
+export function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }

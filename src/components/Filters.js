@@ -2,9 +2,10 @@ import _ from 'lodash'
 import React from 'react'
 import styled from 'styled-components'
 import { requestTranslation } from '@sangre-fp/i18n'
-import { Checkbox, PhenomenonType, Tag } from '@sangre-fp/ui'
+import { Checkbox, PhenomenonType } from '@sangre-fp/ui'
 import { useTags } from '@sangre-fp/hooks'
-
+import Tag from "./Ui_package/Tag_sangre_ui"
+import { capitalizeFirstLetter } from '../helpers'
 export const Filters = props => {
     const renderPhenomenaType = phenomenaType => {
         const {groupType, id, alias, title, style} = phenomenaType
@@ -38,7 +39,9 @@ export const Filters = props => {
                                 return (
                                     <OptionsListItem key={index} style={{padding: '0 5px'}}>
                                         <Tag
-                                            label={tag.label[language] || tag.label}
+                                            isFPTags={false}
+                                            isNotFilter={false}
+                                            label={capitalizeFirstLetter(tag.label[language] || tag.label)}
                                             active={_.find(activeTagFilter, filter => filter === tag.uri)}
                                             onClick={() => setActiveTagFilter(tag.uri)}
                                         />
