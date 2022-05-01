@@ -848,7 +848,7 @@ export const PhenomenonEditForm = (
                             <div className="col-12 ">
                               <PhenomenaTagList
                                 isUpdate={isUpdate}
-                                phenomena={storedPhenSelector}
+                                phenomena={phenomenon || storedPhenSelector}
                                 language={'en'}
                                 tagList={tagList || []}
                                 // editModal={'editModal2345'}

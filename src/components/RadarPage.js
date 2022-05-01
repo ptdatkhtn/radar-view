@@ -747,7 +747,7 @@ class RadarPage extends PureComponent {
                                                                         language={radarLanguage || 'en'}
                                                                         isInEditMode={!!this.state.editModal}
                                                                         editModal={this.state.editModal}
-                                                                        phenData={editPhenomenaVisible}
+                                                                        phenData={phenomenon || editPhenomenaVisible}
                                                                     />
                                                 }
                                 </>

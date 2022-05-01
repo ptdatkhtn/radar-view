@@ -20,7 +20,7 @@ export const usePhenomenon = (phenomenonId, groupId, skip) => {
       console.log('aaaa1111', a)
       console.log('b22222', b)
 
-      setPhenomenon(await getPhenomenonByUUIDAndGroup(id, group))
+      setPhenomenon({...a, tags: b?.result[0]?.tags, 'tags_fp:docs/props/has': b?.result[0]['tags_fp:docs/props/has']})
     } catch (e) {
       setError(e)
     }

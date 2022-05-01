@@ -23,11 +23,11 @@ export const PhenomenaTagSelector = props => {
   }
 
   // eslint-disable-next-line
-  React.useEffect( () => {
-    // storedPhenSelector.tags = phenomenon?.tags
-    dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
-    // updateStoredPhenonSelector({...storedPhenSelector, tags: phenomenon?.tags})
-  }, [phenomenon])
+  // React.useEffect( () => {
+  //   // storedPhenSelector.tags = phenomenon?.tags
+  //   dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
+  //   // updateStoredPhenonSelector({...storedPhenSelector, tags: phenomenon?.tags})
+  // }, [phenomenon])
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { loading, tags, error } = useTags( 
@@ -42,7 +42,7 @@ export const PhenomenaTagSelector = props => {
   const lang = language === 'all' ? document.querySelector('html').getAttribute('lang') || 'en' : language
 
   const checkTagStatus = tag => {
-    const { tags } = !!phenomenon ? phenomenon : (!!editModal && editModal?.type === 'EDIT' ? storedPhenSelector: phenData)
+    const { tags } = !!phenData ? phenData : (!!editModal && editModal?.type === 'EDIT' ? storedPhenSelector: phenData)
 
     let found = false
 
