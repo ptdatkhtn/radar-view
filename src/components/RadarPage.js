@@ -23,7 +23,8 @@ import { PUBLIC_URL, RADAR_DATA_WEBSOCKET_URL } from '../env'
 import { requestTranslation } from '@sangre-fp/i18n'
 import { PhenomenonEditForm } from './PhenomenonEditForm/PhenomenonEditForm'
 // import {PhenomenonEditForm} from '@sangre-fp/content-editor'
-import { PhenomenonLoader } from '@sangre-fp/hooks'
+// import { PhenomenonLoader } from '@sangre-fp/hooks'
+import { PhenomenonLoader } from './usePhenomenon'
 import SectorEditorForm from './SectorEditorForm'
 import EditSectorMenu from './EditSectorMenu'
 import Phenomenon from './Phenomenon'
@@ -735,7 +736,7 @@ class RadarPage extends PureComponent {
                                 return <div className="py-5 text-center text-danger">{error.message}</div>
                             }
 
-                            console.log('9999', this.state.isOpenSelectorModal, this.state.editModal)
+                            console.log('phenomenon9999', phenomenon)
                             return (
                                 <>
                                 <>
