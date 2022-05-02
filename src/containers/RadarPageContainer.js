@@ -203,6 +203,9 @@ const mapStateToProps = (state, props) => {
         phenomenaTypesById,
         timelines,
         phenomenaList: phenomenaListData,
+        phenomenaList: {
+            phenomenonToTag
+        }
     } = state
 
     return {
@@ -214,7 +217,8 @@ const mapStateToProps = (state, props) => {
         isVisitor: radarSettings.isVisitor,
         draggedPhenomenon: getDraggedPhenomenon(state),
         timelines,
-        phenomenaListData
+        phenomenaListData,
+        phenomenonToTagFromStore: phenomenonToTag
     }
 }
 

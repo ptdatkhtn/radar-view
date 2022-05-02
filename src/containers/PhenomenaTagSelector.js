@@ -13,7 +13,7 @@ export default connect(
             }
         } = state
 
-        console.log('storedPhenSelector(state)storedPhenSelector(state)', storedPhenSelector(state))
+        console.log('storedPhenSelector(state)storedPhenSelector(state)', storedPhenSelector(state), phenomenonToTag)
         return {
             phenomenon: phenomenonToTag,
             storedPhenSelector: storedPhenSelector(state)

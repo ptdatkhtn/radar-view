@@ -18,7 +18,7 @@ export const PhenomenaTagSelector = props => {
   const { group, language, phenomenon, handlePhenomenaTagMod, isInEditMode, storedPhenSelector, editModal, phenData } = props
 
   // const elmtRef = useRef(null)
-  if (!phenomenon && !storedPhenSelector) {
+  if (!phenomenon  && !phenData) {
     return null
   }
 
@@ -42,7 +42,9 @@ export const PhenomenaTagSelector = props => {
   const lang = language === 'all' ? document.querySelector('html').getAttribute('lang') || 'en' : language
 
   const checkTagStatus = tag => {
-    const { tags } = !!phenData ? phenData : (!!editModal && editModal?.type === 'EDIT' ? storedPhenSelector: phenData)
+    // const { tags } = !!phenomenon ? phenomenon : (!!editModal && editModal?.type === 'EDIT' ? storedPhenSelector: phenData)
+    const { tags } = !!phenomenon ? phenomenon : phenData
+
 
     let found = false
 

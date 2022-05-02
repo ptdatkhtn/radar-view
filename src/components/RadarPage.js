@@ -716,9 +716,10 @@ class RadarPage extends PureComponent {
         const {
             radarSettings: { editPhenomenaVisible, id, group, radarLanguage },
             storePhenomenon,
+            phenomenonToTagFromStore
         } = this.props
 
-        console.log('thispropssss', this.props)
+        console.log('thispropssss', this.props, this.state.isOpenSelectorModal)
         return (
             <Modal isOpen={!!editPhenomenaVisible}
                    contentLabel={'Edit phenomena'}
@@ -726,7 +727,7 @@ class RadarPage extends PureComponent {
                    onRequestClose={this.handleEditPhenomenonFormClose}
                    ariaHideApp={false}>
                 {editPhenomenaVisible && (
-                    <PhenomenonLoader id={editPhenomenaVisible.id} group={editPhenomenaVisible.group || editPhenomenaVisible.groups[0]}>
+                    <PhenomenonLoader  id={editPhenomenaVisible.id} group={editPhenomenaVisible.group || editPhenomenaVisible.groups[0]}>
                         {({ loading, error, phenomenon }) => {
                             if (loading) {
                                 return <div className="py-5 text-center">Loading...</div>
@@ -753,7 +754,7 @@ class RadarPage extends PureComponent {
                                 </>
                                 <PhenomenonEditForm
                                     isUpdate= {true}
-                                    phenomenon={phenomenon}
+                                    phenomenon={phenomenonToTagFromStore || phenomenon}
                                     createOrEditMode={true}
                                     // onSubmit={(values, newsFeedChanges) => {
                                     //     storePhenomenon(values, newsFeedChanges, this.handleEditPhenomenonFormClose)

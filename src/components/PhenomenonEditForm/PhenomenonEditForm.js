@@ -96,7 +96,8 @@ export const PhenomenonEditForm = (
     setPhenomenonToTag,
     phenomenaListData,
     handleOpenTagSelectorModal,
-    isUpdate
+    isUpdate,
+    phenomenon: phenomenonToTagFromStore
   }
 ) => {
     const phenomenon = basePhenomenon ? transformToLegacy(basePhenomenon) : null
@@ -873,7 +874,7 @@ export const PhenomenonEditForm = (
                                     console.log('isUpdateisUpdate', isUpdate, storedPhenSelector)
                                     if ( !!editModal && editModal?.type === 'EDIT' && !editModal?.uuid || !!isUpdate) {
 
-                                      return setPhenomenaSelectorPosition(e, undefined, storedPhenSelector)
+                                      return setPhenomenaSelectorPosition(e, undefined, phenomenonToTagFromStore)
                                     }
                                     return null
                                         // (!!editModal && editModal?.type === 'CREATE')

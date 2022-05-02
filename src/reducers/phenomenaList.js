@@ -27,10 +27,23 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
     switch (type) {
         case SET_PHENOM_TO_TAG:
+            console.log('set tags....', { ...state, phenomenonToTag: payload })
             return { ...state, phenomenonToTag: payload }
         case ADD_PHENOMENA_TAG_SUCCESS:
             const { tag, phenomena } = payload
+console.log('12333 add tags ssuucess',payload, state,
 
+{
+    ...state,
+    phenomenonToTag: { ...state.phenomenonToTag, tags: state.phenomenonToTag.tags ? [...state.phenomenonToTag.tags, tag] : [tag] },
+    phenomenaList: state.phenomenaList.map(o => {
+        if (o.id === phenomena.id) {
+            return { ...o, tags: o.tags ? [...o.tags, tag] : [tag]}
+        }
+
+        return o
+    })
+})
             return {
                 ...state,
                 phenomenonToTag: { ...state.phenomenonToTag, tags: state.phenomenonToTag.tags ? [...state.phenomenonToTag.tags, tag] : [tag] },
