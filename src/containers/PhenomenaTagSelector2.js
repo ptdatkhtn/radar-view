@@ -15,19 +15,19 @@ const FP_TOPBAR_OFFSET = process.env.NODE_ENV === 'development' ? 0 : 112
 export const PhenomenaTagSelector = props => {
   const dispatch = useDispatch()
   console.log('this.props9', props)
-  const { group, language, phenomenon, handlePhenomenaTagMod, isInEditMode, storedPhenSelector, editModal, phenData } = props
+  const { isCreateNewContentCard, group, language, phenomenon, handlePhenomenaTagMod, isInEditMode, storedPhenSelector, editModal, phenData } = props
 
   // const elmtRef = useRef(null)
-  if (!phenomenon  && !phenData) {
+  if (!phenomenon  && !phenData && !storedPhenSelector) {
     return null
   }
 
   // eslint-disable-next-line
-  // React.useEffect( () => {
-  //   // storedPhenSelector.tags = phenomenon?.tags
-  //   dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
-  //   // updateStoredPhenonSelector({...storedPhenSelector, tags: phenomenon?.tags})
-  // }, [phenomenon])
+  React.useEffect( () => {
+    // storedPhenSelector.tags = phenomenon?.tags
+    !!isCreateNewContentCard && dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
+    // updateStoredPhenonSelector({...storedPhenSelector, tags: phenomenon?.tags})
+  }, [phenomenon])
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { loading, tags, error } = useTags( 
@@ -42,8 +42,9 @@ export const PhenomenaTagSelector = props => {
   const lang = language === 'all' ? document.querySelector('html').getAttribute('lang') || 'en' : language
 
   const checkTagStatus = tag => {
+    console.log('testing111', isCreateNewContentCard, !isCreateNewContentCard ? (!!phenomenon ? phenomenon : phenData) : (!!phenomenon ? phenomenon : (!!editModal && editModal?.type === 'EDIT' ? storedPhenSelector: phenData)))
     // const { tags } = !!phenomenon ? phenomenon : (!!editModal && editModal?.type === 'EDIT' ? storedPhenSelector: phenData)
-    const { tags } = !!phenomenon ? phenomenon : phenData
+    const { tags } = !isCreateNewContentCard ? (!!phenomenon ? phenomenon : phenData) : (!!phenomenon ? phenomenon : ( storedPhenSelector ||  phenData))
 
 
     let found = false
@@ -184,7 +185,7 @@ export const PhenomenaTagSelector = props => {
                             active={isActive}
                             onClick={() => {
                               // dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
-                              handlePhenomenaTagMod(tag, phenomenon || storedPhenSelector, group)
+                              handlePhenomenaTagMod(tag, phenomenon || (!isCreateNewContentCard ? phenData: storedPhenSelector), group)
                               
                             }}
                           />
@@ -205,8 +206,9 @@ export const PhenomenaTagSelector = props => {
                           label={capitalizeFirstLetter(tag.label[lang])}
                           active={isActive}
                           onClick={() => {
+                            console.log('testing 11111', phenomenon, phenData)
                             // dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
-                            handlePhenomenaTagMod(tag, phenomenon || storedPhenSelector, group)
+                            handlePhenomenaTagMod(tag, phenomenon || (!isCreateNewContentCard ? phenData: storedPhenSelector), group)
                             
                           }}
                         />

@@ -44,9 +44,11 @@ console.log('12333 add tags ssuucess',payload, state,
         return o
     })
 })
+
+
             return {
                 ...state,
-                phenomenonToTag: { ...state.phenomenonToTag, tags: state.phenomenonToTag.tags ? [...state.phenomenonToTag.tags, tag] : [tag] },
+                phenomenonToTag: { ...state.phenomenonToTag || phenomena, tags: (!!state.phenomenonToTag.tags || !!phenomena?.tags) ? [...state.phenomenonToTag.tags || phenomena?.tags, tag] : [tag] },
                 phenomenaList: state.phenomenaList.map(o => {
                     if (o.id === phenomena.id) {
                         return { ...o, tags: o.tags ? [...o.tags, tag] : [tag]}

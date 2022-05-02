@@ -97,9 +97,12 @@ export const PhenomenonEditForm = (
     phenomenaListData,
     handleOpenTagSelectorModal,
     isUpdate,
-    phenomenon: phenomenonToTagFromStore
+    phenomenon: phenomenonToTagFromStore,
+    isCreateNewContentCard
   }
 ) => {
+
+  console.log('isCreateNewContentCard11111', isCreateNewContentCard)
     const phenomenon = basePhenomenon ? transformToLegacy(basePhenomenon) : null
     const getValue = makeGetValue(phenomenon)
     const [deletingModalOpen, setDeletingModalOpen] = useState(false)
@@ -185,9 +188,9 @@ export const PhenomenonEditForm = (
     const setPhenomenaSelectorPosition = (e, i, phenomenon) => {
       // const position = !!itemsRef?.current && !!ReactDOM.findDOMNode(itemsRef.current[i]?.current)  && ReactDOM.findDOMNode(itemsRef.current[i]?.current)?.getBoundingClientRect()
 
-      setPhenomenonToTag({...phenomenon, undefined })
+      !!isCreateNewContentCard && setPhenomenonToTag({...phenomenon, undefined })
   }
-    console.log('phenomenonphenomenon', phenomenon, storedPhenSelector, phenomenaListData)
+    console.log('phenomenonphenomenon',phenomenonToTagFromStore,  phenomenon, storedPhenSelector, phenomenaListData)
     return (
         <Formik
             initialValues={{
@@ -849,7 +852,7 @@ export const PhenomenonEditForm = (
                             <div className="col-12 ">
                               <PhenomenaTagList
                                 isUpdate={isUpdate}
-                                phenomena={phenomenon || storedPhenSelector}
+                                phenomena={!isCreateNewContentCard ? phenomenon || storedPhenSelector : storedPhenSelector}
                                 language={'en'}
                                 tagList={tagList || []}
                                 // editModal={'editModal2345'}
@@ -874,7 +877,7 @@ export const PhenomenonEditForm = (
                                     console.log('isUpdateisUpdate', isUpdate, storedPhenSelector)
                                     if ( !!editModal && editModal?.type === 'EDIT' && !editModal?.uuid || !!isUpdate) {
 
-                                      return setPhenomenaSelectorPosition(e, undefined, phenomenonToTagFromStore)
+                                      return setPhenomenaSelectorPosition(e, undefined, !isCreateNewContentCard ? phenomenonToTagFromStore : storedPhenSelector)
                                     }
                                     return null
                                         // (!!editModal && editModal?.type === 'CREATE')

@@ -6,6 +6,7 @@ import { requestTranslation } from '@sangre-fp/i18n'
 import { ListContainer, modalStyles, ListClose, CloseIcon, BorderTitleContainer as Container, Modal } from '@sangre-fp/ui'
 import { PhenomenonEditForm } from "../components/PhenomenonEditForm/PhenomenonEditForm"
 import PhenomenaTagSelector from '../containers/PhenomenaTagSelector';
+import { truncate } from 'lodash'
 
 export default class AddPhenomenaSandbox extends PureComponent {
     state = {
@@ -81,7 +82,9 @@ export default class AddPhenomenaSandbox extends PureComponent {
 
         const { createModalShown } = this.state
 
-        console.log('storedPhenomenonstoredPhenomenon', this.state.editModal)
+        console.log('check open tag selector ...', this.state.editModal, this.state.isOpenSelectorModal,
+        !!this.state.isOpenSelectorModal && !!this.state.editModal && this.state.editModal.type === 'EDIT'
+        )
         return (
             <Modal isOpen={createModalShown}
                    contentLabel={'Create phenomena'}
@@ -96,12 +99,16 @@ export default class AddPhenomenaSandbox extends PureComponent {
                                                         language={radar?.language || storedPhenSelector?.language || 'en'}
                                                         isInEditMode={!!this.state.editModal}
                                                         editModal={this.state.editModal}
+                                                        isCreateNewContentCard1={true}
+                                                        isCreateNewContentCard={true}
+
                                                     />
                                   }
                     </>
 
                 <PhenomenonEditForm
                     {...this.props}
+                    isCreateNewContentCard={true}
                     handleOpenTagSelectorModal={this.handleOpenTagSelectorModal}
                     editModal={this.state.editModal}
                     storedPhenSelector={this.props.storedPhenSelector}
