@@ -9,8 +9,12 @@ import { requestTranslation } from '@sangre-fp/i18n'
 
 export const clearAllErrors = () => dispatch => dispatch({ type: actionTypes.CLEAR_ALL_ERRORS })
 
-export const setPhenomenonToTag = phenomenon => (dispatch, getState) => {
-  dispatch({ type: actionTypes.SET_PHENOM_TO_TAG, payload: getState().phenomenaList.phenomenonToTag ? false : phenomenon })
+export const setPhenomenonToTag = (phenomenon, isSet = false) => (dispatch, getState) => {
+  if (!!isSet) {
+    dispatch({ type: actionTypes.SET_PHENOM_TO_TAG, payload: phenomenon })
+  } else {
+    dispatch({ type: actionTypes.SET_PHENOM_TO_TAG, payload: getState().phenomenaList.phenomenonToTag ? false : phenomenon })
+  }
 }
 
 export const handlePhenomenaTagMod = (tag, phenomena, grp) => dispatch => {

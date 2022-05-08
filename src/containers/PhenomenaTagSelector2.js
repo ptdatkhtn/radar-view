@@ -185,7 +185,8 @@ export const PhenomenaTagSelector = props => {
                             active={isActive}
                             onClick={() => {
                               setPhenomenonToTag(
-                                !isCreateNewContentCard ? (!!phenomenon ? phenomenon : phenData) : (!!phenomenon ? phenomenon : ( storedPhenSelector ||  phenData))
+                                !isCreateNewContentCard ? (!!phenomenon ? phenomenon : phenData) : (!!phenomenon ? phenomenon : ( storedPhenSelector ||  phenData)),
+                                true
                               )
                               // dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
                               handlePhenomenaTagMod(tag, phenomenon || (!isCreateNewContentCard ? phenData: storedPhenSelector), group)
@@ -211,7 +212,8 @@ export const PhenomenaTagSelector = props => {
                           onClick={() => {
                             console.log('testing 11111', phenomenon, phenData)
                             setPhenomenonToTag(
-                              !isCreateNewContentCard ? (!!phenomenon ? phenomenon : phenData) : (!!phenomenon ? phenomenon : ( storedPhenSelector ||  phenData))
+                              !isCreateNewContentCard ? (!!phenomenon ? phenomenon : phenData) : (!!phenomenon ? phenomenon : ( storedPhenSelector ||  phenData)),
+                              true
                             )
                             // dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
                             handlePhenomenaTagMod(tag, phenomenon || (!isCreateNewContentCard ? phenData: storedPhenSelector), group)
