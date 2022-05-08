@@ -184,7 +184,7 @@ export const PhenomenaTagSelector = props => {
                             label={capitalizeFirstLetter(tag.label)}
                             active={isActive}
                             onClick={() => {
-                              setPhenomenonToTag(
+                              !isCreateNewContentCard && setPhenomenonToTag(
                                 !isCreateNewContentCard ? (!!phenomenon ? phenomenon : phenData) : (!!phenomenon ? phenomenon : ( storedPhenSelector ||  phenData)),
                                 true
                               )
@@ -211,7 +211,7 @@ export const PhenomenaTagSelector = props => {
                           active={isActive}
                           onClick={() => {
                             console.log('testing 11111', phenomenon, phenData)
-                            setPhenomenonToTag(
+                            !isCreateNewContentCard && setPhenomenonToTag(
                               !isCreateNewContentCard ? (!!phenomenon ? phenomenon : phenData) : (!!phenomenon ? phenomenon : ( storedPhenSelector ||  phenData)),
                               true
                             )
