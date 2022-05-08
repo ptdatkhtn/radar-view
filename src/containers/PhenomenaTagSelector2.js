@@ -15,7 +15,7 @@ const FP_TOPBAR_OFFSET = process.env.NODE_ENV === 'development' ? 0 : 112
 export const PhenomenaTagSelector = props => {
   const dispatch = useDispatch()
   console.log('this.props9', props)
-  const { isCreateNewContentCard, group, language, phenomenon, handlePhenomenaTagMod, isInEditMode, storedPhenSelector, editModal, phenData } = props
+  const { setPhenomenonToTag, isCreateNewContentCard, group, language, phenomenon, handlePhenomenaTagMod, isInEditMode, storedPhenSelector, editModal, phenData } = props
 
   // const elmtRef = useRef(null)
   if (!phenomenon  && !phenData && !storedPhenSelector) {
@@ -184,6 +184,9 @@ export const PhenomenaTagSelector = props => {
                             label={capitalizeFirstLetter(tag.label)}
                             active={isActive}
                             onClick={() => {
+                              setPhenomenonToTag(
+                                !isCreateNewContentCard ? (!!phenomenon ? phenomenon : phenData) : (!!phenomenon ? phenomenon : ( storedPhenSelector ||  phenData))
+                              )
                               // dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
                               handlePhenomenaTagMod(tag, phenomenon || (!isCreateNewContentCard ? phenData: storedPhenSelector), group)
                               
@@ -207,6 +210,9 @@ export const PhenomenaTagSelector = props => {
                           active={isActive}
                           onClick={() => {
                             console.log('testing 11111', phenomenon, phenData)
+                            setPhenomenonToTag(
+                              !isCreateNewContentCard ? (!!phenomenon ? phenomenon : phenData) : (!!phenomenon ? phenomenon : ( storedPhenSelector ||  phenData))
+                            )
                             // dispatch({ type: 'STOREDPHENOMENON', payload:  {...storedPhenSelector, tags: phenomenon?.tags}})
                             handlePhenomenaTagMod(tag, phenomenon || (!isCreateNewContentCard ? phenData: storedPhenSelector), group)
                             

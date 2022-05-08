@@ -749,6 +749,7 @@ class RadarPage extends PureComponent {
                                                                         isInEditMode={!!this.state.editModal}
                                                                         editModal={this.state.editModal}
                                                                         phenData={phenomenon || editPhenomenaVisible}
+                                                                        setPhenomenonToTag={this.props.setPhenomenonToTag}
                                                                     />
                                                 }
                                 </>

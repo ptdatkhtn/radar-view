@@ -58,6 +58,7 @@ console.log('12333 add tags ssuucess',payload, state,
                 })
             }
         case REMOVE_PHENOMENA_TAG_SUCCESS:
+            console.log('dtateeeee', state)
             return {
                 ...state,
                 phenomenonToTag: { ...state.phenomenonToTag, tags: state.phenomenonToTag.tags.filter(t => !_.isEqual(t, payload.tag)) },
