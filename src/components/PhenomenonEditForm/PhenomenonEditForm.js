@@ -834,7 +834,7 @@ export const PhenomenonEditForm = (
                           <h3 className='mb-0'>
                             {requestTranslation('TagsPhenomenon')}
                             <DropdownValue>
-                              {!!phenomenonToTagFromStore?.tags?.length ? requestTranslation('hasTagged') : requestTranslation('hasNoTagged')}
+                              {(!!isCreateNewContentCard ? !!storedPhenSelector?.tags?.length : !!phenomenonToTagFromStore?.tags?.length) ? requestTranslation('hasTagged') : requestTranslation('hasNoTagged')}
                             </DropdownValue>
                           </h3>
                           <div style={{cursor: 'pointer'}} 
